@@ -149,6 +149,30 @@ async function loadFunFact(){
 async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
 
+  // Option A0: Groq — free, no credit card required at all.
+  if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
+    try{
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-8b-instant',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 300
+        })
+      });
+      const data = await res.json();
+      const answer = data?.choices?.[0]?.message?.content;
+      if(res.ok && answer) return answer;
+      console.error("Neurole: Groq call failed — HTTP " + res.status, data);
+    }catch(err){
+      console.error("Neurole: Groq request error —", err.message);
+    }
+  }
+
   // Option A: direct Gemini call from the browser
   if(cfg.GEMINI_API_KEY && !cfg.GEMINI_API_KEY.startsWith('PASTE_')){
     try{
@@ -169,6 +193,31 @@ async function askNeuroleAIRaw(prompt){
     }
   }
 
+  // Option A2: direct OpenAI call from the browser (no service-account
+  // restriction like Gemini had — simpler if Google's policy is blocking you)
+  if(cfg.OPENAI_API_KEY && !cfg.OPENAI_API_KEY.startsWith('PASTE_')){
+    try{
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${cfg.OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 300
+        })
+      });
+      const data = await res.json();
+      const answer = data?.choices?.[0]?.message?.content;
+      if(res.ok && answer) return answer;
+      console.error("Neurole: OpenAI call failed — HTTP " + res.status, data);
+    }catch(err){
+      console.error("Neurole: OpenAI request error —", err.message);
+    }
+  }
+
   // Option B: your own backend (e.g. ai-worker.js on Cloudflare)
   if(cfg.AI_ENDPOINT_URL && !cfg.AI_ENDPOINT_URL.startsWith('PASTE_')){
     try{
@@ -185,7 +234,7 @@ async function askNeuroleAIRaw(prompt){
     }
   }
 
-  console.warn("Neurole: no AI provider configured/working — see config.js (GEMINI_API_KEY or AI_ENDPOINT_URL).");
+  console.warn("Neurole: no AI provider configured/working — see config.js (GEMINI_API_KEY, OPENAI_API_KEY, or AI_ENDPOINT_URL).");
   return null;
 }
 

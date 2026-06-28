@@ -70,7 +70,29 @@ window.NEUROLE_CONFIG = {
   //   Your key never touches the browser at all with this option.
   //   If both GEMINI_API_KEY and AI_ENDPOINT_URL are filled in, the
   //   games will use GEMINI_API_KEY (Option A) first.
+  // OPTION A0 — Groq. Genuinely free, NO credit card required at all.
+  // Runs an open-source model (Llama) instead of GPT/Gemini, but works
+  // great for this kind of explanatory Q&A.
+  // 1. Go to https://console.groq.com/keys
+  // 2. Sign up (just an email/Google login, no payment info asked)
+  // 3. Click "Create API Key", copy it, paste it below
+  // If this is filled in, it's tried FIRST, before Gemini/OpenAI.
+  GROQ_API_KEY: "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",
+
   GEMINI_API_KEY: "AQ.Ab8RN6JKGTLt-Z9PoFLc2OFMXTfmyt61IRA6HDd8pfe06b4FOQ",
+
+  // OPTION A2 — OpenAI, as a fallback if Gemini's account policy keeps
+  // blocking you. Get a key at https://platform.openai.com/api-keys
+  // (requires adding billing info, even for small usage).
+  //
+  // ⚠️ IMPORTANT SECURITY NOTE: unlike Google API keys, OpenAI keys
+  // CANNOT be restricted to only work from your domain. Anyone who
+  // views your page source can see this key and use it to rack up
+  // charges on your account. This is fine for quick testing, but for
+  // a real public launch, switch to ai-worker.js (Option B below)
+  // instead, which keeps the OpenAI key server-side and hidden.
+  OPENAI_API_KEY: "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",
+
   AI_ENDPOINT_URL: "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE",
 
   // --- Social links -----------------------------------------------------

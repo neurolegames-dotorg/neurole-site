@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Neurole</title><link rel="stylesheet" href="style.css?v=9">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<header class="masthead"><div class="masthead-inner">
+<div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
+<nav class="nav-left">
+<a href="index.html#footer-contact">Contact Us</a>
+<a href="volunteer.html">Volunteer</a>
+<a href="donate.html">Donate</a>
+<a href="about.html">About</a>
+<button class="linklike" data-signin>Sign In</button>
+</nav>
+</div></header>
+
+<div class="page-hero"><div class="wrap">
+<h1>About Neurole</h1>
+<p>The story behind the games.</p>
+</div></div>
+
+<main class="wrap" style="padding:40px 0 60px; max-width:760px;">
+  <div class="panel" style="margin-bottom:18px;">
+    <h3 style="font-family:var(--serif-display);margin-top:0;">Our mission</h3>
+    <p>Neurole was built on the idea that learning the nervous system should feel like a game, not a grind. Whether you're a student, a clinician-in-training, or just someone who's curious about how your brain works, Neurole turns real neuroscience into something you look forward to playing every day.</p>
+  </div>
+  <div class="panel">
+    <h3 style="font-family:var(--serif-display);margin-top:0;">Founder</h3>
+    <p>Neurole was founded by <strong>Reva Shrestha</strong>.</p>
+    <p style="color:var(--ink-soft);font-size:14px;">(This section is a placeholder — edit this page with more about Reva and the Neurole story whenever you're ready.)</p>
+  </div>
+</main>
+
+<footer id="footer-contact"><div class="wrap">
+<div class="social-row">
+<a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
+<a href="#" id="social-email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+<a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></a>
+</div>
+<p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+</div></footer>
+
+<div class="modal-backdrop" id="signin-modal"><div class="modal">
+<button class="close" data-close>✕</button><h3>Sign in to Neurole</h3>
+<form><div class="field"><label>Email</label><input type="email" required></div>
+<div class="field"><label>Password</label><input type="password" required></div>
+<button class="btn" type="submit">Sign in</button></form>
+</div></div>
+
+<script src="config.js?v=9"></script><script src="script.js?v=9"></script>
+<script>
+document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+</script>
+</body></html>

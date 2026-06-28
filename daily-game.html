@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Daily Case — Neurole</title>
+<link rel="stylesheet" href="style.css?v=9">
+<style>
+  .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
+  .case-card{
+    background:#fff;border:1px solid var(--rule);padding:44px;
+  }
+  .case-meta{
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;
+    font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
+  }
+  .attempts-dots{display:flex;gap:7px;}
+  .attempts-dots span{width:10px;height:10px;border-radius:50%;background:var(--rule);}
+  .attempts-dots span.used{background:var(--signal-red);}
+
+  .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .symptom-log li{
+    border:1px solid var(--rule);
+    border-left:5px solid var(--neuro-blue);
+    background:var(--paper-deep);
+    padding:18px 20px;font-size:17.5px;line-height:1.55;
+    border-radius:2px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  .symptom-log li.revealed{animation:fadeIn .4s ease;}
+  .symptom-log li.locked{
+    border-left-color:var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:18px 20px;
+    opacity:.55;
+  }
+  .symptom-log .hint-num{
+    font-family:var(--mono);font-size:12px;color:var(--neuro-blue-deep);
+    font-weight:600;flex-shrink:0;min-width:30px;
+  }
+  .symptom-log li.locked .hint-num{color:var(--ink-soft);}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .guess-row input{
+    flex:1;min-width:200px;font-family:var(--serif-body);font-size:18px;padding:15px 16px;
+    border:1.5px solid var(--ink-soft);background:#fff;
+  }
+  .guess-row .btn{font-size:13px;padding:0 24px;}
+
+  .autocomplete-list{
+    position:absolute;top:100%;left:0;right:84px;
+    background:#fff;border:1.5px solid var(--ink-soft);border-top:none;
+    max-height:240px;overflow-y:auto;z-index:40;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    display:none;
+  }
+  .autocomplete-list.open{display:block;}
+  .autocomplete-list div{
+    padding:11px 16px;font-family:var(--serif-body);font-size:15.5px;cursor:pointer;
+    border-bottom:1px solid var(--paper-deep);
+  }
+  .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
+
+  .past-guesses{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .past-guesses span{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+    border:1px solid var(--signal-red);color:var(--signal-red);
+    padding:5px 11px;border-radius:20px;
+  }
+  .closest-note{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
+  }
+  .result-banner{
+    padding:22px 24px;margin-top:10px;border-left:5px solid #5C8C72;background:var(--paper-deep);
+  }
+  .result-banner.fail{border-left-color:var(--signal-red);}
+  .result-banner h4{margin:0 0 8px;font-family:var(--serif-display);font-size:23px;}
+  .result-banner p{font-size:16px;line-height:1.6;}
+
+  .chat-fab{
+    position:fixed;bottom:26px;right:26px;
+    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    background:linear-gradient(135deg, var(--neuro-blue-bright), var(--plum));color:#fff;
+    border:none;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    z-index:60;
+  }
+  .chat-fab:hover{background:linear-gradient(135deg, var(--neuro-blue), var(--neuro-blue-deep));}
+  .chat-backdrop{
+    position:fixed;inset:0;background:rgba(28,27,25,.5);
+    display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
+  }
+  .chat-backdrop.open{display:flex;}
+  .chat-panel{
+    width:440px;max-width:100%;max-height:80vh;
+    background:var(--paper);border:2px solid var(--ink);
+    display:flex;flex-direction:column;
+  }
+  .chat-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);}
+  .chat-head h4{margin:0;font-family:var(--serif-display);font-size:19px;}
+  .chat-body{padding:18px 20px;overflow-y:auto;flex:1;}
+  .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
+  .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
+  .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
+  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
+  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
+    <nav class="nav-left">
+      <a href="index.html#footer-contact">Contact Us</a>
+      <a href="volunteer.html">Volunteer</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <a class="back-home" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to home
+    </a>
+    <h1>The Daily Case</h1>
+    <p>A new patient, every day. Read the chart, type your diagnosis. You get five attempts — each wrong guess reveals one more symptom.</p>
+  </div>
+</div>
+
+<main class="wrap case-shell">
+  <div class="case-card">
+    <div class="case-meta">
+      <span id="case-date">—</span>
+      <div class="attempts-dots" id="attempts-dots">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <ul class="symptom-log" id="symptom-log"></ul>
+
+    <div id="guess-area">
+      <form class="guess-row" id="guess-form">
+        <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
+        <div class="autocomplete-list" id="autocomplete-list"></div>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+      <div class="closest-note" id="closest-note"></div>
+      <div class="past-guesses" id="past-guesses"></div>
+    </div>
+
+    <div id="result-area"></div>
+  </div>
+
+  <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
+    Educational use only — not medical advice.
+  </p>
+</main>
+
+<button class="chat-fab" id="case-chat-fab" aria-label="Explain this case">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+  </svg>
+  Explain
+</button>
+
+<div class="chat-backdrop" id="case-chat-backdrop">
+  <div class="chat-panel">
+    <div class="chat-head">
+      <h4>Ask about this case</h4>
+      <button class="close" id="case-chat-close" style="position:static;">✕</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-log" id="case-chat-log"></div>
+    </div>
+    <form class="chat-ask-row" id="case-chat-form">
+      <input type="text" id="case-chat-input" placeholder="e.g. why does this fit the symptoms?">
+      <button class="btn" type="submit">Ask</button>
+    </form>
+  </div>
+</div>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal">
+    <button class="close" data-close>✕</button>
+    <h3>Sign in to Neurole</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
+    <div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="result-modal">
+  <div class="modal">
+    <button class="close-left" id="result-modal-close">✕</button>
+    <div class="result-headline">
+      <div class="result-logo">Neurole<span class="dot">.</span></div>
+      <h3 id="result-headline-text">Result</h3>
+    </div>
+    <p class="result-stats" id="result-stats-text"></p>
+    <div class="share-row">
+      <button type="button" id="share-btn">Share result</button>
+    </div>
+
+    <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+
+    <p style="color:var(--ink-soft);font-size:14.5px;text-align:center;margin-top:0;">Sign in to save your streak and come back tomorrow.</p>
+    <div id="result-google-container" style="display:flex;justify-content:center;margin-bottom:18px;"></div>
+
+    <div class="modal-actions">
+      <a class="btn" href="neuroanatomy.html">Try Map the Brain →</a>
+    </div>
+  </div>
+</div>
+
+<script src="config.js?v=9"></script>
+<script src="script.js?v=9"></script>
+<script>
+document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+/* ---------------------------------------------------------------
+   FALLBACK CASE BANK
+   Used only if no Google Sheet is connected yet, or today's date
+   has no matching row. Replace/manage real cases via Google Sheet —
+   see config.js. Conditions drawn from the NIH/NINDS index of
+   neurological disorders.
+---------------------------------------------------------------- */
+const FALLBACK_CASES = [
+  {
+    answer: "Parkinson's disease",
+    accepted_synonyms: "parkinsons;parkinson disease;pd",
+    symptoms: [
+      "A 67-year-old presents with a resting tremor in the right hand.",
+      "Family notes the patient's handwriting has become smaller over the past year.",
+      "On exam, there is cogwheel rigidity in the right wrist.",
+      "The patient walks with a stooped posture and shortened, shuffling steps.",
+      "There is a marked reduction in facial expression (hypomimia)."
+    ],
+    explanation: "Parkinson's disease is a progressive neurodegenerative disorder caused by loss of dopaminergic neurons in the substantia nigra, classically producing resting tremor, rigidity, bradykinesia, and postural instability."
+  },
+  {
+    answer: "Multiple sclerosis",
+    accepted_synonyms: "ms",
+    symptoms: [
+      "A 29-year-old woman reports blurry vision and eye pain in her left eye that developed over two days.",
+      "She also describes an electric shock sensation down her spine when she bends her neck forward.",
+      "MRI history reveals a prior episode of leg weakness three years ago that fully resolved.",
+      "On exam there is a relative afferent pupillary defect in the left eye.",
+      "She lives in the northern United States and has low vitamin D."
+    ],
+    explanation: "Multiple sclerosis is an autoimmune, demyelinating disease of the CNS. This vignette describes optic neuritis plus Lhermitte's sign, with a past relapsing course — consistent with MS."
+  },
+  {
+    answer: "Myasthenia gravis",
+    accepted_synonyms: "mg",
+    symptoms: [
+      "A 45-year-old woman notices her eyelids droop more by the end of the day.",
+      "She has double vision that worsens with prolonged reading.",
+      "Chewing tough food becomes difficult toward the end of a meal.",
+      "Symptoms improve noticeably after a short rest.",
+      "An ice pack test on the eyelid improves the ptosis."
+    ],
+    explanation: "Myasthenia gravis is caused by autoantibodies against acetylcholine receptors at the neuromuscular junction, producing fatigable weakness — classically ptosis and diplopia that worsen with sustained use and improve with rest."
+  }
+];
+
+/* ---------------------------------------------------------------
+   AUTOCOMPLETE DICTIONARY
+   A broad list of neurological disorders (NIH/NINDS index) the
+   player can pick from while typing. Add to this list any time —
+   it doesn't need to match your Daily Case sheet exactly.
+---------------------------------------------------------------- */
+const NEURO_DISORDERS = [
+  "Parkinson's disease","Multiple sclerosis","Myasthenia gravis","Amyotrophic lateral sclerosis",
+  "Alzheimer's disease","Epilepsy","Guillain-Barré syndrome","Huntington's disease","Migraine",
+  "Bell's palsy","Ischemic stroke","Subarachnoid hemorrhage","Bacterial meningitis","Essential tremor",
+  "Trigeminal neuralgia","Narcolepsy","Restless legs syndrome","Carpal tunnel syndrome","Cluster headache",
+  "Normal pressure hydrocephalus","Frontotemporal dementia","Lewy body dementia","Vascular dementia",
+  "Tourette syndrome","Cerebral palsy","Down syndrome","Autism spectrum disorder","Spina bifida",
+  "Tuberous sclerosis complex","Neurofibromatosis type 1","Charcot-Marie-Tooth disease",
+  "Duchenne muscular dystrophy","Cervical spondylotic myelopathy","Transverse myelitis",
+  "Spinal muscular atrophy","Wilson's disease","Creutzfeldt-Jakob disease","Progressive supranuclear palsy",
+  "Multiple system atrophy","Friedreich's ataxia","Cavernous sinus thrombosis","Postherpetic neuralgia",
+  "Acoustic neuroma","Glioblastoma","Chiari malformation","Idiopathic intracranial hypertension",
+  "Temporal arteritis","Cervical dystonia","Cerebral aneurysm","Diabetic peripheral neuropathy",
+  "Vestibular neuritis","Brown-Séquard syndrome","Pituitary adenoma","Stiff person syndrome",
+  "Wernicke encephalopathy","Functional neurological disorder"
+];
+
+function levenshtein(a, b){
+  const m = a.length, n = b.length;
+  const dp = Array.from({length:m+1}, (_, i) => [i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j] = j;
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+
+// Typo-tolerant match: allows small spelling mistakes scaled to word length
+// (roughly 1 typo per 5 letters, minimum 1, capped at 3).
+function fuzzyMatches(guess, target){
+  const g = normalize(guess), t = normalize(target);
+  if(!g || !t) return false;
+  if(g === t) return true;
+  const threshold = Math.min(3, Math.max(1, Math.round(t.length * 0.18)));
+  return levenshtein(g, t) <= threshold;
+}
+
+function seededIndexForToday(arrayLength){
+  const d = new Date();
+  const seed = d.getFullYear()*372 + (d.getMonth()+1)*31 + d.getDate();
+  return seed % arrayLength;
+}
+
+function todayStr(){
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+// Normalizes many date formats Google Sheets might export
+// ("2026-06-21", "6/21/2026", "06/21/2026", "2026-06-21T00:00:00.000Z", etc.)
+// into a plain YYYY-MM-DD string for reliable comparison.
+function normalizeDateStr(raw){
+  if(!raw) return '';
+  const s = raw.trim();
+
+  // Already YYYY-MM-DD (possibly with time attached)
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+
+  // M/D/YYYY or MM/DD/YYYY
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+
+  // Fallback: let the browser try, then rebuild in LOCAL time
+  // (avoids the UTC-shift bug new Date(s).toISOString() can cause)
+  const d = new Date(s);
+  if(!isNaN(d)){
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  return s;
+}
+
+let state = { symptoms: [], answer: '', synonyms: [], explanation: '', shown: 1, attemptsUsed: 0, guesses: [], solved:false };
+
+async function loadCase(){
+  document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+  let chosen = null;
+  try{
+    const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV);
+    chosen = rows.find(r => normalizeDateStr(findField(r,'date')) === todayStr());
+    if(!chosen){
+      console.warn(
+        "No daily case matched today's date (" + todayStr() + "). " +
+        "Dates found in your sheet:", rows.map(r => findField(r,'date'))
+      );
+    }
+    if(chosen){
+      state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n)).filter(Boolean);
+      state.answer = findField(chosen,'answer');
+      state.synonyms = (findField(chosen,'accepted_synonyms') || '').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = findField(chosen,'explanation') || '';
+    }
+  }catch(err){ console.error("Neurole: couldn't load Daily Case sheet —", err.message); }
+
+  if(!chosen){
+    const fb = FALLBACK_CASES[seededIndexForToday(FALLBACK_CASES.length)];
+    state.symptoms = fb.symptoms;
+    state.answer = fb.answer;
+    state.synonyms = fb.accepted_synonyms.split(';').map(s=>s.trim().toLowerCase());
+    state.explanation = fb.explanation;
+  }
+  state.shown = 1;
+  renderSymptoms();
+
+  const saved = getSavedDailyCompletion();
+  if(saved){
+    // Already played today on this device — show the locked result instead of letting them replay
+    state.answer = saved.answer;
+    state.explanation = saved.explanation;
+    state.attemptsUsed = saved.attemptsUsed;
+    state.solved = saved.won;
+    state.shown = state.symptoms.length;
+    renderSymptoms();
+    document.getElementById('guess-area').style.display = 'none';
+    const area = document.getElementById('result-area');
+    const banner = document.createElement('div');
+    banner.className = 'result-banner' + (saved.won ? '' : ' fail');
+    banner.innerHTML = saved.won
+      ? `<h4>Correct — it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
+      : `<h4>The diagnosis was ${saved.answer}.</h4><p>${saved.explanation}</p>`;
+    area.appendChild(banner);
+    openResultPopup(saved.won);
+  }
+}
+
+function renderSymptoms(){
+  const log = document.getElementById('symptom-log');
+  log.innerHTML = '';
+  const total = state.symptoms.length || 5;
+  for(let i=0;i<total;i++){
+    const li = document.createElement('li');
+    if(i < state.shown){
+      li.className = 'revealed';
+      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>${state.symptoms[i]}</span>`;
+    } else {
+      li.className = 'locked';
+      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked — make a guess to reveal this hint</span>`;
+    }
+    log.appendChild(li);
+  }
+  const dots = document.querySelectorAll('#attempts-dots span');
+  dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
+}
+
+function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); }
+
+function checkAnswer(guess){
+  if(!guess.trim()) return false;
+  if(fuzzyMatches(guess, state.answer)) return true;
+  return state.synonyms.some(syn => fuzzyMatches(guess, syn));
+}
+
+// If the guess is reasonably close to a DIFFERENT known disorder (not the
+// answer), let the player know what we think they meant, without penalizing
+// the spelling itself.
+function findClosestKnownDisorder(guess){
+  const g = normalize(guess);
+  if(!g) return null;
+  let best = null, bestDist = Infinity;
+  NEURO_DISORDERS.forEach(name => {
+    const dist = levenshtein(g, normalize(name));
+    if(dist < bestDist){ bestDist = dist; best = name; }
+  });
+  const threshold = Math.min(3, Math.max(1, Math.round(best ? normalize(best).length * 0.18 : 1)));
+  return (best && bestDist <= threshold && !fuzzyMatches(guess, state.answer)) ? best : null;
+}
+
+document.getElementById('guess-form').addEventListener('submit', e => {
+  e.preventDefault();
+  if(state.solved) return;
+  const input = document.getElementById('guess-input');
+  const guess = input.value;
+  if(!guess.trim()) return;
+  closeAutocomplete();
+
+  const note = document.getElementById('closest-note');
+
+  if(checkAnswer(guess)){
+    state.solved = true;
+    note.textContent = '';
+    showResult(true);
+  } else {
+    state.attemptsUsed++;
+    state.guesses.push(guess);
+    renderPastGuesses();
+
+    const closest = findClosestKnownDisorder(guess);
+    note.textContent = closest ? `Read as: "${closest}" — not quite right.` : '';
+
+    if(state.attemptsUsed >= 5){
+      showResult(false);
+    } else {
+      state.shown = Math.min(state.shown + 1, state.symptoms.length);
+      renderSymptoms();
+    }
+  }
+  input.value = '';
+});
+
+/* ---------- autocomplete dropdown ---------- */
+const guessInput = document.getElementById('guess-input');
+const autoList = document.getElementById('autocomplete-list');
+let activeIndex = -1;
+
+function closeAutocomplete(){
+  autoList.classList.remove('open');
+  autoList.innerHTML = '';
+  activeIndex = -1;
+}
+
+function openAutocomplete(matches){
+  if(!matches.length){ closeAutocomplete(); return; }
+  autoList.innerHTML = matches.slice(0,8).map(name =>
+    `<div role="option">${name}</div>`
+  ).join('');
+  autoList.classList.add('open');
+  activeIndex = -1;
+  Array.from(autoList.children).forEach(div => {
+    div.addEventListener('mousedown', e => {
+      e.preventDefault();
+      guessInput.value = div.textContent;
+      closeAutocomplete();
+      guessInput.focus();
+    });
+  });
+}
+
+guessInput.addEventListener('input', () => {
+  const val = guessInput.value.trim().toLowerCase();
+  if(!val){ closeAutocomplete(); return; }
+  const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(val));
+  openAutocomplete(matches);
+});
+
+guessInput.addEventListener('keydown', e => {
+  const items = Array.from(autoList.children);
+  if(!items.length) return;
+  if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    activeIndex = Math.min(activeIndex + 1, items.length - 1);
+  } else if(e.key === 'ArrowUp'){
+    e.preventDefault();
+    activeIndex = Math.max(activeIndex - 1, 0);
+  } else if(e.key === 'Enter' && activeIndex >= 0){
+    e.preventDefault();
+    guessInput.value = items[activeIndex].textContent;
+    closeAutocomplete();
+    return;
+  } else if(e.key === 'Escape'){
+    closeAutocomplete();
+    return;
+  } else {
+    return;
+  }
+  items.forEach((it,i) => it.classList.toggle('active', i === activeIndex));
+});
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.guess-row')) closeAutocomplete();
+});
+
+function renderPastGuesses(){
+  const wrap = document.getElementById('past-guesses');
+  wrap.innerHTML = '';
+  state.guesses.forEach(g => {
+    const span = document.createElement('span');
+    span.textContent = g;
+    wrap.appendChild(span);
+  });
+}
+
+function showResult(won){
+  document.getElementById('guess-area').style.display = 'none';
+  closeAutocomplete();
+  const area = document.getElementById('result-area');
+  const banner = document.createElement('div');
+  banner.className = 'result-banner' + (won ? '' : ' fail');
+  banner.innerHTML = won
+    ? `<h4>Correct — it's ${state.answer}.</h4><p>${state.explanation}</p>`
+    : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p>`;
+  area.appendChild(banner);
+  state.shown = state.symptoms.length;
+  renderSymptoms(); // reveal full log on finish
+
+  saveDailyCompletion(won);
+  openResultPopup(won);
+}
+
+// ---------- One play per device per day ----------
+function dailyStorageKey(){
+  return 'neurole_daily_' + todayStr();
+}
+
+function saveDailyCompletion(won){
+  try{
+    localStorage.setItem(dailyStorageKey(), JSON.stringify({
+      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation
+    }));
+  }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage —", err.message); }
+}
+
+function getSavedDailyCompletion(){
+  try{
+    const raw = localStorage.getItem(dailyStorageKey());
+    return raw ? JSON.parse(raw) : null;
+  }catch(err){ return null; }
+}
+
+function openResultPopup(won){
+  const headline = document.getElementById('result-headline-text');
+  const stats = document.getElementById('result-stats-text');
+  headline.textContent = won ? 'Congrats!' : 'Better luck next time';
+  stats.textContent = won
+    ? `Diagnosed in ${state.attemptsUsed + 1} ${state.attemptsUsed + 1 === 1 ? 'guess' : 'guesses'} — ${state.answer}`
+    : `The answer was ${state.answer} — you used all 5 guesses`;
+  document.getElementById('result-modal').classList.add('open');
+  renderGoogleSignIn('result-google-container', () => {
+    document.getElementById('result-google-container').innerHTML =
+      `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">Signed in as ${googleSignInState.email} — streak saved!</p>`;
+  });
+}
+
+document.getElementById('result-modal-close').addEventListener('click', () => {
+  document.getElementById('result-modal').classList.remove('open');
+});
+document.getElementById('result-modal').addEventListener('click', (e) => {
+  if(e.target.id === 'result-modal') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('share-btn').addEventListener('click', async () => {
+  const won = document.getElementById('result-headline-text').textContent === 'Congrats!';
+  const text = won
+    ? `I just diagnosed today's Neurole case (${state.answer}) in ${state.attemptsUsed + 1} ${state.attemptsUsed + 1 === 1 ? 'guess' : 'guesses'}! Play The Daily Case at Neurole.`
+    : `I just played today's Neurole Daily Case — stumped me this time! Think you can diagnose it? Play at Neurole.`;
+  const shareBtn = document.getElementById('share-btn');
+  try{
+    if(navigator.share){
+      await navigator.share({ text, title: 'Neurole — The Daily Case' });
+    } else {
+      await navigator.clipboard.writeText(text);
+      const original = shareBtn.textContent;
+      shareBtn.textContent = 'Copied!';
+      setTimeout(() => shareBtn.textContent = original, 1800);
+    }
+  }catch(err){ /* user canceled share sheet — no action needed */ }
+});
+
+loadCase();
+
+/* ---------- AI chat modal ---------- */
+document.getElementById('case-chat-fab').addEventListener('click', () => {
+  document.getElementById('case-chat-backdrop').classList.add('open');
+});
+document.getElementById('case-chat-close').addEventListener('click', () => {
+  document.getElementById('case-chat-backdrop').classList.remove('open');
+});
+document.getElementById('case-chat-backdrop').addEventListener('click', (e) => {
+  if(e.target.id === 'case-chat-backdrop') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('case-chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('case-chat-input');
+  const question = input.value.trim();
+  if(!question) return;
+  const log = document.getElementById('case-chat-log');
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = question;
+  log.appendChild(userMsg);
+  input.value = '';
+
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'chat-msg ai';
+  aiMsg.textContent = 'Thinking…';
+  log.appendChild(aiMsg);
+  log.scrollTop = log.scrollHeight;
+
+  aiMsg.textContent = await askNeuroleAI({
+    region: state.answer,
+    function_text: state.explanation,
+    question
+  });
+});
+</script>
+</body>
+</html>

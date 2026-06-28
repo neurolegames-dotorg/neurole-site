@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurole — Games for your brain</title>
+<link rel="stylesheet" href="style.css?v=9">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">Neurole<span class="dot">.</span></div>
+    <nav class="nav-left">
+      <a href="#footer-contact">Contact Us</a>
+      <a href="volunteer.html">Volunteer</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-img-wrap" role="img" aria-label="Magnified blue neurons connected by branching dendrites">
+    <div class="hero-fade"></div>
+    <div class="hero-text">
+      <h1>Neurole</h1>
+      <p>Games for your brain</p>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section style="margin-top:40px;">
+    <div class="section-label">Weekly Neuroscience Fun Fact</div>
+    <div class="factbox" id="fun-fact-box">
+      <p class="fact-text">Loading this week's fact…</p>
+      <span class="cite">Source: <a class="fact-link" href="#">—</a></span>
+    </div>
+  </section>
+
+  <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+
+  <section>
+    <div class="section-label">Play Today</div>
+    <h2 class="section-title">Two ways to train your brain</h2>
+    <div class="games-grid" id="daily-game-slot"></div>
+    <div class="games-grid" id="all-games-grid" style="margin-top:10px;"></div>
+  </section>
+
+</main>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+  </div>
+</footer>
+
+<!-- Sign in modal -->
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal">
+    <button class="close" data-close>✕</button>
+    <h3>Sign in to Neurole</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
+    <div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
+  </div>
+</div>
+
+<script src="config.js?v=9"></script>
+<script src="games-data.js?v=9"></script>
+<script src="script.js?v=9"></script>
+<script>
+  document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+  document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+  document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+  if(typeof GAMES_DATA === 'undefined'){
+    console.error(
+      "Neurole: games-data.js did not load — the games sections will stay empty. " +
+      "Make sure games-data.js is uploaded to the SAME folder as index.html on your host."
+    );
+  }
+
+  // CSS background-images can't fire onerror, so verify the file loads
+  // by testing it with a real Image() object.
+  (function checkHeroImage(){
+    const testImg = new Image();
+    testImg.onload = () => console.log("Neurole: hero image (assets/neuron-hero.webp) loaded successfully.");
+    testImg.onerror = () => console.error(
+      "Neurole: hero image FAILED to load at assets/neuron-hero.webp — " +
+      "check the file exists at that exact path/name (case-sensitive) on your host."
+    );
+    testImg.src = "assets/neuron-hero.webp";
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map the Brain — Neurole</title>
+<link rel="stylesheet" href="style.css?v=9">
+<style>
+  .game-shell{max-width:680px;margin:0 auto;padding:46px 0 90px;}
+  .specimen{
+    background:#fff;
+    border:1px solid var(--rule);
+    padding:22px;margin-bottom:26px;
+    position:relative;
+  }
+  .specimen::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
+  }
+  .specimen img{width:100%;max-height:340px;object-fit:contain;background:var(--paper-deep);}
+  .specimen .cap{
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-align:center;
+    margin-top:10px;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .choices{display:grid;grid-template-columns:1fr;gap:12px;}
+  .choice-btn{
+    text-align:left;padding:16px 18px 16px 52px;border:1.5px solid var(--rule);background:#fff;
+    font-family:var(--serif-body);font-size:16px;transition:background .15s,border-color .15s,transform .1s;
+    position:relative;
+  }
+  .choice-btn::before{
+    content:attr(data-letter);
+    position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:26px;height:26px;border-radius:50%;
+    background:var(--paper-deep);border:1.5px solid var(--rule);
+    color:var(--ink-soft);font-family:var(--mono);font-size:12px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
+  .choice-btn.correct{
+    background:#E7F1EC;
+    border-color:#5C8C72;
+  }
+  .choice-btn.correct::before{background:#5C8C72;border-color:#5C8C72;color:#fff;}
+  .choice-btn.incorrect{background:#F5E4E1;border-color:var(--signal-red);}
+  .choice-btn.incorrect::before{background:var(--signal-red);border-color:var(--signal-red);color:#fff;}
+  .choice-btn:disabled{cursor:default;}
+  .next-row{display:flex;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap;gap:10px;}
+  .score-tag{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;
+    background:var(--paper-deep);border:1px solid var(--rule);
+    padding:4px 11px;border-radius:20px;
+  }
+
+  .chat-fab{
+    position:fixed;bottom:26px;right:26px;
+    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    background:linear-gradient(135deg, var(--neuro-blue-bright), var(--plum));color:#fff;
+    border:none;display:none;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    z-index:60;
+  }
+  .chat-fab.show{display:flex;}
+  .chat-fab:hover{background:linear-gradient(135deg, var(--neuro-blue), var(--neuro-blue-deep));}
+
+  .learn-backdrop{
+    position:fixed;inset:0;background:rgba(28,27,25,.5);
+    display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
+  }
+  .learn-backdrop.open{display:flex;}
+  .learn-panel{
+    width:440px;max-width:100%;max-height:80vh;
+    background:var(--paper);border:2px solid var(--ink);
+    display:flex;flex-direction:column;
+  }
+  .learn-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);}
+  .learn-head h4{margin:0;font-family:var(--serif-display);font-size:19px;}
+  .learn-body{padding:18px 20px;overflow-y:auto;flex:1;}
+  .chat-log{display:flex;flex-direction:column;gap:10px;margin-top:14px;max-height:240px;overflow-y:auto;}
+  .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
+  .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
+  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
+  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
+    <nav class="nav-left">
+      <a href="index.html#footer-contact">Contact Us</a>
+      <a href="volunteer.html">Volunteer</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <a class="back-home" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to home
+    </a>
+    <h1>Map the Brain</h1>
+    <p>An image appears. Pick the region from four choices. Then learn what it actually does — and ask follow-up questions.</p>
+  </div>
+</div>
+
+<main class="wrap game-shell">
+
+  <div class="panel" id="round-setup">
+    <h3 style="font-family:var(--serif-display);margin-top:0;">How many regions do you want to identify?</h3>
+    <p style="color:var(--ink-soft);margin-bottom:18px;">Choose a round length, or play through everything currently in the question sheet.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn round-choice" data-count="10">10 questions</button>
+      <button class="btn round-choice" data-count="25">25 questions</button>
+      <button class="btn round-choice ghost" data-count="all">All questions</button>
+    </div>
+  </div>
+
+  <div id="game-play" style="display:none;">
+    <div class="specimen">
+      <img id="specimen-img" src="" alt="Brain region to identify"
+           onerror="console.error('Neurole: this image_url failed to load ->', this.src);"
+           onload="console.log('Neurole: specimen image loaded ->', this.src);">
+      <p class="cap">Which region is highlighted?</p>
+    </div>
+
+    <div class="choices" id="choices"></div>
+
+    <div class="next-row">
+      <span class="score-tag" id="score-tag">Question 1 of 10</span>
+      <span class="score-pill" id="score-pill">Score: 0/0</span>
+      <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
+    </div>
+  </div>
+</main>
+
+<div class="modal-backdrop" id="neuro-result-modal">
+  <div class="modal">
+    <button class="close-left" id="neuro-result-close">✕</button>
+    <div class="result-headline">
+      <div class="result-logo">Neurole<span class="dot">.</span></div>
+      <h3>Round complete!</h3>
+    </div>
+    <p class="result-stats" id="neuro-result-stats"></p>
+
+    <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+
+    <p style="color:var(--ink-soft);font-size:14.5px;text-align:center;margin-top:0;">Sign in to save your progress and streaks.</p>
+    <div id="neuro-google-container" style="display:flex;justify-content:center;margin-bottom:18px;"></div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="new-round-btn">Choose a new round</button>
+      <a class="btn" href="daily-game.html">Try The Daily Case →</a>
+    </div>
+  </div>
+</div>
+
+<button class="chat-fab" id="learn-fab" aria-label="Explain this region">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+  </svg>
+  Explain
+</button>
+
+<div class="learn-backdrop" id="learn-backdrop">
+  <div class="learn-panel" id="learn-panel">
+    <div class="learn-head">
+      <h4 id="learn-title">Region</h4>
+      <button class="close" id="learn-close" style="position:static;">✕</button>
+    </div>
+    <div class="learn-body">
+      <p id="learn-function">—</p>
+      <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+      <p class="score-tag">Ask a question</p>
+      <div class="chat-log" id="chat-log"></div>
+    </div>
+    <form class="ask-row" id="ask-form">
+      <input type="text" id="ask-input" placeholder="e.g. what happens if this is damaged?">
+      <button class="btn" type="submit">Ask</button>
+    </form>
+  </div>
+</div>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal">
+    <button class="close" data-close>✕</button>
+    <h3>Sign in to Neurole</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
+    <div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
+  </div>
+</div>
+
+<script src="config.js?v=9"></script>
+<script src="script.js?v=9"></script>
+<script>
+document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+/* Fallback question bank — replace/manage via Google Sheet (config.js) */
+const FALLBACK_QUESTIONS = [
+  {
+    image_url: "assets/neuron-hero.webp",
+    choice_a: "Hippocampus", choice_b: "Amygdala", choice_c: "Cerebellum", choice_d: "Thalamus",
+    correct_choice: "C",
+    function_text: "The cerebellum coordinates voluntary movement, balance, and motor learning, fine-tuning timing and precision of muscle activity."
+  },
+  {
+    image_url: "assets/neuron-hero.webp",
+    choice_a: "Broca's area", choice_b: "Occipital lobe", choice_c: "Hypothalamus", choice_d: "Basal ganglia",
+    correct_choice: "B",
+    function_text: "The occipital lobe is the brain's primary visual processing center, interpreting signals from the eyes into images."
+  },
+  {
+    image_url: "assets/neuron-hero.webp",
+    choice_a: "Amygdala", choice_b: "Corpus callosum", choice_c: "Medulla oblongata", choice_d: "Frontal lobe",
+    correct_choice: "A",
+    function_text: "The amygdala processes emotional salience, especially fear and threat detection, and helps form emotional memories."
+  }
+];
+
+let fullBank = [];
+let qBank = [];
+let qIndex = 0;
+let current = null;
+let answered = false;
+let correctCount = 0;
+
+async function loadBank(){
+  try{
+    const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.NEUROANATOMY_SHEET_CSV);
+    if(rows.length){
+      fullBank = rows;
+      console.log("Neurole: loaded " + rows.length + " neuroanatomy questions from sheet.");
+      console.log("Neurole: first row image_url ->", findField(rows[0], 'image_url'));
+    } else {
+      fullBank = FALLBACK_QUESTIONS;
+      console.warn("Neurole: sheet loaded but had 0 rows — using fallback questions.");
+    }
+  }catch(err){
+    console.error("Neurole: couldn't load Neuroanatomy sheet —", err.message);
+    fullBank = FALLBACK_QUESTIONS;
+  }
+  // Update the "All questions" button to show the real count once known
+  const allBtn = document.querySelector('.round-choice[data-count="all"]');
+  if(allBtn) allBtn.textContent = `All questions (${fullBank.length})`;
+}
+
+function startRound(countOption){
+  const total = countOption === 'all'
+    ? fullBank.length
+    : Math.min(parseInt(countOption, 10), fullBank.length);
+
+  qBank = shuffle(fullBank).slice(0, total);
+  qIndex = 0;
+  correctCount = 0;
+
+  document.getElementById('round-setup').style.display = 'none';
+  document.getElementById('neuro-result-modal').classList.remove('open');
+  document.getElementById('game-play').style.display = 'block';
+  showQuestion();
+}
+
+document.querySelectorAll('.round-choice').forEach(btn => {
+  btn.addEventListener('click', () => startRound(btn.dataset.count));
+});
+
+document.getElementById('new-round-btn').addEventListener('click', () => {
+  document.getElementById('neuro-result-modal').classList.remove('open');
+  document.getElementById('game-play').style.display = 'none';
+  document.getElementById('round-setup').style.display = 'block';
+});
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function showQuestion(){
+  answered = false;
+  current = qBank[qIndex];
+  document.getElementById('specimen-img').src = findField(current,'image_url');
+  document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
+  document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('learn-fab').classList.remove('show');
+  document.getElementById('learn-backdrop').classList.remove('open');
+
+  // Build the 4 choices as {text, isCorrect} objects, then shuffle their
+  // display order so the correct answer isn't always in the same slot.
+  const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
+  const rawChoices = ['a','b','c','d'].map(letter => ({
+    text: findField(current, 'choice_' + letter),
+    isCorrect: letter.toUpperCase() === correctLetter
+  }));
+  const shuffledChoices = shuffle(rawChoices);
+
+  const choices = document.getElementById('choices');
+  choices.innerHTML = '';
+  shuffledChoices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = choice.text;
+    btn.dataset.correct = choice.isCorrect ? 'true' : 'false';
+    btn.dataset.letter = ['A','B','C','D'][idx];
+    btn.addEventListener('click', () => selectChoice(btn));
+    choices.appendChild(btn);
+  });
+}
+
+function selectChoice(btn){
+  if(answered) return;
+  answered = true;
+  let correctText = '';
+  const gotItRight = btn.dataset.correct === 'true';
+  if(gotItRight) correctCount++;
+  document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + (qIndex+1);
+
+  document.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    if(b.dataset.correct === 'true'){
+      b.classList.add('correct');
+      correctText = b.textContent;
+    } else if(b === btn){
+      b.classList.add('incorrect');
+    }
+  });
+  document.getElementById('next-btn').style.display = 'inline-flex';
+
+  // set up the learn panel
+  document.getElementById('learn-title').textContent = correctText;
+  document.getElementById('learn-function').textContent = findField(current,'function_text');
+  document.getElementById('chat-log').innerHTML = '';
+  document.getElementById('learn-fab').classList.add('show');
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  qIndex++;
+  if(qIndex >= qBank.length){
+    document.getElementById('game-play').style.display = 'none';
+    document.getElementById('learn-fab').classList.remove('show');
+    document.getElementById('learn-backdrop').classList.remove('open');
+    document.getElementById('neuro-result-stats').textContent =
+      `You got ${correctCount} out of ${qBank.length} correct.`;
+    document.getElementById('neuro-result-modal').classList.add('open');
+    renderGoogleSignIn('neuro-google-container', () => {
+      document.getElementById('neuro-google-container').innerHTML =
+        `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">Signed in as ${googleSignInState.email} — progress saved!</p>`;
+    });
+    return;
+  }
+  showQuestion();
+});
+
+document.getElementById('neuro-result-close').addEventListener('click', () => {
+  document.getElementById('neuro-result-modal').classList.remove('open');
+  document.getElementById('round-setup').style.display = 'block';
+});
+document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
+  if(e.target.id === 'neuro-result-modal'){
+    e.currentTarget.classList.remove('open');
+    document.getElementById('round-setup').style.display = 'block';
+  }
+});
+
+document.getElementById('learn-fab').addEventListener('click', () => {
+  document.getElementById('learn-backdrop').classList.add('open');
+});
+document.getElementById('learn-close').addEventListener('click', () => {
+  document.getElementById('learn-backdrop').classList.remove('open');
+});
+document.getElementById('learn-backdrop').addEventListener('click', (e) => {
+  if(e.target.id === 'learn-backdrop') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('ask-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('ask-input');
+  const question = input.value.trim();
+  if(!question) return;
+  const log = document.getElementById('chat-log');
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = question;
+  log.appendChild(userMsg);
+  input.value = '';
+
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'chat-msg ai';
+  aiMsg.textContent = 'Thinking…';
+  log.appendChild(aiMsg);
+  log.scrollTop = log.scrollHeight;
+
+  const regionName = document.getElementById('learn-title').textContent;
+
+  aiMsg.textContent = await askNeuroleAI({
+    region: regionName,
+    function_text: findField(current,'function_text'),
+    question
+  });
+});
+
+loadBank();
+</script>
+</body>
+</html>

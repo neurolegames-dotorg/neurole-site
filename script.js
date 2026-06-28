@@ -71,16 +71,19 @@ function initMobileNav(){
 }
 
 function initSignIn(){
-  const trigger = document.querySelector('[data-signin]');
+  const triggers = document.querySelectorAll('[data-signin]');
   const backdrop = document.getElementById('signin-modal');
-  if(!trigger || !backdrop) return;
+  if(!triggers.length || !backdrop) return;
   const closeEls = backdrop.querySelectorAll('[data-close]');
-  trigger.addEventListener('click', e => {
-    e.preventDefault();
-    backdrop.classList.add('open');
-    renderGoogleSignIn('signin-google-container', () => {
-      backdrop.classList.remove('open');
-      trigger.textContent = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', e => {
+      e.preventDefault();
+      backdrop.classList.add('open');
+      renderGoogleSignIn('signin-google-container', () => {
+        backdrop.classList.remove('open');
+        const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
+        triggers.forEach(t => t.textContent = firstName);
+      });
     });
   });
   closeEls.forEach(el => el.addEventListener('click', () => backdrop.classList.remove('open')));
@@ -150,17 +153,20 @@ async function askNeuroleAIRaw(prompt){
   if(cfg.GEMINI_API_KEY && !cfg.GEMINI_API_KEY.startsWith('PASTE_')){
     try{
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cfg.GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`,
         {
           method: 'POST',
-          headers: {'Content-Type':'application/json'},
+          headers: {
+            'Content-Type':'application/json',
+            'x-goog-api-key': cfg.GEMINI_API_KEY
+          },
           body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         }
       );
       const data = await res.json();
       const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
       if(res.ok && answer) return answer;
-      console.error("Neurole: Gemini call failed —", data);
+      console.error("Neurole: Gemini call failed — HTTP " + res.status, data);
     }catch(err){
       console.error("Neurole: Gemini request error —", err.message);
     }

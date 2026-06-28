@@ -70,7 +70,7 @@ window.NEUROLE_CONFIG = {
   //   Your key never touches the browser at all with this option.
   //   If both GEMINI_API_KEY and AI_ENDPOINT_URL are filled in, the
   //   games will use GEMINI_API_KEY (Option A) first.
-  GEMINI_API_KEY: "AQ.Ab8RN6Kkbv6qvgpXOzXSDkIqezb159KHJKY_L1X4cg8a-tJBEg",
+  GEMINI_API_KEY: "AQ.Ab8RN6JLNLNz-dhH8kuXW1YQG0uqdz6pR1EU7QOiS6PnBc41xQ",
   AI_ENDPOINT_URL: "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE",
 
   // --- Social links -----------------------------------------------------

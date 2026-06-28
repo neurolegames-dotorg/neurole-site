@@ -55,8 +55,40 @@ button{font-family:inherit;cursor:pointer;}
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 28px;max-width:var(--max-w);margin:0 auto;
   flex-wrap:wrap; gap:10px;
+  position:relative;
 }
 .nav-left{display:flex;gap:22px;flex-wrap:wrap;align-items:center;}
+
+/* Hamburger toggle — hidden by default (desktop/tablet show the full nav) */
+.hamburger-btn{
+  display:none;
+  background:none;border:none;
+  width:36px;height:30px;
+  flex-direction:column;justify-content:center;gap:5px;
+  cursor:pointer;
+  padding:0;
+}
+.hamburger-btn span{
+  display:block;height:2px;width:100%;background:var(--ink);
+}
+
+/* Phones only — iPad/tablet and up keep the normal full nav bar */
+@media (max-width:600px){
+  .hamburger-btn{display:flex;}
+  .nav-left{
+    display:none;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+    position:absolute;
+    top:100%;left:0;right:0;
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
+    padding:18px 28px;
+    z-index:60;
+  }
+  .nav-left.mobile-open{display:flex;}
+}
 .nav-left a, .nav-left button.linklike{
   font-family:var(--mono);
   font-size:12.5px;
@@ -101,6 +133,7 @@ button{font-family:inherit;cursor:pointer;}
   background-size:cover;
   background-position:50% 58%;
   background-color:var(--paper);
+  filter:hue-rotate(55deg) saturate(1.15);
 }
 
 .hero-fade{

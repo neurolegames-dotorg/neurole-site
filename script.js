@@ -42,7 +42,10 @@ async function fetchSheetAsObjects(csvUrl){
   if(!csvUrl || csvUrl.startsWith('PASTE_')){
     throw new Error('No Google Sheet connected yet.');
   }
-  const res = await fetch(csvUrl);
+  // Cache-bust: browsers (and sometimes Google's own CDN) can otherwise
+  // serve a stale snapshot of the sheet from whenever it was first loaded.
+  const bustedUrl = csvUrl + (csvUrl.includes('?') ? '&' : '?') + '_=' + Date.now();
+  const res = await fetch(bustedUrl, { cache: 'no-store' });
   if(!res.ok) throw new Error('Could not load sheet (' + res.status + ')');
   const text = await res.text();
   const rows = parseCSV(text).filter(r => r.some(c => c.trim() !== ''));
@@ -55,6 +58,18 @@ async function fetchSheetAsObjects(csvUrl){
 }
 
 // ---------- Sign-in modal (lightweight placeholder) ----------
+// ---------- Mobile hamburger nav toggle (phones only) ----------
+function initMobileNav(){
+  const btn = document.querySelector('.hamburger-btn');
+  const nav = document.querySelector('.nav-left');
+  if(!btn || !nav) return;
+  btn.addEventListener('click', () => nav.classList.toggle('mobile-open'));
+  // close it after tapping a link, so it doesn't stay open after navigating
+  nav.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => nav.classList.remove('mobile-open'));
+  });
+}
+
 function initSignIn(){
   const trigger = document.querySelector('[data-signin]');
   const backdrop = document.getElementById('signin-modal');
@@ -128,14 +143,8 @@ async function loadFunFact(){
 // Tries a direct Gemini call first (if a key is configured), then
 // falls back to a custom backend endpoint if one is set, then finally
 // a plain explanatory fallback if neither is configured/working.
-async function askNeuroleAI({ region, function_text, question }){
+async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
-  const prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
-A player just learned about: "${region}".
-Background info they were given: "${function_text}"
-The player's follow-up question is: "${question}"
-
-Answer clearly and concisely (2-4 sentences), in plain language suitable for a curious learner who is not a medical professional. Stay focused on neuroscience/neuroanatomy/clinical neurology relevant to their question.`;
 
   // Option A: direct Gemini call from the browser
   if(cfg.GEMINI_API_KEY && !cfg.GEMINI_API_KEY.startsWith('PASTE_')){
@@ -163,7 +172,7 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
       const res = await fetch(cfg.AI_ENDPOINT_URL, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ region, function_text, question })
+        body: JSON.stringify({ prompt })
       });
       const data = await res.json();
       if(data.answer) return data.answer;
@@ -174,7 +183,19 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
   }
 
   console.warn("Neurole: no AI provider configured/working — see config.js (GEMINI_API_KEY or AI_ENDPOINT_URL).");
-  return `I can't reach an AI provider right now — but here's what I know: ${function_text}`;
+  return null;
+}
+
+async function askNeuroleAI({ region, function_text, question }){
+  const prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
+A player just learned about: "${region}".
+Background info they were given: "${function_text}"
+The player's follow-up question is: "${question}"
+
+Answer clearly and concisely (2-4 sentences), in plain language suitable for a curious learner who is not a medical professional. Stay focused on neuroscience/neuroanatomy/clinical neurology relevant to their question.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || `I can't reach an AI provider right now — but here's what I know: ${function_text}`;
 }
 
 // ---------- Google Sign-In (shared across all pages) ----------
@@ -221,5 +242,6 @@ function renderGoogleSignIn(containerId, onSignedIn){
 
 document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
+  initMobileNav();
   loadFunFact();
 });

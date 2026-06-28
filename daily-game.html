@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=11">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
   .case-card{
@@ -126,6 +126,7 @@
       <a href="about.html">About</a>
       <button class="linklike" data-signin>Sign In</button>
     </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -241,8 +242,8 @@
   </div>
 </div>
 
-<script src="config.js?v=9"></script>
-<script src="script.js?v=9"></script>
+<script src="config.js?v=11"></script>
+<script src="script.js?v=11"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -387,15 +388,42 @@ let state = { symptoms: [], answer: '', synonyms: [], explanation: '', shown: 1,
 async function loadCase(){
   document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
   let chosen = null;
+  let usedFallbackBank = false;
   try{
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV);
-    chosen = rows.find(r => normalizeDateStr(findField(r,'date')) === todayStr());
-    if(!chosen){
+    const todayKey = todayStr();
+
+    const dated = rows
+      .map(r => ({ row: r, key: normalizeDateStr(findField(r,'date')) }))
+      .filter(x => x.key); // drop rows with no parseable date
+
+    // 1) exact match for today
+    let match = dated.find(x => x.key === todayKey);
+
+    // 2) no exact match? use the most recent row dated today or earlier,
+    //    so the game still shows YOUR real sheet content instead of
+    //    silently dropping to generic placeholder cases.
+    if(!match){
+      const past = dated.filter(x => x.key <= todayKey).sort((a,b) => b.key.localeCompare(a.key));
+      if(past.length){
+        match = past[0];
+        console.warn(
+          "Neurole: no row in your sheet is dated exactly today (" + todayKey + "). " +
+          "Showing the most recent earlier case instead (dated " + match.key + "). " +
+          "Add a row dated " + todayKey + " to your sheet to show a fresh case today."
+        );
+      }
+    }
+
+    if(!match){
       console.warn(
-        "No daily case matched today's date (" + todayStr() + "). " +
-        "Dates found in your sheet:", rows.map(r => findField(r,'date'))
+        "Neurole: no row in your sheet is dated today or earlier (today is " + todayKey + "). " +
+        "Dates found in your sheet:", dated.map(x => x.key)
       );
     }
+
+    chosen = match ? match.row : null;
+
     if(chosen){
       state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n)).filter(Boolean);
       state.answer = findField(chosen,'answer');
@@ -405,11 +433,15 @@ async function loadCase(){
   }catch(err){ console.error("Neurole: couldn't load Daily Case sheet —", err.message); }
 
   if(!chosen){
+    usedFallbackBank = true;
     const fb = FALLBACK_CASES[seededIndexForToday(FALLBACK_CASES.length)];
     state.symptoms = fb.symptoms;
     state.answer = fb.answer;
     state.synonyms = fb.accepted_synonyms.split(';').map(s=>s.trim().toLowerCase());
     state.explanation = fb.explanation;
+  }
+  if(usedFallbackBank){
+    console.warn("Neurole: using a built-in placeholder case — your Google Sheet had no usable dated rows at all yet.");
   }
   state.shown = 1;
   renderSymptoms();
@@ -689,11 +721,34 @@ document.getElementById('case-chat-form').addEventListener('submit', async (e) =
   log.appendChild(aiMsg);
   log.scrollTop = log.scrollHeight;
 
-  aiMsg.textContent = await askNeuroleAI({
-    region: state.answer,
-    function_text: state.explanation,
-    question
-  });
+  const gameFinished = state.solved || state.attemptsUsed >= 5;
+  const shownSymptoms = state.symptoms.slice(0, state.shown).map((s,i) => `${i+1}. ${s}`).join('\n');
+
+  let prompt;
+  if(gameFinished){
+    prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
+The player just finished a diagnostic case. The correct diagnosis was: "${state.answer}".
+Explanation given to the player: "${state.explanation}"
+The player's follow-up question is: "${question}"
+
+The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`;
+  } else {
+    prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
+A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${state.attemptsUsed} of 5 guesses so far.
+Symptoms revealed to them so far:
+${shownSymptoms}
+
+The player's question is: "${question}"
+
+CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
+- Help them think through the symptoms they've already seen
+- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
+- Encourage them to consider patterns, without naming or strongly implying the answer
+- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
+Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
+  }
+
+  aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now — try again in a moment.";
 });
 </script>
 </body>

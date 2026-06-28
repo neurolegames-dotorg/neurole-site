@@ -65,14 +65,11 @@ export default {
       });
 
     try {
-      const { region, function_text, question } = await request.json();
+      const { prompt } = await request.json();
 
-      const prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
-A player just learned about: "${region}".
-Background info they were given: "${function_text}"
-The player's follow-up question is: "${question}"
-
-Answer clearly and concisely (2-4 sentences), in plain language suitable for a curious learner who is not a medical professional. Stay focused on neuroscience/neuroanatomy/clinical neurology relevant to their question.`;
+      if(!prompt){
+        return jsonResponse({ answer: "No prompt was sent to the AI backend." });
+      }
 
       // ---------- Try Gemini first ----------
       if (env.GEMINI_API_KEY) {

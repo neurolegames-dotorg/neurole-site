@@ -153,13 +153,10 @@ async function askNeuroleAIRaw(prompt){
   if(cfg.GEMINI_API_KEY && !cfg.GEMINI_API_KEY.startsWith('PASTE_')){
     try{
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cfg.GEMINI_API_KEY}`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type':'application/json',
-            'x-goog-api-key': cfg.GEMINI_API_KEY
-          },
+          headers: { 'Content-Type':'application/json' },
           body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         }
       );

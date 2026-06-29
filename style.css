@@ -78,17 +78,31 @@ button{font-family:inherit;cursor:pointer;}
   .nav-left{
     display:none;
     flex-direction:column;
-    align-items:flex-start;
-    gap:14px;
+    align-items:stretch;
+    gap:0;
     position:absolute;
     top:100%;left:0;right:0;
     background:var(--paper);
     border-bottom:2px solid var(--ink);
-    padding:18px 28px;
+    padding:6px 0;
     z-index:60;
   }
   .nav-left.mobile-open{display:flex;}
+  .nav-left a, .nav-left button.linklike{
+    width:100%;
+    padding:11px 28px;
+    border-bottom:1px solid var(--rule);
+    box-sizing:border-box;
+  }
+  .nav-left a:last-child, .nav-left button.linklike:last-child{border-bottom:none;}
 }
+.mobile-nav-backdrop{
+  display:none;
+  position:fixed;inset:0;top:0;
+  background:rgba(20,18,22,0.45);
+  z-index:55;
+}
+.mobile-nav-backdrop.open{display:block;}
 .nav-left a, .nav-left button.linklike{
   font-family:var(--mono);
   font-size:12.5px;

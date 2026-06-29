@@ -62,11 +62,23 @@ async function fetchSheetAsObjects(csvUrl){
 function initMobileNav(){
   const btn = document.querySelector('.hamburger-btn');
   const nav = document.querySelector('.nav-left');
+  const backdrop = document.getElementById('mobile-nav-backdrop');
   if(!btn || !nav) return;
-  btn.addEventListener('click', () => nav.classList.toggle('mobile-open'));
+
+  function closeMobileNav(){
+    nav.classList.remove('mobile-open');
+    if(backdrop) backdrop.classList.remove('open');
+  }
+  function toggleMobileNav(){
+    const isOpen = nav.classList.toggle('mobile-open');
+    if(backdrop) backdrop.classList.toggle('open', isOpen);
+  }
+
+  btn.addEventListener('click', toggleMobileNav);
+  if(backdrop) backdrop.addEventListener('click', closeMobileNav);
   // close it after tapping a link, so it doesn't stay open after navigating
   nav.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('click', () => nav.classList.remove('mobile-open'));
+    el.addEventListener('click', closeMobileNav);
   });
 }
 

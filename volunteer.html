@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Volunteer — Neurole</title>
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=26">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -20,8 +20,19 @@
     </nav>
     <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
-<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 </header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand">Neurole<span class="dot">.</span></div>
+  <ul class="mobile-nav-items">
+    <li><a href="index.html#footer-contact">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Volunteer <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
 
 <div class="page-hero">
   <div class="wrap">
@@ -89,8 +100,8 @@
   </div>
 </div>
 
-<script src="config.js?v=25"></script>
-<script src="script.js?v=25"></script>
+<script src="config.js?v=26"></script>
+<script src="script.js?v=26"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

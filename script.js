@@ -61,26 +61,31 @@ async function fetchSheetAsObjects(csvUrl){
 // ---------- Mobile hamburger nav toggle (phones only) ----------
 function initMobileNav(){
   const btn = document.querySelector('.hamburger-btn');
-  const nav = document.querySelector('.nav-left');
+  const overlay = document.getElementById('mobile-nav-overlay');
   const backdrop = document.getElementById('mobile-nav-backdrop');
-  if(!btn || !nav) return;
+  const closeBtn = document.getElementById('mobile-nav-close');
+  if(!btn || !overlay) return;
 
-  function closeMobileNav(){
-    nav.classList.remove('mobile-open');
-    btn.classList.remove('is-open');
+  function openNav(){
+    overlay.classList.add('open');
+    if(backdrop) backdrop.classList.add('open');
+    btn.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav(){
+    overlay.classList.remove('open');
     if(backdrop) backdrop.classList.remove('open');
-  }
-  function toggleMobileNav(){
-    const isOpen = nav.classList.toggle('mobile-open');
-    btn.classList.toggle('is-open', isOpen);
-    if(backdrop) backdrop.classList.toggle('open', isOpen);
+    btn.classList.remove('is-open');
+    document.body.style.overflow = '';
   }
 
-  btn.addEventListener('click', toggleMobileNav);
-  if(backdrop) backdrop.addEventListener('click', closeMobileNav);
-  // close it after tapping a link, so it doesn't stay open after navigating
-  nav.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('click', closeMobileNav);
+  btn.addEventListener('click', openNav);
+  if(closeBtn) closeBtn.addEventListener('click', closeNav);
+  if(backdrop) backdrop.addEventListener('click', closeNav);
+  overlay.querySelectorAll('a, button').forEach(el => {
+    if(!el.classList.contains('mobile-nav-close')){
+      el.addEventListener('click', closeNav);
+    }
   });
 }
 

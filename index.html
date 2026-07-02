@@ -4,8 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=26">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+/* ---- Homepage extras ---- */
+.hero-text h1{
+  font-size:clamp(52px,11vw,120px);
+  letter-spacing:-.01em;
+  text-shadow:0 2px 24px rgba(0,0,0,.06);
+}
+.hero-text p{
+  font-size:clamp(12px,2vw,15px);
+  letter-spacing:.22em;
+}
+
+/* Section intro */
+.section-intro{
+  text-align:center;
+  margin:52px 0 36px;
+}
+.section-intro .pill{
+  display:inline-block;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  background:linear-gradient(135deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
+  color:#fff;padding:5px 16px;border-radius:20px;margin-bottom:14px;
+}
+.section-intro h2{
+  font-family:var(--serif-display);font-size:clamp(28px,4vw,40px);margin:0 0 10px;
+}
+.section-intro p{color:var(--ink-soft);font-size:16px;margin:0;}
+
+/* Game cards on homepage */
+.home-games-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:22px;
+  max-width:860px;margin:0 auto 60px;
+}
+@media(max-width:640px){.home-games-grid{grid-template-columns:1fr;}}
+
+.home-game-card{
+  background:#fff;border:1px solid var(--rule);
+  border-radius:12px;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform .2s, box-shadow .2s;
+  text-decoration:none;color:var(--ink);
+  position:relative;
+}
+.home-game-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 36px rgba(91,46,158,0.14);
+}
+.home-game-card-header{
+  padding:28px 26px 18px;
+  background:linear-gradient(135deg, var(--plum), var(--neuro-blue-deep));
+  display:flex;align-items:center;gap:14px;
+}
+.home-game-card-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.home-game-card-title{
+  font-family:var(--serif-display);font-size:22px;font-weight:700;color:#fff;margin:0;
+}
+.home-game-card-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.65);margin-top:4px;
+}
+.home-game-card-body{padding:20px 26px 24px;}
+.home-game-card-body p{margin:0 0 18px;color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+.home-game-card .play-link{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);display:inline-flex;align-items:center;gap:6px;
+  transition:gap .15s;
+}
+.home-game-card:hover .play-link{gap:10px;}
+
+/* Fun fact box */
+.factbox{
+  background:linear-gradient(135deg, rgba(145,118,184,0.08), rgba(71,61,104,0.06));
+  border:1.5px solid rgba(145,118,184,0.25);
+  border-left:5px solid var(--neuro-blue);
+  border-radius:10px;
+  padding:24px 28px;
+  display:flex;flex-direction:column;gap:10px;
+  max-width:860px;margin:0 auto;
+}
+.factbox .fact-icon{font-size:26px;margin-bottom:4px;}
+.factbox p{margin:0;font-size:17px;line-height:1.65;font-style:italic;}
+.factbox .cite{font-family:var(--mono);font-size:12px;color:var(--ink-soft);}
+.factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
+
+/* Brain tagline banner */
+.tagline-band{
+  background:linear-gradient(135deg, var(--plum), var(--neuro-blue-deep));
+  color:#fff;text-align:center;
+  padding:44px 24px;margin:0 0 52px;
+}
+.tagline-band h2{
+  font-family:var(--serif-display);font-size:clamp(24px,4vw,36px);margin:0 0 10px;
+}
+.tagline-band p{font-size:15px;opacity:.8;margin:0;}
+
+/* Footer top CTA */
+.footer-top{
+  text-align:center;padding:48px 0 30px;border-top:1px solid var(--rule);
+  max-width:860px;margin:0 auto;
+}
+.footer-top p{color:var(--ink-soft);font-size:15px;margin:0 0 16px;}
+</style>
 </head>
 <body>
 
@@ -21,11 +128,23 @@
     </nav>
     <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
-<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 </header>
 
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand">Neurole<span class="dot">.</span></div>
+  <ul class="mobile-nav-items">
+    <li><a href="index.html#footer-contact">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Volunteer <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
 <section class="hero">
-  <div class="hero-img-wrap" role="img" aria-label="Magnified blue neurons connected by branching dendrites">
+  <div class="hero-img-wrap" role="img" aria-label="Magnified purple neurons connected by branching dendrites">
     <div class="hero-fade"></div>
     <div class="hero-text">
       <h1>Neurole</h1>
@@ -34,45 +153,100 @@
   </div>
 </section>
 
-<main class="wrap">
+<main>
 
-  <section style="margin-top:40px;">
-    <div class="section-label">Weekly Neuroscience Fun Fact</div>
-    <div class="factbox" id="fun-fact-box">
-      <p class="fact-text">Loading this week's fact…</p>
-      <span class="cite">Source: <a class="fact-link" href="#">—</a></span>
+  <!-- Fun Fact -->
+  <div class="wrap" style="margin-top:44px;">
+    <div style="max-width:860px;margin:0 auto 10px;">
+      <div class="section-label" style="text-align:center;margin-bottom:10px;">🧬 Weekly Neuroscience Fun Fact</div>
     </div>
-  </section>
+    <div class="factbox" id="fun-fact-box">
+      <span class="fact-icon">🔬</span>
+      <p class="fact-text">Loading this week's fact…</p>
+      <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">—</a></span>
+    </div>
+  </div>
 
-  <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+  <!-- Purple band -->
+  <div class="tagline-band" style="margin-top:60px;">
+    <h2>Learn how your brain works — one game at a time</h2>
+    <p>Free daily games designed by neuroscience students and clinicians.</p>
+  </div>
 
-  <section>
-    <div class="section-label">Play Today</div>
-    <h2 class="section-title">Two ways to train your brain</h2>
-    <div class="games-grid" id="daily-game-slot"></div>
-    <div class="games-grid" id="all-games-grid" style="margin-top:10px;"></div>
-  </section>
+  <!-- Games -->
+  <div class="wrap">
+    <div class="section-intro">
+      <span class="pill">Play Today</span>
+      <h2>Two ways to train your brain</h2>
+      <p>A new clinical case every day. Identify brain regions any time you want.</p>
+    </div>
+
+    <div class="home-games-grid">
+      <!-- Daily Case -->
+      <a class="home-game-card" href="daily-game.html">
+        <div class="home-game-card-header">
+          <div class="home-game-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6">
+              <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
+              <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
+              <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
+            </svg>
+          </div>
+          <div>
+            <p class="home-game-card-title">The Daily Case</p>
+            <p class="home-game-card-tag">Daily · Diagnostic</p>
+          </div>
+        </div>
+        <div class="home-game-card-body">
+          <p>A new patient every day. Read the symptoms and guess the neurological condition in 5 tries or fewer.</p>
+          <span class="play-link">Play today's case <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- Map the Brain -->
+      <a class="home-game-card" href="neuroanatomy.html">
+        <div class="home-game-card-header">
+          <div class="home-game-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6">
+              <path d="M12 3c-3.5 0-5 2.4-5 5 0 1.2.5 2 1 2.6C7 11.3 6 12.6 6 14.5 6 17.5 8.3 20 12 20s6-2.5 6-5.5c0-1.9-1-3.2-2-3.9.5-.6 1-1.4 1-2.6 0-2.6-1.5-5-5-5Z"/>
+              <path d="M12 7v10M9 11h6"/>
+            </svg>
+          </div>
+          <div>
+            <p class="home-game-card-title">Map the Brain</p>
+            <p class="home-game-card-tag">Untimed · Visual</p>
+          </div>
+        </div>
+        <div class="home-game-card-body">
+          <p>An image of the brain appears. Pick the highlighted region from four choices, then ask the AI to explain it.</p>
+          <span class="play-link">Play neuroanatomy <span>→</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
 
 </main>
 
 <footer id="footer-contact">
   <div class="wrap">
-    <div class="social-row">
-      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a href="#" id="social-email" aria-label="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-      </a>
-      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
-      </a>
+    <div class="footer-top">
+      <p>Follow us and stay in the loop for new games, facts, and features.</p>
+      <div class="social-row">
+        <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" id="social-email" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+        <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
     </div>
     <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
   </div>
 </footer>
 
-<!-- Sign in modal -->
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal">
     <button class="close" data-close>✕</button>
@@ -82,30 +256,20 @@
   </div>
 </div>
 
-<script src="config.js?v=25"></script>
-<script src="games-data.js?v=25"></script>
-<script src="script.js?v=25"></script>
+<script src="config.js?v=26"></script>
+<script src="games-data.js?v=26"></script>
+<script src="script.js?v=26"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
-
   if(typeof GAMES_DATA === 'undefined'){
-    console.error(
-      "Neurole: games-data.js did not load — the games sections will stay empty. " +
-      "Make sure games-data.js is uploaded to the SAME folder as index.html on your host."
-    );
+    console.error("Neurole: games-data.js did not load.");
   }
-
-  // CSS background-images can't fire onerror, so verify the file loads
-  // by testing it with a real Image() object.
   (function checkHeroImage(){
     const testImg = new Image();
-    testImg.onload = () => console.log("Neurole: hero image (assets/neuron-hero.webp) loaded successfully.");
-    testImg.onerror = () => console.error(
-      "Neurole: hero image FAILED to load at assets/neuron-hero.webp — " +
-      "check the file exists at that exact path/name (case-sensitive) on your host."
-    );
+    testImg.onload = () => console.log("Neurole: hero image loaded successfully.");
+    testImg.onerror = () => console.error("Neurole: hero image FAILED to load at assets/neuron-hero.webp");
     testImg.src = "assets/neuron-hero.webp";
   })();
 </script>

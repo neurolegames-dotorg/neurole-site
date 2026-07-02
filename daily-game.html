@@ -3,27 +3,32 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=37">
+<link rel="stylesheet" href="style.css?v=38">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
-  /* --- Mobile Daily Case sizing fixes --- */
+  .case-card{
+    background:#fff;border:1px solid var(--rule);padding:44px;
+  }
+
+  /* Mobile: remove the box and show content edge-to-edge so
+     the purple gradient shows on the sides naturally */
   @media(max-width:480px){
-    /* Narrow horizontal padding so the body's purple scroll gradient
-       shows on the left and right sides of the case card */
-    .case-shell{padding:20px 8px 60px;}
-    .wrap{padding:0 8px;}
+    .case-shell{padding:20px 0 60px;}
+    .case-card{
+      background:transparent !important;
+      border:none !important;
+      box-shadow:none !important;
+      padding:0 4px !important;
+    }
     .start-screen h1{font-size:28px !important;margin-bottom:8px !important;}
     .start-screen p{font-size:14px !important;margin-bottom:18px !important;}
     .start-logo svg{width:44px !important;height:44px !important;}
     .start-logo{margin-bottom:14px !important;}
     .start-actions{gap:10px !important;margin-bottom:18px !important;}
     .start-actions .btn{padding:11px 22px !important;font-size:12px !important;}
-    .case-card{padding:16px 14px !important;border-radius:8px;}
-    .symptom-log li{padding:11px 12px !important;font-size:15px !important;}
-    .symptom-log li.locked{padding:11px 12px !important;font-size:11.5px !important;}
-    .guess-row input{font-size:15px !important;padding:12px 12px !important;}
-    .autocomplete-list div{font-size:14px !important;padding:9px 12px !important;}
+    .symptom-log li{font-size:15px !important;}
+    .guess-row input{font-size:15px !important;padding:12px !important;}
   }
 
   .start-screen{
@@ -172,7 +177,13 @@
 
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a class="back-home" href="index.html" style="margin-bottom:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Home
+      </a>
+      <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
+    </div>
     <nav class="nav-left">
       <a href="contact.html">Contact Us</a>
       <a href="volunteer.html">Volunteer</a>
@@ -224,12 +235,6 @@
   </div>
 
   <div id="game-content" style="display:none;">
-    <div style="margin-bottom:10px;">
-      <a class="back-home" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Back to home
-      </a>
-    </div>
     <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:6px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
     <div class="case-card">
       <div class="case-meta">
@@ -338,8 +343,8 @@
   </div>
 </div>
 
-<script src="config.js?v=37"></script>
-<script src="script.js?v=37"></script>
+<script src="config.js?v=38"></script>
+<script src="script.js?v=38"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -490,85 +495,58 @@ async function loadCase(){
   let usedFallbackBank = false;
   try{
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV);
-    const todayKey = todayStr();
+    const todayKey = todayStr(); // e.g. "2026-07-02" in ET
 
-    // Log EVERYTHING about the first row so we can see exact column names
     if(rows.length){
-      console.log("Neurole: sheet loaded. Row count:", rows.length, "| Today (ET):", todayKey);
-      console.log("Neurole: column headers found:", Object.keys(rows[0]));
-      console.log("Neurole: first row full data:", rows[0]);
+      console.log("Neurole: sheet loaded.", rows.length, "rows | Today (ET):", todayKey);
+      console.log("Neurole: columns:", Object.keys(rows[0]));
     } else {
-      console.warn("Neurole: sheet loaded but returned 0 rows — check that the published CSV link points to the correct tab.");
+      console.warn("Neurole: sheet returned 0 rows.");
     }
 
-    // Brute-force: scan EVERY column of EVERY row for anything that looks like a date
-    // matching today. This handles misnamed columns, extra spaces, weird casing, etc.
-    function rowContainsDateKey(row, targetKey){
-      for(const col in row){
-        const normalised = normalizeDateStr(row[col]);
-        if(normalised === targetKey) return true;
-      }
-      return false;
-    }
+    // The date column may be named 'Date', 'date', 'DATE' etc.
+    // findField handles case-insensitive matching already.
+    // normalizeDateStr handles multiple formats → YYYY-MM-DD
+    const dated = rows
+      .map(r => {
+        const raw = findField(r, 'Date') || findField(r, 'date') || '';
+        return { row: r, key: normalizeDateStr(raw) };
+      })
+      .filter(x => x.key); // drop rows with no parseable date
 
-    // Try findField('date') first (the expected column name)
-    let dated = rows
-      .map(r => ({ row: r, key: normalizeDateStr(findField(r,'date')) }))
-      .filter(x => x.key);
+    console.log("Neurole: dates in sheet:", dated.map(x => x.key));
 
-    // If that found nothing, brute-force every column
-    if(!dated.length){
-      console.warn(
-        "Neurole: 'date' column not found or empty. Scanning all columns for date-like values. " +
-        "Please name the date column exactly 'date' in your sheet to avoid this fallback."
-      );
-      dated = rows.flatMap(r => {
-        for(const col in r){
-          const k = normalizeDateStr(r[col]);
-          if(k) return [{ row: r, key: k }];
-        }
-        return [];
-      });
-    }
-
-    console.log("Neurole: parsed dates from sheet:", dated.map(x=>x.key).slice(0,10));
-
-    // 1) exact match for today
+    // 1) Exact match for today
     let match = dated.find(x => x.key === todayKey);
 
-    // 2) most recent past row if no exact match
+    // 2) Most recent past row if no exact match today
     if(!match){
-      const past = dated.filter(x => x.key <= todayKey).sort((a,b) => b.key.localeCompare(a.key));
+      const past = dated
+        .filter(x => x.key < todayKey)
+        .sort((a, b) => b.key.localeCompare(a.key));
       if(past.length){
         match = past[0];
-        console.warn(
-          "Neurole: no row dated exactly today (" + todayKey + "). " +
-          "Showing most recent past case (dated " + match.key + "). " +
-          "Add a row dated " + todayKey + " to show today's case."
-        );
+        const banner = document.getElementById('sheet-warning-banner');
+        if(banner){
+          banner.textContent = `No case for today (${todayKey}) in sheet — showing ${match.key}. Add a row dated ${todayKey} to show today's case.`;
+          banner.style.display = 'block';
+        }
+        console.warn("Neurole: no row for today — showing most recent past case:", match.key);
       }
     }
 
     if(!match){
-      console.warn("Neurole: no usable dated rows found at all. Dates parsed:", dated.map(x=>x.key));
+      console.warn("Neurole: no dated rows at or before today. Dates found:", dated.map(x => x.key));
     }
 
     chosen = match ? match.row : null;
 
-    if(!match && dated.length){
-      const latestKey = dated.sort((a,b)=>b.key.localeCompare(a.key))[0].key;
-      const banner = document.getElementById('sheet-warning-banner');
-      if(banner){
-        banner.textContent = `ℹ️ No case found for today (${todayKey}) — showing ${latestKey} instead. Check that your 'date' column header is spelled exactly 'date' and the dates are in YYYY-MM-DD or M/D/YYYY format.`;
-        banner.style.display = 'block';
-      }
-    }
-
     if(chosen){
-      state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n)).filter(Boolean);
-      state.answer = findField(chosen,'answer');
-      state.synonyms = (findField(chosen,'accepted_synonyms') || '').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
-      state.explanation = findField(chosen,'explanation') || '';
+      state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n) || findField(chosen,'Symptom_'+n)).filter(Boolean);
+      state.answer = findField(chosen,'answer') || findField(chosen,'Answer') || '';
+      state.synonyms = (findField(chosen,'accepted_synonyms') || findField(chosen,'Accepted_Synonyms') || '').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = findField(chosen,'explanation') || findField(chosen,'Explanation') || '';
+      console.log("Neurole: loaded case for", match.key, "| answer:", state.answer, "| symptoms:", state.symptoms.length);
     }
   }catch(err){ console.error("Neurole: couldn't load Daily Case sheet —", err.message); }
 

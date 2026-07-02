@@ -3,9 +3,25 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=33">
+<link rel="stylesheet" href="style.css?v=34">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
+
+  /* --- Mobile Daily Case sizing fixes --- */
+  @media(max-width:480px){
+    .case-shell{padding:20px 0 60px;}
+    .start-screen h1{font-size:28px !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:14px !important;margin-bottom:18px !important;}
+    .start-logo svg{width:44px !important;height:44px !important;}
+    .start-logo{margin-bottom:14px !important;}
+    .start-actions{gap:10px !important;margin-bottom:18px !important;}
+    .start-actions .btn{padding:11px 22px !important;font-size:12px !important;}
+    .case-card{padding:20px 16px !important;}
+    .symptom-log li{padding:12px 14px !important;font-size:15px !important;}
+    .symptom-log li.locked{padding:12px 14px !important;font-size:11.5px !important;}
+    .guess-row input{font-size:15px !important;padding:12px 12px !important;}
+    .autocomplete-list div{font-size:14px !important;padding:9px 12px !important;}
+  }
 
   .start-screen{
     position:fixed;inset:0;z-index:200;
@@ -308,8 +324,8 @@
   </div>
 </div>
 
-<script src="config.js?v=33"></script>
-<script src="script.js?v=33"></script>
+<script src="config.js?v=34"></script>
+<script src="script.js?v=34"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -414,12 +430,15 @@ function seededIndexForToday(arrayLength){
   return seed % arrayLength;
 }
 
+// Returns today's date in YYYY-MM-DD format anchored to Eastern Time (ET).
+// This ensures the daily case resets at midnight ET for everyone,
+// regardless of where in the world the visitor is.
 function todayStr(){
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const dd = String(d.getDate()).padStart(2,'0');
-  return `${yyyy}-${mm}-${dd}`;
+  const now = new Date();
+  // 'America/New_York' handles both EST (-5) and EDT (-4) automatically
+  const etDateStr = now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+  // en-CA gives YYYY-MM-DD format natively
+  return etDateStr;
 }
 
 // Normalizes many date formats Google Sheets might export

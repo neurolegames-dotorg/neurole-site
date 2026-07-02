@@ -375,9 +375,11 @@ function saveStreak(streak){
 // yesterday was also a win day.
 function recordWin(todayKey){
   const streak = getStreak();
+  // Calculate yesterday in ET, consistent with the ET-anchored daily reset
   const yesterday = (function(){
-    const d = new Date(); d.setDate(d.getDate()-1);
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const d = new Date();
+    d.setDate(d.getDate()-1);
+    return d.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
   })();
   if(streak.lastWonDate === todayKey){
     // Already recorded today — no change

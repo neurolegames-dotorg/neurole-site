@@ -3,22 +3,25 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=35">
+<link rel="stylesheet" href="style.css?v=37">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
   /* --- Mobile Daily Case sizing fixes --- */
   @media(max-width:480px){
-    .case-shell{padding:20px 0 60px;}
+    /* Narrow horizontal padding so the body's purple scroll gradient
+       shows on the left and right sides of the case card */
+    .case-shell{padding:20px 8px 60px;}
+    .wrap{padding:0 8px;}
     .start-screen h1{font-size:28px !important;margin-bottom:8px !important;}
     .start-screen p{font-size:14px !important;margin-bottom:18px !important;}
     .start-logo svg{width:44px !important;height:44px !important;}
     .start-logo{margin-bottom:14px !important;}
     .start-actions{gap:10px !important;margin-bottom:18px !important;}
     .start-actions .btn{padding:11px 22px !important;font-size:12px !important;}
-    .case-card{padding:20px 16px !important;}
-    .symptom-log li{padding:12px 14px !important;font-size:15px !important;}
-    .symptom-log li.locked{padding:12px 14px !important;font-size:11.5px !important;}
+    .case-card{padding:16px 14px !important;border-radius:8px;}
+    .symptom-log li{padding:11px 12px !important;font-size:15px !important;}
+    .symptom-log li.locked{padding:11px 12px !important;font-size:11.5px !important;}
     .guess-row input{font-size:15px !important;padding:12px 12px !important;}
     .autocomplete-list div{font-size:14px !important;padding:9px 12px !important;}
   }
@@ -87,12 +90,18 @@
   .symptom-log li.locked .hint-num{color:var(--ink-soft);}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
-  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
   .guess-row input{
-    flex:1;min-width:200px;font-family:var(--serif-body);font-size:18px;padding:15px 16px;
+    flex:1;font-family:var(--serif-body);font-size:16px;padding:14px 16px;
     border:1.5px solid var(--ink-soft);background:#fff;
+    height:52px;box-sizing:border-box;
   }
-  .guess-row .btn{font-size:13px;padding:0 24px;}
+  .guess-row .btn{
+    font-size:18px;padding:0 20px;
+    height:52px;box-sizing:border-box;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
 
   .autocomplete-list{
     position:absolute;top:100%;left:0;right:84px;
@@ -108,11 +117,14 @@
   }
   .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
 
-  .past-guesses{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .past-guesses{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
   .past-guesses span{
-    font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
-    border:1px solid var(--signal-red);color:var(--signal-red);
-    padding:5px 11px;border-radius:20px;
+    font-family:var(--serif-body);font-size:15px;font-weight:500;letter-spacing:.01em;
+    border:1.5px solid var(--signal-red);color:var(--signal-red);
+    padding:7px 16px;border-radius:6px;
+    background:rgba(168,68,58,0.06);
+    text-decoration:line-through;
+    text-decoration-color:rgba(168,68,58,0.5);
   }
   .closest-note{
     font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
@@ -186,10 +198,6 @@
 
 <div class="page-hero">
   <div class="wrap">
-    <a class="back-home" href="index.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Back to home
-    </a>
     <h1>The Daily Case</h1>
     <p>A new patient, every day. Read the chart, type your diagnosis. You get five attempts — each wrong guess reveals one more symptom.</p>
   </div>
@@ -237,7 +245,9 @@
         <form class="guess-row" id="guess-form">
           <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
           <div class="autocomplete-list" id="autocomplete-list"></div>
-          <button class="btn" type="submit">Submit</button>
+          <button class="btn" type="submit" aria-label="Submit diagnosis" title="Submit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </form>
         <div class="closest-note" id="closest-note"></div>
         <div class="past-guesses" id="past-guesses"></div>
@@ -328,8 +338,8 @@
   </div>
 </div>
 
-<script src="config.js?v=35"></script>
-<script src="script.js?v=35"></script>
+<script src="config.js?v=37"></script>
+<script src="script.js?v=37"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -686,6 +696,9 @@ document.getElementById('guess-form').addEventListener('submit', e => {
     state.guesses.push(guess);
     renderPastGuesses();
 
+    // Flash the wrong answer prominently
+    showWrongFlash(guess);
+
     const closest = findClosestKnownDisorder(guess);
     note.textContent = closest ? `Read as: "${closest}" — not quite right.` : '';
 
@@ -698,6 +711,34 @@ document.getElementById('guess-form').addEventListener('submit', e => {
   }
   input.value = '';
 });
+
+function showWrongFlash(wrongGuess){
+  let el = document.getElementById('wrong-flash');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'wrong-flash';
+    el.style.cssText = `
+      position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      background:#fff;
+      border:2.5px solid #8B2635;
+      border-radius:12px;
+      opacity:0;pointer-events:none;
+      transition:opacity .18s;z-index:500;
+      text-align:center;
+      min-width:220px;max-width:82vw;
+      padding:18px 28px 14px;
+      box-shadow:0 8px 30px rgba(0,0,0,.16);
+    `;
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `
+    <div style="font-family:'Libre Baskerville',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
+    <div style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#8B2635;margin-top:6px;opacity:.7;">Incorrect</div>
+  `;
+  el.style.opacity = '1';
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => { el.style.opacity = '0'; }, 1600);
+}
 
 /* ---------- autocomplete dropdown ---------- */
 const guessInput = document.getElementById('guess-input');

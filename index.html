@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=29">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* Fun fact purple theming */
@@ -28,7 +28,7 @@
   <div class="masthead-inner">
     <div class="brand">Neurole<span class="dot">.</span></div>
     <nav class="nav-left">
-      <a href="#footer-contact">Contact Us</a>
+      <a href="contact.html">Contact Us</a>
       <a href="volunteer.html">Volunteer</a>
       <a href="donate.html">Donate</a>
       <a href="about.html">About</a>
@@ -43,7 +43,7 @@
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand">Neurole<span class="dot">.</span></div>
   <ul class="mobile-nav-items">
-    <li><a href="index.html#footer-contact">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
     <li><a href="volunteer.html">Volunteer <span class="nav-arrow">›</span></a></li>
     <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
     <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
@@ -75,43 +75,44 @@
 
   <section>
     <div class="section-label">Play Today</div>
-    <h2 class="section-title">Two ways to train your brain</h2>
+    <h2 class="section-title">Play today</h2>
     <div class="games-grid">
 
       <div class="game-card">
         <div class="icon">
-          <!-- ECG pulse line — clinical, fun, instantly readable as diagnostic -->
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue-deep)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
           </svg>
         </div>
         <span class="tag">Daily · Diagnostic</span>
         <h3>The Daily Case</h3>
-        <p>A new patient walks in every day. Read the symptoms, and try to name the neurological condition in five guesses or fewer.</p>
+        <p>A new patient walks in every day. Read the symptoms and guess the neurological condition in five tries or fewer.</p>
         <a class="btn" href="daily-game.html">Play today's case →</a>
       </div>
 
       <div class="game-card">
         <div class="icon">
-          <!-- Neuron / synapse icon — playful and scientific -->
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <line x1="12" y1="9" x2="12" y2="3"/>
-            <line x1="12" y1="15" x2="12" y2="21"/>
-            <line x1="9" y1="12" x2="3" y2="12"/>
-            <line x1="15" y1="12" x2="21" y2="12"/>
-            <line x1="9.5" y1="9.5" x2="5" y2="5"/>
-            <line x1="14.5" y1="14.5" x2="19" y2="19"/>
-            <line x1="14.5" y1="9.5" x2="19" y2="5"/>
-            <line x1="9.5" y1="14.5" x2="5" y2="19"/>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3c-3.5 0-5 2.4-5 5 0 1.2.5 2 1 2.6C7 11.3 6 12.6 6 14.5 6 17.5 8.3 20 12 20s6-2.5 6-5.5c0-1.9-1-3.2-2-3.9.5-.6 1-1.4 1-2.6 0-2.6-1.5-5-5-5Z"/>
+            <path d="M12 7v10M9 11h6"/>
           </svg>
         </div>
         <span class="tag">Untimed · Visual</span>
         <h3>Map the Brain</h3>
-        <p>An image of the brain appears, you pick the region from four choices, then dig into what that region actually does.</p>
+        <p>Look at a brain image, pick the right region from four choices, then ask questions to understand what it does.</p>
         <a class="btn" href="neuroanatomy.html">Play neuroanatomy →</a>
       </div>
 
+    </div>
+  </section>
+
+  <section>
+    <div class="volunteer-banner">
+      <div class="volunteer-banner-text">
+        <h4>Want to help build Neurole?</h4>
+        <p>We're looking for neuroscience students, clinicians, illustrators, and developers to help grow the game library.</p>
+      </div>
+      <a class="btn ghost" href="volunteer.html">Get involved →</a>
     </div>
   </section>
 
@@ -143,9 +144,9 @@
   </div>
 </div>
 
-<script src="config.js?v=28"></script>
-<script src="games-data.js?v=28"></script>
-<script src="script.js?v=28"></script>
+<script src="config.js?v=29"></script>
+<script src="games-data.js?v=29"></script>
+<script src="script.js?v=29"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

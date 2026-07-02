@@ -32,7 +32,17 @@ html{scroll-behavior:smooth;}
 header, section, main, footer{margin:0;}
 body{
   margin:0;
+  min-height:100vh;
   background:var(--paper);
+  /* Subtle gradient: off-white top fades to a very soft purple at the bottom */
+  background:linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 60%,
+    #ECE8F5 85%,
+    #E0D6F0 100%
+  );
+  background-attachment:fixed;
   color:var(--ink);
   font-family:var(--serif-body);
   line-height:1.6;
@@ -276,7 +286,29 @@ h2.section-title{
 }
 .factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid var(--neuro-blue-deep);}
 
-/* games grid */
+/* Volunteer banner below games */
+.volunteer-banner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+  border:1.5px solid var(--rule);
+  border-left:5px solid var(--neuro-blue-deep);
+  border-radius:10px;
+  background:#fff;
+  padding:22px 28px;
+  margin-bottom:52px;
+}
+.volunteer-banner-text h4{
+  font-family:var(--serif-display);font-size:19px;margin:0 0 5px;
+}
+.volunteer-banner-text p{
+  margin:0;color:var(--ink-soft);font-size:14.5px;
+}
+.volunteer-banner .btn{flex-shrink:0;white-space:nowrap;}
+@media(max-width:580px){
+  .volunteer-banner{flex-direction:column;align-items:flex-start;}
+}
+
+
 .games-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:10px;
 }
@@ -303,11 +335,8 @@ h2.section-title{
 }
 .game-card:hover::before{opacity:1;}
 .game-card .icon{
-  width:56px;height:56px;
+  width:40px;height:40px;
   display:flex;align-items:center;justify-content:center;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #fff, var(--paper-deep));
-  border:1.5px solid var(--rule);
 }
 .game-card h3{
   font-family:var(--serif-display);font-size:24px;margin:0;

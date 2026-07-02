@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -194,6 +194,7 @@
         <button class="btn ghost" data-signin>Log in</button>
         <button class="btn" id="start-play-btn">Play</button>
       </div>
+      <div id="streak-label" style="font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin-top:4px;min-height:22px;"></div>
       <div class="start-meta" id="start-meta">—</div>
     </div>
   </div>
@@ -301,8 +302,8 @@
   </div>
 </div>
 
-<script src="config.js?v=30"></script>
-<script src="script.js?v=30"></script>
+<script src="config.js?v=31"></script>
+<script src="script.js?v=31"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -543,6 +544,7 @@ async function loadCase(){
 function updateStartScreen(){
   const playBtn = document.getElementById('start-play-btn');
   const meta = document.getElementById('start-meta');
+  const streakLabel = document.getElementById('streak-label');
   if(state.alreadyCompletedToday){
     playBtn.textContent = 'View Result';
   } else {
@@ -550,6 +552,14 @@ function updateStartScreen(){
   }
   const dateLabel = new Date().toLocaleDateString(undefined, {month:'long', day:'numeric', year:'numeric'});
   meta.innerHTML = dateLabel;
+  // Show streak
+  const streak = getStreak();
+  if(streak.count >= 1){
+    const fire = streak.count >= 3 ? ' 🔥' : '';
+    streakLabel.textContent = `${streak.count}-day streak${fire}`;
+  } else {
+    streakLabel.textContent = '';
+  }
 }
 
 function renderSymptoms(){
@@ -712,6 +722,7 @@ function showResult(won){
   renderSymptoms(); // reveal full log on finish
 
   saveDailyCompletion(won);
+  if(won) recordWin(todayStr());
   openResultPopup(won);
 }
 

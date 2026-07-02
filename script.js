@@ -282,13 +282,46 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
 
 // ---------- Google Sign-In (shared across all pages) ----------
 // Renders a real "Sign in with Google" button into the given container
-// element id. Requires GOOGLE_CLIENT_ID to be set in config.js — if it's
-// still the placeholder, shows a setup message instead.
-let googleSignInState = { signedIn: false, name: '', email: '' };
+// ---------- Google Sign-In (with localStorage persistence) ----------
+const SIGNIN_STORAGE_KEY = 'neurole_user';
+
+// Restore saved sign-in state from previous session
+let googleSignInState = (function(){
+  try{
+    const saved = localStorage.getItem(SIGNIN_STORAGE_KEY);
+    if(saved){
+      const parsed = JSON.parse(saved);
+      if(parsed && parsed.email) return parsed;
+    }
+  }catch(e){}
+  return { signedIn: false, name: '', email: '' };
+})();
+
+function saveSignInState(state){
+  try{ localStorage.setItem(SIGNIN_STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+function clearSignInState(){
+  try{ localStorage.removeItem(SIGNIN_STORAGE_KEY); }catch(e){}
+}
+
+// Update all sign-in trigger buttons to reflect current state
+function updateSignInTriggers(){
+  const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
+  document.querySelectorAll('[data-signin]').forEach(t => {
+    t.textContent = googleSignInState.signedIn ? firstName : 'Sign In';
+  });
+}
 
 function renderGoogleSignIn(containerId, onSignedIn){
   const container = document.getElementById(containerId);
   if(!container) return;
+
+  // If already signed in from a previous page, fire the callback immediately
+  if(googleSignInState.signedIn){
+    if(onSignedIn) onSignedIn(googleSignInState);
+    return;
+  }
 
   const clientId = window.NEUROLE_CONFIG?.GOOGLE_CLIENT_ID;
   if(!clientId || clientId.startsWith('PASTE_')){
@@ -302,7 +335,7 @@ function renderGoogleSignIn(containerId, onSignedIn){
     container.innerHTML = `<p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);text-align:center;">
       Couldn't load Google Sign-In (check your internet connection or ad blocker).
     </p>`;
-    console.error("Neurole: Google Identity Services script (accounts.google.com/gsi/client) did not load.");
+    console.error("Neurole: Google Identity Services script did not load.");
     return;
   }
 
@@ -312,6 +345,8 @@ function renderGoogleSignIn(containerId, onSignedIn){
       try{
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
         googleSignInState = { signedIn: true, name: payload.name, email: payload.email };
+        saveSignInState(googleSignInState);
+        updateSignInTriggers();
         console.log("Neurole: signed in as", payload.email);
         if(onSignedIn) onSignedIn(googleSignInState);
       }catch(err){
@@ -320,6 +355,41 @@ function renderGoogleSignIn(containerId, onSignedIn){
     }
   });
   google.accounts.id.renderButton(container, { theme: 'outline', size: 'large', shape: 'pill', width: 280 });
+}
+
+// ---------- Streak tracking ----------
+const STREAK_KEY = 'neurole_streak';
+
+function getStreak(){
+  try{
+    const raw = localStorage.getItem(STREAK_KEY);
+    return raw ? JSON.parse(raw) : { count: 0, lastWonDate: '' };
+  }catch(e){ return { count: 0, lastWonDate: '' }; }
+}
+
+function saveStreak(streak){
+  try{ localStorage.setItem(STREAK_KEY, JSON.stringify(streak)); }catch(e){}
+}
+
+// Call after a win — extends or resets the streak based on whether
+// yesterday was also a win day.
+function recordWin(todayKey){
+  const streak = getStreak();
+  const yesterday = (function(){
+    const d = new Date(); d.setDate(d.getDate()-1);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  })();
+  if(streak.lastWonDate === todayKey){
+    // Already recorded today — no change
+  } else if(streak.lastWonDate === yesterday){
+    streak.count += 1;
+    streak.lastWonDate = todayKey;
+  } else {
+    streak.count = 1;
+    streak.lastWonDate = todayKey;
+  }
+  saveStreak(streak);
+  return streak;
 }
 
 // ---------- Scroll-driven purple background tint ----------
@@ -369,5 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initScrollHeader();
   initScrollPurple();
+  updateSignInTriggers();
   loadFunFact();
 });

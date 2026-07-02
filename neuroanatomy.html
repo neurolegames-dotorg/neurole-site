@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
@@ -198,21 +198,33 @@
   <div class="start-screen" id="round-setup">
     <div class="start-screen-inner">
       <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.7" stroke-linecap="round">
-          <circle cx="12" cy="12" r="2.5" fill="#8B2635"/>
-          <line x1="12" y1="9" x2="12" y2="3"/>
-          <line x1="12" y1="15" x2="12" y2="21"/>
-          <line x1="9" y1="12" x2="3" y2="12"/>
-          <line x1="15" y1="12" x2="21" y2="12"/>
-          <line x1="9.7" y1="9.7" x2="5.5" y2="5.5"/>
-          <line x1="14.3" y1="14.3" x2="18.5" y2="18.5"/>
-          <line x1="14.3" y1="9.7" x2="18.5" y2="5.5"/>
-          <line x1="9.7" y1="14.3" x2="5.5" y2="18.5"/>
+        <svg width="60" height="60" viewBox="0 0 64 64" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Cerebrum outline -->
+          <path d="M32 8 C20 8 10 16 10 26 C10 32 13 37 18 40 C18 46 22 52 30 53 C34 54 38 52 40 49 C44 51 50 48 52 43 C56 40 58 35 56 29 C54 21 48 14 40 10 C38 9 35 8 32 8Z"/>
+          <!-- Corpus callosum / gyri lines -->
+          <path d="M20 28 C24 25 28 27 32 25 C36 23 40 26 44 24"/>
+          <path d="M18 35 C22 33 27 35 31 33"/>
+          <path d="M40 34 C43 32 47 34 50 31"/>
+          <!-- Brain stem -->
+          <path d="M28 53 C27 57 29 60 32 60 C35 60 37 57 36 53"/>
         </svg>
       </div>
       <h1>Map the Brain</h1>
-      <p>Choose an area to focus on, a round length, or play through everything currently in the question sheet.</p>
+      <p>Choose your difficulty, then pick an area and round length.</p>
 
+      <div style="width:100%;max-width:320px;text-align:left;margin-bottom:6px;">
+        <p style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Difficulty</p>
+      </div>
+      <div class="category-row" id="difficulty-row" style="margin-bottom:20px;">
+        <button class="category-btn active" data-difficulty="all">All</button>
+        <button class="category-btn" data-difficulty="Easy">Easy</button>
+        <button class="category-btn" data-difficulty="Medium">Medium</button>
+        <button class="category-btn" data-difficulty="Hard">Hard</button>
+      </div>
+
+      <div style="width:100%;max-width:320px;text-align:left;margin-bottom:6px;">
+        <p style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Area</p>
+      </div>
       <div class="category-row" id="category-row">
         <button class="category-btn active" data-category="Random">Random Mix</button>
         <button class="category-btn" data-category="Sulci">Sulci</button>
@@ -326,8 +338,8 @@
   </div>
 </div>
 
-<script src="config.js?v=30"></script>
-<script src="script.js?v=30"></script>
+<script src="config.js?v=31"></script>
+<script src="script.js?v=31"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -365,6 +377,7 @@ let current = null;
 let answered = false;
 let correctCount = 0;
 let selectedCategory = 'Random';
+let selectedDifficulty = 'all';
 
 async function loadBank(){
   try{
@@ -387,11 +400,20 @@ async function loadBank(){
 // Returns the question bank filtered to the currently selected category.
 // "Random" means no filtering — mix of everything in the sheet.
 function getFilteredBank(){
-  if(selectedCategory === 'Random') return fullBank;
-  return fullBank.filter(row => {
-    const cat = (findField(row, 'category') || '').trim().toLowerCase();
-    return cat === selectedCategory.toLowerCase();
-  });
+  let bank = fullBank;
+  if(selectedCategory !== 'Random'){
+    bank = bank.filter(row => {
+      const cat = (findField(row,'category') || '').trim().toLowerCase();
+      return cat === selectedCategory.toLowerCase();
+    });
+  }
+  if(selectedDifficulty !== 'all'){
+    bank = bank.filter(row => {
+      const diff = (findField(row,'difficulty') || '').trim().toLowerCase();
+      return diff === selectedDifficulty.toLowerCase();
+    });
+  }
+  return bank;
 }
 
 function updateAllButtonCount(){
@@ -400,9 +422,18 @@ function updateAllButtonCount(){
   if(allBtn) allBtn.textContent = `All questions (${filtered.length})`;
 }
 
-document.querySelectorAll('.category-btn').forEach(btn => {
+document.querySelectorAll('.category-btn[data-difficulty]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.category-btn[data-difficulty]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedDifficulty = btn.dataset.difficulty;
+    updateAllButtonCount();
+  });
+});
+
+document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.category-btn[data-category]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     selectedCategory = btn.dataset.category;
     updateAllButtonCount();

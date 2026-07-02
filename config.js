@@ -23,7 +23,7 @@ window.NEUROLE_CONFIG = {
   // --- Neuroanatomy game ---------------------------------------------
   // Columns expected (header row):
   // id | image_url | choice_a | choice_b | choice_c | choice_d | correct_choice | function_text
-  NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThk7i3yWnqQjI8ZlYFofnESHARrGD5A5jdsQSVQMbmXpg6JL95dEuQO_JnOT5vD8bvtu-Of9OdxsdY/pub?output=csv",
+  NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",
 
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):

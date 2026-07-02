@@ -20,6 +20,12 @@ window.NEUROLE_CONFIG = {
   // date | case_id | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbJCwDphyp0f-ee415a2D85RYkSedwYHl9BpaOto81ZGUtYcUrCJsfhxrTPb28Frsz62ZFGRYLkZBv/pub?output=csv",
 
+  // --- Learn Regions (beginners section on Map the Brain) ---------
+  // Columns expected (header row):
+  // region | function_text | category (optional) | difficulty (optional)
+  // One row per brain region you want shown in the "Learn regions" modal.
+  LEARN_REGIONS_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_LEARN_REGIONS",
+
   // --- Neuroanatomy game ---------------------------------------------
   // Columns expected (header row):
   // id | image_url | choice_a | choice_b | choice_c | choice_d | correct_choice | function_text

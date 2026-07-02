@@ -361,8 +361,16 @@ h2.section-title{
 footer{
   border-top:2px solid var(--ink);
   margin-top:60px;
-  padding:34px 0 26px;
+  padding:34px 0 max(28px, env(safe-area-inset-bottom, 28px));
   background:var(--paper-deep);
+}
+/* Make the overscroll area below the footer (iPhone home bar area)
+   match the footer background exactly instead of showing a gap */
+html{
+  background:var(--paper-deep);
+}
+body{
+  background:var(--paper);
 }
 .social-row{
   display:flex;justify-content:center;gap:26px;margin-bottom:18px;
@@ -387,19 +395,23 @@ footer{
 .page-hero h1{font-family:var(--serif-display);font-size:clamp(34px,5vw,52px);margin:0 0 8px;}
 .page-hero p{color:var(--ink-soft);max-width:640px;margin:0;}
 
-/* Prevent iOS Safari auto-linking / blue coloring on buttons and text */
+/* iOS tap highlight */
 * { -webkit-tap-highlight-color: transparent; }
-a, button { color: inherit; }
+/* Only colorless anchor tags inherit, not styled buttons */
+a:not([class]) { color: inherit; }
 input, textarea, select {
   -webkit-appearance: none;
   color: var(--ink);
 }
-/* iOS Safari treats some text as auto-detectable links in blue — override globally */
-:any-link { color: inherit; }
+:any-link:not(.btn):not(.back-home):not(.play-link) { color: inherit; }
 
 /* Fill the iPhone home-indicator gap at the very bottom */
 footer {
   padding-bottom: max(26px, env(safe-area-inset-bottom, 26px));
+}
+/* iOS Safari safe area for any bottom-fixed elements */
+.chat-fab {
+  bottom: max(26px, calc(env(safe-area-inset-bottom, 0px) + 16px));
 }
 
 .back-home{

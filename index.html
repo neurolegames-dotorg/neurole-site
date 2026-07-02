@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=28">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* Fun fact purple theming */
@@ -64,9 +64,8 @@
 <main class="wrap">
 
   <section style="margin-top:44px;">
-    <div class="section-label">🧬 Weekly Neuroscience Fun Fact</div>
+    <div class="section-label">Weekly Neuroscience Fun Fact</div>
     <div class="factbox" id="fun-fact-box">
-      <span class="fact-icon">🔬</span>
       <p class="fact-text">Loading this week's fact…</p>
       <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">—</a></span>
     </div>
@@ -81,10 +80,9 @@
 
       <div class="game-card">
         <div class="icon">
-          <!-- Clinical cross / medical icon for Daily Case -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue-deep)" stroke-width="1.6">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <path d="M12 7v10M7 12h10"/>
+          <!-- ECG pulse line — clinical, fun, instantly readable as diagnostic -->
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue-deep)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
           </svg>
         </div>
         <span class="tag">Daily · Diagnostic</span>
@@ -95,11 +93,17 @@
 
       <div class="game-card">
         <div class="icon">
-          <!-- Stethoscope icon for Map the Brain -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue)" stroke-width="1.6">
-            <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
-            <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
-            <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
+          <!-- Neuron / synapse icon — playful and scientific -->
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neuro-blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <line x1="12" y1="9" x2="12" y2="3"/>
+            <line x1="12" y1="15" x2="12" y2="21"/>
+            <line x1="9" y1="12" x2="3" y2="12"/>
+            <line x1="15" y1="12" x2="21" y2="12"/>
+            <line x1="9.5" y1="9.5" x2="5" y2="5"/>
+            <line x1="14.5" y1="14.5" x2="19" y2="19"/>
+            <line x1="14.5" y1="9.5" x2="19" y2="5"/>
+            <line x1="9.5" y1="14.5" x2="5" y2="19"/>
           </svg>
         </div>
         <span class="tag">Untimed · Visual</span>
@@ -139,9 +143,9 @@
   </div>
 </div>
 
-<script src="config.js?v=27"></script>
-<script src="games-data.js?v=27"></script>
-<script src="script.js?v=27"></script>
+<script src="config.js?v=28"></script>
+<script src="games-data.js?v=28"></script>
+<script src="script.js?v=28"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

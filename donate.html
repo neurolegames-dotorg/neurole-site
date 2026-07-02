@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Donate — Neurole</title><link rel="stylesheet" href="style.css?v=27"><script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>Donate — Neurole</title><link rel="stylesheet" href="style.css?v=28"><script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <header class="masthead"><div class="masthead-inner">
@@ -35,10 +35,22 @@
 </div></div>
 
 <main class="wrap" style="padding:40px 0 60px;">
-  <div class="panel" style="max-width:480px;">
-    <h3 style="font-family:var(--serif-display);margin-top:0;">Make a gift</h3>
-    <p>Plug your Stripe Payment Link, Donorbox, or PayPal donate button here.</p>
-    <a class="btn" href="#" target="_blank" rel="noopener">Donate now →</a>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:780px;">
+    <div class="panel" style="border-radius:12px;">
+      <h3 style="font-family:var(--serif-display);margin-top:0;">Support Neurole</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px;">Donations keep the games free and help us build new features, commission clinical case reviews, and stay online.</p>
+      <a class="btn" href="#" target="_blank" rel="noopener" style="margin-top:6px;">Donate to Neurole →</a>
+    </div>
+
+    <div class="panel" style="border-radius:12px;border-left:4px solid #0057A8;">
+      <h3 style="font-family:var(--serif-display);margin-top:0;color:#0057A8;">Alzheimer's Association</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px;">Neurological diseases are at the heart of everything we study. The Alzheimer's Association funds research and provides support for those affected worldwide.</p>
+      <a class="btn" href="https://act.alz.org/donate" target="_blank" rel="noopener" style="background:#0057A8;margin-top:6px;">Donate to Alzheimer's Association →</a>
+    </div>
+  </div>
+
+  <div style="max-width:780px;margin-top:28px;">
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-soft);">Neurole is not affiliated with the Alzheimer's Association. The link above goes directly to their official donation page.</p>
   </div>
 </main>
 
@@ -57,7 +69,7 @@
 <div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
 </div></div>
 
-<script src="config.js?v=27"></script><script src="script.js?v=27"></script>
+<script src="config.js?v=28"></script><script src="script.js?v=28"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

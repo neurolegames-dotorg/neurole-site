@@ -3,7 +3,7 @@
    Palette: off-white paper, ink black, neuro blue, synapse teal
 =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
   --paper:#F1F2F4;
@@ -89,12 +89,12 @@ body{padding-top:58px;}
   position:fixed;inset:0;z-index:200;
   background:var(--paper);
   display:flex;flex-direction:column;
-  transform:translateY(-100%);
   opacity:0;
-  transition:transform .32s cubic-bezier(.4,0,.2,1), opacity .28s ease;
+  pointer-events:none;
+  transition:opacity .28s ease;
   overflow-y:auto;
 }
-.mobile-nav-overlay.open{transform:translateY(0);opacity:1;}
+.mobile-nav-overlay.open{opacity:1;pointer-events:auto;}
 
 /* Close button inside the overlay */
 .mobile-nav-close{
@@ -108,7 +108,8 @@ body{padding-top:58px;}
 .mobile-nav-close:hover{background:var(--paper-deep);}
 
 .mobile-nav-brand{
-  font-family:var(--serif-display);font-weight:800;font-size:28px;
+  font-family:'Playfair Display', 'Times New Roman', serif;
+  font-weight:800;font-size:28px;
   color:var(--ink);padding:24px 28px 0;
 }
 .mobile-nav-brand .dot{color:var(--neuro-blue-deep);}
@@ -171,7 +172,7 @@ body{padding-top:58px;}
   border-bottom-color:var(--neuro-blue-deep);
 }
 .brand{
-  font-family:var(--serif-display);
+  font-family:'Playfair Display', 'Times New Roman', serif;
   font-weight:800;
   font-size:30px;
   letter-spacing:.01em;
@@ -213,7 +214,7 @@ body{padding-top:58px;}
   padding-bottom:26px;
 }
 .hero-text h1{
-  font-family:var(--serif-display);
+  font-family:'Playfair Display', 'Times New Roman', serif;
   font-weight:800;
   font-size:clamp(48px,9vw,108px);
   margin:0;
@@ -283,6 +284,7 @@ h2.section-title{
 .game-card{
   background:#fff;
   border:1px solid var(--rule);
+  border-radius:14px;
   padding:30px;
   display:flex;flex-direction:column;gap:14px;
   transition:transform .18s, box-shadow .18s, border-color .18s;

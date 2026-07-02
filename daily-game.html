@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=32">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -302,8 +302,8 @@
   </div>
 </div>
 
-<script src="config.js?v=31"></script>
-<script src="script.js?v=31"></script>
+<script src="config.js?v=32"></script>
+<script src="script.js?v=32"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -552,13 +552,17 @@ function updateStartScreen(){
   }
   const dateLabel = new Date().toLocaleDateString(undefined, {month:'long', day:'numeric', year:'numeric'});
   meta.innerHTML = dateLabel;
-  // Show streak
+  // Always show streak
   const streak = getStreak();
-  if(streak.count >= 1){
-    const fire = streak.count >= 3 ? ' 🔥' : '';
-    streakLabel.textContent = `${streak.count}-day streak${fire}`;
+  if(streak.count >= 3){
+    streakLabel.innerHTML = `🔥 ${streak.count}-day streak`;
+    streakLabel.style.color = '#B84A0A';
+  } else if(streak.count >= 1){
+    streakLabel.innerHTML = `${streak.count}-day streak`;
+    streakLabel.style.color = 'var(--ink-soft)';
   } else {
-    streakLabel.textContent = '';
+    streakLabel.innerHTML = 'No streak yet — play today to start one!';
+    streakLabel.style.color = 'var(--ink-soft)';
   }
 }
 

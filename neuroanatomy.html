@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=32">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
@@ -37,6 +37,16 @@
   .category-btn.active{
     background:linear-gradient(135deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
     border-color:var(--neuro-blue-deep);color:#fff;
+  }
+
+  .beginner-card{
+    background:var(--paper-deep);border-radius:8px;padding:14px 16px;
+  }
+  .beginner-card strong{font-family:var(--serif-display);font-size:15px;color:var(--ink);display:block;margin-bottom:5px;}
+  .beginner-card p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.55;}
+
+  @media(max-width:520px){
+    #beginners-grid{grid-template-columns:1fr !important;}
   }
 
   .difficulty-badge{
@@ -94,6 +104,8 @@
     text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:#fff;
     font-family:var(--serif-body);font-size:15px;transition:background .15s,border-color .15s,transform .1s;
     position:relative;
+    color:var(--ink) !important;
+    -webkit-text-fill-color:var(--ink);
   }
   @media(max-width:480px){
     .choice-btn{font-size:14px;padding:11px 12px 11px 42px;}
@@ -198,15 +210,23 @@
   <div class="start-screen" id="round-setup">
     <div class="start-screen-inner">
       <div class="start-logo">
-        <svg width="60" height="60" viewBox="0 0 64 64" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Cerebrum outline -->
-          <path d="M32 8 C20 8 10 16 10 26 C10 32 13 37 18 40 C18 46 22 52 30 53 C34 54 38 52 40 49 C44 51 50 48 52 43 C56 40 58 35 56 29 C54 21 48 14 40 10 C38 9 35 8 32 8Z"/>
-          <!-- Corpus callosum / gyri lines -->
-          <path d="M20 28 C24 25 28 27 32 25 C36 23 40 26 44 24"/>
-          <path d="M18 35 C22 33 27 35 31 33"/>
-          <path d="M40 34 C43 32 47 34 50 31"/>
+        <svg width="62" height="62" viewBox="0 0 100 100" fill="none" stroke="#8B2635" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Left hemisphere -->
+          <path d="M50 20 C38 18 24 22 18 32 C12 40 14 50 20 58 C24 63 30 66 36 67 C40 68 44 67 47 65 C49 63 50 60 50 57"/>
+          <!-- Left hemisphere gyri -->
+          <path d="M20 38 C24 35 28 37 32 35 C36 33 40 35 44 33"/>
+          <path d="M18 48 C22 46 26 48 30 46 C34 44 38 46 42 44"/>
+          <path d="M22 57 C26 55 30 57 34 55"/>
+          <!-- Right hemisphere -->
+          <path d="M50 20 C62 18 76 22 82 32 C88 40 86 50 80 58 C76 63 70 66 64 67 C60 68 56 67 53 65 C51 63 50 60 50 57"/>
+          <!-- Right hemisphere gyri -->
+          <path d="M80 38 C76 35 72 37 68 35 C64 33 60 35 56 33"/>
+          <path d="M82 48 C78 46 74 48 70 46 C66 44 62 46 58 44"/>
+          <path d="M78 57 C74 55 70 57 66 55"/>
+          <!-- Centre line / interhemispheric fissure -->
+          <line x1="50" y1="20" x2="50" y2="57"/>
           <!-- Brain stem -->
-          <path d="M28 53 C27 57 29 60 32 60 C35 60 37 57 36 53"/>
+          <path d="M44 67 C43 74 44 80 50 82 C56 80 57 74 56 67"/>
         </svg>
       </div>
       <h1>Map the Brain</h1>
@@ -263,6 +283,48 @@
       <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
     </div>
   </div>
+
+  <!-- Beginners learn section — always visible at the bottom of the game shell -->
+  <div id="beginners-section" class="panel" style="margin-top:40px;border-radius:12px;border-left:5px solid var(--neuro-blue-deep);">
+    <h3 style="font-family:var(--serif-display);margin-top:0;font-size:20px;">New to neuroanatomy?</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin-bottom:20px;">Before diving into the full game, familiarize yourself with these critical brain regions and what they do.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="beginners-grid">
+      <div class="beginner-card">
+        <strong>Frontal Lobe</strong>
+        <p>Controls decision-making, planning, personality, and voluntary movement. Home to Broca's area for speech.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Temporal Lobe</strong>
+        <p>Processes sound and language. Contains the hippocampus (memory) and amygdala (emotion).</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Parietal Lobe</strong>
+        <p>Integrates sensory information — touch, temperature, pain, and spatial awareness.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Occipital Lobe</strong>
+        <p>Primary visual processing center. Interprets what your eyes see into recognizable images.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Cerebellum</strong>
+        <p>Coordinates voluntary movement, balance, and motor learning. Essential for smooth, precise actions.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Hippocampus</strong>
+        <p>Critical for forming new memories and spatial navigation. One of the first areas affected in Alzheimer's.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Amygdala</strong>
+        <p>Processes emotional responses — especially fear and threat detection. Key to emotional memory formation.</p>
+      </div>
+      <div class="beginner-card">
+        <strong>Corpus Callosum</strong>
+        <p>A thick band of nerve fibers connecting the left and right hemispheres, enabling them to communicate.</p>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;">Feel ready? Pick your difficulty above and start mapping. 🧠</p>
+  </div>
+
 </main>
 
 <div class="modal-backdrop" id="neuro-result-modal">
@@ -338,8 +400,8 @@
   </div>
 </div>
 
-<script src="config.js?v=31"></script>
-<script src="script.js?v=31"></script>
+<script src="config.js?v=32"></script>
+<script src="script.js?v=32"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

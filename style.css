@@ -382,10 +382,25 @@ footer{
 
 /* generic page header for sub-pages */
 .page-hero{
-  padding:54px 0 30px;border-bottom:1px solid var(--rule);
+  padding:80px 0 30px;border-bottom:1px solid var(--rule);
 }
 .page-hero h1{font-family:var(--serif-display);font-size:clamp(34px,5vw,52px);margin:0 0 8px;}
 .page-hero p{color:var(--ink-soft);max-width:640px;margin:0;}
+
+/* Prevent iOS Safari auto-linking / blue coloring on buttons and text */
+* { -webkit-tap-highlight-color: transparent; }
+a, button { color: inherit; }
+input, textarea, select {
+  -webkit-appearance: none;
+  color: var(--ink);
+}
+/* iOS Safari treats some text as auto-detectable links in blue — override globally */
+:any-link { color: inherit; }
+
+/* Fill the iPhone home-indicator gap at the very bottom */
+footer {
+  padding-bottom: max(26px, env(safe-area-inset-bottom, 26px));
+}
 
 .back-home{
   display:inline-flex;align-items:center;gap:7px;

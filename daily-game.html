@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -17,11 +17,8 @@
   }
   .start-screen-inner{max-width:420px;display:flex;flex-direction:column;align-items:center;}
   .start-logo{
-    width:72px;height:72px;border-radius:50%;
-    background:linear-gradient(135deg, var(--neuro-blue-bright), var(--plum));
     display:flex;align-items:center;justify-content:center;
     margin-bottom:22px;
-    box-shadow:0 8px 22px rgba(0,0,0,.14);
   }
   .start-screen h1{
     font-family:var(--serif-display);font-size:38px;margin:0 0 14px;
@@ -187,7 +184,7 @@
   <div class="start-screen" id="start-screen">
     <div class="start-screen-inner">
       <div class="start-logo">
-        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
         </svg>
       </div>
@@ -202,6 +199,7 @@
   </div>
 
   <div id="game-content" style="display:none;">
+    <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:6px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
     <div class="case-card">
       <div class="case-meta">
         <span id="case-date">—</span>
@@ -303,8 +301,8 @@
   </div>
 </div>
 
-<script src="config.js?v=29"></script>
-<script src="script.js?v=29"></script>
+<script src="config.js?v=30"></script>
+<script src="script.js?v=30"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -484,6 +482,17 @@ async function loadCase(){
     }
 
     chosen = match ? match.row : null;
+
+    // Surface the "no entry for today" situation visibly in the UI,
+    // not just the console, so it's obvious what's missing
+    if(!match && dated.length){
+      const latestKey = dated.sort((a,b)=>b.key.localeCompare(a.key))[0].key;
+      const banner = document.getElementById('sheet-warning-banner');
+      if(banner){
+        banner.textContent = `ℹ️ No case is scheduled for today (${todayKey}) in your sheet — showing ${latestKey} instead. Add a row with today's date to update.`;
+        banner.style.display = 'block';
+      }
+    }
 
     if(chosen){
       state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n)).filter(Boolean);

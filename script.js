@@ -322,6 +322,25 @@ function renderGoogleSignIn(containerId, onSignedIn){
   google.accounts.id.renderButton(container, { theme: 'outline', size: 'large', shape: 'pill', width: 280 });
 }
 
+// ---------- Scroll-driven purple background tint ----------
+// Fades in only as the user scrolls toward the bottom of the page.
+function initScrollPurple(){
+  function applyTint(){
+    const scrolled = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    if(maxScroll <= 0) return;
+    // Only start fading in after the user has scrolled 60% of the page
+    const progress = Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
+    // Interpolate from white (#F8F9FA) toward a soft purple (#EBE4F5)
+    const r = Math.round(248 - progress * 19); // 248 → 229
+    const g = Math.round(249 - progress * 29); // 249 → 220
+    const b = Math.round(250 - progress * 5);  // 250 → 245
+    document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+  }
+  window.addEventListener('scroll', applyTint, {passive:true});
+  applyTint();
+}
+
 // ---------- Masthead hide-on-scroll-down, show-on-scroll-up ----------
 function initScrollHeader(){
   const mast = document.querySelector('.masthead');
@@ -349,5 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
   initMobileNav();
   initScrollHeader();
+  initScrollPurple();
   loadFunFact();
 });

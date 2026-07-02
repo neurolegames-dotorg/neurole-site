@@ -67,10 +67,12 @@ function initMobileNav(){
 
   function closeMobileNav(){
     nav.classList.remove('mobile-open');
+    btn.classList.remove('is-open');
     if(backdrop) backdrop.classList.remove('open');
   }
   function toggleMobileNav(){
     const isOpen = nav.classList.toggle('mobile-open');
+    btn.classList.toggle('is-open', isOpen);
     if(backdrop) backdrop.classList.toggle('open', isOpen);
   }
 
@@ -114,16 +116,27 @@ async function loadFunFact(){
       throw new Error('no usable rows (fact column empty/missing on every row)');
     }
 
-    // Prefer the most recent row whose week_start is today or earlier;
-    // if no dates parse validly, just use the last row added.
-    const today = new Date();
+    // Use normalized YYYY-MM-DD strings for comparison to avoid timezone/midnight bugs.
+    const todayKey = (() => {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    })();
+
     let best = usableRows[usableRows.length - 1];
     let foundDated = false;
     usableRows.forEach(r => {
-      const d = new Date(findField(r,'week_start'));
-      if(!isNaN(d) && d <= today){ best = r; foundDated = true; }
+      const raw = findField(r,'week_start') || '';
+      // Normalize: accept "YYYY-MM-DD", "M/D/YYYY", "MM/DD/YYYY"
+      let key = '';
+      let m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if(m) key = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+      else {
+        m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if(m) key = `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+      }
+      if(key && key <= todayKey){ best = r; foundDated = true; }
     });
-    console.log("Neurole: fun fact row selected ->", best, foundDated ? "(matched by week_start)" : "(no valid week_start found — used most recent row instead)");
+    console.log("Neurole: fun fact row selected ->", best, foundDated ? "(matched by week_start)" : "(no valid week_start found — used most recent row)");
 
     el.querySelector('.fact-text').textContent = findField(best,'fact');
 

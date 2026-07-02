@@ -3,77 +3,119 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=23">
+<link rel="stylesheet" href="style.css?v=25">
 <style>
-  .game-shell{max-width:680px;margin:0 auto;padding:46px 0 90px;}
+  .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
   .start-screen{
     position:fixed;inset:0;z-index:200;
     background:var(--paper);
     width:100%;height:100%;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:24px;
-    text-align:center;
+    padding:24px;text-align:center;
   }
   .start-screen-inner{max-width:420px;display:flex;flex-direction:column;align-items:center;}
   .start-logo{
     width:72px;height:72px;border-radius:50%;
     background:linear-gradient(135deg, var(--neuro-blue-bright), var(--plum));
     display:flex;align-items:center;justify-content:center;
-    margin-bottom:22px;
-    box-shadow:0 8px 22px rgba(0,0,0,.14);
+    margin-bottom:22px;box-shadow:0 8px 22px rgba(0,0,0,.14);
   }
-  .start-screen h1{
-    font-family:var(--serif-display);font-size:38px;margin:0 0 14px;
-  }
-  .start-screen p{
-    color:var(--ink-soft);font-size:16px;margin:0 0 28px;max-width:320px;
-  }
+  .start-screen h1{font-family:var(--serif-display);font-size:38px;margin:0 0 14px;}
+  .start-screen p{color:var(--ink-soft);font-size:16px;margin:0 0 28px;max-width:320px;}
   .start-actions{display:flex;gap:14px;margin-bottom:30px;}
   .start-actions .btn{padding:13px 34px;font-size:13px;}
-  .start-actions-stacked{
-    flex-direction:column;width:100%;max-width:280px;gap:12px;
-  }
+  .start-actions-stacked{flex-direction:column;width:100%;max-width:280px;gap:12px;}
   .start-actions-stacked .btn{width:100%;justify-content:center;padding:14px 20px;}
+
+  .category-row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-bottom:26px;}
+  .category-btn{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+    padding:9px 16px;border-radius:20px;
+    border:1.5px solid var(--rule);background:#fff;color:var(--ink-soft);
+    cursor:pointer;transition:all .15s;
+  }
+  .category-btn:hover{border-color:var(--neuro-blue);}
+  .category-btn.active{
+    background:linear-gradient(135deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
+    border-color:var(--neuro-blue-deep);color:#fff;
+  }
+
+  .difficulty-badge{
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    padding:4px 11px;border-radius:20px;border:1px solid var(--rule);
+  }
+  .difficulty-badge.easy{color:#3D7A57;background:rgba(61,122,87,0.08);border-color:rgba(61,122,87,0.3);}
+  .difficulty-badge.medium{color:#9C6F1E;background:rgba(156,111,30,0.08);border-color:rgba(156,111,30,0.3);}
+  .difficulty-badge.hard{color:var(--signal-red);background:rgba(168,68,58,0.08);border-color:rgba(168,68,58,0.3);}
+
+
+  .game-stats-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:14px;flex-wrap:wrap;gap:8px;
+  }
+  .game-stats-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+  /* More compact start screen on small phones */
+  @media(max-width:480px){
+    .start-screen h1{font-size:28px;}
+    .start-screen p{font-size:14px;margin-bottom:20px;}
+    .start-logo{width:56px;height:56px;margin-bottom:16px;}
+  }
+
+  /* Mobile-friendly specimen image — shorter on small screens */
   .specimen{
     background:#fff;
     border:1px solid var(--rule);
-    padding:22px;margin-bottom:26px;
+    padding:14px;margin-bottom:16px;
     position:relative;
   }
   .specimen::before{
     content:'';position:absolute;top:0;left:0;right:0;height:4px;
     background:linear-gradient(90deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
   }
-  .specimen img{width:100%;max-height:340px;object-fit:contain;background:var(--paper-deep);}
-  .specimen .cap{
-    font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-align:center;
-    margin-top:10px;letter-spacing:.08em;text-transform:uppercase;
+  .specimen img{
+    width:100%;
+    max-height:240px;
+    object-fit:contain;
+    background:var(--paper-deep);
+    display:block;
   }
-  .choices{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media(max-width:480px){
+    .specimen img{max-height:180px;}
+    .specimen{padding:10px;}
+  }
+  .specimen .cap{
+    font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-align:center;
+    margin-top:8px;letter-spacing:.08em;text-transform:uppercase;
+  }
+
+  /* Answer choices — more compact on phone */
+  .choices{display:grid;grid-template-columns:1fr;gap:9px;}
   .choice-btn{
-    text-align:left;padding:16px 18px 16px 52px;border:1.5px solid var(--rule);background:#fff;
-    font-family:var(--serif-body);font-size:16px;transition:background .15s,border-color .15s,transform .1s;
+    text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:#fff;
+    font-family:var(--serif-body);font-size:15px;transition:background .15s,border-color .15s,transform .1s;
     position:relative;
+  }
+  @media(max-width:480px){
+    .choice-btn{font-size:14px;padding:11px 12px 11px 42px;}
   }
   .choice-btn::before{
     content:attr(data-letter);
-    position:absolute;left:16px;top:50%;transform:translateY(-50%);
-    width:26px;height:26px;border-radius:50%;
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    width:24px;height:24px;border-radius:50%;
     background:var(--paper-deep);border:1.5px solid var(--rule);
-    color:var(--ink-soft);font-family:var(--mono);font-size:12px;font-weight:600;
+    color:var(--ink-soft);font-family:var(--mono);font-size:11px;font-weight:600;
     display:flex;align-items:center;justify-content:center;
   }
   .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
-  .choice-btn.correct{
-    background:#E7F1EC;
-    border-color:#5C8C72;
-  }
+  .choice-btn.correct{background:#E7F1EC;border-color:#5C8C72;}
   .choice-btn.correct::before{background:#5C8C72;border-color:#5C8C72;color:#fff;}
   .choice-btn.incorrect{background:#F5E4E1;border-color:var(--signal-red);}
   .choice-btn.incorrect::before{background:var(--signal-red);border-color:var(--signal-red);color:#fff;}
   .choice-btn:disabled{cursor:default;}
-  .next-row{display:flex;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap;gap:10px;}
+
+  .next-row{display:flex;justify-content:flex-end;margin-top:18px;}
   .score-tag{
     font-family:var(--mono);font-size:12px;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;
     background:var(--paper-deep);border:1px solid var(--rule);
@@ -153,7 +195,15 @@
         </svg>
       </div>
       <h1>Map the Brain</h1>
-      <p>Choose a round length, or play through everything currently in the question sheet.</p>
+      <p>Choose an area to focus on, a round length, or play through everything currently in the question sheet.</p>
+
+      <div class="category-row" id="category-row">
+        <button class="category-btn active" data-category="Random">Random Mix</button>
+        <button class="category-btn" data-category="Sulci">Sulci</button>
+        <button class="category-btn" data-category="Gyri">Gyri</button>
+        <button class="category-btn" data-category="Cortex">Cortices</button>
+      </div>
+
       <div class="start-actions start-actions-stacked">
         <button class="btn round-choice" data-count="10">10 questions</button>
         <button class="btn round-choice" data-count="25">25 questions</button>
@@ -163,6 +213,15 @@
   </div>
 
   <div id="game-play" style="display:none;">
+
+    <div class="game-stats-bar">
+      <div class="game-stats-left">
+        <span class="score-tag" id="score-tag">Question 1 of 10</span>
+        <span class="score-pill" id="score-pill">Score: 0/0</span>
+      </div>
+      <span class="difficulty-badge" id="difficulty-badge" style="display:none;">—</span>
+    </div>
+
     <div class="specimen">
       <img id="specimen-img" src="" alt="Brain region to identify"
            onerror="console.error('Neurole: this image_url failed to load ->', this.src);"
@@ -173,8 +232,6 @@
     <div class="choices" id="choices"></div>
 
     <div class="next-row">
-      <span class="score-tag" id="score-tag">Question 1 of 10</span>
-      <span class="score-pill" id="score-pill">Score: 0/0</span>
       <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
     </div>
   </div>
@@ -253,8 +310,8 @@
   </div>
 </div>
 
-<script src="config.js?v=23"></script>
-<script src="script.js?v=23"></script>
+<script src="config.js?v=25"></script>
+<script src="script.js?v=25"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -266,19 +323,22 @@ const FALLBACK_QUESTIONS = [
     image_url: "assets/neuron-hero.webp",
     choice_a: "Hippocampus", choice_b: "Amygdala", choice_c: "Cerebellum", choice_d: "Thalamus",
     correct_choice: "C",
-    function_text: "The cerebellum coordinates voluntary movement, balance, and motor learning, fine-tuning timing and precision of muscle activity."
+    function_text: "The cerebellum coordinates voluntary movement, balance, and motor learning, fine-tuning timing and precision of muscle activity.",
+    category: "Random", difficulty: "Easy"
   },
   {
     image_url: "assets/neuron-hero.webp",
     choice_a: "Broca's area", choice_b: "Occipital lobe", choice_c: "Hypothalamus", choice_d: "Basal ganglia",
     correct_choice: "B",
-    function_text: "The occipital lobe is the brain's primary visual processing center, interpreting signals from the eyes into images."
+    function_text: "The occipital lobe is the brain's primary visual processing center, interpreting signals from the eyes into images.",
+    category: "Gyri", difficulty: "Medium"
   },
   {
     image_url: "assets/neuron-hero.webp",
     choice_a: "Amygdala", choice_b: "Corpus callosum", choice_c: "Medulla oblongata", choice_d: "Frontal lobe",
     correct_choice: "A",
-    function_text: "The amygdala processes emotional salience, especially fear and threat detection, and helps form emotional memories."
+    function_text: "The amygdala processes emotional salience, especially fear and threat detection, and helps form emotional memories.",
+    category: "Cortex", difficulty: "Hard"
   }
 ];
 
@@ -288,6 +348,7 @@ let qIndex = 0;
 let current = null;
 let answered = false;
 let correctCount = 0;
+let selectedCategory = 'Random';
 
 async function loadBank(){
   try{
@@ -304,17 +365,47 @@ async function loadBank(){
     console.error("Neurole: couldn't load Neuroanatomy sheet —", err.message);
     fullBank = FALLBACK_QUESTIONS;
   }
-  // Update the "All questions" button to show the real count once known
-  const allBtn = document.querySelector('.round-choice[data-count="all"]');
-  if(allBtn) allBtn.textContent = `All questions (${fullBank.length})`;
+  updateAllButtonCount();
 }
 
-function startRound(countOption){
-  const total = countOption === 'all'
-    ? fullBank.length
-    : Math.min(parseInt(countOption, 10), fullBank.length);
+// Returns the question bank filtered to the currently selected category.
+// "Random" means no filtering — mix of everything in the sheet.
+function getFilteredBank(){
+  if(selectedCategory === 'Random') return fullBank;
+  return fullBank.filter(row => {
+    const cat = (findField(row, 'category') || '').trim().toLowerCase();
+    return cat === selectedCategory.toLowerCase();
+  });
+}
 
-  qBank = shuffle(fullBank).slice(0, total);
+function updateAllButtonCount(){
+  const allBtn = document.querySelector('.round-choice[data-count="all"]');
+  const filtered = getFilteredBank();
+  if(allBtn) allBtn.textContent = `All questions (${filtered.length})`;
+}
+
+document.querySelectorAll('.category-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedCategory = btn.dataset.category;
+    updateAllButtonCount();
+  });
+});
+
+function startRound(countOption){
+  const bank = getFilteredBank();
+
+  if(!bank.length){
+    alert(`No questions found for "${selectedCategory}" yet — add some to your sheet's category column, or pick Random Mix.`);
+    return;
+  }
+
+  const total = countOption === 'all'
+    ? bank.length
+    : Math.min(parseInt(countOption, 10), bank.length);
+
+  qBank = shuffle(bank).slice(0, total);
   qIndex = 0;
   correctCount = 0;
 
@@ -349,6 +440,16 @@ function showQuestion(){
   document.getElementById('specimen-img').src = findField(current,'image_url');
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
+
+  const diffBadge = document.getElementById('difficulty-badge');
+  const difficulty = (findField(current,'difficulty') || '').trim();
+  if(difficulty){
+    diffBadge.textContent = difficulty;
+    diffBadge.className = 'difficulty-badge ' + difficulty.toLowerCase();
+    diffBadge.style.display = 'inline-block';
+  } else {
+    diffBadge.style.display = 'none';
+  }
   document.getElementById('next-btn').style.display = 'none';
   document.getElementById('learn-fab').classList.remove('show');
   document.getElementById('learn-backdrop').classList.remove('open');

@@ -63,46 +63,74 @@ button{font-family:inherit;cursor:pointer;}
 .hamburger-btn{
   display:none;
   background:none;border:none;
-  width:36px;height:30px;
-  flex-direction:column;justify-content:center;gap:5px;
-  cursor:pointer;
-  padding:0;
+  width:40px;height:40px;
+  flex-direction:column;justify-content:center;align-items:center;gap:5px;
+  cursor:pointer;padding:0;border-radius:6px;
+  transition:background .15s;
 }
+.hamburger-btn:hover{background:var(--paper-deep);}
 .hamburger-btn span{
-  display:block;height:2px;width:100%;background:var(--ink);
+  display:block;height:2px;width:22px;
+  background:var(--ink);border-radius:2px;
+  transition:transform .3s ease, opacity .3s ease;
+  transform-origin:center;
 }
 
-/* Phones only — iPad/tablet and up keep the normal full nav bar */
+/* Animate hamburger to X when open */
+.hamburger-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger-btn.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* Phones only */
 @media (max-width:600px){
   .hamburger-btn{display:flex;}
   .nav-left{
-    display:none;
+    display:grid;
+    grid-template-rows:0fr;
+    overflow:hidden;
     flex-direction:column;
     align-items:stretch;
     gap:0;
     position:absolute;
     top:100%;left:0;right:0;
     background:var(--paper);
-    border-bottom:2px solid var(--ink);
-    padding:6px 0;
+    border-bottom:0px solid var(--ink);
     z-index:60;
+    transition:grid-template-rows .3s ease, border-bottom-width .3s ease;
   }
-  .nav-left.mobile-open{display:flex;}
+  .nav-left > *{min-height:0;overflow:hidden;}
+  .nav-left.mobile-open{
+    grid-template-rows:1fr;
+    border-bottom:2px solid var(--ink);
+  }
   .nav-left a, .nav-left button.linklike{
     width:100%;
-    padding:11px 28px;
+    padding:15px 28px;
     border-bottom:1px solid var(--rule);
     box-sizing:border-box;
+    font-size:14px;
+    letter-spacing:.05em;
   }
   .nav-left a:last-child, .nav-left button.linklike:last-child{border-bottom:none;}
+  .nav-left a:hover, .nav-left button.linklike:hover{
+    background:var(--paper-deep);
+    color:var(--neuro-blue-deep);
+    border-bottom-color:var(--rule);
+  }
 }
+
 .mobile-nav-backdrop{
   display:none;
   position:fixed;inset:0;top:0;
   background:rgba(20,18,22,0.45);
   z-index:55;
+  opacity:0;
+  transition:opacity .3s ease;
 }
-.mobile-nav-backdrop.open{display:block;}
+.mobile-nav-backdrop.open{
+  display:block;
+  opacity:1;
+}
 .nav-left a, .nav-left button.linklike{
   font-family:var(--mono);
   font-size:12.5px;

@@ -322,8 +322,32 @@ function renderGoogleSignIn(containerId, onSignedIn){
   google.accounts.id.renderButton(container, { theme: 'outline', size: 'large', shape: 'pill', width: 280 });
 }
 
+// ---------- Masthead hide-on-scroll-down, show-on-scroll-up ----------
+function initScrollHeader(){
+  const mast = document.querySelector('.masthead');
+  if(!mast) return;
+  let lastY = window.scrollY;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if(y > lastY && y > 80){
+          mast.classList.add('hide');
+        } else {
+          mast.classList.remove('hide');
+        }
+        lastY = y;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
   initMobileNav();
+  initScrollHeader();
   loadFunFact();
 });

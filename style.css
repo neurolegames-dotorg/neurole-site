@@ -3,7 +3,7 @@
    Palette: off-white paper, ink black, neuro blue, synapse teal
 =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
   --paper:#F1F2F4;
@@ -20,8 +20,8 @@
   --gold:#B68A3A;
   --paper-rgb:241,242,244;
 
-  --serif-display:'Playfair Display', 'Times New Roman', serif;
-  --serif-body:'Lora', Georgia, serif;
+  --serif-display:'Libre Baskerville', Georgia, serif;
+  --serif-body:'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
   --mono:'IBM Plex Mono', monospace;
 
   --max-w:1180px;
@@ -48,9 +48,13 @@ button{font-family:inherit;cursor:pointer;}
 .masthead{
   border-bottom:2px solid var(--ink);
   background:var(--paper);
-  position:sticky;top:0;z-index:50;
+  position:fixed;top:0;left:0;right:0;z-index:50;
   margin:0 !important;
+  transition:transform .3s ease;
 }
+.masthead.hide{transform:translateY(-100%);}
+/* Offset body so content doesn't hide behind fixed header */
+body{padding-top:58px;}
 .masthead-inner{
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 28px;max-width:var(--max-w);margin:0 auto;
@@ -85,11 +89,12 @@ button{font-family:inherit;cursor:pointer;}
   position:fixed;inset:0;z-index:200;
   background:var(--paper);
   display:flex;flex-direction:column;
-  transform:translateX(-100%);
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .32s cubic-bezier(.4,0,.2,1), opacity .28s ease;
   overflow-y:auto;
 }
-.mobile-nav-overlay.open{transform:translateX(0);}
+.mobile-nav-overlay.open{transform:translateY(0);opacity:1;}
 
 /* Close button inside the overlay */
 .mobile-nav-close{

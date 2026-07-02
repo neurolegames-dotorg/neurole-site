@@ -36,14 +36,16 @@ const GAMES_DATA = [
 
 /* ---------- icon library ---------- */
 const GAME_ICONS = {
+  // Medical/clinical cross icon — Daily Case
   stethoscope: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5C4480" stroke-width="1.6">
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <path d="M12 7v10M7 12h10"/>
+    </svg>`,
+  // Stethoscope / neuron icon — Map the Brain
+  brain: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
       <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
       <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
       <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
-    </svg>`,
-  brain: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
-      <path d="M12 3c-3.5 0-5 2.4-5 5 0 1.2.5 2 1 2.6C7 11.3 6 12.6 6 14.5 6 17.5 8.3 20 12 20s6-2.5 6-5.5c0-1.9-1-3.2-2-3.9.5-.6 1-1.4 1-2.6 0-2.6-1.5-5-5-5Z"/>
-      <path d="M12 7v10M9 11h6"/>
     </svg>`
 };
 

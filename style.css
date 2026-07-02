@@ -439,6 +439,7 @@ footer {
 .modal{
   background:var(--paper);max-width:480px;width:100%;
   border:2px solid var(--ink);padding:30px;position:relative;
+  max-height:88vh;overflow-y:auto;
 }
 .modal h3{font-family:var(--serif-display);margin-top:0;}
 .modal .close{

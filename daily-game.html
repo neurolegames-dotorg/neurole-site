@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=34">
+<link rel="stylesheet" href="style.css?v=35">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -293,7 +293,7 @@
 </footer>
 
 <div class="modal-backdrop" id="signin-modal">
-  <div class="modal">
+  <div class="modal" style="max-height:85vh;overflow-y:auto;">
     <button class="close" data-close>✕</button>
     <h3>Sign in to Neurole</h3>
     <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
@@ -302,8 +302,12 @@
 </div>
 
 <div class="modal-backdrop" id="result-modal">
-  <div class="modal">
+  <div class="modal" style="max-height:85vh;overflow-y:auto;">
     <button class="close-left" id="result-modal-close">✕</button>
+    <a href="index.html" style="position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;display:flex;align-items:center;gap:5px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Home
+    </a>
     <div class="result-headline">
       <div class="result-logo">Neurole<span class="dot">.</span></div>
       <h3 id="result-headline-text">Result</h3>
@@ -324,8 +328,8 @@
   </div>
 </div>
 
-<script src="config.js?v=34"></script>
-<script src="script.js?v=34"></script>
+<script src="config.js?v=35"></script>
+<script src="script.js?v=35"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -478,44 +482,74 @@ async function loadCase(){
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV);
     const todayKey = todayStr();
 
-    const dated = rows
+    // Log EVERYTHING about the first row so we can see exact column names
+    if(rows.length){
+      console.log("Neurole: sheet loaded. Row count:", rows.length, "| Today (ET):", todayKey);
+      console.log("Neurole: column headers found:", Object.keys(rows[0]));
+      console.log("Neurole: first row full data:", rows[0]);
+    } else {
+      console.warn("Neurole: sheet loaded but returned 0 rows — check that the published CSV link points to the correct tab.");
+    }
+
+    // Brute-force: scan EVERY column of EVERY row for anything that looks like a date
+    // matching today. This handles misnamed columns, extra spaces, weird casing, etc.
+    function rowContainsDateKey(row, targetKey){
+      for(const col in row){
+        const normalised = normalizeDateStr(row[col]);
+        if(normalised === targetKey) return true;
+      }
+      return false;
+    }
+
+    // Try findField('date') first (the expected column name)
+    let dated = rows
       .map(r => ({ row: r, key: normalizeDateStr(findField(r,'date')) }))
-      .filter(x => x.key); // drop rows with no parseable date
+      .filter(x => x.key);
+
+    // If that found nothing, brute-force every column
+    if(!dated.length){
+      console.warn(
+        "Neurole: 'date' column not found or empty. Scanning all columns for date-like values. " +
+        "Please name the date column exactly 'date' in your sheet to avoid this fallback."
+      );
+      dated = rows.flatMap(r => {
+        for(const col in r){
+          const k = normalizeDateStr(r[col]);
+          if(k) return [{ row: r, key: k }];
+        }
+        return [];
+      });
+    }
+
+    console.log("Neurole: parsed dates from sheet:", dated.map(x=>x.key).slice(0,10));
 
     // 1) exact match for today
     let match = dated.find(x => x.key === todayKey);
 
-    // 2) no exact match? use the most recent row dated today or earlier,
-    //    so the game still shows YOUR real sheet content instead of
-    //    silently dropping to generic placeholder cases.
+    // 2) most recent past row if no exact match
     if(!match){
       const past = dated.filter(x => x.key <= todayKey).sort((a,b) => b.key.localeCompare(a.key));
       if(past.length){
         match = past[0];
         console.warn(
-          "Neurole: no row in your sheet is dated exactly today (" + todayKey + "). " +
-          "Showing the most recent earlier case instead (dated " + match.key + "). " +
-          "Add a row dated " + todayKey + " to your sheet to show a fresh case today."
+          "Neurole: no row dated exactly today (" + todayKey + "). " +
+          "Showing most recent past case (dated " + match.key + "). " +
+          "Add a row dated " + todayKey + " to show today's case."
         );
       }
     }
 
     if(!match){
-      console.warn(
-        "Neurole: no row in your sheet is dated today or earlier (today is " + todayKey + "). " +
-        "Dates found in your sheet:", dated.map(x => x.key)
-      );
+      console.warn("Neurole: no usable dated rows found at all. Dates parsed:", dated.map(x=>x.key));
     }
 
     chosen = match ? match.row : null;
 
-    // Surface the "no entry for today" situation visibly in the UI,
-    // not just the console, so it's obvious what's missing
     if(!match && dated.length){
       const latestKey = dated.sort((a,b)=>b.key.localeCompare(a.key))[0].key;
       const banner = document.getElementById('sheet-warning-banner');
       if(banner){
-        banner.textContent = `ℹ️ No case is scheduled for today (${todayKey}) in your sheet — showing ${latestKey} instead. Add a row with today's date to update.`;
+        banner.textContent = `ℹ️ No case found for today (${todayKey}) — showing ${latestKey} instead. Check that your 'date' column header is spelled exactly 'date' and the dates are in YYYY-MM-DD or M/D/YYYY format.`;
         banner.style.display = 'block';
       }
     }

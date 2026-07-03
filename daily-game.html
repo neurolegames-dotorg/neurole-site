@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=38">
+<link rel="stylesheet" href="style.css?v=39">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -177,13 +177,7 @@
 
 <header class="masthead">
   <div class="masthead-inner">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <a class="back-home" href="index.html" style="margin-bottom:0;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Home
-      </a>
-      <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
-    </div>
+    <div class="brand"><a href="index.html">Neurole<span class="dot">.</span></a></div>
     <nav class="nav-left">
       <a href="contact.html">Contact Us</a>
       <a href="volunteer.html">Volunteer</a>
@@ -209,6 +203,10 @@
 
 <div class="page-hero">
   <div class="wrap">
+    <a class="back-home" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to home
+    </a>
     <h1>The Daily Case</h1>
     <p>A new patient, every day. Read the chart, type your diagnosis. You get five attempts — each wrong guess reveals one more symptom.</p>
   </div>
@@ -317,12 +315,14 @@
 </div>
 
 <div class="modal-backdrop" id="result-modal">
-  <div class="modal" style="max-height:85vh;overflow-y:auto;">
-    <button class="close-left" id="result-modal-close">✕</button>
-    <a href="index.html" style="position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;display:flex;align-items:center;gap:5px;">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-      Home
-    </a>
+  <div class="modal" style="max-height:85vh;overflow-y:auto;padding-top:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid var(--rule);padding-bottom:14px;">
+      <button id="result-modal-close" style="background:none;border:1.5px solid var(--rule);border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);cursor:pointer;padding:6px 12px;letter-spacing:.04em;">✕ Close</button>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;background:var(--neuro-blue-deep);color:#fff;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;padding:7px 14px;border-radius:6px;font-weight:600;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        Home
+      </a>
+    </div>
     <div class="result-headline">
       <div class="result-logo">Neurole<span class="dot">.</span></div>
       <h3 id="result-headline-text">Result</h3>
@@ -339,12 +339,13 @@
 
     <div class="modal-actions">
       <a class="btn" href="neuroanatomy.html">Try Map the Brain →</a>
+      <a class="btn ghost" href="index.html">← Home</a>
     </div>
   </div>
 </div>
 
-<script src="config.js?v=38"></script>
-<script src="script.js?v=38"></script>
+<script src="config.js?v=39"></script>
+<script src="script.js?v=39"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -509,7 +510,7 @@ async function loadCase(){
     // normalizeDateStr handles multiple formats → YYYY-MM-DD
     const dated = rows
       .map(r => {
-        const raw = findField(r, 'Date') || findField(r, 'date') || '';
+        const raw = findField(r, 'Date') || findField(r, 'date') || findField(r, 'DATE') || '';
         return { row: r, key: normalizeDateStr(raw) };
       })
       .filter(x => x.key); // drop rows with no parseable date

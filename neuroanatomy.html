@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=38">
+<link rel="stylesheet" href="style.css?v=39">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
@@ -37,6 +37,32 @@
   .category-btn.active{
     background:linear-gradient(135deg, var(--neuro-blue-bright), var(--neuro-blue-deep));
     border-color:var(--neuro-blue-deep);color:#fff;
+  }
+
+
+  .learn-tab-toggle{
+    width:100%;display:flex;justify-content:space-between;align-items:center;
+    background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:8px;
+    padding:12px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+    text-align:left;cursor:pointer;transition:background .15s;
+  }
+  .learn-tab-toggle:hover,.learn-tab-toggle[aria-expanded="true"]{
+    background:#fff;border-color:var(--neuro-blue);
+  }
+  .learn-tab-arrow{font-size:14px;transition:transform .2s;}
+  .learn-tab-toggle[aria-expanded="true"] .learn-tab-arrow{transform:rotate(180deg);}
+  .learn-tab-body{width:100%;}
+
+  /* Remove game box when screen is full-width (tablet/phone) */
+  @media(max-width:720px){
+    .specimen{border:none;padding:10px 0;background:transparent;}
+    .specimen::before{display:none;}
+    .game-shell{padding:8px 4px 80px;}
+  }
+  @media(max-width:480px){
+    .start-screen h1{font-size:30px;}
+    #learn-regions-grid{grid-template-columns:1fr !important;}
+    #neuropsych-tab-body > div{grid-template-columns:1fr !important;}
   }
 
   .beginner-card{
@@ -229,7 +255,7 @@
         </svg>
       </div>
       <h1>Map the Brain</h1>
-      <p>Choose your difficulty, then pick an area and round length.</p>
+
 
       <!-- Difficulty -->
       <div style="width:100%;text-align:left;margin-bottom:6px;">
@@ -264,14 +290,40 @@
       <!-- Divider -->
       <div class="synapse-rule" style="width:100%;margin:22px 0 16px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
 
-      <!-- Learn regions + Neuropsychology section links -->
+      <!-- Inline expandable tabs -->
       <div style="width:100%;display:flex;flex-direction:column;gap:10px;">
-        <button class="btn ghost" id="open-learn-btn" style="width:100%;justify-content:center;">
+        <button class="learn-tab-toggle" id="learn-toggle" aria-expanded="false">
           🧠 New to neuroanatomy? Learn key brain regions
+          <span class="learn-tab-arrow">▾</span>
         </button>
-        <button class="btn ghost" id="open-neuro-psych-btn" style="width:100%;justify-content:center;">
+        <div class="learn-tab-body" id="learn-tab-body" style="display:none;">
+          <div id="learn-regions-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+            <p style="color:var(--ink-soft);font-size:14px;grid-column:1/-1;" id="learn-loading">Loading regions…</p>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:14px;">
+            <button class="btn" id="start-beginner-btn" style="font-size:12px;padding:9px 18px;">Start Beginner Game →</button>
+          </div>
+        </div>
+
+        <button class="learn-tab-toggle" id="neuropsych-toggle" aria-expanded="false">
           🔬 Neuropsychology — regions important for psychology
+          <span class="learn-tab-arrow">▾</span>
         </button>
+        <div class="learn-tab-body" id="neuropsych-tab-body" style="display:none;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+            <div class="beginner-card"><strong>Prefrontal Cortex</strong><p>Executive function, decision-making, impulse control. Implicated in ADHD, depression, and schizophrenia.</p></div>
+            <div class="beginner-card"><strong>Amygdala</strong><p>Fear and emotional memory. Central to anxiety disorders, PTSD, and phobias.</p></div>
+            <div class="beginner-card"><strong>Hippocampus</strong><p>Memory formation and spatial navigation. Severely affected in Alzheimer's and depression.</p></div>
+            <div class="beginner-card"><strong>Anterior Cingulate Cortex</strong><p>Error detection and conflict monitoring. Involved in OCD and mood disorders.</p></div>
+            <div class="beginner-card"><strong>Insula</strong><p>Interoception and emotional awareness. Plays a role in addiction and eating disorders.</p></div>
+            <div class="beginner-card"><strong>Ventral Striatum</strong><p>Reward anticipation and motivation. Core to addiction, depression, and anhedonia.</p></div>
+            <div class="beginner-card"><strong>Orbitofrontal Cortex</strong><p>Evaluates reward and consequence. Disrupted in OCD and impulse-control disorders.</p></div>
+            <div class="beginner-card"><strong>Hypothalamus</strong><p>Regulates stress hormones, sleep, appetite. Central to mood and anxiety disorders.</p></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:14px;">
+            <button class="btn" id="start-neuropsych-btn" style="font-size:12px;padding:9px 18px;">Play Neuropsychology →</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -308,47 +360,6 @@
   </div>
 
 </main>
-
-<!-- Learn Key Regions modal (Google-Sheet-driven) -->
-<div class="modal-backdrop" id="learn-modal">
-  <div class="modal" style="max-width:600px;max-height:85vh;overflow-y:auto;">
-    <button class="close-left" id="learn-modal-close">✕</button>
-    <h3 style="font-family:var(--serif-display);margin-bottom:4px;">Key Brain Regions</h3>
-    <p style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:18px;">Connect a Google Sheet via config.js (LEARN_REGIONS_SHEET_CSV) to manage this list</p>
-    <div id="learn-regions-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <p style="color:var(--ink-soft);font-size:14px;grid-column:1/-1;" id="learn-loading">Loading regions…</p>
-    </div>
-    <div class="synapse-rule" style="margin-top:22px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px;">
-      <span style="font-size:13.5px;color:var(--ink-soft);">Feeling confident? Try the Easy game!</span>
-      <button class="btn" id="start-beginner-btn">Beginner Game →</button>
-    </div>
-  </div>
-</div>
-
-<!-- Neuropsychology regions modal -->
-<div class="modal-backdrop" id="neuro-psych-modal">
-  <div class="modal" style="max-width:600px;max-height:85vh;overflow-y:auto;padding-right:20px;">
-    <button class="close-left" id="neuro-psych-close">✕</button>
-    <h3 style="font-family:var(--serif-display);margin-bottom:4px;">Neuropsychology — Key Areas</h3>
-    <p style="color:var(--ink-soft);font-size:14px;margin-bottom:18px;">Brain regions critical for understanding psychological and behavioural processes.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="neuro-psych-grid">
-      <div class="beginner-card"><strong>Prefrontal Cortex</strong><p>Executive function, decision-making, impulse control, and working memory. Implicated in ADHD, depression, and schizophrenia.</p></div>
-      <div class="beginner-card"><strong>Amygdala</strong><p>Fear, threat detection, and emotional memory. Central to anxiety disorders, PTSD, and phobias.</p></div>
-      <div class="beginner-card"><strong>Hippocampus</strong><p>Memory formation and spatial navigation. Severely affected in Alzheimer's and major depression.</p></div>
-      <div class="beginner-card"><strong>Anterior Cingulate Cortex</strong><p>Error detection, conflict monitoring, and emotional regulation. Involved in OCD and mood disorders.</p></div>
-      <div class="beginner-card"><strong>Insula</strong><p>Interoception, pain, and emotional awareness. Plays a role in addiction and eating disorders.</p></div>
-      <div class="beginner-card"><strong>Ventral Striatum</strong><p>Reward anticipation and motivation. A core structure in addiction, depression, and anhedonia.</p></div>
-      <div class="beginner-card"><strong>Orbitofrontal Cortex</strong><p>Evaluates reward value and consequence. Disrupted in OCD, impulse-control disorders, and substance use.</p></div>
-      <div class="beginner-card"><strong>Hypothalamus</strong><p>Regulates stress hormones (via HPA axis), sleep, and appetite. Central to mood and anxiety disorders.</p></div>
-    </div>
-    <div class="synapse-rule" style="margin-top:22px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px;">
-      <span style="font-size:13.5px;color:var(--ink-soft);">Start with Neuropsychology questions.</span>
-      <button class="btn" id="start-neuropsych-btn">Play Neuropsychology →</button>
-    </div>
-  </div>
-</div>
 
 <div class="modal-backdrop" id="neuro-result-modal">
   <div class="modal" style="max-height:85vh;overflow-y:auto;">
@@ -427,8 +438,8 @@
   </div>
 </div>
 
-<script src="config.js?v=38"></script>
-<script src="script.js?v=38"></script>
+<script src="config.js?v=39"></script>
+<script src="script.js?v=39"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -754,28 +765,25 @@ async function loadLearnRegions(){
   });
 }
 
-document.getElementById('open-learn-btn').addEventListener('click', () => {
-  document.getElementById('learn-modal').classList.add('open');
+// Inline accordion tabs on start screen
+function setupAccordion(toggleId, bodyId, loadFn){
+  const toggle = document.getElementById(toggleId);
+  const body = document.getElementById(bodyId);
+  if(!toggle || !body) return;
+  toggle.addEventListener('click', () => {
+    const open = body.style.display !== 'none';
+    body.style.display = open ? 'none' : 'block';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if(!open && loadFn) loadFn();
+  });
+}
+
+setupAccordion('learn-toggle', 'learn-tab-body', () => {
   if(!learnRegions.length) loadLearnRegions();
 });
-document.getElementById('learn-modal-close').addEventListener('click', () => {
-  document.getElementById('learn-modal').classList.remove('open');
-});
-document.getElementById('learn-modal').addEventListener('click', (e) => {
-  if(e.target.id === 'learn-modal') e.currentTarget.classList.remove('open');
-});
+setupAccordion('neuropsych-toggle', 'neuropsych-tab-body', null);
 
-document.getElementById('open-neuro-psych-btn').addEventListener('click', () => {
-  document.getElementById('neuro-psych-modal').classList.add('open');
-});
-document.getElementById('neuro-psych-close').addEventListener('click', () => {
-  document.getElementById('neuro-psych-modal').classList.remove('open');
-});
-document.getElementById('neuro-psych-modal').addEventListener('click', (e) => {
-  if(e.target.id === 'neuro-psych-modal') e.currentTarget.classList.remove('open');
-});
 document.getElementById('start-neuropsych-btn').addEventListener('click', () => {
-  document.getElementById('neuro-psych-modal').classList.remove('open');
   selectedCategory = 'Neuropsychology';
   selectedDifficulty = 'all';
   document.querySelectorAll('.category-btn[data-difficulty]').forEach(b => b.classList.toggle('active', b.dataset.difficulty === 'all'));

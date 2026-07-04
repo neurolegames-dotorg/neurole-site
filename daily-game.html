@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=42">
+<link rel="stylesheet" href="style.css?v=43">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -316,12 +316,8 @@
 
 <div class="modal-backdrop" id="result-modal">
   <div class="modal" style="max-height:85vh;overflow-y:auto;padding-top:14px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid var(--rule);padding-bottom:14px;">
+    <div style="display:flex;justify-content:flex-start;margin-bottom:20px;border-bottom:1px solid var(--rule);padding-bottom:14px;">
       <button id="result-modal-close" style="background:none;border:1.5px solid var(--rule);border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);cursor:pointer;padding:6px 12px;letter-spacing:.04em;">✕ Close</button>
-      <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;background:var(--neuro-blue-deep);color:#fff;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;padding:7px 14px;border-radius:6px;font-weight:600;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-        Home
-      </a>
     </div>
     <div class="result-headline">
       <div class="result-logo">Neurole<span class="dot">.</span></div>
@@ -344,8 +340,8 @@
   </div>
 </div>
 
-<script src="config.js?v=42"></script>
-<script src="script.js?v=42"></script>
+<script src="config.js?v=43"></script>
+<script src="script.js?v=43"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

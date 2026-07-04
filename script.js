@@ -419,7 +419,7 @@ function recordWin(todayKey){
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){
-  const footerBg = getComputedStyle(document.documentElement).getPropertyValue('--paper-deep').trim() || '#EDEEF1';
+  const footerBg = '#EDEEF1'; // same as --paper-deep, always matches footer
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
@@ -428,13 +428,17 @@ function initScrollPurple(){
     const r = Math.round(248 - progress * 19);
     const g = Math.round(249 - progress * 29);
     const b = Math.round(250 - progress * 5);
-    const color = `rgb(${r},${g},${b})`;
-    document.body.style.backgroundColor = color;
-    // Keep the html element (iOS overscroll area) synced with the footer
-    // so it blends seamlessly at the bottom
-    document.documentElement.style.background = footerBg;
+    document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+    // html element controls what shows in the iOS overscroll (bounce) zone.
+    // At the bottom of the page match the footer; at top match body.
+    // This prevents any purple colour leaking into the system UI area.
+    const atBottom = scrolled + window.innerHeight >= document.body.scrollHeight - 10;
+    document.documentElement.style.backgroundColor = atBottom ? footerBg : `rgb(${r},${g},${b})`;
   }
   window.addEventListener('scroll', applyTint, {passive:true});
+  // Set both immediately to footer color on load so the default iOS overscroll
+  // is never white or purple — always the footer grey
+  document.documentElement.style.backgroundColor = footerBg;
   applyTint();
 }
 

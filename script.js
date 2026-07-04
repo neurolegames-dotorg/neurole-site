@@ -179,7 +179,7 @@ async function loadFunFact(){
 async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
 
-  // Option A0: Groq — free, no credit card required at all.
+  // Option A0: Groq — free, no credit card required
   if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
     try{
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -189,17 +189,39 @@ async function askNeuroleAIRaw(prompt){
           'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
+          model: 'llama3-8b-8192',
           messages: [{ role: 'user', content: prompt }],
-          max_tokens: 300
+          max_tokens: 350,
+          temperature: 0.7
         })
       });
       const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content;
-      if(res.ok && answer) return answer;
-      console.error("Neurole: Groq call failed — HTTP " + res.status, data);
+      const answer = data?.choices?.[0]?.message?.content?.trim();
+      if(res.ok && answer){ return answer; }
+      console.error("Neurole: Groq failed HTTP " + res.status + " —", JSON.stringify(data).slice(0,200));
     }catch(err){
-      console.error("Neurole: Groq request error —", err.message);
+      console.error("Neurole: Groq network error —", err.message);
+    }
+    // Try the mixtral model as a Groq fallback
+    try{
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 350
+        })
+      });
+      const data = await res.json();
+      const answer = data?.choices?.[0]?.message?.content?.trim();
+      if(res.ok && answer){ return answer; }
+      console.error("Neurole: Groq fallback model also failed —", JSON.stringify(data).slice(0,200));
+    }catch(err){
+      console.error("Neurole: Groq fallback error —", err.message);
     }
   }
 
@@ -397,17 +419,20 @@ function recordWin(todayKey){
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){
+  const footerBg = getComputedStyle(document.documentElement).getPropertyValue('--paper-deep').trim() || '#EDEEF1';
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
     if(maxScroll <= 0) return;
-    // Only start fading in after the user has scrolled 60% of the page
     const progress = Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
-    // Interpolate from white (#F8F9FA) toward a soft purple (#EBE4F5)
-    const r = Math.round(248 - progress * 19); // 248 → 229
-    const g = Math.round(249 - progress * 29); // 249 → 220
-    const b = Math.round(250 - progress * 5);  // 250 → 245
-    document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+    const r = Math.round(248 - progress * 19);
+    const g = Math.round(249 - progress * 29);
+    const b = Math.round(250 - progress * 5);
+    const color = `rgb(${r},${g},${b})`;
+    document.body.style.backgroundColor = color;
+    // Keep the html element (iOS overscroll area) synced with the footer
+    // so it blends seamlessly at the bottom
+    document.documentElement.style.background = footerBg;
   }
   window.addEventListener('scroll', applyTint, {passive:true});
   applyTint();

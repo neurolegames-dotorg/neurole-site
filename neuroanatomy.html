@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=46">
+<link rel="stylesheet" href="style.css?v=47">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -83,88 +83,86 @@
 
   /* ===============================================================
      SHARED AI PANEL APPEARANCE — solid white box, no gradient bleed
+     Used in both beginner split and non-beginner slide-in.
      =============================================================== */
   .beginner-chat-panel,
   .game-ai-split .learn-panel{
     background:#fff !important;
     border:1.5px solid var(--rule);
     border-radius:12px;
-    box-shadow:0 2px 16px rgba(0,0,0,.06);
+    box-shadow:0 2px 18px rgba(0,0,0,.07);
   }
 
   /* ===============================================================
-     BEGINNER SPLIT
-     Quiz: keeps its natural size, no shrinking.
-     AI panel: fixed narrow column with gap to prevent touching.
+     BOTH SPLIT MODES — DESKTOP ≥ 901px
+     True 50/50 split: game on left, AI on right, equal height.
+     Neither column shrinks — both fill their column naturally.
+     A gap separates them so they never touch.
      =============================================================== */
+
+  /* Beginner: AI is always open alongside game */
   .beginner-split{
     display:grid;
-    /* quiz at its natural width, AI fixed at 220px, 32px gap */
-    grid-template-columns:1fr 220px;
-    gap:32px;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
     width:100%;
-    align-items:start;
+    align-items:stretch; /* equal height columns */
   }
   .beginner-split #game-play{
     min-width:0;
-    /* Game play content stays exactly as wide as it was — no change */
   }
   .beginner-chat-panel{
-    width:220px;
-    /* Height matches the game area: image (~220px) + 4 choices (~280px) + stats */
-    height:520px;
-    max-height:520px;
-    position:sticky;top:80px;
+    min-width:0;
     display:flex;flex-direction:column;
-    padding:14px;
-    overflow:hidden;
+    /* height synced to game column via align-items:stretch on parent */
+    min-height:400px;
+    padding:18px;
+    /* sticky so it follows scroll without leaving the game column */
+    position:sticky;top:80px;
+    max-height:calc(100vh - 100px);
   }
   .beginner-chat-panel .chat-head{
-    padding:0 0 8px;
+    padding:0 0 10px;
     border-bottom:1px solid var(--rule);
-    font-family:var(--serif-display);font-size:14px;font-weight:700;
-    display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    font-family:var(--serif-display);font-size:16px;font-weight:700;
+    display:flex;align-items:center;justify-content:space-between;
     flex-shrink:0;
   }
   .beginner-chat-panel .chat-head span{
-    font-size:10px;font-family:var(--mono);color:var(--ink-soft);font-weight:400;
+    font-size:11px;font-family:var(--mono);color:var(--ink-soft);font-weight:400;
   }
   .beginner-chat-panel .chat-scroll{
-    flex:1;overflow-y:auto;padding:10px 0;
-    display:flex;flex-direction:column;gap:8px;
+    flex:1;overflow-y:auto;padding:12px 0;
+    display:flex;flex-direction:column;gap:10px;
     -webkit-overflow-scrolling:touch;
     min-height:0;
   }
   .beginner-chat-panel .chat-welcome{
-    font-size:12px;color:var(--ink-soft);line-height:1.5;
-    background:var(--paper-deep);border-radius:6px;padding:8px 10px;
+    font-size:13px;color:var(--ink-soft);line-height:1.55;
+    background:var(--paper-deep);border-radius:8px;padding:10px 12px;
   }
   .beginner-chat-panel .ask-form-row{
-    display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid var(--rule);
+    display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--rule);
     flex-shrink:0;
   }
   .beginner-chat-panel .ask-form-row input{
-    width:100%;padding:7px 8px;font-family:var(--serif-body);font-size:12px;
-    border:1px solid var(--rule);border-radius:6px;box-sizing:border-box;
+    flex:1;padding:9px 10px;font-family:var(--serif-body);font-size:13px;
+    border:1px solid var(--rule);border-radius:6px;
   }
   .beginner-chat-panel .ask-form-row button{
-    width:100%;padding:7px 10px;font-size:11px;
+    padding:9px 14px;font-size:12px;flex-shrink:0;
   }
 
-  /* ===============================================================
-     NON-BEGINNER AI SLIDE-IN
-     The quiz stays exactly the same size — the page just widens to
-     accommodate the AI panel on the right. X restores original layout.
-     =============================================================== */
+  /* Non-beginner: AI opens when Explain is tapped, 50/50 split */
   .game-ai-split{
     display:grid;
-    /* Quiz keeps its column exactly; AI is a fixed-width addition */
-    grid-template-columns:minmax(0,680px) 260px;
-    gap:32px;
-    align-items:start;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:stretch;
     width:100%;
   }
   .game-ai-split .learn-backdrop{
+    /* Engrave it into the page — no overlay, no dim */
     position:sticky;top:80px;
     background:none;
     display:flex !important;
@@ -173,31 +171,27 @@
     padding:0;
     z-index:auto;
     height:auto;
+    max-height:calc(100vh - 100px);
   }
   .game-ai-split .learn-panel{
+    width:100%;
+    max-height:calc(100vh - 100px);
     position:sticky;top:80px;
-    width:260px;
-    max-height:580px;
     overflow:hidden;
   }
 
-  /* ≤ 900px phones/small tablets: beginner stacks, non-beginner uses overlay */
+  /* ≤ 900px: beginner uses the floating fab (same as non-beginner),
+     non-beginner reverts to floating overlay */
   @media(max-width:900px){
-    .beginner-split{grid-template-columns:1fr;}
-    .beginner-split #game-play{padding-right:0;}
-    .beginner-chat-panel{
-      width:100%;height:auto;max-height:260px;
-      position:static;
-      margin-top:16px;padding:12px;
-    }
-    .beginner-chat-panel .ask-form-row{flex-direction:row;}
-    .beginner-chat-panel .ask-form-row input{width:auto;flex:1;}
-    .beginner-chat-panel .ask-form-row button{width:auto;}
+    /* beginner: hide the inline panel, let the learn-fab handle it */
+    .beginner-split{grid-template-columns:1fr !important;}
+    .beginner-chat-panel{display:none !important;}
+    /* non-beginner: back to floating overlay */
     .game-ai-split{grid-template-columns:1fr;}
     .game-ai-split .learn-backdrop{
       position:fixed;inset:0;background:rgba(28,27,25,.5);
       align-items:center;justify-content:center;padding:20px;
-      height:auto;
+      height:auto;z-index:70;
     }
     .game-ai-split .learn-panel{
       position:static;width:100%;max-height:82vh;
@@ -581,8 +575,8 @@
   </div>
 </div>
 
-<script src="config.js?v=46"></script>
-<script src="script.js?v=46"></script>
+<script src="config.js?v=47"></script>
+<script src="script.js?v=47"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -836,8 +830,9 @@ function openAIPanel(){
     const container = document.getElementById('game-split-container');
     container.classList.add('game-ai-split');
     container.appendChild(backdrop);
-    // Remove game-shell max-width constraint so split fills full width
-    document.querySelector('main.game-shell').style.maxWidth = 'none';
+    // Expand the shell so both halves have full room
+    const shell = document.querySelector('main.game-shell');
+    if(shell) shell.style.maxWidth = 'none';
   }
 }
 
@@ -846,9 +841,10 @@ function closeAIPanel(){
   backdrop.classList.remove('open');
   const container = document.getElementById('game-split-container');
   container.classList.remove('game-ai-split');
-  // Restore game-shell max-width so game centres again
-  document.querySelector('main.game-shell').style.maxWidth = '';
-  // Move backdrop back outside the container
+  // Restore centred layout
+  const shell = document.querySelector('main.game-shell');
+  if(shell) shell.style.maxWidth = '';
+  // Move backdrop back into shell
   const main = document.querySelector('main.game-shell');
   if(main && backdrop.parentElement === container){
     main.appendChild(backdrop);
@@ -974,8 +970,16 @@ function activateSplitScreen(on){
   const shell = document.querySelector('main.game-shell');
   if(on){
     container.classList.add('beginner-split');
-    panel.style.display = 'flex';
-    if(shell) shell.style.maxWidth = 'none';
+    // On desktop: show inline panel. On phone: hide it (fab handles it instead)
+    if(!isPhone()){
+      panel.style.display = 'flex';
+      if(shell) shell.style.maxWidth = 'none';
+    } else {
+      panel.style.display = 'none';
+      // Phone: show the floating Explain fab so they can tap to chat
+      document.getElementById('learn-fab').classList.add('show');
+      if(shell) shell.style.maxWidth = '';
+    }
   } else {
     container.classList.remove('beginner-split');
     panel.style.display = 'none';

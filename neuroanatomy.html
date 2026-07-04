@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=43">
+<link rel="stylesheet" href="style.css?v=44">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -96,15 +96,17 @@
   }
   .beginner-split #game-play{
     min-width:0;
-    border-right:1px solid var(--rule);
-    padding-right:18px;
   }
   .beginner-chat-panel{
     min-width:0;
-    padding-left:18px;
     display:flex;flex-direction:column;
     height:calc(100vh - 120px);
     position:sticky;top:76px;
+    background:#fff;
+    border:1.5px solid var(--rule);
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 2px 16px rgba(0,0,0,.06);
   }
   .beginner-chat-panel .chat-head{
     padding:0 0 12px;
@@ -143,7 +145,7 @@
      =============================================================== */
   .game-ai-split{
     display:grid;
-    grid-template-columns:1fr 380px;
+    grid-template-columns:2fr 1fr;
     gap:18px;
     align-items:start;
     width:100%;
@@ -163,7 +165,9 @@
     width:100%;
     max-height:calc(100vh - 100px);
     border:1.5px solid var(--rule);
-    border-radius:10px;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 2px 16px rgba(0,0,0,.06);
   }
 
   /* Phone: always single-column, AI stays as floating overlay */
@@ -171,8 +175,10 @@
     .beginner-split{grid-template-columns:1fr;}
     .beginner-split #game-play{border-right:none;padding-right:0;}
     .beginner-chat-panel{
-      position:static;height:auto;padding-left:0;
-      margin-top:18px;border-top:1px solid var(--rule);padding-top:14px;
+      position:static;height:auto;
+      margin-top:18px;padding:14px;
+      border:1.5px solid var(--rule);border-radius:12px;
+      background:#fff;
     }
     .game-ai-split{grid-template-columns:1fr;}
     .game-ai-split .learn-backdrop{
@@ -560,8 +566,8 @@
   </div>
 </div>
 
-<script src="config.js?v=43"></script>
-<script src="script.js?v=43"></script>
+<script src="config.js?v=44"></script>
+<script src="script.js?v=44"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

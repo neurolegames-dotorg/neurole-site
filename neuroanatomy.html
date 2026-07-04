@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=46">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -82,82 +82,90 @@
   }
 
   /* ===============================================================
-     SHARED AI PANEL APPEARANCE (beginner + non-beginner)
+     SHARED AI PANEL APPEARANCE — solid white box, no gradient bleed
      =============================================================== */
   .beginner-chat-panel,
   .game-ai-split .learn-panel{
-    background:#fff;
+    background:#fff !important;
     border:1.5px solid var(--rule);
     border-radius:12px;
     box-shadow:0 2px 16px rgba(0,0,0,.06);
   }
 
   /* ===============================================================
-     BEGINNER SPLIT-SCREEN (desktop/tablet ≥ 901px)
-     Quiz: larger left section. AI: narrower right column, same height.
+     BEGINNER SPLIT
+     Quiz: keeps its natural size, no shrinking.
+     AI panel: fixed narrow column with gap to prevent touching.
      =============================================================== */
   .beginner-split{
     display:grid;
-    grid-template-columns:1fr 300px;   /* quiz fills remaining, AI fixed narrow */
-    gap:24px;
+    /* quiz at its natural width, AI fixed at 220px, 32px gap */
+    grid-template-columns:1fr 220px;
+    gap:32px;
     width:100%;
     align-items:start;
   }
   .beginner-split #game-play{
     min-width:0;
+    /* Game play content stays exactly as wide as it was — no change */
   }
   .beginner-chat-panel{
-    min-width:0;
+    width:220px;
+    /* Height matches the game area: image (~220px) + 4 choices (~280px) + stats */
+    height:520px;
+    max-height:520px;
+    position:sticky;top:80px;
     display:flex;flex-direction:column;
-    /* Match the natural height of the game content, not full viewport */
-    max-height:600px;
-    position:sticky;top:76px;
-    padding:18px;
+    padding:14px;
+    overflow:hidden;
   }
   .beginner-chat-panel .chat-head{
-    padding:0 0 10px;
+    padding:0 0 8px;
     border-bottom:1px solid var(--rule);
-    font-family:var(--serif-display);font-size:15px;font-weight:700;
-    display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    font-family:var(--serif-display);font-size:14px;font-weight:700;
+    display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    flex-shrink:0;
   }
   .beginner-chat-panel .chat-head span{
-    font-size:11px;font-family:var(--mono);color:var(--ink-soft);font-weight:400;
+    font-size:10px;font-family:var(--mono);color:var(--ink-soft);font-weight:400;
   }
   .beginner-chat-panel .chat-scroll{
-    flex:1;overflow-y:auto;padding:12px 0;
-    display:flex;flex-direction:column;gap:10px;
+    flex:1;overflow-y:auto;padding:10px 0;
+    display:flex;flex-direction:column;gap:8px;
     -webkit-overflow-scrolling:touch;
+    min-height:0;
   }
   .beginner-chat-panel .chat-welcome{
-    font-size:13px;color:var(--ink-soft);line-height:1.55;
-    background:var(--paper-deep);border-radius:8px;padding:10px 12px;
+    font-size:12px;color:var(--ink-soft);line-height:1.5;
+    background:var(--paper-deep);border-radius:6px;padding:8px 10px;
   }
   .beginner-chat-panel .ask-form-row{
-    display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--rule);
+    display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid var(--rule);
+    flex-shrink:0;
   }
   .beginner-chat-panel .ask-form-row input{
-    flex:1;padding:8px 10px;font-family:var(--serif-body);font-size:13px;
-    border:1px solid var(--rule);border-radius:6px;
+    width:100%;padding:7px 8px;font-family:var(--serif-body);font-size:12px;
+    border:1px solid var(--rule);border-radius:6px;box-sizing:border-box;
   }
   .beginner-chat-panel .ask-form-row button{
-    padding:8px 12px;font-size:11px;flex-shrink:0;
+    width:100%;padding:7px 10px;font-size:11px;
   }
 
   /* ===============================================================
-     NON-BEGINNER AI SLIDE-IN (desktop/tablet ≥ 901px)
-     Same visual as beginner but quiz is even bigger (3fr vs 1fr).
-     X button closes panel and restores centred single-column layout.
+     NON-BEGINNER AI SLIDE-IN
+     The quiz stays exactly the same size — the page just widens to
+     accommodate the AI panel on the right. X restores original layout.
      =============================================================== */
   .game-ai-split{
     display:grid;
-    grid-template-columns:1fr 280px;   /* quiz bigger, AI narrower fixed */
-    gap:24px;
+    /* Quiz keeps its column exactly; AI is a fixed-width addition */
+    grid-template-columns:minmax(0,680px) 260px;
+    gap:32px;
     align-items:start;
     width:100%;
-    max-width:none;
   }
   .game-ai-split .learn-backdrop{
-    position:sticky;top:76px;
+    position:sticky;top:80px;
     background:none;
     display:flex !important;
     align-items:flex-start;
@@ -167,26 +175,33 @@
     height:auto;
   }
   .game-ai-split .learn-panel{
-    position:sticky;top:76px;
-    width:100%;
-    max-height:600px;
+    position:sticky;top:80px;
+    width:260px;
+    max-height:580px;
+    overflow:hidden;
   }
 
-  /* ≤ 900px: beginner stacks, non-beginner uses floating overlay */
+  /* ≤ 900px phones/small tablets: beginner stacks, non-beginner uses overlay */
   @media(max-width:900px){
     .beginner-split{grid-template-columns:1fr;}
-    .beginner-split #game-play{border-right:none;padding-right:0;}
+    .beginner-split #game-play{padding-right:0;}
     .beginner-chat-panel{
-      position:static;height:auto;max-height:280px;
-      margin-top:18px;padding:14px;
+      width:100%;height:auto;max-height:260px;
+      position:static;
+      margin-top:16px;padding:12px;
     }
+    .beginner-chat-panel .ask-form-row{flex-direction:row;}
+    .beginner-chat-panel .ask-form-row input{width:auto;flex:1;}
+    .beginner-chat-panel .ask-form-row button{width:auto;}
     .game-ai-split{grid-template-columns:1fr;}
     .game-ai-split .learn-backdrop{
       position:fixed;inset:0;background:rgba(28,27,25,.5);
       align-items:center;justify-content:center;padding:20px;
       height:auto;
     }
-    .game-ai-split .learn-panel{position:static;max-height:82vh;}
+    .game-ai-split .learn-panel{
+      position:static;width:100%;max-height:82vh;
+    }
   }
 
 
@@ -566,8 +581,8 @@
   </div>
 </div>
 
-<script src="config.js?v=45"></script>
-<script src="script.js?v=45"></script>
+<script src="config.js?v=46"></script>
+<script src="script.js?v=46"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

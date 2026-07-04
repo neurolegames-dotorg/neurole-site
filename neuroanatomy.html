@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="style.css?v=49">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -85,71 +85,70 @@
      On ≤900px: floating overlay as before (no change on mobile).
      =============================================================== */
 
-  /* When AI is open, game shell shifts left to make room */
+  /* game-split-container becomes a 50/50 grid when AI is open */
+  body.ai-panel-open #game-split-container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  /* game-shell expands to hold the full grid */
   body.ai-panel-open .game-shell{
-    margin-right:50vw;
     max-width:none !important;
-    transition:margin-right .3s ease;
-  }
-  body .game-shell{
-    transition:margin-right .3s ease;
   }
 
-  /* The learn-backdrop becomes transparent when engraved */
+  /* The learn-backdrop sits as a normal grid column, not an overlay */
   body.ai-panel-open .learn-backdrop{
+    /* Remove overlay behaviour */
+    position:static !important;
     background:none !important;
-    pointer-events:none;
     display:block !important;
-  }
-  body.ai-panel-open .learn-backdrop .learn-panel{
-    pointer-events:all;
+    padding:0 !important;
+    inset:auto !important;
+    z-index:auto !important;
   }
 
-  /* learn-panel becomes a fixed right-side panel */
+  /* learn-panel as a sticky engraved box — scrolls with page,
+     stays in view while you scroll through the quiz */
   body.ai-panel-open .learn-panel{
-    position:fixed !important;
-    top:58px;
-    right:0;
-    bottom:0;
-    width:50vw;
-    max-height:none !important;
-    height:calc(100vh - 58px);
-    border-radius:0;
-    border-left:2px solid var(--ink);
-    border-top:none;border-right:none;border-bottom:none;
+    position:sticky !important;
+    top:76px;
+    width:100% !important;
+    max-width:none !important;
+    max-height:calc(100vh - 96px);
     background:#fff !important;
-    box-shadow:-4px 0 24px rgba(0,0,0,.08);
+    border:1.5px solid var(--rule);
+    border-radius:12px;
+    box-shadow:0 2px 18px rgba(0,0,0,.07);
     overflow:hidden;
     display:flex !important;
     flex-direction:column;
-    z-index:80;
   }
-
-  /* learn-body fills remaining height and scrolls independently */
   body.ai-panel-open .learn-body{
-    flex:1;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
+    flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
   }
 
-  /* ≤900px: keep floating overlay, no shift */
+  /* ≤900px: keep normal floating overlay, no grid change */
   @media(max-width:900px){
+    body.ai-panel-open #game-split-container{
+      display:block;
+    }
     body.ai-panel-open .game-shell{
-      margin-right:0 !important;
+      max-width:680px !important;
+    }
+    body.ai-panel-open .learn-backdrop{
+      position:fixed !important;
+      inset:0 !important;
+      background:rgba(28,27,25,.5) !important;
+      display:flex !important;
+      align-items:center;justify-content:center;padding:20px;
+      z-index:70 !important;
     }
     body.ai-panel-open .learn-panel{
       position:static !important;
-      width:100%;height:auto;
-      max-height:82vh !important;
-      border-left:2px solid var(--ink);
-      border-radius:0;
-    }
-    body.ai-panel-open .learn-backdrop{
-      background:rgba(28,27,25,.5) !important;
-      position:fixed;inset:0;
-      display:flex !important;
-      align-items:center;justify-content:center;padding:20px;
-      pointer-events:all;
+      width:100% !important;
+      max-height:82vh;
+      box-shadow:none;
     }
   }
 
@@ -513,8 +512,8 @@
   </div>
 </div>
 
-<script src="config.js?v=48"></script>
-<script src="script.js?v=48"></script>
+<script src="config.js?v=49"></script>
+<script src="script.js?v=49"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -762,13 +761,29 @@ document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
 function isPhone(){ return window.innerWidth <= 900; }
 
 function openAIPanel(){
-  document.getElementById('learn-backdrop').classList.add('open');
+  const backdrop = document.getElementById('learn-backdrop');
+  backdrop.classList.add('open');
   document.body.classList.add('ai-panel-open');
+  if(!isPhone()){
+    // Move backdrop inside the grid container so it becomes a grid column
+    const container = document.getElementById('game-split-container');
+    container.appendChild(backdrop);
+    const shell = document.querySelector('main.game-shell');
+    if(shell) shell.style.maxWidth = 'none';
+  }
 }
 
 function closeAIPanel(){
-  document.getElementById('learn-backdrop').classList.remove('open');
+  const backdrop = document.getElementById('learn-backdrop');
+  backdrop.classList.remove('open');
   document.body.classList.remove('ai-panel-open');
+  // Move backdrop back outside the grid container
+  const main = document.querySelector('main.game-shell');
+  if(main && backdrop.parentElement.id === 'game-split-container'){
+    main.appendChild(backdrop);
+  }
+  const shell = document.querySelector('main.game-shell');
+  if(shell) shell.style.maxWidth = '';
 }
 
 document.getElementById('learn-fab').addEventListener('click', openAIPanel);

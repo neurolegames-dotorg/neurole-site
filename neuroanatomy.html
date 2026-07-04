@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=39">
+<link rel="stylesheet" href="style.css?v=40">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
@@ -11,10 +11,14 @@
     position:fixed;inset:0;z-index:200;
     background:var(--paper);
     width:100%;height:100%;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:24px;text-align:center;
+    display:flex;flex-direction:column;align-items:center;
+    justify-content:flex-start;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:32px 24px 60px;
+    text-align:center;
   }
-  .start-screen-inner{max-width:420px;display:flex;flex-direction:column;align-items:center;}
+  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;}
   .start-logo{
     display:flex;align-items:center;justify-content:center;
     margin-bottom:22px;
@@ -49,9 +53,17 @@
   .learn-tab-toggle:hover,.learn-tab-toggle[aria-expanded="true"]{
     background:#fff;border-color:var(--neuro-blue);
   }
-  .learn-tab-arrow{font-size:14px;transition:transform .2s;}
+  .learn-tab-arrow{font-size:14px;transition:transform .2s;flex-shrink:0;margin-left:8px;}
   .learn-tab-toggle[aria-expanded="true"] .learn-tab-arrow{transform:rotate(180deg);}
-  .learn-tab-body{width:100%;}
+  .learn-tab-body{
+    width:100%;
+    background:#fff;
+    border:1.5px solid var(--rule);
+    border-radius:0 0 8px 8px;
+    padding:14px;
+    margin-top:-2px;
+    text-align:left;
+  }
 
   /* Remove game box when screen is full-width (tablet/phone) */
   @media(max-width:720px){
@@ -222,10 +234,6 @@
 
 <div class="page-hero">
   <div class="wrap">
-    <a class="back-home" href="index.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Back to home
-    </a>
     <h1>Map the Brain</h1>
     <p>An image appears. Pick the region from four choices. Then learn what it actually does — and ask follow-up questions.</p>
   </div>
@@ -234,13 +242,11 @@
 <main class="wrap game-shell">
 
   <div class="start-screen" id="round-setup">
-    <!-- Back home lives INSIDE the overlay so it's always visible -->
-    <a class="back-home" href="index.html" style="position:absolute;top:18px;left:22px;z-index:10;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Home
-    </a>
-
     <div class="start-screen-inner" style="max-width:480px;padding-top:10px;">
+      <a class="back-home" href="index.html" style="align-self:flex-start;margin-bottom:10px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Home
+      </a>
       <div class="start-logo">
         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
@@ -330,13 +336,6 @@
   </div>
 
   <div id="game-play" style="display:none;">
-    <div style="margin-bottom:10px;">
-      <a class="back-home" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Back to home
-      </a>
-    </div>
-
     <div class="game-stats-bar">
       <div class="game-stats-left">
         <span class="score-tag" id="score-tag">Question 1 of 10</span>
@@ -438,8 +437,8 @@
   </div>
 </div>
 
-<script src="config.js?v=39"></script>
-<script src="script.js?v=39"></script>
+<script src="config.js?v=40"></script>
+<script src="script.js?v=40"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

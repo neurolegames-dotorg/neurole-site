@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=41">
+<link rel="stylesheet" href="style.css?v=42">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
 
@@ -76,6 +76,59 @@
     #learn-regions-grid{grid-template-columns:1fr !important;}
     #neuropsych-tab-body > div{grid-template-columns:1fr !important;}
   }
+
+  /* Split-screen beginner mode: game on left, chat panel on right */
+  .beginner-split{
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:18px;
+    align-items:start;
+  }
+  .beginner-split #game-play{
+    min-width:0;
+  }
+  .beginner-chat-panel{
+    position:sticky;top:80px;
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    background:#fff;
+    display:flex;flex-direction:column;
+    max-height:calc(100vh - 100px);
+    overflow:hidden;
+  }
+  .beginner-chat-panel .chat-head{
+    padding:14px 16px 10px;
+    border-bottom:1px solid var(--rule);
+    font-family:var(--serif-display);font-size:15px;font-weight:700;
+  }
+  .beginner-chat-panel .chat-head span{
+    font-size:12px;font-family:var(--mono);color:var(--ink-soft);font-weight:400;margin-left:8px;
+  }
+  .beginner-chat-panel .chat-scroll{
+    flex:1;overflow-y:auto;padding:12px 14px;
+    display:flex;flex-direction:column;gap:10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .beginner-chat-panel .chat-welcome{
+    font-size:13.5px;color:var(--ink-soft);line-height:1.6;
+    background:var(--paper-deep);border-radius:8px;padding:12px 14px;
+  }
+  .beginner-chat-panel .ask-form-row{
+    display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--rule);
+  }
+  .beginner-chat-panel .ask-form-row input{
+    flex:1;padding:8px 10px;font-family:var(--serif-body);font-size:14px;
+    border:1px solid var(--rule);border-radius:6px;
+  }
+  .beginner-chat-panel .ask-form-row button{
+    padding:8px 14px;font-size:12px;
+  }
+  /* On small screens collapse to normal layout */
+  @media(max-width:900px){
+    .beginner-split{grid-template-columns:1fr;}
+    .beginner-chat-panel{position:static;max-height:300px;}
+  }
+
 
   .beginner-card{
     background:var(--paper-deep);border-radius:8px;padding:14px 16px;
@@ -335,7 +388,8 @@
     </div>
   </div>
 
-  <div id="game-play" style="display:none;">
+  <div id="game-split-container">
+    <div id="game-play" style="display:none;">
     <div class="game-stats-bar">
       <div class="game-stats-left">
         <span class="score-tag" id="score-tag">Question 1 of 10</span>
@@ -355,6 +409,24 @@
 
     <div class="next-row">
       <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
+    </div>
+    </div>
+
+    <!-- Beginner split-screen chat panel (hidden in normal mode) -->
+    <div class="beginner-chat-panel" id="beginner-chat-panel" style="display:none;">
+      <div class="chat-head">
+        Ask the AI
+        <span>Ask about any region</span>
+      </div>
+      <div class="chat-scroll" id="beginner-chat-scroll">
+        <div class="chat-welcome">
+          You're in <strong>Beginner Mode</strong> with the AI assistant open. After answering each question, type anything you'd like to know about that brain region — its function, what happens when it's damaged, or how it connects to other areas.
+        </div>
+      </div>
+      <form class="ask-form-row" id="beginner-ask-form">
+        <input type="text" id="beginner-ask-input" placeholder="Ask about this region…">
+        <button class="btn" type="submit">Ask</button>
+      </form>
     </div>
   </div>
 
@@ -437,8 +509,8 @@
   </div>
 </div>
 
-<script src="config.js?v=41"></script>
-<script src="script.js?v=41"></script>
+<script src="config.js?v=42"></script>
+<script src="script.js?v=42"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -568,13 +640,17 @@ document.querySelectorAll('.round-choice').forEach(btn => {
 document.getElementById('new-round-btn').addEventListener('click', () => {
   document.getElementById('neuro-result-modal').classList.remove('open');
   document.getElementById('game-play').style.display = 'none';
-  document.getElementById('round-setup').style.display = 'flex';
+  document.getElementById('round-setup').style.display = 'flex'; activateSplitScreen(false);
 });
 
 function shuffle(arr){
+  // Use a time-based seed so every call gives a genuinely different order
   const a = arr.slice();
+  let seed = Date.now();
   for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
+    // xorshift-based lcg for well-distributed randomness
+    seed ^= seed << 13; seed ^= seed >> 17; seed ^= seed << 5;
+    const j = Math.abs(seed) % (i+1);
     [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
@@ -668,12 +744,12 @@ document.getElementById('next-btn').addEventListener('click', () => {
 
 document.getElementById('neuro-result-close').addEventListener('click', () => {
   document.getElementById('neuro-result-modal').classList.remove('open');
-  document.getElementById('round-setup').style.display = 'flex';
+  document.getElementById('round-setup').style.display = 'flex'; activateSplitScreen(false);
 });
 document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
   if(e.target.id === 'neuro-result-modal'){
     e.currentTarget.classList.remove('open');
-    document.getElementById('round-setup').style.display = 'flex';
+    document.getElementById('round-setup').style.display = 'flex'; activateSplitScreen(false);
   }
 });
 
@@ -791,19 +867,68 @@ document.getElementById('start-neuropsych-btn').addEventListener('click', () => 
   startRound('10');
 });
 
+let beginnerMode = false;
+
+function activateSplitScreen(on){
+  beginnerMode = on;
+  const container = document.getElementById('game-split-container');
+  const panel = document.getElementById('beginner-chat-panel');
+  if(on){
+    container.classList.add('beginner-split');
+    panel.style.display = 'flex';
+  } else {
+    container.classList.remove('beginner-split');
+    panel.style.display = 'none';
+  }
+}
+
 document.getElementById('start-beginner-btn').addEventListener('click', () => {
-  document.getElementById('learn-modal').classList.remove('open');
-  // Start a beginner game: Easy difficulty, All categories, 10 questions
+  // Set Easy difficulty + Cortex category
   selectedDifficulty = 'Easy';
-  selectedCategory = 'Random';
+  selectedCategory = 'Cortex';
   document.querySelectorAll('.category-btn[data-difficulty]').forEach(b => {
     b.classList.toggle('active', b.dataset.difficulty === 'Easy');
   });
   document.querySelectorAll('.category-btn[data-category]').forEach(b => {
-    b.classList.toggle('active', b.dataset.category === 'Random');
+    b.classList.toggle('active', b.dataset.category === 'Cortex');
   });
   updateAllButtonCount();
+  activateSplitScreen(true);
   startRound('10');
+});
+
+// Wire beginner chat panel form
+document.getElementById('beginner-ask-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('beginner-ask-input');
+  const question = input.value.trim();
+  if(!question) return;
+  const scroll = document.getElementById('beginner-chat-scroll');
+  input.value = '';
+
+  const userBubble = document.createElement('div');
+  userBubble.className = 'chat-msg user';
+  userBubble.textContent = question;
+  scroll.appendChild(userBubble);
+
+  const aiBubble = document.createElement('div');
+  aiBubble.className = 'chat-msg ai';
+  aiBubble.textContent = 'Thinking…';
+  scroll.appendChild(aiBubble);
+  scroll.scrollTop = scroll.scrollHeight;
+
+  const regionName = document.getElementById('learn-title')?.textContent || 'this brain region';
+  const regionFn = document.getElementById('learn-function')?.textContent || '';
+  const prompt = `You are a friendly neuroscience tutor in an educational game called Neurole.
+The player is in Beginner Mode studying brain regions. The current question is about: "${regionName}".
+Background: ${regionFn}
+Player's question: "${question}"
+
+Answer clearly in 2-4 sentences, plain language for a curious learner. Focus on what this region does, clinical relevance, or related concepts.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  aiBubble.textContent = answer || "I can't reach the AI right now — try again in a moment.";
+  scroll.scrollTop = scroll.scrollHeight;
 });
 </script>
 </body>

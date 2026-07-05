@@ -109,10 +109,9 @@ body{padding-top:58px;}
 .mobile-nav-close:hover{background:var(--paper-deep);}
 
 .mobile-nav-brand{
-  font-family:'Playfair Display', 'Times New Roman', serif;
-  font-weight:800;font-size:28px;
-  color:var(--ink);padding:24px 28px 0;
+  padding:24px 28px 12px;
 }
+.mobile-nav-brand img{height:48px;width:auto;display:block;}
 .mobile-nav-brand .dot{color:var(--neuro-blue-deep);}
 
 .mobile-nav-items{
@@ -173,12 +172,10 @@ body{padding-top:58px;}
   border-bottom-color:var(--neuro-blue-deep);
 }
 .brand{
-  font-family:'Playfair Display', 'Times New Roman', serif;
-  font-weight:800;
-  font-size:30px;
-  letter-spacing:.01em;
-  color:var(--ink);
+  display:flex;align-items:center;
 }
+.brand a{display:flex;align-items:center;}
+.brand img{height:36px;width:auto;display:block;}
 .brand .dot{color:var(--neuro-blue);}
 
 /* ---------- hero ---------- */

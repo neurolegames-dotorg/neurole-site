@@ -588,3 +588,62 @@ footer {
   .social-row{gap:18px;}
   .social-row a{width:46px;height:46px;}
 }
+
+/* =====================================================
+   INNER PAGE MOBILE — blocks narrower on iPhone
+   Cards never stretch full viewport width on phone
+   ===================================================== */
+@media(max-width:480px){
+  /* All inner page main content gets horizontal padding so cards breathe */
+  main.wrap{padding-left:18px !important;padding-right:18px !important;}
+
+  /* Contact, Donate, About, Join Us card grids */
+  .contact-grid,.donate-grid,.about-values,.role-grid{
+    grid-template-columns:1fr !important;
+    max-width:100%;
+  }
+  .contact-card,.donate-card,.value-card,.role-card,.media-section,.interest-form-wrap{
+    border-radius:12px;
+  }
+
+  /* Panels on inner pages — not full bleed */
+  .panel{
+    border-radius:12px;
+  }
+
+  /* Volunteer banner */
+  .volunteer-banner{
+    border-radius:12px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+    padding:20px 18px;
+  }
+  .volunteer-banner .btn{width:100%;justify-content:center;}
+
+  /* How-it-works grid */
+  .how-grid{grid-template-columns:1fr !important;}
+
+  /* Stats row — vertical stack on phone */
+  .stats-row{
+    grid-template-columns:1fr !important;
+  }
+  .stat-cell{border-right:none !important;border-bottom:1px solid var(--rule);}
+  .stat-cell:last-child{border-bottom:none;}
+
+  /* Contact form full width but with padding already from main.wrap */
+  .msg-form,.interest-form-wrap{max-width:100% !important;}
+  .msg-form .btn,.interest-form-wrap .btn{width:100%;justify-content:center;}
+
+  /* About CTA row stacks */
+  .about-cta-row{flex-direction:column;}
+  .about-cta-row .btn{width:100%;justify-content:center;}
+
+  /* Donate cards buttons */
+  .donate-card .btn{width:100%;justify-content:center;}
+
+  /* Page hero tighter */
+  .page-hero{padding:68px 0 18px;}
+  .page-hero h1{font-size:clamp(26px,8vw,38px);}
+  .page-hero p{font-size:14px;}
+}

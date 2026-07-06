@@ -29,7 +29,7 @@
 
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-header, section, main, footer{margin:0;}
+header, section, main, footer{margin:0;} main{padding-bottom:0;}
 body{
   margin:0;
   min-height:100vh;
@@ -178,7 +178,7 @@ body{padding-top:58px;}
 .brand img{height:36px;width:auto;display:block;}
 .brand-wordmark{
   font-family:'Playfair Display','Times New Roman',serif;
-  font-weight:800;font-size:22px;letter-spacing:-.01em;
+  font-weight:800;font-size:28px;letter-spacing:-.01em;
   color:var(--ink);white-space:nowrap;
 }
 .brand .dot{color:var(--neuro-blue);}
@@ -362,7 +362,7 @@ h2.section-title{
 /* ---------- footer ---------- */
 footer{
   border-top:2px solid var(--ink);
-  margin-top:72px;
+  margin-top:0;
   padding:44px 0 max(30px, env(safe-area-inset-bottom, 30px));
   background:var(--paper-deep);
 }
@@ -489,5 +489,3 @@ footer {
   font-family:var(--serif-body);font-size:15px;padding:9px 10px;
   border:1px solid var(--ink-soft);background:#fff;width:100%;box-sizing:border-box;
 }
-
-.mission-strip + footer, .mission-strip ~ footer{margin-top:0 !important;}

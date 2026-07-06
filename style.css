@@ -489,3 +489,5 @@ footer {
   font-family:var(--serif-body);font-size:15px;padding:9px 10px;
   border:1px solid var(--ink-soft);background:#fff;width:100%;box-sizing:border-box;
 }
+
+.mission-strip + footer, .mission-strip ~ footer{margin-top:0 !important;}

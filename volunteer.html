@@ -7,9 +7,83 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Join Us — Neurole</title>
-<link rel="stylesheet" href="style.css?v=64">
+<link rel="stylesheet" href="style.css?v=65">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+.role-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:24px;
+}
+@media(max-width:580px){
+  .role-grid{grid-template-columns:1fr;}
+}
+.role-card{
+  background:#fff;
+  border:1px solid var(--rule);
+  border-radius:12px;
+  padding:22px 20px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.role-card h3{
+  font-family:var(--serif-display);
+  font-size:18px;margin:0;
+}
+.role-card p{
+  margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.6;
+}
+.role-card .role-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);
+  border-radius:20px;padding:3px 10px;align-self:flex-start;
+}
+
+/* Media section */
+.media-section{
+  background:linear-gradient(135deg,rgba(145,118,184,.09),rgba(71,61,104,.05));
+  border:1.5px solid rgba(145,118,184,.25);
+  border-left:5px solid var(--neuro-blue-deep);
+  border-radius:12px;
+  padding:26px 24px;
+  margin-bottom:28px;
+}
+.media-section h3{font-family:var(--serif-display);margin-top:0;font-size:20px;}
+.media-list{
+  list-style:none;padding:0;margin:14px 0 12px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.media-list li{
+  padding-left:22px;position:relative;
+  color:var(--ink-soft);font-size:14.5px;line-height:1.6;
+}
+.media-list li::before{
+  content:"→";position:absolute;left:0;
+  color:var(--neuro-blue-deep);font-weight:700;
+}
+
+/* Interest form */
+.interest-form-wrap{
+  background:#fff;border:1px solid var(--rule);
+  border-radius:12px;padding:28px 24px;
+  max-width:520px;
+}
+.interest-form-wrap h3{font-family:var(--serif-display);margin-top:0;}
+
+/* Role select chips */
+.role-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.role-chip{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+  padding:8px 16px;border-radius:20px;
+  border:1.5px solid var(--rule);background:#fff;color:var(--ink-soft);
+  cursor:pointer;transition:all .15s;
+}
+.role-chip.selected{
+  background:var(--neuro-blue-deep);border-color:var(--neuro-blue-deep);color:#fff;
+}
+</style>
 </head>
 <body>
 
@@ -42,58 +116,77 @@
 <div class="page-hero">
   <div class="wrap">
     <h1>Join Us</h1>
-    <p>Neurole is built by neuroscience students, clinicians, and educators who think learning the nervous system should feel like a game, not a grind. Here's where we could use your brain.</p>
+    <p>Neurole is built by people who think learning the nervous system should feel like a game. Here's where we could use your brain.</p>
   </div>
 </div>
 
-<main class="wrap" style="padding:40px 0 60px;">
-  <div class="games-grid">
-    <div class="panel">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Write daily cases</h3>
+<main class="wrap" style="padding:36px 0 60px;">
+
+  <!-- Role cards -->
+  <div class="role-grid">
+    <div class="role-card">
+      <span class="role-tag">Clinical</span>
+      <h3>Write Daily Cases</h3>
       <p>Have clinical or neuroscience training? Draft new patient scenarios and symptom progressions for The Daily Case.</p>
     </div>
-    <div class="panel">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Curate brain images</h3>
-      <p>Help source and label MRI/diagram images and answer choices for Map the Brain.</p>
+    <div class="role-card">
+      <span class="role-tag">Science</span>
+      <h3>Curate Brain Images</h3>
+      <p>Help source and label MRI and diagram images and answer choices for Map the Brain.</p>
     </div>
-    <div class="panel">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Fact-check fun facts</h3>
+    <div class="role-card">
+      <span class="role-tag">Research</span>
+      <h3>Fact-Check Fun Facts</h3>
       <p>Find and verify a peer-reviewed study behind each week's neuroscience fun fact.</p>
     </div>
-    <div class="panel">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Build &amp; design</h3>
-      <p>Engineers and designers welcome — help us ship new game modes and polish the experience.</p>
-    </div>
-    <div class="panel">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Media &amp; outreach</h3>
-      <p>Help grow our audience — create short-form content, manage social media, write newsletters, or represent Neurole at neuroscience events and university clubs.</p>
+    <div class="role-card">
+      <span class="role-tag">Tech</span>
+      <h3>Build &amp; Design</h3>
+      <p>Engineers and designers welcome — help us ship new game modes and improve the experience.</p>
     </div>
   </div>
 
-  <div class="panel" style="margin-top:22px;border-left:5px solid var(--neuro-blue-deep);">
-    <h3 style="font-family:var(--serif-display);margin-top:0;">📲 Media Management</h3>
-    <p style="margin-bottom:14px;">We're looking for people to help manage and grow Neurole's online presence across platforms. Tasks include:</p>
-    <ul style="padding-left:20px;color:var(--ink-soft);font-size:14.5px;line-height:2;">
-      <li>Creating and scheduling Instagram, YouTube, and TikTok content about neuroscience</li>
-      <li>Designing graphics and short explainer videos based on our game cases</li>
-      <li>Writing and sending newsletters or blog posts</li>
-      <li>Coordinating partnerships with neuroscience clubs, premed societies, and student organisations</li>
-      <li>Monitoring engagement and suggesting content based on what our players respond to</li>
+  <!-- Media section -->
+  <div class="media-section">
+    <h3>📲 Media &amp; Outreach</h3>
+    <p style="color:var(--ink-soft);font-size:15px;">Help manage and grow Neurole's presence across platforms:</p>
+    <ul class="media-list">
+      <li>Create and schedule Instagram, YouTube, and TikTok content about neuroscience</li>
+      <li>Design graphics and short explainer videos based on game cases</li>
+      <li>Write newsletters and blog posts</li>
+      <li>Coordinate partnerships with neuroscience clubs, premed societies, and student organisations</li>
+      <li>Monitor engagement and suggest content ideas</li>
     </ul>
-    <p style="margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);">Ideal for: communications, marketing, journalism, or neuroscience students with a presence on social media.</p>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);">Ideal for: communications, marketing, journalism, or neuroscience students active on social media.</p>
   </div>
 
   <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
 
-  <div class="panel" style="max-width:520px;">
-    <h3 style="font-family:var(--serif-display);margin-top:0;">Get in touch</h3>
+  <!-- Interest form -->
+  <div class="interest-form-wrap">
+    <h3>Get in touch</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin:-6px 0 18px;">Tell us what you'd like to help with and we'll reach out.</p>
+
+    <p style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:10px;">I'm interested in</p>
+    <div class="role-chips">
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Writing cases</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Brain images</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Fact-checking</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Engineering</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Design</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Media &amp; outreach</button>
+    </div>
+
     <form id="volunteer-form">
-      <div class="field"><label>Name</label><input type="text" required></div>
-      <div class="field"><label>Email</label><input type="email" required></div>
-      <div class="field"><label>What would you like to help with?</label><input type="text" placeholder="e.g. writing cases, design, outreach"></div>
-      <button class="btn" type="submit">Submit interest</button>
+      <div class="field"><label>Name</label><input type="text" placeholder="Your name" required></div>
+      <div class="field"><label>Email</label><input type="email" placeholder="you@example.com" required></div>
+      <div class="field"><label>Anything else to share? (optional)</label>
+        <textarea rows="3" placeholder="Background, ideas, questions…" style="font-family:var(--serif-body);font-size:15px;padding:9px 10px;border:1px solid var(--ink-soft);border-radius:4px;width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+      </div>
+      <button class="btn" type="submit" style="width:100%;justify-content:center;">Join Us →</button>
     </form>
   </div>
+
 </main>
 
 <footer id="footer-contact">
@@ -122,15 +215,15 @@
   </div>
 </div>
 
-<script src="config.js?v=64"></script>
-<script src="script.js?v=64"></script>
+<script src="config.js?v=65"></script>
+<script src="script.js?v=65"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
   document.getElementById('volunteer-form').addEventListener('submit', e=>{
     e.preventDefault();
-    alert('Thanks for volunteering! Connect this form to a Google Form or your backend of choice to actually collect responses.');
+    e.target.innerHTML = '<p style="font-family:var(--serif-display);font-size:20px;text-align:center;padding:24px 0;">Thanks! We\'ll be in touch soon. 🧠</p>';
   });
 </script>
 </body>

@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=56">
+<link rel="stylesheet" href="style.css?v=57">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* ---- Homepage extras ---- */
@@ -33,25 +35,26 @@
 
 /* Mid-page mission strip */
 .mission-strip{
-  background:var(--ink);
+  background:linear-gradient(135deg, #3D2A6E 0%, #5A3080 50%, #3A1F5C 100%);
   color:#fff;
-  padding:54px 0;
-  margin:52px 0;
+  padding:64px 0;
+  margin:60px 0 0;
   text-align:center;
 }
 .mission-strip h2{
   font-family:'Playfair Display','Times New Roman',serif;
   font-size:clamp(26px,4vw,38px);
-  margin:0 auto 12px;
+  margin:0 auto 14px;
   max-width:700px;
   line-height:1.3;
   color:#fff;
 }
 .mission-strip p{
   font-size:16px;
-  opacity:.7;
+  opacity:.82;
   margin:0 auto;
   max-width:500px;
+  line-height:1.7;
 }
 
 /* Game cards — richer layout */
@@ -218,14 +221,6 @@
     </div>
   </div>
 
-  <!-- ── Mission strip ── -->
-  <div class="mission-strip">
-    <div class="wrap">
-      <h2>Neuroscience, made for every curious mind</h2>
-      <p>Free daily games designed with neuroscience students, educators, and clinicians — no textbook required.</p>
-    </div>
-  </div>
-
   <!-- ── Games ── -->
   <div class="wrap">
     <span class="section-eyebrow">Play Today</span>
@@ -313,6 +308,14 @@
     </div>
   </div>
 
+  <!-- ── Mission strip (bottom, above volunteer) ── -->
+  <div class="mission-strip">
+    <div class="wrap">
+      <h2>Neuroscience, made for every curious mind</h2>
+      <p>Free daily games designed with neuroscience students, educators, and clinicians — no textbook required.</p>
+    </div>
+  </div>
+
   <!-- ── Volunteer banner ── -->
   <div class="wrap">
     <div class="volunteer-banner">
@@ -352,9 +355,9 @@
   </div>
 </div>
 
-<script src="config.js?v=56"></script>
-<script src="games-data.js?v=56"></script>
-<script src="script.js?v=56"></script>
+<script src="config.js?v=57"></script>
+<script src="games-data.js?v=57"></script>
+<script src="script.js?v=57"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

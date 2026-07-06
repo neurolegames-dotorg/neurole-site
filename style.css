@@ -43,7 +43,7 @@ a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
 button{font-family:inherit;cursor:pointer;}
 
-.wrap{max-width:var(--max-w);margin:0 auto;padding:0 28px;}
+.wrap{max-width:var(--max-w);margin:0 auto;padding:0 32px;}
 
 /* ---------- masthead ---------- */
 .masthead{
@@ -172,10 +172,15 @@ body{padding-top:58px;}
   border-bottom-color:var(--neuro-blue-deep);
 }
 .brand{
-  display:flex;align-items:center;
+  display:flex;align-items:center;gap:10px;
 }
-.brand a{display:flex;align-items:center;}
+.brand a{display:flex;align-items:center;gap:10px;}
 .brand img{height:36px;width:auto;display:block;}
+.brand-wordmark{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-weight:800;font-size:22px;letter-spacing:-.01em;
+  color:var(--ink);white-space:nowrap;
+}
 .brand .dot{color:var(--neuro-blue);}
 
 /* ---------- hero ---------- */
@@ -357,8 +362,8 @@ h2.section-title{
 /* ---------- footer ---------- */
 footer{
   border-top:2px solid var(--ink);
-  margin-top:60px;
-  padding:34px 0 max(28px, env(safe-area-inset-bottom, 28px));
+  margin-top:72px;
+  padding:44px 0 max(30px, env(safe-area-inset-bottom, 30px));
   background:var(--paper-deep);
 }
 /* Make the overscroll area below the footer (iPhone home bar area)

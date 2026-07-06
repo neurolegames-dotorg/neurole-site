@@ -2,36 +2,177 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=54">
+<link rel="stylesheet" href="style.css?v=56">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
-/* Fun fact purple theming */
+/* ---- Homepage extras ---- */
+
+/* Hero tagline */
+.hero-text h1{letter-spacing:-.02em;}
+.hero-text p{letter-spacing:.2em;}
+
+/* Fun fact */
 .factbox{
-  background:linear-gradient(135deg, rgba(145,118,184,0.09), rgba(71,61,104,0.05));
-  border:1.5px solid rgba(145,118,184,0.25);
+  background:linear-gradient(135deg, rgba(145,118,184,0.10), rgba(71,61,104,0.06));
+  border:1.5px solid rgba(145,118,184,0.28);
   border-left:5px solid var(--neuro-blue);
-  border-radius:4px;
-  padding:24px 28px;
+  border-radius:10px;
+  padding:26px 30px;
   display:flex;flex-direction:column;gap:10px;
 }
-.factbox .fact-icon{font-size:22px;margin-bottom:2px;}
-.factbox p{margin:0;font-size:17px;line-height:1.65;font-style:italic;}
+.factbox p{margin:0;font-size:18px;line-height:1.7;font-style:italic;color:var(--ink);}
 .factbox .cite{font-family:var(--mono);font-size:12px;color:var(--ink-soft);}
 .factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
+
+/* Mid-page mission strip */
+.mission-strip{
+  background:var(--ink);
+  color:#fff;
+  padding:54px 0;
+  margin:52px 0;
+  text-align:center;
+}
+.mission-strip h2{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-size:clamp(26px,4vw,38px);
+  margin:0 auto 12px;
+  max-width:700px;
+  line-height:1.3;
+  color:#fff;
+}
+.mission-strip p{
+  font-size:16px;
+  opacity:.7;
+  margin:0 auto;
+  max-width:500px;
+}
+
+/* Game cards — richer layout */
+.home-games-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-bottom:12px;
+}
+@media(max-width:640px){.home-games-grid{grid-template-columns:1fr;}}
+
+.home-game-card{
+  background:#fff;
+  border:1px solid var(--rule);
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  text-decoration:none;color:var(--ink);
+  transition:transform .2s, box-shadow .2s;
+  position:relative;
+}
+.home-game-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 44px rgba(90,67,128,.13);
+}
+.home-game-card-stripe{
+  height:5px;
+  background:linear-gradient(90deg, var(--neuro-blue-bright), var(--plum));
+}
+.home-game-card-body{
+  padding:28px 28px 26px;
+  display:flex;flex-direction:column;gap:12px;
+  flex:1;
+}
+.home-game-card-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:rgba(139,38,53,0.07);
+  display:flex;align-items:center;justify-content:center;
+}
+.home-game-card-tag{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.home-game-card-body h3{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-size:24px;margin:0;
+}
+.home-game-card-body p{
+  margin:0;color:var(--ink-soft);font-size:15px;line-height:1.65;flex:1;
+}
+.home-game-card .play-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);
+  transition:gap .15s;
+  margin-top:4px;
+}
+.home-game-card:hover .play-cta{gap:11px;}
+
+/* Stats row */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:14px;overflow:hidden;
+  margin:52px 0;
+  background:#fff;
+}
+.stat-cell{
+  padding:28px 24px;text-align:center;
+  border-right:1px solid var(--rule);
+}
+.stat-cell:last-child{border-right:none;}
+.stat-cell .stat-num{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-size:clamp(32px,5vw,48px);font-weight:700;
+  color:var(--neuro-blue-deep);line-height:1;margin-bottom:6px;
+}
+.stat-cell .stat-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+@media(max-width:520px){
+  .stats-row{grid-template-columns:1fr;}
+  .stat-cell{border-right:none;border-bottom:1px solid var(--rule);}
+  .stat-cell:last-child{border-bottom:none;}
+}
+
+/* How it works */
+.how-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  margin:0 0 52px;
+}
+@media(max-width:640px){.how-grid{grid-template-columns:1fr;}}
+.how-card{
+  padding:24px;background:#fff;
+  border:1px solid var(--rule);border-radius:12px;
+}
+.how-card .step-num{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-size:36px;color:var(--neuro-blue-bright);font-weight:700;
+  margin-bottom:10px;line-height:1;
+}
+.how-card h4{font-family:var(--serif-display);font-size:17px;margin:0 0 8px;}
+.how-card p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.6;}
+
+/* Section label override */
+.section-eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);margin-bottom:10px;display:block;
+}
+.section-heading{
+  font-family:'Playfair Display','Times New Roman',serif;
+  font-size:clamp(28px,4vw,38px);margin:0 0 8px;line-height:1.2;
+}
+.section-sub{color:var(--ink-soft);font-size:15.5px;margin:0 0 28px;max-width:540px;}
 </style>
 </head>
 <body>
 
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="brand"><img src="assets/neurole-logo.png" alt="Neurole" style="height:38px;width:auto;display:block;"></div>
+    <div class="brand"><img src="assets/neurole-logo.png" alt="Neurole logo" style="height:34px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></div>
     <nav class="nav-left">
       <a href="contact.html">Contact Us</a>
       <a href="volunteer.html">Volunteer</a>
@@ -66,58 +207,114 @@
   </div>
 </section>
 
-<main class="wrap">
+<main>
 
-  <section style="margin-top:44px;">
-    <div class="section-label">Weekly Neuroscience Fun Fact</div>
+  <!-- ── Fun Fact ── -->
+  <div class="wrap" style="margin-top:52px;">
+    <span class="section-eyebrow">Weekly Neuroscience Fun Fact</span>
     <div class="factbox" id="fun-fact-box">
       <p class="fact-text">Loading this week's fact…</p>
       <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">—</a></span>
     </div>
-  </section>
+  </div>
 
-  <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+  <!-- ── Mission strip ── -->
+  <div class="mission-strip">
+    <div class="wrap">
+      <h2>Neuroscience, made for every curious mind</h2>
+      <p>Free daily games designed with neuroscience students, educators, and clinicians — no textbook required.</p>
+    </div>
+  </div>
 
-  <section>
-    <h2 class="section-title">Play Today</h2>
-    <div class="games-grid">
+  <!-- ── Games ── -->
+  <div class="wrap">
+    <span class="section-eyebrow">Play Today</span>
+    <h2 class="section-heading">Two ways to train your brain</h2>
+    <p class="section-sub">A new clinical case every day. Identify brain regions any time you want. Both are free, forever.</p>
 
-      <div class="game-card">
-        <div class="icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
-          </svg>
+    <div class="home-games-grid">
+
+      <a class="home-game-card" href="daily-game.html">
+        <div class="home-game-card-stripe"></div>
+        <div class="home-game-card-body">
+          <div class="home-game-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+            </svg>
+          </div>
+          <span class="home-game-card-tag">Daily · Diagnostic</span>
+          <h3>The Daily Case</h3>
+          <p>A new patient every day. Read five symptoms and guess the neurological condition — you have five tries.</p>
+          <span class="play-cta">Play today's case <span>→</span></span>
         </div>
-        <span class="tag">Daily · Diagnostic</span>
-        <h3>The Daily Case</h3>
-        <p>A new patient walks in every day. Read the symptoms and guess the neurological condition in five tries or fewer.</p>
-        <a class="btn" href="daily-game.html">Play today's case →</a>
-      </div>
+      </a>
 
-      <div class="game-card">
-        <div class="icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-            <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
-            <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/>
-            <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
-            <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/>
-            <path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
-            <path d="M6 18a4 4 0 0 1-1.967-.516"/>
-            <path d="M19.967 17.484A4 4 0 0 1 18 18"/>
-          </svg>
+      <a class="home-game-card" href="neuroanatomy.html">
+        <div class="home-game-card-stripe" style="background:linear-gradient(90deg,#B49FD4,#5A4380);"></div>
+        <div class="home-game-card-body">
+          <div class="home-game-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+              <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+              <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+              <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+              <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+              <path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/>
+            </svg>
+          </div>
+          <span class="home-game-card-tag">Untimed · Visual</span>
+          <h3>Map the Brain</h3>
+          <p>An image of the brain appears — pick the highlighted region, then ask the AI to explain what it does.</p>
+          <span class="play-cta">Explore neuroanatomy <span>→</span></span>
         </div>
-        <span class="tag">Untimed · Visual</span>
-        <h3>Map the Brain</h3>
-        <p>Look at a brain image, pick the right region from four choices, then ask questions to understand what it does.</p>
-        <a class="btn" href="neuroanatomy.html">Play neuroanatomy →</a>
-      </div>
+      </a>
 
     </div>
-  </section>
+  </div>
 
-  <section>
+  <!-- ── How it works ── -->
+  <div class="wrap">
+    <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+    <span class="section-eyebrow">How it works</span>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="step-num">01</div>
+        <h4>Pick a game</h4>
+        <p>Start with The Daily Case for a diagnostic challenge, or Map the Brain to drill neuroanatomy at your own pace.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">02</div>
+        <h4>Learn by doing</h4>
+        <p>Each question reveals real neuroscience. Wrong answers unlock extra hints. The AI explains everything in plain language.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">03</div>
+        <h4>Come back daily</h4>
+        <p>A fresh case drops every day. Build your streak, track your score, and challenge yourself to improve week over week.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Stats ── -->
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-num">45+</div>
+        <div class="stat-label">Brain regions</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">Daily</div>
+        <div class="stat-label">New cases</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">Always &amp; forever</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Volunteer banner ── -->
+  <div class="wrap">
     <div class="volunteer-banner">
       <div class="volunteer-banner-text">
         <h4>Want to help build Neurole?</h4>
@@ -125,7 +322,7 @@
       </div>
       <a class="btn ghost" href="volunteer.html">Get involved →</a>
     </div>
-  </section>
+  </div>
 
 </main>
 
@@ -147,7 +344,7 @@
 </footer>
 
 <div class="modal-backdrop" id="signin-modal">
-  <div class="modal">
+  <div class="modal" style="max-height:85vh;overflow-y:auto;">
     <button class="close" data-close>✕</button>
     <h3>Sign in to Neurole</h3>
     <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
@@ -155,19 +352,13 @@
   </div>
 </div>
 
-<script src="config.js?v=54"></script>
-<script src="games-data.js?v=54"></script>
-<script src="script.js?v=54"></script>
+<script src="config.js?v=56"></script>
+<script src="games-data.js?v=56"></script>
+<script src="script.js?v=56"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
-  (function checkHeroImage(){
-    const t = new Image();
-    t.onload = () => console.log("Neurole: hero image loaded.");
-    t.onerror = () => console.error("Neurole: hero image FAILED to load at assets/neuron-hero.webp");
-    t.src = "assets/neuron-hero.webp";
-  })();
 </script>
 </body>
 </html>

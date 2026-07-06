@@ -173,13 +173,24 @@ body{padding-top:58px;}
 }
 .brand{
   display:flex;align-items:center;gap:10px;
+  text-decoration:none;
 }
-.brand a{display:flex;align-items:center;gap:10px;}
-.brand img{height:36px;width:auto;display:block;}
+.brand a{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.brand img{
+  height:38px;width:auto;display:block;
+  /* Keep the logo and text baseline-aligned */
+  flex-shrink:0;
+}
 .brand-wordmark{
   font-family:'Playfair Display','Times New Roman',serif;
-  font-weight:800;font-size:28px;letter-spacing:-.01em;
+  font-weight:800;font-size:26px;letter-spacing:-.01em;
   color:var(--ink);white-space:nowrap;
+  /* Nudge text baseline to match logo optical centre */
+  line-height:1;
+  position:relative;top:1px;
 }
 .brand .dot{color:var(--neuro-blue);}
 

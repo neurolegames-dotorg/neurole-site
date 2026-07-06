@@ -6,21 +6,32 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>Donate — Neurole</title><link rel="stylesheet" href="style.css?v=65"><script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Donate — Neurole</title>
+<link rel="stylesheet" href="style.css?v=66">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+.donate-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:780px;}
+@media(max-width:580px){.donate-grid{grid-template-columns:1fr;}}
+.donate-card{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:26px 22px;display:flex;flex-direction:column;gap:12px;}
+.donate-card h3{font-family:var(--serif-display);font-size:20px;margin:0;}
+.donate-card p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.65;flex:1;}
+.donate-card .btn{align-self:flex-start;}
+.alz-card{border-left:5px solid #0057A8;}
+.alz-card h3{color:#0057A8;}
+.alz-card .btn{background:#0057A8 !important;}
+@media(max-width:480px){.donate-card .btn{width:100%;justify-content:center;}}
+</style>
 </head>
 <body>
 <header class="masthead"><div class="masthead-inner">
 <div class="brand"><a href="index.html"><img src="assets/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
 <nav class="nav-left">
-<a href="contact.html">Contact Us</a>
-<a href="volunteer.html">Join Us</a>
-<a href="donate.html">Donate</a>
-<a href="about.html">About</a>
+<a href="contact.html">Contact Us</a><a href="volunteer.html">Join Us</a><a href="donate.html">Donate</a><a href="about.html">About</a>
 <button class="linklike" data-signin>Sign In</button>
 </nav>
-    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-</div>
-</header>
+<button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></header>
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
@@ -35,28 +46,25 @@
 </div>
 
 <div class="page-hero"><div class="wrap">
-<h1>Support Neurole</h1>
-<p>Neurole is free to play and built by volunteers. Donations cover hosting, illustration, and the clinicians who review every case.</p>
+<a class="back-home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to home</a>
+<h1>Donate</h1>
+<p>Support free neuroscience education — or donate directly to research that could change millions of lives.</p>
 </div></div>
 
-<main class="wrap" style="padding:40px 0 60px;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:780px;">
-    <div class="panel" style="border-radius:12px;">
-      <h3 style="font-family:var(--serif-display);margin-top:0;">Support Neurole</h3>
-      <p style="color:var(--ink-soft);font-size:14.5px;">Donations keep the games free and help us build new features, commission clinical case reviews, and stay online.</p>
-      <a class="btn" href="#" target="_blank" rel="noopener" style="margin-top:6px;">Donate to Neurole →</a>
+<main class="wrap" style="padding:36px 0 70px;">
+  <div class="donate-grid">
+    <div class="donate-card">
+      <h3>Support Neurole</h3>
+      <p>Donations keep the games free and help us build new features, commission clinical case reviews, and stay online for everyone.</p>
+      <a class="btn" href="#" target="_blank" rel="noopener">Donate to Neurole →</a>
     </div>
-
-    <div class="panel" style="border-radius:12px;border-left:4px solid #0057A8;">
-      <h3 style="font-family:var(--serif-display);margin-top:0;color:#0057A8;">Alzheimer's Association</h3>
-      <p style="color:var(--ink-soft);font-size:14.5px;">Neurological diseases are at the heart of everything we study. The Alzheimer's Association funds research and provides support for those affected worldwide.</p>
-      <a class="btn" href="https://act.alz.org/donate" target="_blank" rel="noopener" style="background:#0057A8;margin-top:6px;">Donate to Alzheimer's Association →</a>
+    <div class="donate-card alz-card">
+      <h3>Alzheimer's Association</h3>
+      <p>Neurological diseases are at the heart of everything we study. The Alzheimer's Association funds research and support for those affected worldwide.</p>
+      <a class="btn" href="https://act.alz.org/donate" target="_blank" rel="noopener">Donate to Alzheimer's →</a>
     </div>
   </div>
-
-  <div style="max-width:780px;margin-top:28px;">
-    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-soft);">Neurole is not affiliated with the Alzheimer's Association. The link above goes directly to their official donation page.</p>
-  </div>
+  <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);max-width:780px;margin-top:20px;">Neurole is not affiliated with the Alzheimer's Association. The link above goes directly to their official donation page.</p>
 </main>
 
 <footer id="footer-contact"><div class="wrap">
@@ -67,17 +75,7 @@
 </div>
 <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
 </div></footer>
-
-<div class="modal-backdrop" id="signin-modal"><div class="modal">
-<button class="close" data-close>✕</button><h3>Sign in to Neurole</h3>
-<p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
-<div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
-</div></div>
-
-<script src="config.js?v=65"></script><script src="script.js?v=65"></script>
-<script>
-document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
-document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
-document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
-</script>
+<div class="modal-backdrop" id="signin-modal"><div class="modal"><button class="close" data-close>✕</button><h3>Sign in to Neurole</h3><p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p><div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div></div></div>
+<script src="config.js?v=66"></script><script src="script.js?v=66"></script>
+<script>document.getElementById('social-instagram').href=window.NEUROLE_CONFIG.SOCIAL.instagram;document.getElementById('social-email').href=window.NEUROLE_CONFIG.SOCIAL.email;document.getElementById('social-youtube').href=window.NEUROLE_CONFIG.SOCIAL.youtube;</script>
 </body></html>

@@ -9,7 +9,7 @@
   <link rel="manifest" href="/site.webmanifest">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=65">
+<link rel="stylesheet" href="style.css?v=66">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* ---- Homepage extras ---- */
@@ -62,34 +62,47 @@
   gap:24px;
   margin-bottom:12px;
 }
-@media(max-width:640px){.home-games-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.home-games-grid{grid-template-columns:1fr;gap:16px;}}
+
+/* Spotlight section wrapper — tinted bg to visually separate from rest of page */
+.games-spotlight{
+  background:linear-gradient(180deg, var(--paper) 0%, rgba(145,118,184,.07) 40%, rgba(145,118,184,.10) 100%);
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:52px 0 60px;
+  margin:40px 0;
+}
 
 .home-game-card{
   background:#fff;
-  border:1px solid var(--rule);
-  border-radius:16px;
+  border:1.5px solid var(--rule);
+  border-radius:18px;
   overflow:hidden;
   display:flex;flex-direction:column;
   text-decoration:none;color:var(--ink);
-  transition:transform .2s, box-shadow .2s;
+  transition:transform .22s, box-shadow .22s, border-color .22s;
   position:relative;
 }
+.home-game-card--lg{
+  /* Bigger, more substantial cards */
+}
 .home-game-card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 20px 44px rgba(90,67,128,.13);
+  transform:translateY(-6px);
+  box-shadow:0 24px 52px rgba(90,67,128,.16);
+  border-color:var(--neuro-blue);
 }
 .home-game-card-stripe{
-  height:5px;
+  height:6px;
   background:linear-gradient(90deg, var(--neuro-blue-bright), var(--plum));
 }
 .home-game-card-body{
-  padding:28px 28px 26px;
-  display:flex;flex-direction:column;gap:12px;
+  padding:30px 28px 28px;
+  display:flex;flex-direction:column;gap:14px;
   flex:1;
 }
 .home-game-card-icon{
-  width:46px;height:46px;border-radius:12px;
-  background:rgba(139,38,53,0.07);
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(139,38,53,0.08);
   display:flex;align-items:center;justify-content:center;
 }
 .home-game-card-tag{
@@ -98,19 +111,32 @@
 }
 .home-game-card-body h3{
   font-family:'Playfair Display','Times New Roman',serif;
-  font-size:24px;margin:0;
+  font-size:clamp(22px,3vw,28px);margin:0;
 }
 .home-game-card-body p{
-  margin:0;color:var(--ink-soft);font-size:15px;line-height:1.65;flex:1;
+  margin:0;color:var(--ink-soft);font-size:15px;line-height:1.7;flex:1;
 }
 .home-game-card .play-cta{
   display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--neuro-blue-deep);
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);font-weight:600;
   transition:gap .15s;
-  margin-top:4px;
+  margin-top:6px;
+  padding:10px 18px;
+  background:rgba(107,79,148,.07);
+  border-radius:6px;
+  align-self:flex-start;
 }
-.home-game-card:hover .play-cta{gap:11px;}
+.home-game-card:hover .play-cta{gap:12px;background:rgba(107,79,148,.13);}
+
+/* Mobile card sizing */
+@media(max-width:480px){
+  .home-game-card-body{padding:22px 18px 20px;gap:12px;}
+  .home-game-card-body h3{font-size:22px;}
+  .home-game-card-body p{font-size:14px;}
+  .home-game-card .play-cta{font-size:11px;padding:9px 14px;}
+}
+
 
 /* Stats row */
 .stats-row{
@@ -219,51 +245,53 @@
     </div>
   </div>
 
-  <!-- ── Games ── -->
-  <div class="wrap" style="margin-top:52px;">
-    <span class="section-eyebrow">Play Today</span>
-    <h2 class="section-heading">Two ways to train your brain</h2>
-    <p class="section-sub">A new clinical case every day. Identify brain regions any time you want. Both are free, forever.</p>
+  <!-- ── Games spotlight ── -->
+  <section class="games-spotlight">
+    <div class="wrap">
+      <span class="section-eyebrow" style="text-align:center;display:block;margin-bottom:12px;">Play Today</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);text-align:center;margin:0 0 10px;line-height:1.2;">Two ways to train your brain</h2>
+      <p style="text-align:center;color:var(--ink-soft);font-size:16px;margin:0 auto 36px;max-width:460px;">A new clinical case every day. Identify brain regions any time you like. Both are free, forever.</p>
 
-    <div class="home-games-grid">
+      <div class="home-games-grid home-games-grid--spotlight">
 
-      <a class="home-game-card" href="daily-game.html">
-        <div class="home-game-card-stripe"></div>
-        <div class="home-game-card-body">
-          <div class="home-game-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
-            </svg>
+        <a class="home-game-card home-game-card--lg" href="daily-game.html">
+          <div class="home-game-card-stripe"></div>
+          <div class="home-game-card-body">
+            <div class="home-game-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+              </svg>
+            </div>
+            <span class="home-game-card-tag">Daily · Diagnostic</span>
+            <h3>The Daily Case</h3>
+            <p>A new patient walks in every day. Read the symptoms and guess the neurological diagnosis — you have five tries. Resets at midnight ET.</p>
+            <span class="play-cta">Play today's case <span>→</span></span>
           </div>
-          <span class="home-game-card-tag">Daily · Diagnostic</span>
-          <h3>The Daily Case</h3>
-          <p>A new patient every day. Read five symptoms and guess the neurological condition — you have five tries.</p>
-          <span class="play-cta">Play today's case <span>→</span></span>
-        </div>
-      </a>
+        </a>
 
-      <a class="home-game-card" href="neuroanatomy.html">
-        <div class="home-game-card-stripe" style="background:linear-gradient(90deg,#B49FD4,#5A4380);"></div>
-        <div class="home-game-card-body">
-          <div class="home-game-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-              <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-              <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
-              <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
-              <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
-              <path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/>
-            </svg>
+        <a class="home-game-card home-game-card--lg" href="neuroanatomy.html">
+          <div class="home-game-card-stripe" style="background:linear-gradient(90deg,#B49FD4,#5A4380);"></div>
+          <div class="home-game-card-body">
+            <div class="home-game-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+                <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+                <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+                <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+                <path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/>
+              </svg>
+            </div>
+            <span class="home-game-card-tag">Untimed · Visual</span>
+            <h3>Map the Brain</h3>
+            <p>A brain image appears — identify the highlighted region, then ask the AI to explain what it does and what happens when it's damaged.</p>
+            <span class="play-cta">Explore neuroanatomy <span>→</span></span>
           </div>
-          <span class="home-game-card-tag">Untimed · Visual</span>
-          <h3>Map the Brain</h3>
-          <p>An image of the brain appears — pick the highlighted region, then ask the AI to explain what it does.</p>
-          <span class="play-cta">Explore neuroanatomy <span>→</span></span>
-        </div>
-      </a>
+        </a>
 
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── How it works ── -->
   <div class="wrap">
@@ -353,9 +381,9 @@
   </div>
 </div>
 
-<script src="config.js?v=65"></script>
-<script src="games-data.js?v=65"></script>
-<script src="script.js?v=65"></script>
+<script src="config.js?v=66"></script>
+<script src="games-data.js?v=66"></script>
+<script src="script.js?v=66"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

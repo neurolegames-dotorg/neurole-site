@@ -500,3 +500,91 @@ footer {
   font-family:var(--serif-body);font-size:15px;padding:9px 10px;
   border:1px solid var(--ink-soft);background:#fff;width:100%;box-sizing:border-box;
 }
+
+/* ===================================================
+   COMPREHENSIVE MOBILE FIXES — iPhone / small screens
+   =================================================== */
+
+/* Page hero — tighter on mobile */
+@media(max-width:480px){
+  .page-hero{padding:60px 0 22px;}
+  .page-hero h1{font-size:clamp(28px,8vw,42px);}
+  .page-hero p{font-size:14.5px;}
+  .back-home{font-size:11px;}
+}
+
+/* Wrap — tighter horizontal padding on very small screens */
+@media(max-width:380px){
+  .wrap{padding:0 16px;}
+}
+
+/* Daily Case — readable on iPhone */
+@media(max-width:480px){
+  .case-shell{padding:12px 0 50px;}
+  .case-card{padding:0 !important;background:transparent !important;border:none !important;box-shadow:none !important;}
+  .case-card h2{font-size:18px;}
+  .symptom-log li{font-size:14px;padding:10px 12px;}
+  .guess-row{gap:8px;}
+  .guess-row input{font-size:15px;padding:11px 12px;height:48px;box-sizing:border-box;}
+  .guess-row .btn{height:48px;padding:0 14px;}
+  .past-guesses span{font-size:13px;padding:5px 12px;}
+  .start-screen h1{font-size:clamp(24px,7vw,34px);}
+  .start-screen p{font-size:14px;}
+  .start-logo{margin-bottom:12px;}
+  .start-logo svg{width:42px !important;height:42px !important;}
+  .start-actions .btn{padding:11px 20px;font-size:11.5px;}
+  #streak-label{font-size:12px;}
+}
+
+/* Map the Brain — readable on iPhone */
+@media(max-width:480px){
+  .game-shell{padding:8px 0 60px;}
+  .specimen img{max-width:100%;}
+  .choice-btn{font-size:14px;padding:11px 12px 11px 40px;}
+  .game-stats-bar{flex-wrap:wrap;gap:6px;padding:10px 4px;}
+  .score-tag,.score-pill{font-size:11px;}
+  .start-screen-inner{padding-top:50px !important;}
+  .category-row{gap:6px;}
+  .category-btn{font-size:10px;padding:7px 10px;}
+  .learn-tab-toggle{font-size:11px;padding:10px 12px;}
+}
+
+/* Buttons — full width on very narrow screens where appropriate */
+@media(max-width:380px){
+  .modal-actions{flex-direction:column;}
+  .modal-actions .btn{width:100%;justify-content:center;}
+}
+
+/* Inner-page panels/cards — single column on narrow screens */
+@media(max-width:480px){
+  .panel{padding:18px 16px;}
+  .panel h3{font-size:17px;}
+  .panel p{font-size:14px;}
+  /* Stats row horizontal scroll on very small */
+  .stats-row{gap:0;overflow-x:auto;}
+  /* Volunteer banner stacks */
+  .volunteer-banner{flex-direction:column;align-items:flex-start;gap:14px;padding:22px 18px;}
+  .volunteer-banner .btn{width:100%;justify-content:center;}
+}
+
+/* Contact cards — single col on phone */
+@media(max-width:600px){
+  .contact-grid{grid-template-columns:1fr !important;}
+  .contact-card .btn{width:100%;justify-content:center;}
+  .donate-grid{grid-template-columns:1fr !important;}
+  .donate-card .btn{width:100%;justify-content:center;}
+  .about-values{grid-template-columns:1fr !important;}
+  .about-cta-row .btn{width:100%;justify-content:center;}
+  .role-grid{grid-template-columns:1fr !important;}
+}
+
+/* How-it-works cards */
+@media(max-width:600px){
+  .how-grid{grid-template-columns:1fr !important;}
+}
+
+/* Footer social icons — more spacing on mobile */
+@media(max-width:480px){
+  .social-row{gap:18px;}
+  .social-row a{width:46px;height:46px;}
+}

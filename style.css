@@ -361,10 +361,19 @@ h2.section-title{
 
 /* ---------- footer ---------- */
 footer{
-  border-top:2px solid var(--ink);
+  border-top:none;
   margin-top:0;
   padding:44px 0 max(30px, env(safe-area-inset-bottom, 30px));
-  background:var(--paper-deep);
+  background:#6B4F94;
+}
+footer .footer-fine{color:rgba(255,255,255,0.65);}
+footer .social-row a{
+  border-color:rgba(255,255,255,0.3);
+  color:#fff;
+}
+footer .social-row a:hover{
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(255,255,255,0.6);
 }
 /* Make the overscroll area below the footer (iPhone home bar area)
    match the footer background exactly instead of showing a gap */

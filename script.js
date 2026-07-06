@@ -419,7 +419,7 @@ function recordWin(todayKey){
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){
-  const footerBg = '#EDEEF1'; // same as --paper-deep, always matches footer
+  const footerBg = '#6B4F94'; // same as --paper-deep, always matches footer
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;

@@ -202,89 +202,51 @@ async function loadFunFact(){
 async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
 
-  // Try Groq models in order of preference
-  const groqModels = ['llama3-8b-8192', 'llama-3.3-70b-versatile', 'llama3-70b-8192'];
-  if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
-    for(const model of groqModels){
-      try{
-        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':`Bearer ${cfg.GROQ_API_KEY}`},
-          body:JSON.stringify({ model, messages:[{role:'user',content:prompt}], max_tokens:400, temperature:0.7 })
-        });
-        const data = await res.json();
-        const answer = data?.choices?.[0]?.message?.content?.trim();
-        if(res.ok && answer){ console.log('Neurole AI: answered via Groq', model); return answer; }
-        if(res.status === 429){ console.warn('Groq rate limited, trying next model...'); continue; }
-        console.error('Groq', model, 'failed:', res.status, JSON.stringify(data).slice(0,150));
-      }catch(err){ console.error('Groq', model, 'error:', err.message); }
-    }
-  }
-
-  // Option A: direct Gemini call from the browser
-  if(cfg.GEMINI_API_KEY && !cfg.GEMINI_API_KEY.startsWith('PASTE_')){
-    try{
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${cfg.GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        }
-      );
-      const data = await res.json();
-      const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if(res.ok && answer) return answer;
-      console.error("Neurole: Gemini call failed — HTTP " + res.status, data);
-    }catch(err){
-      console.error("Neurole: Gemini request error —", err.message);
-    }
-  }
-
-  // Option A2: direct OpenAI call from the browser (no service-account
-  // restriction like Gemini had — simpler if Google's policy is blocking you)
+  // Option 1: OpenAI — most reliable
   if(cfg.OPENAI_API_KEY && !cfg.OPENAI_API_KEY.startsWith('PASTE_')){
     try{
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
+        method:'POST',
+        headers:{
           'Content-Type':'application/json',
-          'Authorization': `Bearer ${cfg.OPENAI_API_KEY}`
+          'Authorization':`Bearer ${cfg.OPENAI_API_KEY}`
         },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 300
+        body:JSON.stringify({
+          model:'gpt-4o-mini',
+          messages:[{role:'user',content:prompt}],
+          max_tokens:400,
+          temperature:0.7
         })
       });
       const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content;
-      if(res.ok && answer) return answer;
-      console.error("Neurole: OpenAI call failed — HTTP " + res.status, data);
-    }catch(err){
-      console.error("Neurole: OpenAI request error —", err.message);
+      const answer = data?.choices?.[0]?.message?.content?.trim();
+      if(res.ok && answer){ console.log('Neurole AI: ✓ OpenAI gpt-4o-mini'); return answer; }
+      console.warn('Neurole AI: OpenAI failed', res.status, data?.error?.message);
+    }catch(err){ console.warn('Neurole AI: OpenAI network error', err.message); }
+  }
+
+  // Option 2: Groq — free tier
+  if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
+    for(const model of ['llama3-8b-8192','llama-3.1-8b-instant','llama-3.3-70b-versatile']){
+      try{
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':`Bearer ${cfg.GROQ_API_KEY}`},
+          body:JSON.stringify({model,messages:[{role:'user',content:prompt}],max_tokens:400})
+        });
+        const data = await res.json();
+        const answer = data?.choices?.[0]?.message?.content?.trim();
+        if(res.ok && answer){ console.log('Neurole AI: ✓ Groq', model); return answer; }
+        if(res.status === 429){ continue; } // rate limited, try next model
+        console.warn('Neurole AI: Groq', model, 'failed', res.status, data?.error?.message);
+      }catch(err){ console.warn('Neurole AI: Groq error', err.message); }
     }
   }
 
-  // Option B: your own backend (e.g. ai-worker.js on Cloudflare)
-  if(cfg.AI_ENDPOINT_URL && !cfg.AI_ENDPOINT_URL.startsWith('PASTE_')){
-    try{
-      const res = await fetch(cfg.AI_ENDPOINT_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      if(data.answer) return data.answer;
-      console.error("Neurole: backend endpoint returned no answer —", data);
-    }catch(err){
-      console.error("Neurole: backend endpoint error —", err.message);
-    }
-  }
-
-  console.warn("Neurole: no AI provider configured/working — see config.js (GEMINI_API_KEY, OPENAI_API_KEY, or AI_ENDPOINT_URL).");
+  console.error('Neurole AI: all providers failed — check config.js API keys');
   return null;
 }
+
 
 async function askNeuroleAI({ region, function_text, question }){
   const prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.

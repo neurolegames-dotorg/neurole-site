@@ -738,3 +738,191 @@ body{background:#FAFAFA;}
 
 /* About values icon */
 .val-icon{display:inline-block;font-size:26px;margin-bottom:8px;}
+
+/* =====================================================
+   CLASSIC TITLE FONT + GAME UI REDESIGN
+   ===================================================== */
+
+/* Cormorant Garamond for all major headings — classic editorial feel */
+h1,h2,h3,h4,
+.page-hero h1,
+.page-hero h2,
+.result-headline h3,
+.brand-wordmark,
+.learn-panel .learn-title,
+.modal h3{
+  font-family:'Cormorant Garamond','Playfair Display',Georgia,serif !important;
+  font-weight:700;
+  letter-spacing:-.01em;
+}
+
+/* Outfit for UI elements — game-like, modern */
+.btn,.score-tag,.score-pill,.category-btn,.game-stats-bar,
+.choice-btn,.guess-row input,.symptom-log,
+.section-eyebrow,.factbox .cite,.footer-fine,
+.nav-left a,.mobile-nav-items a,
+.home-game-card-tag,.play-cta,
+.stat-label,.step-num{
+  font-family:'Outfit',sans-serif;
+}
+
+/* Page hero headline — dramatic and classic */
+.page-hero h1{
+  font-size:clamp(38px,7vw,62px) !important;
+  font-weight:700 !important;
+  line-height:1.08 !important;
+  letter-spacing:-.02em !important;
+}
+
+/* Brand wordmark in masthead */
+.brand-wordmark{
+  font-size:24px !important;
+  letter-spacing:.02em !important;
+}
+
+/* Hero section text */
+.hero-text h1{
+  font-family:'Cormorant Garamond',serif !important;
+  font-size:clamp(52px,9vw,88px) !important;
+  font-weight:700 !important;
+}
+.hero-text p{
+  font-family:'Outfit',sans-serif !important;
+  font-size:clamp(13px,2vw,16px) !important;
+}
+
+/* =====================================================
+   DAILY CASE — GAME REDESIGN
+   ===================================================== */
+.case-card{border-radius:16px !important;}
+
+/* Symptom log items — card style */
+.symptom-log{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:8px;}
+.symptom-log li{
+  background:#fff;
+  border:1.5px solid rgba(145,118,184,.2);
+  border-left:4px solid var(--neuro-blue);
+  border-radius:10px;
+  padding:13px 16px;
+  font-size:16px;
+  line-height:1.5;
+  position:relative;
+}
+.symptom-log li::before{
+  content:counter(symptom-counter);
+  counter-increment:symptom-counter;
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  color:var(--neuro-blue-deep);background:rgba(145,118,184,.12);
+  width:20px;height:20px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-right:10px;flex-shrink:0;
+}
+.symptom-log{counter-reset:symptom-counter;}
+.symptom-log li.locked{
+  background:var(--paper-deep);
+  border-color:rgba(0,0,0,.08);
+  border-left-color:var(--rule);
+  color:var(--ink-soft);
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+}
+
+/* Guess input row */
+.guess-row input{
+  border-radius:10px 0 0 10px !important;
+  border:2px solid rgba(145,118,184,.3) !important;
+  font-size:16px !important;
+  padding:14px 16px !important;
+}
+.guess-row input:focus{
+  border-color:var(--neuro-blue) !important;
+  outline:none;
+  box-shadow:0 0 0 3px rgba(145,118,184,.15) !important;
+}
+.guess-row .btn{
+  border-radius:0 10px 10px 0 !important;
+  padding:0 20px !important;
+}
+
+/* =====================================================
+   MAP THE BRAIN — GAME REDESIGN
+   ===================================================== */
+
+/* Specimen image — proper game card feel */
+.specimen{
+  border-radius:14px !important;
+  background:linear-gradient(135deg,#f4f0fa,#faf8ff) !important;
+  border:1.5px solid rgba(145,118,184,.2) !important;
+  padding:16px !important;
+  margin-bottom:16px !important;
+}
+.cap{
+  font-family:'Outfit',sans-serif !important;
+  font-size:11px !important;font-weight:700 !important;
+  letter-spacing:.1em !important;text-transform:uppercase !important;
+  color:var(--neuro-blue-deep) !important;
+  margin:10px 0 0 !important;
+}
+
+/* Choice buttons — much more game-like */
+.choices{display:flex;flex-direction:column;gap:10px !important;}
+.choice-btn{
+  font-family:'Outfit',sans-serif !important;
+  font-size:16px !important;font-weight:600 !important;
+  border:2px solid rgba(0,0,0,.1) !important;
+  border-radius:12px !important;
+  padding:16px 16px 16px 52px !important;
+  background:#fff !important;
+  text-align:left;cursor:pointer;position:relative;
+  transition:all .2s !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.04) !important;
+}
+.choice-btn:hover:not(:disabled){
+  border-color:var(--neuro-blue) !important;
+  background:rgba(145,118,184,.05) !important;
+  transform:translateX(4px) !important;
+  box-shadow:0 4px 16px rgba(145,118,184,.15) !important;
+}
+.choice-btn.correct{
+  background:linear-gradient(135deg,rgba(92,181,124,.1),rgba(92,181,124,.05)) !important;
+  border-color:#5CB57C !important;
+  box-shadow:0 4px 16px rgba(92,181,124,.2) !important;
+}
+.choice-btn.wrong{
+  background:rgba(168,68,58,.05) !important;
+  border-color:var(--signal-red) !important;
+}
+.choice-letter{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif !important;font-size:12px !important;font-weight:800 !important;
+  background:var(--paper-deep) !important;color:var(--ink) !important;
+  letter-spacing:0 !important;
+}
+.choice-btn.correct .choice-letter{background:#5CB57C !important;color:#fff !important;}
+.choice-btn.wrong .choice-letter{background:var(--signal-red) !important;color:#fff !important;}
+
+/* Score bar */
+.game-stats-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 0 14px;gap:8px;flex-wrap:wrap;
+}
+.score-tag{
+  font-size:12px !important;font-weight:700 !important;
+  background:linear-gradient(135deg,var(--neuro-blue-deep),var(--plum)) !important;
+  color:#fff !important;border:none !important;
+  padding:6px 14px !important;border-radius:20px !important;
+}
+.score-pill{
+  font-size:12px !important;font-weight:700 !important;
+  background:#fff !important;border:1.5px solid var(--rule) !important;
+  color:var(--ink) !important;padding:6px 14px !important;border-radius:20px !important;
+}
+.difficulty-badge{
+  font-size:11px !important;font-weight:600 !important;
+  background:rgba(168,68,58,.08) !important;color:#8B2635 !important;
+  border:1.5px solid rgba(168,68,58,.2) !important;
+  padding:5px 12px !important;border-radius:20px !important;
+  text-transform:capitalize !important;
+}

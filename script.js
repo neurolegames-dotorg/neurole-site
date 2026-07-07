@@ -42,10 +42,10 @@ async function fetchSheetAsObjects(csvUrl){
   if(!csvUrl || csvUrl.startsWith('PASTE_')){
     throw new Error('No Google Sheet connected yet.');
   }
-  // Cache-bust: browsers (and sometimes Google's own CDN) can otherwise
-  // serve a stale snapshot of the sheet from whenever it was first loaded.
-  const bustedUrl = csvUrl + (csvUrl.includes('?') ? '&' : '?') + '_=' + Date.now();
-  const res = await fetch(bustedUrl, { cache: 'no-store' });
+  const res = await fetch(csvUrl, {
+    cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache' }
+  });
   if(!res.ok) throw new Error('Could not load sheet (' + res.status + ')');
   const text = await res.text();
   const rows = parseCSV(text).filter(r => r.some(c => c.trim() !== ''));
@@ -110,64 +110,87 @@ function initSignIn(){
 }
 
 // ---------- Weekly fun fact loader ----------
+// Built-in facts rotate weekly if the sheet is unreachable
+const BUILTIN_FACTS = [
+  { fact: "The hippocampus replaces almost all of its neurons every few months through a process called neurogenesis — making it one of the only brain regions capable of generating new nerve cells in adults.", source: "Spalding et al., 2013 — Cell", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3713347/" },
+  { fact: "Myelin — the fatty sheath around nerve fibres — lets electrical signals travel up to 100× faster than along bare, unmyelinated axons. Loss of myelin is the core mechanism in multiple sclerosis.", source: "Fields, 2008 — Scientific American", url: "https://www.scientificamerican.com/article/the-other-half-of-the-brain/" },
+  { fact: "Your brain uses roughly 20% of your body's total energy, despite making up only about 2% of your body weight. Most of that energy powers the constant electrical chatter between neurons.", source: "Raichle & Gusnard, 2002 — PNAS", url: "https://www.pnas.org/doi/10.1073/pnas.172399499" },
+  { fact: "The amygdala can process a threatening stimulus and trigger a fear response before the information even reaches the cortex — explaining why you jump at a noise before you consciously register it.", source: "LeDoux, 1996 — The Emotional Brain", url: "https://pubmed.ncbi.nlm.nih.gov/8942957/" },
+  { fact: "Humans have around 86 billion neurons, but glial cells — long thought to be mere support — outnumber them and actively regulate synaptic strength, blood flow, and brain immune responses.", source: "Azevedo et al., 2009 — J Comp Neurol", url: "https://pubmed.ncbi.nlm.nih.gov/19226510/" },
+  { fact: "The cerebellum contains more neurons than the rest of the brain combined — roughly 69 billion — yet damage to it rarely causes paralysis, instead producing coordination and timing deficits.", source: "Herculano-Houzel, 2010 — Front Neuroanat", url: "https://www.frontiersin.org/articles/10.3389/fnana.2010.00012/full" },
+  { fact: "During deep sleep, the brain's glymphatic system activates and literally flushes out toxic proteins — including amyloid-β and tau, the proteins implicated in Alzheimer's disease.", source: "Xie et al., 2013 — Science", url: "https://www.science.org/doi/10.1126/science.1241224" },
+  { fact: "Broca's area and Wernicke's area are connected by the arcuate fasciculus. Damage to this white-matter tract causes conduction aphasia — patients can understand and produce language but cannot repeat words they just heard.", source: "Catani & ffytche, 2005 — Brain", url: "https://pubmed.ncbi.nlm.nih.gov/16141290/" },
+];
+
 async function loadFunFact(){
   const el = document.getElementById('fun-fact-box');
   if(!el) return;
-  try{
-    const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.FUN_FACT_SHEET_CSV);
-    const usableRows = rows.filter(r => (findField(r,'fact') || '').trim());
-    if(!usableRows.length){
-      console.warn("Neurole: Fun Fact sheet loaded but no row had text in a 'fact' column.", rows);
-      throw new Error('no usable rows');
+
+  // Always show something immediately from built-in facts while we fetch the sheet
+  const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+  const dayOfWeek = etNow.getDay() || 7;
+  const monday = new Date(etNow);
+  monday.setDate(etNow.getDate() - (dayOfWeek - 1));
+  monday.setHours(0,0,0,0);
+  const epoch = new Date('2024-01-01T05:00:00Z');
+  const weeksSinceEpoch = Math.max(0, Math.floor((monday - epoch) / (7*24*60*60*1000)));
+  const builtinIdx = weeksSinceEpoch % BUILTIN_FACTS.length;
+  const builtinFact = BUILTIN_FACTS[builtinIdx];
+
+  function displayFact(fact, source, url){
+    const textEl = el.querySelector('.fact-text');
+    const link = el.querySelector('.fact-link');
+    if(textEl) textEl.textContent = fact;
+    if(link){
+      link.textContent = source || 'Read the study';
+      if(url){ link.href = url; link.target = '_blank'; link.rel = 'noopener'; }
+      else { link.removeAttribute('href'); }
     }
+  }
 
-    // Compute the current week number anchored to ET (resets Monday 12 AM ET)
-    const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-    // ISO week calculation in ET
-    const dayOfWeek = etNow.getDay() || 7; // Mon=1 … Sun=7
-    const monday = new Date(etNow);
-    monday.setDate(etNow.getDate() - (dayOfWeek - 1));
-    monday.setHours(0,0,0,0);
+  // Show built-in immediately
+  displayFact(builtinFact.fact, builtinFact.source, builtinFact.url);
+
+  // Then try to load from Google Sheet (overrides built-in if successful)
+  const sheetUrl = window.NEUROLE_CONFIG?.FUN_FACT_SHEET_CSV;
+  if(!sheetUrl || sheetUrl.startsWith('PASTE_')) return;
+
+  try{
+    const res = await fetch(sheetUrl, { cache: 'no-store' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text).filter(r => r.some(c => c.trim()));
+    if(rows.length < 2) throw new Error('sheet empty');
+    const headers = rows[0].map(h => h.trim());
+    const usableRows = rows.slice(1)
+      .map(r => { const o={}; headers.forEach((h,i)=>o[h]=(r[i]||'').trim()); return o; })
+      .filter(r => (r.fact||r.Fact||'').trim());
+
+    if(!usableRows.length) throw new Error('no fact column');
+
     const weekKey = `${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
-    const todayKey = etNow.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
-
-    // 1) Try to find a row whose week_start matches this Monday exactly
     let best = null;
-    let foundDated = false;
-    usableRows.forEach(r => {
-      const raw = (findField(r,'week_start') || '').trim();
+    for(const r of usableRows){
+      const raw = (r.week_start||r.Week_Start||'').trim();
       let key = '';
       let m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
       if(m) key = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
       else { m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) key=`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`; }
-      if(key === weekKey){ best = r; foundDated = true; }
-    });
-
-    // 2) If no exact match, use week index to cycle through rows automatically
-    //    so the fact rotates every 7 days without needing sheet updates
+      if(key === weekKey){ best = r; break; }
+    }
     if(!best){
-      const epoch = new Date('2024-01-01T05:00:00Z'); // Monday midnight ET
-      const weeksSinceEpoch = Math.floor((monday - epoch) / (7*24*60*60*1000));
-      const idx = ((weeksSinceEpoch % usableRows.length) + usableRows.length) % usableRows.length;
+      const idx = weeksSinceEpoch % usableRows.length;
       best = usableRows[idx];
-      console.log(`Neurole: fun fact auto-rotating by week (week ${weeksSinceEpoch} → row ${idx})`);
-    } else {
-      console.log("Neurole: fun fact matched by week_start:", weekKey);
     }
 
-    el.querySelector('.fact-text').textContent = findField(best,'fact');
-    const link = el.querySelector('.fact-link');
-    let url = (findField(best,'source_url') || '').trim();
-    if(url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
-    if(url){
-      link.textContent = findField(best,'source_title') || 'Read the study';
-      link.href = url; link.target = '_blank'; link.rel = 'noopener';
-    } else {
-      link.removeAttribute('href'); link.removeAttribute('target');
-      link.textContent = '—';
-    }
+    const fact = best.fact || best.Fact || '';
+    const src  = best.source_title || best.Source_Title || best.source || 'Read the study';
+    let url2   = best.source_url || best.Source_URL || '';
+    if(url2 && !/^https?:\/\//i.test(url2)) url2 = 'https://' + url2;
+    displayFact(fact, src, url2);
+    console.log('Neurole: fun fact loaded from sheet');
   }catch(err){
-    console.error("Neurole: couldn't load fun fact —", err.message);
+    console.warn('Neurole: fun fact sheet unavailable, using built-in —', err.message);
   }
 }
 
@@ -180,7 +203,7 @@ async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
 
   // Try Groq models in order of preference
-  const groqModels = ['llama-3.1-8b-instant', 'llama3-8b-8192', 'llama-3.3-70b-versatile'];
+  const groqModels = ['llama3-8b-8192', 'llama-3.3-70b-versatile', 'llama3-70b-8192'];
   if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
     for(const model of groqModels){
       try{

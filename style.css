@@ -647,3 +647,94 @@ footer {
   .page-hero h1{font-size:clamp(26px,8vw,38px);}
   .page-hero p{font-size:14px;}
 }
+
+/* =====================================================
+   AESTHETIC REFRESH — warmer, more refined, still fun
+   ===================================================== */
+
+/* Smoother page background — very subtle warm tint */
+body{background:#FAFAFA;}
+
+/* Masthead — slightly warmer border */
+.masthead{border-bottom:1px solid rgba(90,67,128,.12);}
+
+/* Page hero — more dramatic gradient */
+.page-hero{
+  background:linear-gradient(160deg,#fff 0%,rgba(145,118,184,.06) 100%);
+}
+
+/* Panels — slightly warmer card treatment */
+.panel{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:14px;
+  padding:26px 24px;
+  margin-bottom:18px;
+}
+
+/* Buttons — refined radius */
+.btn{border-radius:8px;}
+.btn.ghost{border-radius:8px;}
+
+/* Social links in footer */
+.social-row a{
+  border-color:rgba(0,0,0,.12);
+  color:var(--ink-soft);
+}
+.social-row a:hover{
+  background:var(--ink);color:#fff;border-color:var(--ink);
+}
+
+/* Synapse rule — more visible */
+.synapse-rule{
+  border:none;border-top:1px solid rgba(145,118,184,.2);
+  position:relative;display:flex;align-items:center;justify-content:center;
+  margin:36px 0;
+}
+.node{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--neuro-blue-bright);margin:0 5px;opacity:.6;
+}
+
+/* Game choice buttons — refined */
+.choice-btn{
+  border-radius:12px !important;
+  transition:all .18s !important;
+}
+
+/* Score pills — cleaner */
+.score-tag,.score-pill{border-radius:20px !important;}
+
+/* Nav links — slightly bolder */
+.nav-left a{font-weight:500;letter-spacing:.01em;}
+
+/* Footer fine print */
+.footer-fine{
+  font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+  text-align:center;margin-top:16px;
+}
+
+/* Volunteer banner border radius */
+.volunteer-banner{border-radius:16px;}
+
+/* Card hover — warmer shadow */
+.game-card:hover,.home-game-card:hover{
+  box-shadow:0 20px 50px rgba(90,67,128,.14) !important;
+}
+
+/* Inner page card grids */
+.contact-card,.donate-card,.value-card,.role-card{
+  border-radius:14px;
+  border-color:rgba(0,0,0,.08);
+  transition:box-shadow .2s,transform .2s;
+}
+.contact-card:hover,.donate-card:hover,.value-card:hover,.role-card:hover{
+  box-shadow:0 10px 30px rgba(90,67,128,.1);
+  transform:translateY(-2px);
+}
+
+/* Page headings — tighter */
+.page-hero h1{letter-spacing:-.02em;}
+
+/* About values icon */
+.val-icon{display:inline-block;font-size:26px;margin-bottom:8px;}

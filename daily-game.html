@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=68">
+<link rel="stylesheet" href="style.css?v=69">
 <style>
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
@@ -175,6 +175,43 @@
   .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
   .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
   .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  @media(max-width:480px){
+    /* Start screen — iPhone */
+    .start-screen{padding:0 16px !important;overflow-y:auto;}
+    .start-screen-inner{max-width:100% !important;padding:50px 0 40px !important;}
+    .start-screen h1{font-size:clamp(22px,6.5vw,30px) !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:13px !important;margin-bottom:14px !important;}
+    .start-logo{margin-bottom:10px !important;}
+    .start-logo svg{width:40px !important;height:40px !important;}
+    #streak-label{font-size:12px !important;}
+    .start-actions{gap:8px !important;flex-direction:row;width:100%;}
+    .start-actions .btn{flex:1 !important;justify-content:center !important;padding:11px 8px !important;font-size:11px !important;}
+    .start-meta{font-size:11px !important;margin-top:4px !important;}
+
+    /* Case card — frameless on iPhone */
+    .case-shell{max-width:100% !important;padding:8px 0 50px !important;}
+    .case-card{
+      background:transparent !important;
+      border:none !important;box-shadow:none !important;
+      padding:0 4px !important;
+    }
+    .case-card > h2{font-size:17px !important;}
+    .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
+    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
+    .guess-row{gap:7px !important;}
+    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box !important;}
+    .guess-row .btn{height:46px !important;padding:0 14px !important;min-width:46px;}
+    .guess-row .btn svg{width:18px !important;height:18px !important;}
+    .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
+    .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
+
+    /* Modals — iPhone */
+    .modal{padding:18px 16px !important;}
+    .result-headline h3{font-size:20px !important;}
+    .result-stats{font-size:13px !important;}
+    .modal-actions{flex-direction:column !important;gap:10px !important;}
+    .modal-actions .btn{width:100% !important;justify-content:center !important;}
+  }
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -349,8 +386,8 @@
   </div>
 </div>
 
-<script src="config.js?v=68"></script>
-<script src="script.js?v=68"></script>
+<script src="config.js?v=69"></script>
+<script src="script.js?v=69"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -945,62 +982,3 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 </script>
 </body>
 </html>
-<style id="mobile-fixes">
-/* =====================================================
-   DAILY CASE MOBILE OVERHAUL
-   ===================================================== */
-
-/* Narrow non-phone (600-900px) */
-@media(max-width:900px) and (min-width:481px){
-  .case-shell{max-width:560px;}
-  .case-card{padding:28px 22px !important;}
-  .symptom-log li{font-size:15px !important;}
-}
-
-/* iPhone */
-@media(max-width:480px){
-  .case-shell{padding:10px 0 50px !important;max-width:100%;}
-  /* Remove card box on phone — content sits edge to edge */
-  .case-card{
-    background:transparent !important;
-    border:none !important;box-shadow:none !important;
-    padding:0 4px !important;
-  }
-  .case-card h2{font-size:17px !important;margin-bottom:12px !important;}
-
-  /* Start screen */
-  .start-screen{padding:0 16px;overflow-y:auto;}
-  .start-screen-inner{max-width:100% !important;}
-  .start-screen h1{font-size:clamp(24px,7vw,32px) !important;}
-  .start-screen p{font-size:13.5px !important;margin-bottom:14px !important;}
-  .start-logo{margin-bottom:12px !important;}
-  .start-logo svg{width:42px !important;height:42px !important;}
-  #streak-label{font-size:12px !important;}
-  .start-actions{flex-direction:row;gap:10px !important;width:100%;}
-  .start-actions .btn{flex:1;justify-content:center;padding:11px 10px !important;font-size:11.5px !important;}
-
-  /* Symptom log */
-  .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
-  .symptom-log li.locked{font-size:11px !important;padding:9px 12px !important;}
-
-  /* Guess row */
-  .guess-row{gap:8px !important;}
-  .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box;}
-  .guess-row .btn{height:46px !important;padding:0 14px !important;}
-  .guess-row .btn svg{width:18px !important;height:18px !important;}
-
-  /* Past guesses */
-  .past-guesses{gap:6px !important;}
-  .past-guesses span{font-size:13px !important;padding:6px 12px !important;}
-
-  /* Autocomplete */
-  .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
-
-  /* Result / sign-in modals */
-  .modal{padding:20px 16px !important;}
-  .result-headline h3{font-size:22px !important;}
-  .result-stats{font-size:13.5px !important;}
-  .modal-actions{flex-direction:column;gap:10px;}
-  .modal-actions .btn{width:100%;justify-content:center;}
-}
-</style>

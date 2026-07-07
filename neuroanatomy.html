@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=68">
+<link rel="stylesheet" href="style.css?v=69">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -293,6 +293,55 @@
   .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
   .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  @media(max-width:480px){
+    /* Start screen — iPhone */
+    .start-screen{padding:50px 16px 40px !important;}
+    .start-screen h1{font-size:24px !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:13px !important;margin-bottom:12px !important;}
+    .start-logo{margin-bottom:10px !important;}
+    .start-logo svg,.start-logo img{width:44px !important;height:44px !important;}
+    .category-row{gap:5px !important;justify-content:center;}
+    .category-btn{font-size:10px !important;padding:6px 8px !important;}
+    .start-actions-stacked{gap:8px !important;margin-top:12px !important;width:100%;}
+    .start-actions-stacked .btn{font-size:12px !important;padding:12px 0 !important;width:100% !important;}
+    .learn-tab-toggle{font-size:11px !important;padding:10px 12px !important;}
+    .synapse-rule{margin:14px 0 !important;}
+
+    /* Game area — iPhone */
+    main.game-shell{max-width:100% !important;padding:8px 0 50px !important;}
+    .specimen{padding:8px !important;border:none !important;background:transparent !important;}
+    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .cap{font-size:13px !important;}
+    .choices{gap:8px !important;}
+    .choice-btn{font-size:13px !important;padding:10px 10px 10px 36px !important;}
+    .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
+    .game-stats-bar{padding:0 4px 10px;}
+    .score-tag,.score-pill{font-size:10.5px !important;}
+    .difficulty-badge{font-size:10px !important;}
+
+    /* AI — always bottom-sheet popup on iPhone */
+    body.ai-panel-open #game-split-container{display:block !important;}
+    body.ai-panel-open main.game-shell{max-width:100% !important;}
+    body.ai-panel-open .learn-backdrop{
+      position:fixed !important;inset:0 !important;
+      background:rgba(0,0,0,.5) !important;
+      display:flex !important;
+      align-items:flex-end !important;
+      justify-content:center !important;
+      padding:0 !important;
+      z-index:200 !important;
+    }
+    body.ai-panel-open .learn-panel{
+      position:relative !important;
+      width:100% !important;max-width:100% !important;
+      max-height:72vh !important;
+      border-radius:16px 16px 0 0 !important;
+      border-top:2px solid var(--rule) !important;
+      border-left:none !important;border-right:none !important;border-bottom:none !important;
+      box-shadow:0 -8px 40px rgba(0,0,0,.15) !important;
+    }
+    .learn-fab{bottom:max(20px,env(safe-area-inset-bottom,20px)) !important;}
+  }
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -529,8 +578,8 @@
   </div>
 </div>
 
-<script src="config.js?v=68"></script>
-<script src="script.js?v=68"></script>
+<script src="config.js?v=69"></script>
+<script src="script.js?v=69"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -936,64 +985,3 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 </script>
 </body>
 </html>
-<style id="mobile-fixes">
-/* =====================================================
-   NEUROANATOMY MOBILE OVERHAUL
-   ===================================================== */
-
-/* Game shell — constrained width on narrow non-phone screens */
-@media(max-width:900px) and (min-width:481px){
-  main.game-shell{max-width:580px;}
-  .specimen img{max-height:260px;object-fit:contain;}
-  .learn-panel{max-width:420px !important;}
-}
-
-/* iPhone — full phone treatment */
-@media(max-width:480px){
-  /* Start screen */
-  .start-screen{padding:20px 14px 40px;justify-content:flex-start;overflow-y:auto;}
-  .start-screen-inner{max-width:100% !important;padding-top:40px !important;}
-  .start-screen h1{font-size:26px !important;}
-  .start-screen p{font-size:13.5px !important;margin-bottom:16px !important;}
-  .start-logo{margin-bottom:12px !important;}
-  .start-logo img,.start-logo svg{width:48px !important;height:48px !important;}
-  .category-row{gap:5px !important;flex-wrap:wrap;}
-  .category-btn{font-size:10px !important;padding:6px 9px !important;}
-  .start-actions-stacked .btn{font-size:11.5px !important;padding:10px 0 !important;width:100%;}
-  .learn-tab-toggle{font-size:11px !important;padding:9px 12px !important;}
-
-  /* Game play area */
-  main.game-shell{padding:8px 0 50px !important;max-width:100%;}
-  .specimen{padding:8px !important;}
-  .specimen img{max-height:200px;object-fit:contain;width:100%;}
-  .cap{font-size:13px;}
-  .choices{gap:8px !important;}
-  .choice-btn{font-size:13.5px !important;padding:10px 10px 10px 38px !important;}
-  .game-stats-bar{padding:0 0 10px;gap:6px;}
-  .score-tag{font-size:10.5px !important;}
-  .score-pill{font-size:10.5px !important;}
-  .difficulty-badge{font-size:10px !important;}
-
-  /* AI — always floating popup on iPhone, never side panel */
-  body.ai-panel-open #game-split-container{display:block !important;}
-  body.ai-panel-open .game-shell{max-width:100% !important;}
-  body.ai-panel-open .learn-backdrop{
-    position:fixed !important;inset:0 !important;
-    background:rgba(28,27,25,.55) !important;
-    display:flex !important;align-items:flex-end !important;
-    justify-content:center !important;
-    padding:0 !important;z-index:200 !important;
-  }
-  body.ai-panel-open .learn-panel{
-    position:static !important;
-    width:100% !important;max-width:100% !important;
-    max-height:70vh !important;
-    border-radius:16px 16px 0 0 !important;
-    border:none !important;
-    box-shadow:0 -4px 30px rgba(0,0,0,.18) !important;
-    overflow:hidden;
-  }
-  /* Learn-fab sits above bottom bar */
-  .learn-fab{bottom:max(22px, env(safe-area-inset-bottom,22px)) !important;}
-}
-</style>

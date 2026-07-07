@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=69">
+<link rel="stylesheet" href="style.css?v=70">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -85,86 +85,102 @@
 
   /* Remove game box when screen is full-width (tablet/phone) */
   @media(max-width:720px){
-    .specimen{border:none;padding:10px 0;background:transparent;}
+    .specimen{border:none;padding:6px 0;background:transparent;}
     .specimen::before{display:none;}
-    .game-shell{padding:8px 4px 80px;}
+    .game-shell{padding:8px 12px 80px;}
   }
+  /* iPhone — everything fits the screen */
   @media(max-width:480px){
-    .start-screen h1{font-size:30px;}
+    .game-shell{padding:8px 10px 60px;max-width:100%;}
+    .start-screen{padding:50px 16px 40px;}
+    .start-screen h1{font-size:26px !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:13.5px !important;margin-bottom:14px !important;}
+    .start-logo{margin-bottom:12px !important;}
+    .start-logo svg,.start-logo img{width:46px !important;height:46px !important;}
     #learn-regions-grid{grid-template-columns:1fr !important;}
     #neuropsych-tab-body > div{grid-template-columns:1fr !important;}
+    .category-row{gap:5px !important;}
+    .category-btn{font-size:10.5px !important;padding:7px 9px !important;}
+    .start-actions-stacked .btn{width:100% !important;}
+    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .choices{gap:8px !important;}
+    .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
+    .game-stats-bar{flex-wrap:wrap;gap:6px;padding-bottom:10px;}
+    .score-tag,.score-pill{font-size:11px !important;}
   }
 
   /* ===============================================================
-     AI PANEL — FIXED RIGHT HALF, STAYS IN PLACE WHILE SCROLLING
-     Same behaviour for both beginner and normal Map the Brain.
-     On ≤900px: floating overlay as before (no change on mobile).
+     AI PANEL — DESKTOP: side-by-side grid. MOBILE: bottom-sheet popup.
      =============================================================== */
 
-  /* game-split-container becomes a 50/50 grid when AI is open */
-  body.ai-panel-open #game-split-container{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:28px;
-    align-items:start;
-  }
-  /* game-shell expands to hold the full grid */
-  body.ai-panel-open .game-shell{
-    max-width:none !important;
-  }
-
-  /* The learn-backdrop sits as a normal grid column, not an overlay */
-  body.ai-panel-open .learn-backdrop{
-    /* Remove overlay behaviour */
-    position:static !important;
-    background:none !important;
-    display:block !important;
-    padding:0 !important;
-    inset:auto !important;
-    z-index:auto !important;
-  }
-
-  /* learn-panel as a sticky engraved box — scrolls with page,
-     stays in view while you scroll through the quiz */
-  body.ai-panel-open .learn-panel{
-    position:sticky !important;
-    top:76px;
-    width:100% !important;
-    max-width:none !important;
-    max-height:calc(100vh - 96px);
-    background:#fff !important;
-    border:1.5px solid var(--rule);
-    border-radius:12px;
-    box-shadow:0 2px 18px rgba(0,0,0,.07);
-    overflow:hidden;
-    display:flex !important;
-    flex-direction:column;
-  }
-  body.ai-panel-open .learn-body{
-    flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  }
-
-  /* ≤900px: keep normal floating overlay, no grid change */
-  @media(max-width:900px){
+  /* Desktop only (>900px): engrave AI beside game */
+  @media(min-width:901px){
     body.ai-panel-open #game-split-container{
-      display:block;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:start;
     }
-    body.ai-panel-open .game-shell{
-      max-width:680px !important;
+    body.ai-panel-open .game-shell{ max-width:none !important; }
+    body.ai-panel-open .learn-backdrop{
+      position:sticky !important;
+      top:76px;
+      background:none !important;
+      display:block !important;
+      padding:0 !important;
+      z-index:auto !important;
     }
+    body.ai-panel-open .learn-panel{
+      position:sticky !important;
+      top:76px;
+      width:100% !important;
+      max-height:calc(100vh - 96px);
+      background:#fff !important;
+      border:1.5px solid var(--rule);
+      border-radius:12px;
+      box-shadow:0 2px 18px rgba(0,0,0,.07);
+      overflow:hidden;
+      display:flex !important;
+      flex-direction:column;
+    }
+    body.ai-panel-open .learn-body{
+      flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    }
+  }
+
+  /* Mobile ≤900px: AI is always a bottom-sheet popup, never side panel */
+  @media(max-width:900px){
+    body.ai-panel-open #game-split-container{ display:block !important; }
+    body.ai-panel-open .game-shell{ max-width:680px !important; }
     body.ai-panel-open .learn-backdrop{
       position:fixed !important;
       inset:0 !important;
-      background:rgba(28,27,25,.5) !important;
+      background:rgba(0,0,0,.55) !important;
       display:flex !important;
-      align-items:center;justify-content:center;padding:20px;
-      z-index:70 !important;
+      align-items:flex-end !important;
+      justify-content:center !important;
+      padding:0 !important;
+      z-index:300 !important;
     }
     body.ai-panel-open .learn-panel{
-      position:static !important;
+      position:relative !important;
       width:100% !important;
-      max-height:82vh;
-      box-shadow:none;
+      max-width:100% !important;
+      max-height:75vh !important;
+      height:75vh;
+      border-radius:18px 18px 0 0 !important;
+      border-left:none !important;
+      border-right:none !important;
+      border-bottom:none !important;
+      border-top:2px solid var(--rule) !important;
+      box-shadow:0 -8px 40px rgba(0,0,0,.18) !important;
+      background:#fff !important;
+      overflow:hidden !important;
+      display:flex !important;
+      flex-direction:column;
+    }
+    body.ai-panel-open .learn-body{
+      flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
     }
   }
 
@@ -578,8 +594,8 @@
   </div>
 </div>
 
-<script src="config.js?v=69"></script>
-<script src="script.js?v=69"></script>
+<script src="config.js?v=70"></script>
+<script src="script.js?v=70"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

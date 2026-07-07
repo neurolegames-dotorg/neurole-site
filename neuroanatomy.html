@@ -2,15 +2,145 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Test your neuroanatomy knowledge. Identify brain regions from real images, learn what each area does, and ask an AI tutor follow-up questions. Free neuroscience quiz.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/neuroanatomy.html">
+<meta property="og:title" content="Map the Brain — Neuroanatomy Quiz Game | Neurole">
+<meta property="og:description" content="Test your neuroanatomy knowledge. Identify brain regions from real images, learn what each area does, and ask an AI tutor follow-up questions. Free neuroscience quiz.">
+<meta property="og:image" content="https://neurole.org/assets/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Map the Brain — Neuroanatomy Quiz Game | Neurole">
+<meta name="twitter:description" content="Test your neuroanatomy knowledge. Identify brain regions from real images, learn what each area does, and ask an AI tutor follow-up questions. Free neuroscience quiz.">
+<meta name="twitter:image" content="https://neurole.org/assets/neurole-logo.png">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://neurole.org/neuroanatomy.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=71">
+<title>Map the Brain — Neuroanatomy Quiz Game | Neurole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=73">
 <style>
+
+  /* --- Fun game typography & visuals --- */
+  :root{--game-font:'Outfit',sans-serif;}
+
+  /* Score bar — vivid pill style */
+  .game-stats-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 0 16px;gap:10px;
+  }
+  .score-tag{
+    font-family:var(--game-font) !important;font-size:13px !important;font-weight:700;
+    background:linear-gradient(135deg,var(--neuro-blue-deep),var(--plum));
+    color:#fff !important;border:none !important;
+    padding:5px 14px !important;border-radius:20px !important;
+    letter-spacing:.02em;text-transform:none !important;
+  }
+  .score-pill{
+    font-family:var(--game-font) !important;font-size:13px !important;font-weight:700;
+    background:#fff;color:var(--ink) !important;
+    border:1.5px solid var(--rule) !important;
+    padding:5px 14px !important;border-radius:20px !important;
+    letter-spacing:.02em;text-transform:none !important;
+  }
+  .difficulty-badge{
+    font-family:var(--game-font) !important;font-size:11.5px !important;font-weight:600;
+    background:rgba(168,68,58,.1);color:#8B2635 !important;
+    border:1.5px solid rgba(168,68,58,.2) !important;
+    padding:4px 12px !important;border-radius:20px !important;
+    text-transform:capitalize !important;letter-spacing:.02em;
+  }
+
+  /* Specimen image area */
+  .specimen{
+    border-radius:16px !important;
+    overflow:hidden;
+    margin-bottom:8px;
+  }
+  .cap{
+    font-family:var(--game-font) !important;font-size:13px !important;
+    font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-soft);margin:8px 0 16px;
+  }
+
+  /* Choice buttons — fun card style */
+  .choice-btn{
+    font-family:var(--game-font) !important;font-size:16px !important;font-weight:500;
+    border:2px solid var(--rule) !important;border-radius:12px !important;
+    background:#fff !important;
+    padding:14px 14px 14px 50px !important;
+    transition:all .15s !important;
+    color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
+  }
+  .choice-btn:hover:not(:disabled){
+    border-color:var(--neuro-blue) !important;
+    background:rgba(145,118,184,.05) !important;
+    transform:translateX(3px);
+  }
+  .choice-btn.correct{
+    background:linear-gradient(135deg,rgba(92,181,124,.15),rgba(92,181,124,.08)) !important;
+    border-color:#5CB57C !important;color:var(--ink) !important;
+  }
+  .choice-btn.wrong{
+    background:linear-gradient(135deg,rgba(168,68,58,.1),rgba(168,68,58,.05)) !important;
+    border-color:var(--signal-red) !important;
+  }
+  .choice-letter{
+    font-family:var(--game-font) !important;font-size:12px !important;font-weight:800;
+    width:26px !important;height:26px !important;line-height:26px !important;left:12px !important;
+    border-radius:8px !important;
+    background:var(--paper-deep) !important;
+    color:var(--ink) !important;
+  }
+  .choice-btn.correct .choice-letter{background:#5CB57C !important;color:#fff !important;}
+  .choice-btn.wrong .choice-letter{background:var(--signal-red) !important;color:#fff !important;}
+
+  /* Next button */
+  .next-row{margin-top:20px;}
+  #next-btn{
+    font-family:var(--game-font) !important;font-size:14px !important;font-weight:700;
+    padding:12px 28px !important;border-radius:12px !important;
+  }
+
+  /* Start screen — game personality */
+  .start-screen h1{
+    font-family:var(--game-font) !important;
+    font-weight:800 !important;
+    letter-spacing:-.02em !important;
+  }
+  .start-screen p{
+    font-family:var(--game-font) !important;
+    font-weight:400 !important;
+  }
+  .category-btn{
+    font-family:var(--game-font) !important;
+    font-weight:600 !important;
+    border-radius:10px !important;
+  }
+  .category-btn.active{
+    border-radius:10px !important;
+  }
+  .round-choice{
+    font-family:var(--game-font) !important;
+    font-size:14px !important;font-weight:700 !important;
+    border-radius:12px !important;
+  }
+
+
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
 
@@ -411,21 +541,20 @@
   body.ai-panel-open main.game-shell{max-width:100% !important;}
   body.ai-panel-open .learn-backdrop{
     position:fixed !important;inset:0 !important;
-    background:rgba(0,0,0,.55) !important;
+    background:rgba(0,0,0,.6) !important;
     display:flex !important;
-    align-items:flex-end !important;
+    align-items:center !important;
     justify-content:center !important;
-    padding:0 !important;
+    padding:20px 16px !important;
     z-index:500 !important;
   }
   body.ai-panel-open .learn-panel{
     position:relative !important;
     width:100% !important;max-width:100% !important;
-    max-height:78vh !important;height:78vh !important;
-    border-radius:18px 18px 0 0 !important;
-    border-top:2px solid var(--rule) !important;
-    border-left:none !important;border-right:none !important;border-bottom:none !important;
-    box-shadow:0 -8px 40px rgba(0,0,0,.2) !important;
+    max-height:80vh !important;height:auto !important;
+    border-radius:16px !important;
+    border:none !important;
+    box-shadow:0 8px 40px rgba(0,0,0,.3) !important;
     background:#fff !important;
     overflow:hidden !important;
     display:flex !important;flex-direction:column !important;
@@ -443,6 +572,21 @@
 
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Map the Brain — Neuroanatomy Quiz",
+  "description": "Identify brain regions from real anatomical images. Learn neuroanatomy through an AI-assisted quiz game.",
+  "url": "https://neurole.org/neuroanatomy.html",
+  "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
+  "educationalUse": "Practice",
+  "learningResourceType": "Quiz",
+  "teaches": "Neuroanatomy",
+  "isAccessibleForFree": true,
+  "inLanguage": "en"
+}
+</script>
 </head>
 <body>
 
@@ -677,8 +821,8 @@
   </div>
 </div>
 
-<script src="config.js?v=71"></script>
-<script src="script.js?v=71"></script>
+<script src="config.js?v=73"></script>
+<script src="script.js?v=73"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

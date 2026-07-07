@@ -2,15 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="A new neurological case every day. Read five symptoms and guess the diagnosis in five tries or fewer. Free daily neuroscience game for students, clinicians, and curious minds.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/daily-game.html">
+<meta property="og:title" content="The Daily Case — Daily Neurology Diagnosis Game | Neurole">
+<meta property="og:description" content="A new neurological case every day. Read five symptoms and guess the diagnosis in five tries or fewer. Free daily neuroscience game for students, clinicians, and curious minds.">
+<meta property="og:image" content="https://neurole.org/assets/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Daily Case — Daily Neurology Diagnosis Game | Neurole">
+<meta name="twitter:description" content="A new neurological case every day. Read five symptoms and guess the diagnosis in five tries or fewer. Free daily neuroscience game for students, clinicians, and curious minds.">
+<meta name="twitter:image" content="https://neurole.org/assets/neurole-logo.png">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://neurole.org/daily-game.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>The Daily Case — Neurole</title>
-<link rel="stylesheet" href="style.css?v=71">
+<title>The Daily Case — Daily Neurology Diagnosis Game | Neurole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=73">
 <style>
+
+  /* --- Fun game typography & visuals --- */
+  :root{--game-font:'Outfit',sans-serif;}
+
+  /* Start screen */
+  .start-screen h1{
+    font-family:var(--game-font) !important;font-weight:800 !important;letter-spacing:-.02em !important;
+  }
+  .start-screen p{font-family:var(--game-font) !important;}
+  .start-actions .btn{font-family:var(--game-font) !important;font-weight:700 !important;border-radius:12px !important;}
+  #streak-label{font-family:var(--game-font) !important;font-weight:600 !important;}
+  .start-meta{font-family:var(--game-font) !important;}
+
+  /* Case card */
+  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:18px !important;}
+  .symptom-log li{font-family:var(--game-font) !important;font-size:15.5px !important;font-weight:500 !important;border-radius:10px !important;}
+  .symptom-log li.locked{font-family:var(--game-font) !important;}
+
+  /* Guess row */
+  .guess-row input{font-family:var(--game-font) !important;font-size:16px !important;border-radius:10px 0 0 10px !important;}
+  .guess-row .btn{border-radius:0 10px 10px 0 !important;}
+
+  /* Past guesses */
+  .past-guesses span{font-family:var(--game-font) !important;font-weight:600 !important;border-radius:8px !important;}
+
+  /* Wrong flash */
+  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
+
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
   .case-card{
@@ -299,6 +350,21 @@
 
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "The Daily Case",
+  "description": "A daily neurology diagnosis game. Read symptoms, guess the neurological condition in five tries.",
+  "url": "https://neurole.org/daily-game.html",
+  "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
+  "educationalUse": "Practice",
+  "learningResourceType": "Game",
+  "teaches": "Neurology and clinical diagnosis",
+  "isAccessibleForFree": true,
+  "inLanguage": "en"
+}
+</script>
 </head>
 <body>
 
@@ -471,8 +537,8 @@
   </div>
 </div>
 
-<script src="config.js?v=71"></script>
-<script src="script.js?v=71"></script>
+<script src="config.js?v=73"></script>
+<script src="script.js?v=73"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

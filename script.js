@@ -179,49 +179,22 @@ async function loadFunFact(){
 async function askNeuroleAIRaw(prompt){
   const cfg = window.NEUROLE_CONFIG || {};
 
-  // Option A0: Groq — free, no credit card required
+  // Try Groq models in order of preference
+  const groqModels = ['llama-3.1-8b-instant', 'llama3-8b-8192', 'llama-3.3-70b-versatile'];
   if(cfg.GROQ_API_KEY && !cfg.GROQ_API_KEY.startsWith('PASTE_')){
-    try{
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type':'application/json',
-          'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'llama3-8b-8192',
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 350,
-          temperature: 0.7
-        })
-      });
-      const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content?.trim();
-      if(res.ok && answer){ return answer; }
-      console.error("Neurole: Groq failed HTTP " + res.status + " —", JSON.stringify(data).slice(0,200));
-    }catch(err){
-      console.error("Neurole: Groq network error —", err.message);
-    }
-    // Try the mixtral model as a Groq fallback
-    try{
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type':'application/json',
-          'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 350
-        })
-      });
-      const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content?.trim();
-      if(res.ok && answer){ return answer; }
-      console.error("Neurole: Groq fallback model also failed —", JSON.stringify(data).slice(0,200));
-    }catch(err){
-      console.error("Neurole: Groq fallback error —", err.message);
+    for(const model of groqModels){
+      try{
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':`Bearer ${cfg.GROQ_API_KEY}`},
+          body:JSON.stringify({ model, messages:[{role:'user',content:prompt}], max_tokens:400, temperature:0.7 })
+        });
+        const data = await res.json();
+        const answer = data?.choices?.[0]?.message?.content?.trim();
+        if(res.ok && answer){ console.log('Neurole AI: answered via Groq', model); return answer; }
+        if(res.status === 429){ console.warn('Groq rate limited, trying next model...'); continue; }
+        console.error('Groq', model, 'failed:', res.status, JSON.stringify(data).slice(0,150));
+      }catch(err){ console.error('Groq', model, 'error:', err.message); }
     }
   }
 

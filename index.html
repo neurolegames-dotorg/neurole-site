@@ -7,9 +7,29 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Play free daily neuroscience games. Guess neurological diagnoses in The Daily Case, identify brain regions in Map the Brain, and learn with an AI tutor. Free forever.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/">
+<meta property="og:title" content="Neurole — Free Neuroscience Games for Your Brain">
+<meta property="og:description" content="Play free daily neuroscience games. Guess neurological diagnoses in The Daily Case, identify brain regions in Map the Brain, and learn with an AI tutor. Free forever.">
+<meta property="og:image" content="https://neurole.org/assets/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neurole — Free Neuroscience Games for Your Brain">
+<meta name="twitter:description" content="Play free daily neuroscience games. Guess neurological diagnoses in The Daily Case, identify brain regions in Map the Brain, and learn with an AI tutor. Free forever.">
+<meta name="twitter:image" content="https://neurole.org/assets/neurole-logo.png">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://neurole.org/">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Neurole — Games for your brain</title>
-<link rel="stylesheet" href="style.css?v=71">
+<link rel="stylesheet" href="style.css?v=73">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* ---- Homepage extras ---- */
@@ -194,6 +214,32 @@
 }
 .section-sub{color:var(--ink-soft);font-size:15.5px;margin:0 0 28px;max-width:540px;}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://neurole.org/#website",
+      "url": "https://neurole.org/",
+      "name": "Neurole",
+      "description": "Free daily neuroscience games — The Daily Case and Map the Brain.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://neurole.org/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "Neurole",
+      "url": "https://neurole.org/",
+      "description": "Free neuroscience education games for students, clinicians, and curious minds.",
+      "sameAs": []
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -381,9 +427,9 @@
   </div>
 </div>
 
-<script src="config.js?v=71"></script>
-<script src="games-data.js?v=71"></script>
-<script src="script.js?v=71"></script>
+<script src="config.js?v=73"></script>
+<script src="games-data.js?v=73"></script>
+<script src="script.js?v=73"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

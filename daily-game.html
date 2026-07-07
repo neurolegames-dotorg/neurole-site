@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="description" content="A new neurological case every day. Read five symptoms and guess the diagnosis in five tries or fewer. Free daily neuroscience game for students, clinicians, and curious minds.">
 <meta name="robots" content="index, follow">
@@ -32,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=74">
+<link rel="stylesheet" href="style.css?v=76">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -189,14 +196,28 @@
   }
   .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
 
-  .past-guesses{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
-  .past-guesses span{
-    font-family:var(--serif-body);font-size:15px;font-weight:500;letter-spacing:.01em;
-    border:1.5px solid var(--signal-red);color:var(--signal-red);
-    padding:7px 16px;border-radius:6px;
-    background:rgba(168,68,58,0.06);
-    text-decoration:line-through;
-    text-decoration-color:rgba(168,68,58,0.5);
+  .past-guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+  .wrong-guess-card{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(168,68,58,.06);
+    border:1.5px solid rgba(168,68,58,.25);
+    border-radius:10px;
+    padding:11px 16px;
+  }
+  .wrong-guess-name{
+    font-family:var(--game-font,'Outfit',sans-serif);font-size:17px;font-weight:700;
+    color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
+    flex:1;
+  }
+  .wrong-guess-cat{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(168,68,58,.75);background:rgba(168,68,58,.1);
+    padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+  }
+  @media(max-width:480px){
+    .wrong-guess-name{font-size:15px !important;}
+    .wrong-guess-cat{font-size:9.5px !important;}
+    .wrong-guess-card{padding:10px 12px !important;}
   }
   .closest-note{
     font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
@@ -367,6 +388,10 @@
 </script>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <header class="masthead">
   <div class="masthead-inner">
@@ -537,8 +562,8 @@
   </div>
 </div>
 
-<script src="config.js?v=74"></script>
-<script src="script.js?v=74"></script>
+<script src="config.js?v=76"></script>
+<script src="script.js?v=76"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -974,13 +999,42 @@ document.addEventListener('click', e => {
   if(!e.target.closest('.guess-row')) closeAutocomplete();
 });
 
+// Brief neuro category labels for common wrong-guess patterns
+function getDisorderCategory(guess){
+  const g = guess.toLowerCase();
+  const cats = [
+    {label:'Neurodegenerative', words:['alzheimer','parkinson','huntington','als','dementia','lewy','msa','psp','ftd','prion','creutzfeldt']},
+    {label:'Cerebrovascular', words:['stroke','tia','aneurysm','subarachnoid','hemorrhage','ischemia','infarct','lacunar','carotid']},
+    {label:'Demyelinating', words:['multiple sclerosis','ms','guillain','nmo','adem','devic']},
+    {label:'Movement disorder', words:['dystonia','tremor','chorea','tic','tourette','ataxia','cerebellar']},
+    {label:'Epilepsy', words:['epilepsy','seizure','absence','tonic','clonic','status']},
+    {label:'Headache disorder', words:['migraine','cluster','tension','trigeminal']},
+    {label:'Peripheral nerve', words:['neuropathy','neuritis','myopathy','myasthenia','lambert','radiculopathy','carpal','brachial']},
+    {label:'Infection / Inflammation', words:['meningitis','encephalitis','abscess','vasculitis','sarcoid','autoimmune']},
+    {label:'Psychiatric', words:['schizophrenia','bipolar','depression','anxiety','ocd','psychosis']},
+    {label:'Tumour', words:['glioma','glioblastoma','meningioma','metastasis','lymphoma','tumour','tumor']},
+    {label:'Metabolic', words:['wilson','wernicke','hepatic','uremic','hypoxic','metabolic']},
+    {label:'Sleep disorder', words:['narcolepsy','sleep apnoea','insomnia','rem','parasom']},
+    {label:'Genetic / Developmental', words:['tuberous','neurofibromatosis','rett','fragile','tay','gaucher','niemann']},
+  ];
+  for(const cat of cats){
+    if(cat.words.some(w => g.includes(w))) return cat.label;
+  }
+  return 'Neurological condition';
+}
+
 function renderPastGuesses(){
   const wrap = document.getElementById('past-guesses');
   wrap.innerHTML = '';
   state.guesses.forEach(g => {
-    const span = document.createElement('span');
-    span.textContent = g;
-    wrap.appendChild(span);
+    const card = document.createElement('div');
+    card.className = 'wrong-guess-card';
+    const cat = getDisorderCategory(g);
+    card.innerHTML = `
+      <span class="wrong-guess-name">${g}</span>
+      <span class="wrong-guess-cat">${cat}</span>
+    `;
+    wrap.appendChild(card);
   });
 }
 

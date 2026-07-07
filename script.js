@@ -118,59 +118,59 @@ async function loadFunFact(){
     const usableRows = rows.filter(r => (findField(r,'fact') || '').trim());
     if(!usableRows.length){
       console.warn("Neurole: Fun Fact sheet loaded but no row had text in a 'fact' column.", rows);
-      throw new Error('no usable rows (fact column empty/missing on every row)');
+      throw new Error('no usable rows');
     }
 
-    // Use normalized YYYY-MM-DD strings for comparison to avoid timezone/midnight bugs.
-    const todayKey = (() => {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    })();
+    // Compute the current week number anchored to ET (resets Monday 12 AM ET)
+    const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    // ISO week calculation in ET
+    const dayOfWeek = etNow.getDay() || 7; // Mon=1 … Sun=7
+    const monday = new Date(etNow);
+    monday.setDate(etNow.getDate() - (dayOfWeek - 1));
+    monday.setHours(0,0,0,0);
+    const weekKey = `${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
+    const todayKey = etNow.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
 
-    let best = usableRows[usableRows.length - 1];
+    // 1) Try to find a row whose week_start matches this Monday exactly
+    let best = null;
     let foundDated = false;
     usableRows.forEach(r => {
-      const raw = findField(r,'week_start') || '';
-      // Normalize: accept "YYYY-MM-DD", "M/D/YYYY", "MM/DD/YYYY"
+      const raw = (findField(r,'week_start') || '').trim();
       let key = '';
       let m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
       if(m) key = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
-      else {
-        m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-        if(m) key = `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
-      }
-      if(key && key <= todayKey){ best = r; foundDated = true; }
+      else { m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) key=`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`; }
+      if(key === weekKey){ best = r; foundDated = true; }
     });
-    console.log("Neurole: fun fact row selected ->", best, foundDated ? "(matched by week_start)" : "(no valid week_start found — used most recent row)");
+
+    // 2) If no exact match, use week index to cycle through rows automatically
+    //    so the fact rotates every 7 days without needing sheet updates
+    if(!best){
+      const epoch = new Date('2024-01-01T05:00:00Z'); // Monday midnight ET
+      const weeksSinceEpoch = Math.floor((monday - epoch) / (7*24*60*60*1000));
+      const idx = ((weeksSinceEpoch % usableRows.length) + usableRows.length) % usableRows.length;
+      best = usableRows[idx];
+      console.log(`Neurole: fun fact auto-rotating by week (week ${weeksSinceEpoch} → row ${idx})`);
+    } else {
+      console.log("Neurole: fun fact matched by week_start:", weekKey);
+    }
 
     el.querySelector('.fact-text').textContent = findField(best,'fact');
-
     const link = el.querySelector('.fact-link');
     let url = (findField(best,'source_url') || '').trim();
-    if(url && !/^https?:\/\//i.test(url)) url = 'https://' + url; // tolerate missing https://
-
+    if(url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     if(url){
       link.textContent = findField(best,'source_title') || 'Read the study';
-      link.href = url;
-      link.target = '_blank';
-      link.rel = 'noopener';
+      link.href = url; link.target = '_blank'; link.rel = 'noopener';
     } else {
-      console.warn("Neurole: this fact row has no source_url filled in.", best);
-      link.removeAttribute('href');
-      link.removeAttribute('target');
-      link.textContent = 'No source link provided for this fact';
+      link.removeAttribute('href'); link.removeAttribute('target');
+      link.textContent = '—';
     }
   }catch(err){
-    console.error("Neurole: couldn't load Fun Fact sheet —", err.message);
-    el.querySelector('.fact-text').textContent =
-      "Myelin — the fatty sheath around nerve fibers — lets electrical signals travel up to 100x faster than along bare, unmyelinated axons.";
-    const link = el.querySelector('.fact-link');
-    link.textContent = 'Hartline & McIlwain, 2007 — "Mechanisms of Myelin Repair" (NIH/PMC)';
-    link.href = 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2730787/';
-    link.target = '_blank';
-    link.rel = 'noopener';
+    console.error("Neurole: couldn't load fun fact —", err.message);
   }
 }
+
 
 // ---------- Shared AI ask helper (used by both games) ----------
 // Tries a direct Gemini call first (if a key is configured), then

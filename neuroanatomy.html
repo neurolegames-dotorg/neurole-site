@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Map the Brain — Neurole</title>
-<link rel="stylesheet" href="style.css?v=70">
+<link rel="stylesheet" href="style.css?v=71">
 <style>
   .game-shell{max-width:680px;margin:0 auto;padding:16px 12px 90px;}
   /* In split-screen modes the shell should not be artificially narrow */
@@ -358,6 +359,88 @@
     }
     .learn-fab{bottom:max(20px,env(safe-area-inset-bottom,20px)) !important;}
   }
+
+/* ============================================
+   MAP THE BRAIN — IPHONE RESPONSIVE (480px)
+   ============================================ */
+@media(max-width:480px){
+
+  /* Masthead — hamburger only */
+  .nav-left{display:none !important;}
+  .hamburger-btn{display:flex !important;}
+
+  /* Start screen — fills phone, scrollable */
+  .start-screen{
+    padding:52px 16px 40px !important;
+    justify-content:flex-start !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+  .start-screen-inner{max-width:100% !important;}
+  .start-screen h1{font-size:26px !important;margin:0 0 8px !important;}
+  .start-screen > * > p{font-size:13.5px !important;margin:0 0 12px !important;}
+  .start-logo{margin-bottom:10px !important;}
+  .start-logo svg,.start-logo img{width:46px !important;height:46px !important;}
+  .category-row{gap:5px !important;flex-wrap:wrap !important;justify-content:center !important;}
+  .category-btn{font-size:10.5px !important;padding:7px 9px !important;}
+  .start-actions-stacked{gap:8px !important;margin-top:12px !important;width:100% !important;}
+  .start-actions-stacked .btn{width:100% !important;font-size:12px !important;}
+  .synapse-rule{margin:14px 0 !important;}
+  .learn-tab-toggle{font-size:11px !important;padding:10px 12px !important;}
+  #learn-regions-grid{grid-template-columns:1fr !important;}
+  #neuropsych-tab-body > div{grid-template-columns:1fr !important;}
+
+  /* Page hero */
+  .page-hero{padding:76px 0 20px !important;}
+  .page-hero h1{font-size:30px !important;}
+
+  /* Game area */
+  main.game-shell{max-width:100% !important;padding:8px 10px 60px !important;}
+  .game-stats-bar{padding:0 0 10px !important;gap:6px !important;flex-wrap:wrap !important;}
+  .score-tag,.score-pill{font-size:10.5px !important;}
+  .difficulty-badge{font-size:10px !important;}
+  .specimen{border:none !important;background:transparent !important;padding:6px 0 !important;}
+  .specimen img{max-height:210px !important;width:100% !important;object-fit:contain !important;}
+  .cap{font-size:13px !important;}
+  .choices{gap:8px !important;}
+  .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
+  .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
+
+  /* AI — ALWAYS bottom-sheet popup on iPhone, never side panel */
+  body.ai-panel-open #game-split-container{display:block !important;}
+  body.ai-panel-open main.game-shell{max-width:100% !important;}
+  body.ai-panel-open .learn-backdrop{
+    position:fixed !important;inset:0 !important;
+    background:rgba(0,0,0,.55) !important;
+    display:flex !important;
+    align-items:flex-end !important;
+    justify-content:center !important;
+    padding:0 !important;
+    z-index:500 !important;
+  }
+  body.ai-panel-open .learn-panel{
+    position:relative !important;
+    width:100% !important;max-width:100% !important;
+    max-height:78vh !important;height:78vh !important;
+    border-radius:18px 18px 0 0 !important;
+    border-top:2px solid var(--rule) !important;
+    border-left:none !important;border-right:none !important;border-bottom:none !important;
+    box-shadow:0 -8px 40px rgba(0,0,0,.2) !important;
+    background:#fff !important;
+    overflow:hidden !important;
+    display:flex !important;flex-direction:column !important;
+  }
+  /* Learn-fab above browser chrome */
+  .learn-fab{
+    bottom:max(24px,env(safe-area-inset-bottom,24px)) !important;
+  }
+
+  /* Result modal */
+  .modal{padding:18px 16px !important;margin:0 10px !important;width:calc(100% - 20px) !important;}
+  .modal-actions{flex-direction:column !important;gap:10px !important;}
+  .modal-actions .btn{width:100% !important;justify-content:center !important;}
+}
+
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -594,8 +677,8 @@
   </div>
 </div>
 
-<script src="config.js?v=70"></script>
-<script src="script.js?v=70"></script>
+<script src="config.js?v=71"></script>
+<script src="script.js?v=71"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

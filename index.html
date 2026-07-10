@@ -45,7 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=92">
+<link rel="stylesheet" href="style.css?v=94">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script type="application/ld+json">
@@ -305,6 +305,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="game-card-badge">🩺 Daily · Diagnostic</span>
             <h3>The Daily Case</h3>
             <p>A new patient walks in every day. Read the symptoms and guess the neurological diagnosis — five tries, then the answer is revealed. Resets at midnight ET.</p>
+            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;align-self:flex-start;"></div>
             <span class="play-cta">Play today's case →</span>
           </div>
         </a>
@@ -384,6 +385,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
+  <!-- Email reminder -->
+  <div class="wrap" style="margin-bottom:0;">
+    <div style="background:linear-gradient(135deg,rgba(145,118,184,.08),rgba(90,67,128,.04));border:1.5px solid rgba(145,118,184,.2);border-radius:14px;padding:28px 28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div>
+        <h4 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin:0 0 5px;">Get today's case in your inbox 🧠</h4>
+        <p style="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0;">Daily reminder at 9 AM ET — one email, unsubscribe anytime.</p>
+      </div>
+      <form id="reminder-form" action="https://formspree.io/f/maqgkjlr" method="POST" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input type="hidden" name="type" value="Daily reminder signup">
+        <input type="email" name="email" placeholder="your@email.com" required
+          style="padding:10px 14px;border:1.5px solid rgba(145,118,184,.3);border-radius:8px;font-family:'Outfit',sans-serif;font-size:14px;width:210px;outline:none;">
+        <button class="btn" type="submit" style="border-radius:8px;padding:0 20px;height:42px;font-size:13px;">Remind me →</button>
+      </form>
+      <p id="reminder-success" style="display:none;font-family:'Outfit',sans-serif;font-size:13px;color:var(--neuro-blue-deep);font-weight:600;">✓ You're in! Check your inbox tomorrow at 9 AM ET.</p>
+    </div>
+  </div>
+
   <!-- Mission strip -->
   <div class="mission-strip">
     <div class="wrap">
@@ -420,13 +438,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=92"></script>
-<script src="games-data.js?v=92"></script>
-<script src="script.js?v=92"></script>
+<script src="config.js?v=94"></script>
+<script src="games-data.js?v=94"></script>
+<script src="script.js?v=94"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+  // Show streak on homepage game card
+  try{
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('neurole_daily_'));
+    if(keys.length > 0){
+      // Count consecutive days up to yesterday
+      let streak = 0;
+      const et = d => new Date(new Date(d).toLocaleString('en-US',{timeZone:'America/New_York'}));
+      const today = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+      for(let i=0;i<60;i++){
+        const d = new Date(today); d.setDate(d.getDate()-i);
+        const key = 'neurole_daily_' + d.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+        const saved = localStorage.getItem(key);
+        if(saved && JSON.parse(saved).won){ streak++; } else if(i>0){ break; }
+      }
+      if(streak > 0){
+        const el = document.getElementById('home-streak-display');
+        if(el){ el.style.display='flex'; el.textContent = '🔥 ' + streak + '-day streak'; }
+      }
+    }
+  }catch(e){}
+
+  // Email reminder form
+  const rf = document.getElementById('reminder-form');
+  if(rf){
+    rf.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = rf.querySelector('button');
+      btn.textContent = 'Saving…'; btn.disabled = true;
+      try{
+        const res = await fetch(rf.action, {method:'POST',body:new FormData(rf),headers:{Accept:'application/json'}});
+        if(res.ok){
+          rf.style.display = 'none';
+          document.getElementById('reminder-success').style.display = 'block';
+        } else { btn.textContent = 'Remind me →'; btn.disabled = false; }
+      }catch(e){ btn.textContent = 'Remind me →'; btn.disabled = false; }
+    });
+  }
 </script>
 </body>
 </html>

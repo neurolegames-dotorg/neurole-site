@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=92">
+<link rel="stylesheet" href="style.css?v=94">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -489,14 +489,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:6px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
     <div class="case-card">
     <!-- Attempt dots -->
-    <div id="attempt-dots" style="display:flex;gap:7px;margin-bottom:16px;align-items:center;">
-      <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-right:4px;">Attempts</span>
-      <span class="attempt-dot" id="dot-1"></span>
-      <span class="attempt-dot" id="dot-2"></span>
-      <span class="attempt-dot" id="dot-3"></span>
-      <span class="attempt-dot" id="dot-4"></span>
-      <span class="attempt-dot" id="dot-5"></span>
-    </div>
+    <!-- Attempt dots are shown in the header, not here -->
       <div class="case-meta">
         <span id="case-date">—</span>
         <div class="attempts-dots" id="attempts-dots">
@@ -585,15 +578,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="result-logo">Neurole<span class="dot">.</span></div>
       <h3 id="result-headline-text">Result</h3>
     </div>
-    <p class="result-stats" id="result-stats-text"></p>
-    <div class="share-row">
-      <button type="button" id="share-btn">Share result</button>
+    <p class="result-stats" id="result-stats-text" style="text-align:center;font-size:17px;font-weight:600;"></p>
+
+    <!-- Prominent share button -->
+    <div style="display:flex;gap:10px;justify-content:center;margin:14px 0;">
+      <button type="button" id="share-btn" class="btn" style="font-size:15px;padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--neuro-blue-deep),var(--plum));">
+        Share your result 🔗
+      </button>
     </div>
 
     <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
 
-    <p style="color:var(--ink-soft);font-size:14.5px;text-align:center;margin-top:0;">Sign in to save your streak and come back tomorrow.</p>
-    <div id="result-google-container" style="display:flex;justify-content:center;margin-bottom:18px;"></div>
+    <p style="color:var(--ink-soft);font-size:14px;text-align:center;margin-top:0;">Sign in to save your streak across devices.</p>
+    <div id="result-google-container" style="display:flex;justify-content:center;margin-bottom:16px;"></div>
 
     <div class="modal-actions">
       <a class="btn" href="neuroanatomy.html">Try Map the Brain →</a>
@@ -602,8 +599,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=92"></script>
-<script src="script.js?v=92"></script>
+<script src="config.js?v=94"></script>
+<script src="script.js?v=94"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -768,34 +765,18 @@ async function loadCase(){
     // normalizeDateStr handles multiple formats → YYYY-MM-DD
     const dated = rows
       .map(r => {
-        const raw = findField(r, 'Date') || findField(r, 'date') || findField(r, 'DATE') || '';
+        const raw = findField(r,'Date') || findField(r,'date') || findField(r,'DATE') || '';
         return { row: r, key: normalizeDateStr(raw) };
       })
-      .filter(x => x.key); // drop rows with no parseable date
+      .filter(x => x.key);
 
     console.log("Neurole: dates in sheet:", dated.map(x => x.key));
 
-    // 1) Exact match for today
+    // Exact match for today ONLY — no fallback to past cases
     let match = dated.find(x => x.key === todayKey);
 
-    // 2) Most recent past row if no exact match today
     if(!match){
-      const past = dated
-        .filter(x => x.key < todayKey)
-        .sort((a, b) => b.key.localeCompare(a.key));
-      if(past.length){
-        match = past[0];
-        const banner = document.getElementById('sheet-warning-banner');
-        if(banner){
-          banner.textContent = `No case for today (${todayKey}) in sheet — showing ${match.key}. Add a row dated ${todayKey} to show today's case.`;
-          banner.style.display = 'block';
-        }
-        console.warn("Neurole: no row for today — showing most recent past case:", match.key);
-      }
-    }
-
-    if(!match){
-      console.warn("Neurole: no dated rows at or before today. Dates found:", dated.map(x => x.key));
+      console.warn("Neurole: no case found for today (" + todayKey + ")");
     }
 
     chosen = match ? match.row : null;
@@ -805,20 +786,28 @@ async function loadCase(){
       state.answer = findField(chosen,'answer') || findField(chosen,'Answer') || '';
       state.synonyms = (findField(chosen,'accepted_synonyms') || findField(chosen,'Accepted_Synonyms') || '').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
       state.explanation = findField(chosen,'explanation') || findField(chosen,'Explanation') || '';
-      console.log("Neurole: loaded case for", match.key, "| answer:", state.answer, "| symptoms:", state.symptoms.length);
+      console.log("Neurole: loaded case for", todayKey, "| answer:", state.answer);
     }
   }catch(err){ console.error("Neurole: couldn't load Daily Case sheet —", err.message); }
 
+  // No case for today — show a friendly "come back tomorrow" screen
   if(!chosen){
-    usedFallbackBank = true;
-    const fb = FALLBACK_CASES[seededIndexForToday(FALLBACK_CASES.length)];
-    state.symptoms = fb.symptoms;
-    state.answer = fb.answer;
-    state.synonyms = fb.accepted_synonyms.split(';').map(s=>s.trim().toLowerCase());
-    state.explanation = fb.explanation;
-  }
-  if(usedFallbackBank){
-    console.warn("Neurole: using a built-in placeholder case — your Google Sheet had no usable dated rows at all yet.");
+    document.getElementById('game-content').style.display = 'block';
+    document.getElementById('start-screen').style.display = 'none';
+    const area = document.getElementById('result-area');
+    if(area){
+      area.innerHTML = `
+        <div style="text-align:center;padding:48px 24px;max-width:420px;margin:0 auto;">
+          <div style="font-size:48px;margin-bottom:16px;">🧠</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin:0 0 10px;">No case today</h3>
+          <p style="font-family:'Outfit',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 24px;">
+            Today's case hasn't been added yet — check back soon, or try Map the Brain while you wait.
+          </p>
+          <a class="btn" href="neuroanatomy.html" style="display:inline-flex;margin-bottom:12px;">Map the Brain →</a><br>
+          <a class="btn ghost" href="index.html" style="display:inline-flex;margin-top:8px;">← Home</a>
+        </div>`;
+    }
+    return;
   }
   state.shown = 1;
   renderSymptoms();
@@ -1148,14 +1137,39 @@ function getSavedDailyCompletion(){
 function openResultPopup(won){
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
-  headline.textContent = won ? 'Congrats!' : 'Better luck next time';
+  headline.textContent = won ? 'Diagnosed! 🧠' : 'Better luck tomorrow';
   stats.textContent = won
-    ? `Diagnosed in ${state.attemptsUsed + 1} ${state.attemptsUsed + 1 === 1 ? 'guess' : 'guesses'} — ${state.answer}`
-    : `The answer was ${state.answer} — you used all 5 guesses`;
+    ? `${state.answer} — got it in ${state.attemptsUsed} ${state.attemptsUsed===1?'guess':'guesses'}`
+    : `The answer was: ${state.answer}`;
+
+  // Add countdown to next case
+  let countdownEl = document.getElementById('next-case-countdown');
+  if(!countdownEl){
+    countdownEl = document.createElement('p');
+    countdownEl.id = 'next-case-countdown';
+    countdownEl.style.cssText = 'font-family:\'Outfit\',sans-serif;font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center;';
+    stats.parentNode.insertBefore(countdownEl, stats.nextSibling);
+  }
+  function updateCountdown(){
+    const now = new Date();
+    const etNow = new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const midnight = new Date(etNow);
+    midnight.setDate(midnight.getDate()+1);
+    midnight.setHours(0,0,0,0);
+    const diff = midnight - etNow;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    countdownEl.textContent = `Next case in ${h}h ${m}m ${s}s`;
+  }
+  updateCountdown();
+  const ct = setInterval(updateCountdown, 1000);
+  document.getElementById('result-modal').addEventListener('click', ()=>clearInterval(ct), {once:true});
+
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
-      `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">Signed in as ${googleSignInState.email} — streak saved!</p>`;
+      `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">✓ Signed in as ${googleSignInState.email} — streak saved!</p>`;
   });
 }
 

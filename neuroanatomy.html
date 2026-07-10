@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=92">
+<link rel="stylesheet" href="style.css?v=94">
 <style>
   :root{--start-display:flex;}
 
@@ -852,8 +852,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=92"></script>
-<script src="script.js?v=92"></script>
+<script src="config.js?v=94"></script>
+<script src="script.js?v=94"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1153,39 +1153,20 @@ document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
   }
 });
 
-// On desktop/tablet: slide AI panel in beside the game
-// On phone: keep the existing floating overlay behaviour
-function isPhone(){ return window.innerWidth <= 900; }
-
 function openAIPanel(){
-  const backdrop = document.getElementById('ai-col');
-  backdrop.classList.add('open');
+  const col = document.getElementById('ai-col');
+  if(col) col.style.display = 'block';
   document.body.classList.add('ai-panel-open');
-  if(!isPhone()){
-    // Move backdrop inside the grid container so it becomes a grid column
-    const container = document.getElementById('game-split-container');
-    container.appendChild(backdrop);
-    const shell = document.querySelector('main.game-shell');
-    if(shell) shell.style.maxWidth = 'none';
-  }
 }
 
 function closeAIPanel(){
-  const backdrop = document.getElementById('ai-col');
-  backdrop.classList.remove('open');
+  const col = document.getElementById('ai-col');
+  if(col) col.style.display = 'none';
   document.body.classList.remove('ai-panel-open');
-  // Move backdrop back outside the grid container
-  const main = document.querySelector('main.game-shell');
-  if(main && backdrop.parentElement.id === 'game-split-container'){
-    main.appendChild(backdrop);
-  }
-  const shell = document.querySelector('main.game-shell');
-  if(shell) shell.style.maxWidth = '';
 }
 
 document.getElementById('learn-fab').addEventListener('click', openAIPanel);
 document.getElementById('learn-close').addEventListener('click', closeAIPanel);
-// no backdrop click-outside needed for inline panel
 
 document.getElementById('ask-form').addEventListener('submit', async (e) => {
   e.preventDefault();

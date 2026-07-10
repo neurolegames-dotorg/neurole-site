@@ -8,6 +8,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
 <!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDT6M74DR');
+</script>
 <meta charset="UTF-8">
 <meta name="description" content="Test your neuroanatomy knowledge. Identify brain regions from real images, learn what each area does, and ask an AI tutor follow-up questions. Free neuroscience quiz.">
 <meta name="robots" content="index, follow">
@@ -39,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=79">
+<link rel="stylesheet" href="style.css?v=89">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -251,32 +259,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      AI PANEL — DESKTOP: side-by-side grid. MOBILE: bottom-sheet popup.
      =============================================================== */
 
-  /* Desktop only (>900px): engrave AI beside game */
+  /* Desktop only (>900px): AI panel fixed to right side of viewport */
   @media(min-width:901px){
     body.ai-panel-open #game-split-container{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:28px;
-      align-items:start;
+      display:block;
     }
-    body.ai-panel-open .game-shell{ max-width:none !important; }
+    body.ai-panel-open .game-shell{
+      max-width:none !important;
+      /* Push game content left to make room for fixed AI panel */
+      padding-right:calc(50vw + 16px) !important;
+    }
     body.ai-panel-open .learn-backdrop{
-      position:sticky !important;
-      top:76px;
+      position:fixed !important;
+      top:58px;
+      right:0;
+      bottom:0;
+      width:50vw;
       background:none !important;
-      display:block !important;
-      padding:0 !important;
-      z-index:auto !important;
+      display:flex !important;
+      align-items:stretch;
+      padding:16px 20px 20px 12px !important;
+      z-index:90 !important;
     }
     body.ai-panel-open .learn-panel{
-      position:sticky !important;
-      top:76px;
+      position:relative !important;
       width:100% !important;
-      max-height:calc(100vh - 96px);
+      height:100% !important;
+      max-height:none !important;
       background:#fff !important;
       border:1.5px solid var(--rule);
-      border-radius:12px;
-      box-shadow:0 2px 18px rgba(0,0,0,.07);
+      border-radius:14px;
+      box-shadow:-4px 0 30px rgba(90,67,128,.1), 0 4px 20px rgba(0,0,0,.08);
       overflow:hidden;
       display:flex !important;
       flex-direction:column;
@@ -577,6 +590,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .modal-actions .btn{width:100% !important;justify-content:center !important;}
 }
 
+
+  /* Progress bar */
+  .progress-bar-wrap{
+    width:100%;height:6px;background:rgba(145,118,184,.15);
+    border-radius:6px;overflow:hidden;margin-bottom:16px;
+  }
+  .progress-bar-fill{
+    height:100%;border-radius:6px;
+    background:linear-gradient(90deg,var(--neuro-blue-bright),var(--plum));
+    transition:width .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Correct answer burst */
+  @keyframes correctBurst{0%{transform:scale(1)}30%{transform:scale(1.03)}100%{transform:scale(1)}}
+  .specimen.correct-anim{animation:correctBurst .4s ease;}
+
+  /* Wrong shake */
+  @keyframes wrongShakeNeuro{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .choices.wrong-shake{animation:wrongShakeNeuro .35s ease;}
+
+  /* Score pop animation */
+  @keyframes scorePop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .score-pill.pop{animation:scorePop .35s ease;}
+
+  /* Question fade-in */
+  @keyframes questionFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .specimen,.choices{animation:questionFade .3s ease;}
+
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script type="application/ld+json">
@@ -734,6 +775,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="game-split-container">
     <div id="game-play" style="display:none;">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
     <div class="game-stats-bar">
       <div class="game-stats-left">
         <span class="score-tag" id="score-tag">Question 1 of 10</span>
@@ -833,8 +875,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=79"></script>
-<script src="script.js?v=79"></script>
+<script src="config.js?v=89"></script>
+<script src="script.js?v=89"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -873,22 +915,33 @@ let answered = false;
 let correctCount = 0;
 let selectedCategory = 'Random';
 let selectedDifficulty = 'all';
+let bankLoading = false;
+let bankReady = false;
 
 async function loadBank(){
+  if(bankLoading) return;
+  bankLoading = true;
+  // Disable start buttons while loading
+  document.querySelectorAll('.round-choice').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
+  const allBtn = document.querySelector('.round-choice[data-count="all"]');
+  if(allBtn) allBtn.textContent = 'Loading questions…';
   try{
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.NEUROANATOMY_SHEET_CSV);
     if(rows.length){
       fullBank = rows;
       console.log("Neurole: loaded " + rows.length + " neuroanatomy questions from sheet.");
-      console.log("Neurole: first row image_url ->", findField(rows[0], 'image_url'));
     } else {
       fullBank = FALLBACK_QUESTIONS;
-      console.warn("Neurole: sheet loaded but had 0 rows — using fallback questions.");
+      console.warn("Neurole: sheet had 0 rows — using fallback questions.");
     }
   }catch(err){
     console.error("Neurole: couldn't load Neuroanatomy sheet —", err.message);
     fullBank = FALLBACK_QUESTIONS;
   }
+  bankReady = true;
+  bankLoading = false;
+  // Re-enable buttons
+  document.querySelectorAll('.round-choice').forEach(b => { b.disabled = false; b.style.opacity = ''; });
   updateAllButtonCount();
 }
 
@@ -935,13 +988,34 @@ document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
   });
 });
 
-function startRound(countOption){
+async function startRound(countOption){
+  // Wait for bank to load if it hasn't yet
+  if(!bankReady){
+    if(!bankLoading) loadBank();
+    const startBtn = document.querySelector(`.round-choice[data-count="${countOption}"]`);
+    const origText = startBtn ? startBtn.textContent : '';
+    if(startBtn){ startBtn.textContent = 'Loading…'; startBtn.disabled = true; }
+    let tries = 0;
+    while(!bankReady && tries < 30){ await new Promise(r=>setTimeout(r,300)); tries++; }
+    if(startBtn){ startBtn.textContent = origText; startBtn.disabled = false; }
+  }
+
   const bank = getFilteredBank();
 
   if(!bank.length){
-    alert(`No questions found for "${selectedCategory}" yet — add some to your sheet's category column, or pick Random Mix.`);
+    // Friendly inline message instead of alert
+    const msg = document.getElementById('bank-error-msg') || document.createElement('p');
+    msg.id = 'bank-error-msg';
+    msg.style.cssText = 'font-family:var(--mono);font-size:12px;color:var(--signal-red);margin-top:8px;';
+    msg.textContent = `No "${selectedCategory}" questions found — try "Random Mix" or a different difficulty.`;
+    const actionsEl = document.querySelector('.start-actions-stacked');
+    if(actionsEl && !document.getElementById('bank-error-msg')) actionsEl.after(msg);
     return;
   }
+
+  // Clear any error
+  const err = document.getElementById('bank-error-msg');
+  if(err) err.remove();
 
   const total = countOption === 'all'
     ? bank.length
@@ -950,6 +1024,11 @@ function startRound(countOption){
   qBank = shuffle(bank).slice(0, total);
   qIndex = 0;
   correctCount = 0;
+
+  // Save game state so refresh restores the game, not the start screen
+  const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption };
+  try{ sessionStorage.setItem('neurole_game_session', JSON.stringify(savedState)); }catch(e){}
+  history.replaceState(null, '', '#playing');
 
   document.getElementById('round-setup').style.display = 'none';
   document.getElementById('neuro-result-modal').classList.remove('open');
@@ -965,6 +1044,8 @@ document.getElementById('new-round-btn').addEventListener('click', () => {
   document.getElementById('neuro-result-modal').classList.remove('open');
   document.getElementById('game-play').style.display = 'none';
   document.getElementById('round-setup').style.display = 'flex';
+  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
+  history.replaceState(null,'',location.pathname);
 });
 
 function shuffle(arr){
@@ -986,6 +1067,10 @@ function showQuestion(){
   document.getElementById('specimen-img').src = findField(current,'image_url');
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
+  // Update progress bar
+  const pct = Math.round((qIndex / qBank.length) * 100);
+  const bar = document.getElementById('progress-bar');
+  if(bar) bar.style.width = pct + '%';
 
   const diffBadge = document.getElementById('difficulty-badge');
   const difficulty = (findField(current,'difficulty') || '').trim();
@@ -1029,6 +1114,17 @@ function selectChoice(btn){
   const gotItRight = btn.dataset.correct === 'true';
   if(gotItRight) correctCount++;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + (qIndex+1);
+  // Pop animation on score
+  const pill = document.getElementById('score-pill');
+  if(pill){ pill.classList.remove('pop'); void pill.offsetWidth; pill.classList.add('pop'); }
+  // Shake choices on wrong, flash specimen on correct
+  if(!isCorrect){
+    const ch = document.getElementById('choices');
+    if(ch){ ch.classList.remove('wrong-shake'); void ch.offsetWidth; ch.classList.add('wrong-shake'); setTimeout(()=>ch.classList.remove('wrong-shake'),400); }
+  } else {
+    const sp = document.querySelector('.specimen');
+    if(sp){ sp.classList.remove('correct-anim'); void sp.offsetWidth; sp.classList.add('correct-anim'); setTimeout(()=>sp.classList.remove('correct-anim'),500); }
+  }
 
   document.querySelectorAll('.choice-btn').forEach(b => {
     b.disabled = true;
@@ -1069,11 +1165,15 @@ document.getElementById('next-btn').addEventListener('click', () => {
 document.getElementById('neuro-result-close').addEventListener('click', () => {
   document.getElementById('neuro-result-modal').classList.remove('open');
   document.getElementById('round-setup').style.display = 'flex';
+  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
+  history.replaceState(null,'',location.pathname);
 });
 document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
   if(e.target.id === 'neuro-result-modal'){
     e.currentTarget.classList.remove('open');
     document.getElementById('round-setup').style.display = 'flex';
+  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
+  history.replaceState(null,'',location.pathname);
   }
 });
 
@@ -1128,17 +1228,16 @@ document.getElementById('ask-form').addEventListener('submit', async (e) => {
 
   const aiMsg = document.createElement('div');
   aiMsg.className = 'chat-msg ai';
-  aiMsg.textContent = 'Thinking…';
+  aiMsg.textContent = '…';
   log.appendChild(aiMsg);
   log.scrollTop = log.scrollHeight;
 
-  const regionName = document.getElementById('learn-title').textContent;
+  const regionName = document.getElementById('learn-title')?.textContent || 'this brain region';
+  const funcText = current ? (findField(current,'function_text') || '') : '';
 
-  aiMsg.textContent = await askNeuroleAI({
-    region: regionName,
-    function_text: findField(current,'function_text'),
-    question
-  });
+  const result = await askNeuroleAI({ region: regionName, function_text: funcText, question });
+  aiMsg.textContent = result || `I can't reach the AI right now. About ${regionName}: ${funcText || 'check your internet connection and try again.'}`;
+  log.scrollTop = log.scrollHeight;
 });
 
 loadBank();
@@ -1236,6 +1335,25 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
   activateSplitScreen(true);
   startRound('10');
 });
+
+// ── Restore game session if page was refreshed mid-game ──
+(async function restoreSession(){
+  if(location.hash !== '#playing') return;
+  let saved = null;
+  try{ saved = JSON.parse(sessionStorage.getItem('neurole_game_session')); }catch(e){}
+  if(!saved) return;
+  // Wait for bank
+  let tries = 0;
+  while(!bankReady && tries++ < 40) await new Promise(r=>setTimeout(r,250));
+  if(!bankReady) return;
+  selectedDifficulty = saved.difficulty || 'all';
+  selectedCategory  = saved.category  || 'Random';
+  document.querySelectorAll('.category-btn[data-difficulty]').forEach(b=>
+    b.classList.toggle('active', b.dataset.difficulty===selectedDifficulty));
+  document.querySelectorAll('.category-btn[data-category]').forEach(b=>
+    b.classList.toggle('active', b.dataset.category===selectedCategory));
+  startRound(saved.count || '10');
+})();
 
 </script>
 </body>

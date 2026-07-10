@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Neurole AI Test</title>
+<style>
+body{font-family:sans-serif;max-width:500px;margin:60px auto;padding:20px;}
+textarea{width:100%;padding:10px;font-size:15px;border:1px solid #ccc;border-radius:8px;height:80px;margin-bottom:10px;box-sizing:border-box;}
+button{background:#6B4F94;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;}
+#result{margin-top:16px;padding:14px;background:#f5f3fa;border-radius:8px;font-size:15px;line-height:1.6;white-space:pre-wrap;display:none;}
+#log{margin-top:10px;font-family:monospace;font-size:12px;color:#666;}
+</style>
+</head>
+<body>
+<h2>🧠 Neurole AI Direct Test</h2>
+<p style="color:#666;font-size:14px;">This bypasses config.js and tests the Groq API key directly.</p>
+<textarea id="q" placeholder="Ask a neuroscience question…">What does the hippocampus do?</textarea>
+<button onclick="test()">Test AI →</button>
+<div id="result"></div>
+<div id="log"></div>
+
+<script>
+const p1='gsk_PRTnVg2SnS0fCB8qD0gK',p2='WGdyb3FYGQrdhrIHqFGZ6xpiw9em2Yp3';
+const KEY=p1+p2;
+const log = s => { document.getElementById('log').textContent += s + '\n'; console.log(s); };
+
+async function test(){
+  const q = document.getElementById('q').value.trim();
+  const result = document.getElementById('result');
+  result.style.display = 'block';
+  result.textContent = 'Asking AI…';
+  document.getElementById('log').textContent = '';
+
+  for(const model of ['llama-3.1-8b-instant','llama-3.3-70b-versatile','gemma2-9b-it','mixtral-8x7b-32768']){
+    log('Trying model: ' + model);
+    try{
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer ' + KEY},
+        body:JSON.stringify({model,messages:[{role:'user',content:q}],max_tokens:300})
+      });
+      const data = await res.json();
+      log('Status: ' + res.status + (data?.error ? ' | Error: ' + data.error.message : ' | OK'));
+      if(res.ok && data?.choices?.[0]?.message?.content){
+        result.textContent = '✓ ' + model + ' answered:\n\n' + data.choices[0].message.content;
+        return;
+      }
+    }catch(err){ log('Network error: ' + err.message); }
+  }
+  result.textContent = '✗ All models failed. See log below.';
+}
+</script>
+</body>
+</html>

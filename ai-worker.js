@@ -1,134 +1,81 @@
 /* =====================================================================
-   NEUROLE — AI backend (Cloudflare Worker)
-   Tries Gemini first. If Gemini isn't configured or fails for any
-   reason, it automatically falls back to OpenAI — so the "ask a
-   question" feature keeps working even if one provider has an outage,
-   a quota issue, or you haven't set up a key for it yet.
+   NEUROLE AI WORKER — Cloudflare Worker (Groq backend)
+   Keys stay server-side, never exposed in your public GitHub repo.
 
-   ===================================================================
-   WHY THIS HAS TO BE A SEPARATE BACKEND (not just code in your site)
-   ===================================================================
-   Your website's HTML/JS is fully visible to anyone who opens dev
-   tools. An API key pasted directly into your site would be stolen
-   within minutes. This Worker is a tiny middleman that lives on
-   Cloudflare's servers — your site calls THIS, and only this Worker
-   holds your real API key(s), which stay encrypted and invisible to
-   site visitors.
-
-   ===================================================================
-   HOW TO DEPLOY (free, ~5–10 minutes)
-   ===================================================================
-   1. Get API keys (you only NEED one of these, but adding both gives
-      you the automatic fallback):
-        Gemini: https://aistudio.google.com/apikey   (free tier)
-        OpenAI: https://platform.openai.com/api-keys  (pay-as-you-go,
-                requires billing set up even for small usage)
-
-   2. Go to https://workers.cloudflare.com -> sign up/log in (free).
-
-   3. Create a new Worker -> replace the default code with THIS ENTIRE
-      FILE.
-
-   4. In the Worker's Settings -> Variables and Secrets, add:
-        GEMINI_API_KEY   (paste your Gemini key)   -- optional
-        OPENAI_API_KEY   (paste your OpenAI key)   -- optional
-      Add whichever you have as a Secret (so it's encrypted). You can
-      add one or both.
-
-   5. Deploy. You'll get a URL like:
-        https://neurole-ai.yourname.workers.dev
-
-   6. Paste that URL into config.js as AI_ENDPOINT_URL.
-
-   That's it — both games' "ask a question" chat will now work,
-   automatically using whichever provider is available.
-===================================================================== */
+   DEPLOY IN 5 MINUTES:
+   1. Go to workers.cloudflare.com → sign up free → Create a Worker
+   2. Paste this entire file as the worker code
+   3. Settings → Variables and Secrets → add:
+        GROQ_API_KEY   →  (paste your Groq key from console.groq.com)
+      (add it as a Secret so it's encrypted — never visible to anyone)
+   4. Deploy → copy the worker URL (e.g. https://neurole-ai.yourname.workers.dev)
+   5. In your GitHub repo, open config.js and set:
+        AI_ENDPOINT_URL: "https://neurole-ai.yourname.workers.dev"
+   6. Also set GROQ_API_KEY to "DEPLOYED_VIA_WORKER" in config.js
+      so the frontend knows not to call Groq directly
+   ===================================================================== */
 
 export default {
   async fetch(request, env) {
-    const corsHeaders = {
+    const cors = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
-    }
-    if (request.method !== "POST") {
-      return new Response("Use POST", { status: 405, headers: corsHeaders });
-    }
+    if (request.method === "OPTIONS") return new Response(null, { headers: cors });
+    if (request.method !== "POST") return new Response("POST only", { status: 405, headers: cors });
 
-    const jsonResponse = (obj) =>
-      new Response(JSON.stringify(obj), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    const json = (obj) => new Response(JSON.stringify(obj), {
+      headers: { ...cors, "Content-Type": "application/json" }
+    });
 
     try {
       const { prompt } = await request.json();
+      if (!prompt) return json({ answer: "No prompt received." });
 
-      if(!prompt){
-        return jsonResponse({ answer: "No prompt was sent to the AI backend." });
-      }
-
-      // ---------- Try Gemini first ----------
-      if (env.GEMINI_API_KEY) {
+      // Try Groq models in order
+      const models = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'];
+      for (const model of models) {
         try {
-          const geminiRes = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-            }
-          );
-          const data = await geminiRes.json();
-          const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (geminiRes.ok && answer) {
-            return jsonResponse({ answer, provider: "gemini" });
-          }
-          console.error("Gemini returned no usable answer:", data);
-        } catch (err) {
-          console.error("Gemini request failed:", err.message);
-        }
-      }
-
-      // ---------- Fall back to OpenAI ----------
-      if (env.OPENAI_API_KEY) {
-        try {
-          const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+              "Authorization": "Bearer " + env.GROQ_API_KEY
             },
             body: JSON.stringify({
-              model: "gpt-4o-mini",
-              messages: [{ role: "user", content: prompt }],
-              max_tokens: 300,
-            }),
+              model,
+              messages: [
+                { role: "system", content: "You are a friendly neuroscience tutor in an educational game. Answer in 2-4 clear, engaging sentences for a student." },
+                { role: "user", content: prompt }
+              ],
+              max_tokens: 350,
+              temperature: 0.7
+            })
           });
-          const data = await openaiRes.json();
-          const answer = data?.choices?.[0]?.message?.content;
-          if (openaiRes.ok && answer) {
-            return jsonResponse({ answer, provider: "openai" });
-          }
-          console.error("OpenAI returned no usable answer:", data);
-        } catch (err) {
-          console.error("OpenAI request failed:", err.message);
-        }
+          const data = await res.json();
+          const answer = data?.choices?.[0]?.message?.content?.trim();
+          if (res.ok && answer) return json({ answer, model });
+          if (res.status === 401) break; // bad key, stop trying
+        } catch (e) { /* try next */ }
       }
 
-      // ---------- Both providers failed or neither is configured ----------
-      return jsonResponse({
-        answer:
-          "I couldn't reach an AI provider right now. Double-check that GEMINI_API_KEY or OPENAI_API_KEY is set correctly in this Worker's settings.",
-      });
+      // Fallback to OpenAI if configured
+      if (env.OPENAI_API_KEY) {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + env.OPENAI_API_KEY },
+          body: JSON.stringify({ model: "gpt-4o-mini", messages: [{ role: "user", content: prompt }], max_tokens: 350 })
+        });
+        const data = await res.json();
+        const answer = data?.choices?.[0]?.message?.content?.trim();
+        if (res.ok && answer) return json({ answer, model: "gpt-4o-mini" });
+      }
 
-    } catch (err) {
-      return jsonResponse({
-        answer: "Something went wrong reaching the AI — please try again.",
-      });
+      return json({ answer: "AI is temporarily unavailable — please try again in a moment." });
+    } catch (e) {
+      return json({ answer: "Something went wrong — please try again." });
     }
-  },
+  }
 };

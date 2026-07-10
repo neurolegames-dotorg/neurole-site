@@ -83,7 +83,7 @@ window.NEUROLE_CONFIG = {
   // 2. Sign up (just an email/Google login, no payment info asked)
   // 3. Click "Create API Key", copy it, paste it below
   // If this is filled in, it's tried FIRST, before Gemini/OpenAI.
-  GROQ_API_KEY: "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",
+  GROQ_API_KEY: "",
 
   GEMINI_API_KEY: "AQ.Ab8RN6JKGTLt-Z9PoFLc2OFMXTfmyt61IRA6HDd8pfe06b4FOQ",
 

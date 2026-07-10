@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=97">
+<link rel="stylesheet" href="style.css?v=98">
 <style>
   :root{--start-display:flex;}
 
@@ -259,30 +259,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ===============================================================
-     TWO-COLUMN LAYOUT: question left 50%, AI sticky right 50%
-     Sticky works because:
-       1. game-col-right has align-self:flex-start (doesn't stretch)
-       2. game-col-right has position:sticky + top
-       3. No overflow:hidden on any ancestor of game-col-right
+     TWO-COLUMN LAYOUT — AI panel is JS-fixed beside the question
      =============================================================== */
-  .game-shell{ max-width:1200px !important; overflow:visible !important; }
-  .game-row{
-    display:flex;
-    gap:24px;
-    align-items:flex-start;
-    overflow:visible;
-  }
-  .game-col-left{
-    flex:1;
-    min-width:0;
-  }
+  .game-shell{ max-width:none !important; padding-right:0 !important; }
+
+  /* Left column: normal flow, constrained width */
+  .game-row{ display:block; position:relative; }
+  .game-col-left{ max-width:580px; }
+
+  /* Right column: fixed by JS — see positionAIPanel() */
   .game-col-right{
-    width:45%;           /* fixed proportion, not flex */
-    flex-shrink:0;
-    align-self:flex-start;  /* MUST be flex-start for sticky to work */
-    position:sticky;
+    position:fixed;
     top:72px;
+    bottom:20px;
+    /* left/width set by JS */
     display:none;
+    z-index:10;
   }
   .learn-panel-inline{
     background:#fff;
@@ -292,7 +284,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:flex;
     flex-direction:column;
     overflow:hidden;
-    max-height:calc(100vh - 90px);
+    height:100%;
   }
   .learn-panel-inline .learn-head{
     display:flex;align-items:center;justify-content:space-between;
@@ -318,11 +310,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .learn-panel-inline .ask-row input:focus{ outline:none;border-color:var(--neuro-blue); }
   .learn-panel-inline .ask-row .btn{ padding:0 14px;height:36px;font-size:13px;border-radius:8px; }
 
-  /* Mobile — hide inline column, use fab popup instead */
+  /* Mobile — fixed column hidden, use popup */
   @media(max-width:900px){
     .game-col-right{ display:none !important; }
-    .game-row{ display:block; }
-    .game-shell{ overflow:visible !important; }
   }
 
 
@@ -893,8 +883,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=97"></script>
-<script src="script.js?v=97"></script>
+<script src="config.js?v=98"></script>
+<script src="script.js?v=98"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1209,6 +1199,30 @@ document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
 
 function isMobile(){ return window.innerWidth <= 900; }
 
+/* positionAIPanel — called on scroll/resize to keep the AI panel
+   locked exactly to the right of the question area, at all times. */
+function positionAIPanel(){
+  const col = document.getElementById('ai-col');
+  if(!col || col.style.display === 'none') return;
+  if(isMobile()){ col.style.position = ''; return; }
+
+  const leftCol = document.querySelector('.game-col-left');
+  if(!leftCol) return;
+
+  const rect = leftCol.getBoundingClientRect();
+  const gap = 24;
+  const mastH = 72;
+  const margin = 20;
+
+  col.style.left  = (rect.right + gap) + 'px';
+  col.style.width = (window.innerWidth - rect.right - gap - margin) + 'px';
+  col.style.top   = mastH + 'px';
+  col.style.bottom = margin + 'px';
+}
+
+window.addEventListener('scroll', positionAIPanel, {passive:true});
+window.addEventListener('resize', positionAIPanel, {passive:true});
+
 function openAIPanel(){
   // Sync content to mobile panel
   const title = document.getElementById('learn-title')?.textContent||'';
@@ -1220,10 +1234,13 @@ function openAIPanel(){
   if(isMobile()){
     const bd = document.getElementById('ai-mobile-backdrop');
     bd.style.display = 'flex';
-    setTimeout(()=>bd.style.display='flex',0);
   } else {
     const col = document.getElementById('ai-col');
-    if(col) col.style.display = 'block';
+    if(col){
+      col.style.display = 'block';
+      // Immediately position so it shows correctly without waiting for scroll
+      requestAnimationFrame(positionAIPanel);
+    }
   }
   document.body.classList.add('ai-panel-open');
 }

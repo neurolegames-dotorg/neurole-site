@@ -18,7 +18,7 @@ window.NEUROLE_CONFIG = {
   // --- Daily Clinical Case game -------------------------------------
   // Columns expected (header row): 
   // date | case_id | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation
-  DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbJCwDphyp0f-ee415a2D85RYkSedwYHl9BpaOto81ZGUtYcUrCJsfhxrTPb28Frsz62ZFGRYLkZBv/pub?output=csv",
+  DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
   // --- Learn Regions (beginners section on Map the Brain) ---------
   // Columns expected (header row):

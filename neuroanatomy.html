@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=96">
+<link rel="stylesheet" href="style.css?v=97">
 <style>
   :root{--start-display:flex;}
 
@@ -259,46 +259,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ===============================================================
-     TWO-COLUMN LAYOUT: question left, AI sticky right (50/50)
+     TWO-COLUMN LAYOUT: question left 50%, AI sticky right 50%
+     Sticky works because:
+       1. game-col-right has align-self:flex-start (doesn't stretch)
+       2. game-col-right has position:sticky + top
+       3. No overflow:hidden on any ancestor of game-col-right
      =============================================================== */
-  .game-shell{ max-width:1200px !important; }
+  .game-shell{ max-width:1200px !important; overflow:visible !important; }
   .game-row{
     display:flex;
     gap:24px;
-    align-items:flex-start; /* critical: lets sticky work */
+    align-items:flex-start;
+    overflow:visible;
   }
-  .game-col-left{ flex:1; min-width:0; }
-  .game-col-right{
+  .game-col-left{
     flex:1;
-    /* sticky works ONLY when align-self:flex-start — 
-       if the column stretches to full row height, sticky has nowhere to slide */
-    align-self:flex-start;
+    min-width:0;
+  }
+  .game-col-right{
+    width:45%;           /* fixed proportion, not flex */
+    flex-shrink:0;
+    align-self:flex-start;  /* MUST be flex-start for sticky to work */
     position:sticky;
     top:72px;
-    display:none; /* hidden until Explain is clicked */
+    display:none;
   }
   .learn-panel-inline{
     background:#fff;
     border:1.5px solid var(--rule);
     border-radius:14px;
     box-shadow:0 4px 20px rgba(90,67,128,.1);
-    overflow:hidden;
     display:flex;
     flex-direction:column;
-    max-height:calc(100vh - 90px); /* scroll internally if content overflows */
+    overflow:hidden;
+    max-height:calc(100vh - 90px);
   }
   .learn-panel-inline .learn-head{
     display:flex;align-items:center;justify-content:space-between;
-    padding:14px 16px;border-bottom:1px solid var(--rule);background:#fff;flex-shrink:0;
+    padding:14px 16px;border-bottom:1px solid var(--rule);
+    background:#fff;flex-shrink:0;
   }
   .learn-panel-inline .learn-head h4{
     font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;margin:0;
   }
   .learn-panel-inline .learn-body{
-    flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch;
+    flex:1;overflow-y:auto;padding:14px 16px;
+    -webkit-overflow-scrolling:touch;
+    min-height:0;
   }
   .learn-panel-inline .ask-row{
-    display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--rule);background:#fff;flex-shrink:0;
+    display:flex;gap:8px;padding:10px 12px;
+    border-top:1px solid var(--rule);background:#fff;flex-shrink:0;
   }
   .learn-panel-inline .ask-row input{
     flex:1;padding:8px 11px;font-size:14px;font-family:'Outfit',sans-serif;
@@ -307,10 +318,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .learn-panel-inline .ask-row input:focus{ outline:none;border-color:var(--neuro-blue); }
   .learn-panel-inline .ask-row .btn{ padding:0 14px;height:36px;font-size:13px;border-radius:8px; }
 
-  /* Mobile — hide inline column, use fab popup */
+  /* Mobile — hide inline column, use fab popup instead */
   @media(max-width:900px){
     .game-col-right{ display:none !important; }
     .game-row{ display:block; }
+    .game-shell{ overflow:visible !important; }
   }
 
 
@@ -881,8 +893,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=96"></script>
-<script src="script.js?v=96"></script>
+<script src="config.js?v=97"></script>
+<script src="script.js?v=97"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -924,14 +936,28 @@ let selectedDifficulty = 'all';
 let bankLoading = false;
 let bankReady = false;
 
+// Reset session at midnight ET (same as Daily Case)
+function checkMidnightReset(){
+  const etToday = new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+  const stored = sessionStorage.getItem('neurole_neuro_date');
+  if(stored && stored !== etToday){
+    // New day — clear the saved game session so they start fresh
+    sessionStorage.removeItem('neurole_game_session');
+    sessionStorage.removeItem('neurole_neuro_date');
+    console.log('Neurole: midnight reset — new day in ET');
+  }
+  sessionStorage.setItem('neurole_neuro_date', etToday);
+}
+checkMidnightReset();
+
 async function loadBank(){
   if(bankLoading) return;
   bankLoading = true;
-  // Disable start buttons while loading
   document.querySelectorAll('.round-choice').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
   const allBtn = document.querySelector('.round-choice[data-count="all"]');
   if(allBtn) allBtn.textContent = 'Loading questions…';
   try{
+    // Always fetch fresh from sheet — no cache
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.NEUROANATOMY_SHEET_CSV);
     if(rows.length){
       fullBank = rows;
@@ -941,12 +967,11 @@ async function loadBank(){
       console.warn("Neurole: sheet had 0 rows — using fallback questions.");
     }
   }catch(err){
-    console.error("Neurole: couldn't load Neuroanatomy sheet —", err.message);
+    console.error("Neurole: couldn't load sheet —", err.message);
     fullBank = FALLBACK_QUESTIONS;
   }
   bankReady = true;
   bankLoading = false;
-  // Re-enable buttons
   document.querySelectorAll('.round-choice').forEach(b => { b.disabled = false; b.style.opacity = ''; });
   updateAllButtonCount();
 }

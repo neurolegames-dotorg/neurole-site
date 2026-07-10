@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=94">
+<link rel="stylesheet" href="style.css?v=95">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -599,8 +599,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=94"></script>
-<script src="script.js?v=94"></script>
+<script src="config.js?v=95"></script>
+<script src="script.js?v=95"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -699,114 +699,68 @@ function fuzzyMatches(guess, target){
   return levenshtein(g, t) <= threshold;
 }
 
-function seededIndexForToday(arrayLength){
-  const d = new Date();
-  const seed = d.getFullYear()*372 + (d.getMonth()+1)*31 + d.getDate();
-  return seed % arrayLength;
-}
+// Day index based on days since launch — row 1 = day 0, row 2 = day 1 etc.
+const LAUNCH_DATE_ET = '2026-07-10';
 
-// Returns today's date in YYYY-MM-DD format anchored to Eastern Time (ET).
-// This ensures the daily case resets at midnight ET for everyone,
-// regardless of where in the world the visitor is.
 function todayStr(){
-  const now = new Date();
-  // 'America/New_York' handles both EST (-5) and EDT (-4) automatically
-  const etDateStr = now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-  // en-CA gives YYYY-MM-DD format natively
-  return etDateStr;
+  return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
 }
 
-// Normalizes many date formats Google Sheets might export
-// ("2026-06-21", "6/21/2026", "06/21/2026", "2026-06-21T00:00:00.000Z", etc.)
-// into a plain YYYY-MM-DD string for reliable comparison.
-function normalizeDateStr(raw){
-  if(!raw) return '';
-  const s = raw.trim();
+function getDayIndex(){
+  const [ty,tm,td] = todayStr().split('-').map(Number);
+  const [ly,lm,ld] = LAUNCH_DATE_ET.split('-').map(Number);
+  return Math.floor((Date.UTC(ty,tm-1,td)-Date.UTC(ly,lm-1,ld))/(864e5));
+}
 
-  // Already YYYY-MM-DD (possibly with time attached)
-  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
-  if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
-
-  // M/D/YYYY or MM/DD/YYYY
-  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if(m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
-
-  // Fallback: let the browser try, then rebuild in LOCAL time
-  // (avoids the UTC-shift bug new Date(s).toISOString() can cause)
-  const d = new Date(s);
-  if(!isNaN(d)){
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const dd = String(d.getDate()).padStart(2,'0');
-    return `${yyyy}-${mm}-${dd}`;
+function startCountdown(elId){
+  function tick(){
+    const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const midnight = new Date(etNow); midnight.setDate(midnight.getDate()+1); midnight.setHours(0,0,0,0);
+    const diff = midnight - etNow;
+    const h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    const el = document.getElementById(elId);
+    if(el) el.textContent = `Next case in ${h}h ${m}m ${s}s`;
   }
-  return s;
+  tick(); setInterval(tick,1000);
 }
+
 
 let state = { symptoms: [], answer: '', synonyms: [], explanation: '', shown: 1, attemptsUsed: 0, guesses: [], solved:false };
 
 async function loadCase(){
-  document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+  document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   let chosen = null;
-  let usedFallbackBank = false;
   try{
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV);
-    const todayKey = todayStr(); // e.g. "2026-07-02" in ET
-
-    if(rows.length){
-      console.log("Neurole: sheet loaded.", rows.length, "rows | Today (ET):", todayKey);
-      console.log("Neurole: columns:", Object.keys(rows[0]));
+    const idx = getDayIndex();
+    console.log("Neurole: day index", idx, "| rows:", rows.length);
+    if(idx >= 0 && idx < rows.length){
+      chosen = rows[idx];
+      console.log("Neurole: row", idx+1, "answer:", findField(chosen,'answer')||findField(chosen,'Answer'));
     } else {
-      console.warn("Neurole: sheet returned 0 rows.");
+      console.warn("Neurole: no row for day index", idx);
     }
-
-    // The date column may be named 'Date', 'date', 'DATE' etc.
-    // findField handles case-insensitive matching already.
-    // normalizeDateStr handles multiple formats → YYYY-MM-DD
-    const dated = rows
-      .map(r => {
-        const raw = findField(r,'Date') || findField(r,'date') || findField(r,'DATE') || '';
-        return { row: r, key: normalizeDateStr(raw) };
-      })
-      .filter(x => x.key);
-
-    console.log("Neurole: dates in sheet:", dated.map(x => x.key));
-
-    // Exact match for today ONLY — no fallback to past cases
-    let match = dated.find(x => x.key === todayKey);
-
-    if(!match){
-      console.warn("Neurole: no case found for today (" + todayKey + ")");
-    }
-
-    chosen = match ? match.row : null;
-
     if(chosen){
-      state.symptoms = [1,2,3,4,5].map(n => findField(chosen,'symptom_'+n) || findField(chosen,'Symptom_'+n)).filter(Boolean);
-      state.answer = findField(chosen,'answer') || findField(chosen,'Answer') || '';
-      state.synonyms = (findField(chosen,'accepted_synonyms') || findField(chosen,'Accepted_Synonyms') || '').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
-      state.explanation = findField(chosen,'explanation') || findField(chosen,'Explanation') || '';
-      console.log("Neurole: loaded case for", todayKey, "| answer:", state.answer);
+      state.symptoms = [1,2,3,4,5].map(n=>findField(chosen,'symptom_'+n)||findField(chosen,'Symptom_'+n)).filter(Boolean);
+      state.answer = findField(chosen,'answer')||findField(chosen,'Answer')||'';
+      state.synonyms = (findField(chosen,'accepted_synonyms')||findField(chosen,'Accepted_Synonyms')||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = findField(chosen,'explanation')||findField(chosen,'Explanation')||'';
     }
-  }catch(err){ console.error("Neurole: couldn't load Daily Case sheet —", err.message); }
+  }catch(err){ console.error("Neurole: sheet error —", err.message); }
 
-  // No case for today — show a friendly "come back tomorrow" screen
   if(!chosen){
-    document.getElementById('game-content').style.display = 'block';
-    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('game-content').style.display='block';
+    document.getElementById('start-screen').style.display='none';
     const area = document.getElementById('result-area');
-    if(area){
-      area.innerHTML = `
-        <div style="text-align:center;padding:48px 24px;max-width:420px;margin:0 auto;">
-          <div style="font-size:48px;margin-bottom:16px;">🧠</div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin:0 0 10px;">No case today</h3>
-          <p style="font-family:'Outfit',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 24px;">
-            Today's case hasn't been added yet — check back soon, or try Map the Brain while you wait.
-          </p>
-          <a class="btn" href="neuroanatomy.html" style="display:inline-flex;margin-bottom:12px;">Map the Brain →</a><br>
-          <a class="btn ghost" href="index.html" style="display:inline-flex;margin-top:8px;">← Home</a>
-        </div>`;
-    }
+    if(area) area.innerHTML = `
+      <div style="text-align:center;padding:48px 20px;max-width:400px;margin:0 auto;">
+        <div style="font-size:48px;margin-bottom:14px;">🧠</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin:0 0 10px;">No case today</h3>
+        <p style="font-family:'Outfit',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 6px;">Today's case hasn't been added yet.</p>
+        <p id="no-case-countdown" style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 24px;"></p>
+        <a class="btn" href="neuroanatomy.html" style="display:inline-flex;">Try Map the Brain →</a>
+      </div>`;
+    startCountdown('no-case-countdown');
     return;
   }
   state.shown = 1;
@@ -1150,21 +1104,7 @@ function openResultPopup(won){
     countdownEl.style.cssText = 'font-family:\'Outfit\',sans-serif;font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center;';
     stats.parentNode.insertBefore(countdownEl, stats.nextSibling);
   }
-  function updateCountdown(){
-    const now = new Date();
-    const etNow = new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
-    const midnight = new Date(etNow);
-    midnight.setDate(midnight.getDate()+1);
-    midnight.setHours(0,0,0,0);
-    const diff = midnight - etNow;
-    const h = Math.floor(diff/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
-    countdownEl.textContent = `Next case in ${h}h ${m}m ${s}s`;
-  }
-  updateCountdown();
-  const ct = setInterval(updateCountdown, 1000);
-  document.getElementById('result-modal').addEventListener('click', ()=>clearInterval(ct), {once:true});
+  startCountdown('next-case-countdown');
 
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {

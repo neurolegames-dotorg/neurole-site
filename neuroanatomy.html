@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=91">
+<link rel="stylesheet" href="style.css?v=92">
 <style>
   :root{--start-display:flex;}
 
@@ -259,89 +259,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ===============================================================
-  /* ===============================================================
-     AI PANEL LAYOUT
-     Desktop (>900px): game left half, AI fixed to right half
-     Mobile (≤900px): centered popup overlay
+     TWO-COLUMN LAYOUT: question left, AI sticky right
      =============================================================== */
-
-  @media(min-width:901px){
-    /* When AI is open, game content shrinks to left half */
-    body.ai-panel-open .game-shell{
-      max-width:50vw !important;
-      margin-left:0 !important;
-      margin-right:0 !important;
-      padding-right:24px !important;
-      padding-left:32px !important;
-    }
-    /* AI panel — fixed to right half, doesn't move at all when scrolling */
-    body.ai-panel-open .learn-backdrop{
-      position:fixed !important;
-      top:58px !important;
-      right:0 !important;
-      bottom:0 !important;
-      left:50vw !important;
-      width:auto !important;
-      background:var(--paper-deep) !important;
-      border-left:1.5px solid var(--rule) !important;
-      display:flex !important;
-      flex-direction:column !important;
-      padding:20px 24px 24px !important;
-      z-index:80 !important;
-    }
-    /* The actual panel fills the backdrop */
-    body.ai-panel-open .learn-panel{
-      position:relative !important;
-      width:100% !important;
-      height:100% !important;
-      max-height:none !important;
-      background:#fff !important;
-      border:1.5px solid var(--rule) !important;
-      border-radius:14px !important;
-      box-shadow:0 4px 24px rgba(90,67,128,.12) !important;
-      overflow:hidden !important;
-      display:flex !important;
-      flex-direction:column !important;
-    }
-    body.ai-panel-open .learn-body{
-      flex:1 !important;
-      overflow-y:auto !important;
-      -webkit-overflow-scrolling:touch;
-    }
+  .game-shell{ max-width:1080px !important; }
+  .game-row{ display:flex; gap:24px; align-items:flex-start; }
+  .game-col-left{ flex:1; min-width:0; }
+  .game-col-right{
+    width:320px; flex-shrink:0;
+    position:sticky; top:72px;
+    max-height:calc(100vh - 88px);
+    display:none; /* hidden until Explain is clicked */
   }
+  .learn-panel-inline{
+    background:#fff;
+    border:1.5px solid var(--rule);
+    border-radius:14px;
+    box-shadow:0 4px 20px rgba(90,67,128,.1);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    max-height:calc(100vh - 88px);
+  }
+  .learn-panel-inline .learn-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 16px;border-bottom:1px solid var(--rule);background:#fff;flex-shrink:0;
+  }
+  .learn-panel-inline .learn-head h4{
+    font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;margin:0;
+  }
+  .learn-panel-inline .learn-body{
+    flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch;
+  }
+  .learn-panel-inline .ask-row{
+    display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--rule);background:#fff;flex-shrink:0;
+  }
+  .learn-panel-inline .ask-row input{
+    flex:1;padding:8px 11px;font-size:14px;font-family:'Outfit',sans-serif;
+    border:1.5px solid var(--rule);border-radius:8px;
+  }
+  .learn-panel-inline .ask-row input:focus{ outline:none;border-color:var(--neuro-blue); }
+  .learn-panel-inline .ask-row .btn{ padding:0 14px;height:36px;font-size:13px;border-radius:8px; }
 
-  /* Mobile ≤900px: centered popup */
+  /* Mobile — hide inline column, use fab popup */
   @media(max-width:900px){
-    body.ai-panel-open #game-split-container{ display:block !important; }
-    body.ai-panel-open .game-shell{ max-width:100% !important; margin:0 auto !important; }
-    body.ai-panel-open .learn-backdrop{
-      position:fixed !important;
-      inset:0 !important;
-      background:rgba(0,0,0,.6) !important;
-      display:flex !important;
-      align-items:center !important;
-      justify-content:center !important;
-      padding:20px 16px !important;
-      z-index:300 !important;
-    }
-    body.ai-panel-open .learn-panel{
-      position:relative !important;
-      width:100% !important;
-      max-width:480px !important;
-      max-height:80vh !important;
-      border-radius:16px !important;
-      border:none !important;
-      box-shadow:0 8px 40px rgba(0,0,0,.3) !important;
-      background:#fff !important;
-      overflow:hidden !important;
-      display:flex !important;
-      flex-direction:column !important;
-    }
-    body.ai-panel-open .learn-body{
-      flex:1 !important;
-      overflow-y:auto !important;
-      -webkit-overflow-scrolling:touch;
-    }
+    .game-col-right{ display:none !important; }
+    .game-row{ display:block; }
   }
 
 
@@ -787,27 +748,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="game-split-container">
     <div id="game-play" style="display:none;">
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
-    <div class="game-stats-bar">
-      <div class="game-stats-left">
-        <span class="score-tag" id="score-tag">Question 1 of 10</span>
-        <span class="score-pill" id="score-pill">Score: 0/0</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+      <div class="game-stats-bar">
+        <div class="game-stats-left">
+          <span class="score-tag" id="score-tag">Question 1 of 10</span>
+          <span class="score-pill" id="score-pill">Score: 0/0</span>
+        </div>
+        <span class="difficulty-badge" id="difficulty-badge" style="display:none;">—</span>
       </div>
-      <span class="difficulty-badge" id="difficulty-badge" style="display:none;">—</span>
-    </div>
 
-    <div class="specimen">
-      <img id="specimen-img" src="" alt="Brain region to identify"
-           onerror="console.error('Neurole: this image_url failed to load ->', this.src);"
-           onload="console.log('Neurole: specimen image loaded ->', this.src);">
-      <p class="cap">Which region is highlighted?</p>
-    </div>
+      <!-- Two-column row: question left, AI right (desktop only) -->
+      <div class="game-row">
+        <div class="game-col-left">
+          <div class="specimen">
+            <img id="specimen-img" src="" alt="Brain region to identify"
+                 onerror="console.error('Neurole: image failed ->', this.src);"
+                 onload="console.log('Neurole: image loaded ->', this.src);">
+            <p class="cap">Which region is highlighted?</p>
+          </div>
+          <div class="choices" id="choices"></div>
+          <div class="next-row">
+            <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
+          </div>
+        </div>
 
-    <div class="choices" id="choices"></div>
-
-    <div class="next-row">
-      <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
-    </div>
+        <!-- AI panel lives here — sticky beside the question -->
+        <div class="game-col-right" id="ai-col" style="display:none;">
+          <div class="learn-panel-inline" id="learn-panel">
+            <div class="learn-head">
+              <h4 id="learn-title">Region</h4>
+              <button class="close" id="learn-close" style="position:static;">✕</button>
+            </div>
+            <div class="learn-body">
+              <p id="learn-function">—</p>
+              <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+              <p class="score-tag">Ask a question</p>
+              <div class="chat-log" id="chat-log"></div>
+            </div>
+            <form class="ask-row" id="ask-form">
+              <input type="text" id="ask-input" placeholder="e.g. what happens if this is damaged?">
+              <button class="btn" type="submit">Ask</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -842,25 +826,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   Explain
 </button>
 
-<div class="learn-backdrop" id="learn-backdrop">
-  <div class="learn-panel" id="learn-panel">
-    <div class="learn-head">
-      <h4 id="learn-title">Region</h4>
-      <button class="close" id="learn-close" style="position:static;">✕</button>
-    </div>
-    <div class="learn-body">
-      <p id="learn-function">—</p>
-      <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
-      <p class="score-tag">Ask a question</p>
-      <div class="chat-log" id="chat-log"></div>
-    </div>
-    <form class="ask-row" id="ask-form">
-      <input type="text" id="ask-input" placeholder="e.g. what happens if this is damaged?">
-      <button class="btn" type="submit">Ask</button>
-    </form>
-  </div>
-</div>
-
 <footer id="footer-contact">
   <div class="wrap">
     <div class="social-row">
@@ -887,8 +852,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=91"></script>
-<script src="script.js?v=91"></script>
+<script src="config.js?v=92"></script>
+<script src="script.js?v=92"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1095,7 +1060,7 @@ function showQuestion(){
   }
   document.getElementById('next-btn').style.display = 'none';
   document.getElementById('learn-fab').classList.remove('show');
-  document.getElementById('learn-backdrop').classList.remove('open');
+  document.getElementById('ai-col').style.display='none'; document.body.classList.remove('ai-panel-open');
 
   // Build the 4 choices as {text, isCorrect} objects, then shuffle their
   // display order so the correct answer isn't always in the same slot.
@@ -1160,7 +1125,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
   if(qIndex >= qBank.length){
     document.getElementById('game-play').style.display = 'none';
     document.getElementById('learn-fab').classList.remove('show');
-    document.getElementById('learn-backdrop').classList.remove('open');
+    document.getElementById('ai-col').style.display='none'; document.body.classList.remove('ai-panel-open');
     document.getElementById('neuro-result-stats').textContent =
       `You got ${correctCount} out of ${qBank.length} correct.`;
     document.getElementById('neuro-result-modal').classList.add('open');
@@ -1193,7 +1158,7 @@ document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
 function isPhone(){ return window.innerWidth <= 900; }
 
 function openAIPanel(){
-  const backdrop = document.getElementById('learn-backdrop');
+  const backdrop = document.getElementById('ai-col');
   backdrop.classList.add('open');
   document.body.classList.add('ai-panel-open');
   if(!isPhone()){
@@ -1206,7 +1171,7 @@ function openAIPanel(){
 }
 
 function closeAIPanel(){
-  const backdrop = document.getElementById('learn-backdrop');
+  const backdrop = document.getElementById('ai-col');
   backdrop.classList.remove('open');
   document.body.classList.remove('ai-panel-open');
   // Move backdrop back outside the grid container
@@ -1220,9 +1185,7 @@ function closeAIPanel(){
 
 document.getElementById('learn-fab').addEventListener('click', openAIPanel);
 document.getElementById('learn-close').addEventListener('click', closeAIPanel);
-document.getElementById('learn-backdrop').addEventListener('click', (e) => {
-  if(e.target.id === 'learn-backdrop') closeAIPanel();
-});
+// no backdrop click-outside needed for inline panel
 
 document.getElementById('ask-form').addEventListener('submit', async (e) => {
   e.preventDefault();

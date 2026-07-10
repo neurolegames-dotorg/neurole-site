@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=95">
+<link rel="stylesheet" href="style.css?v=96">
 <style>
   :root{--start-display:flex;}
 
@@ -259,15 +259,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ===============================================================
-     TWO-COLUMN LAYOUT: question left, AI sticky right
+     TWO-COLUMN LAYOUT: question left, AI sticky right (50/50)
      =============================================================== */
   .game-shell{ max-width:1200px !important; }
-  .game-row{ display:flex; gap:24px; align-items:flex-start; }
+  .game-row{
+    display:flex;
+    gap:24px;
+    align-items:flex-start; /* critical: lets sticky work */
+  }
   .game-col-left{ flex:1; min-width:0; }
   .game-col-right{
-    flex:1; flex-shrink:0;
-    position:sticky; top:72px;
-    max-height:calc(100vh - 88px);
+    flex:1;
+    /* sticky works ONLY when align-self:flex-start — 
+       if the column stretches to full row height, sticky has nowhere to slide */
+    align-self:flex-start;
+    position:sticky;
+    top:72px;
     display:none; /* hidden until Explain is clicked */
   }
   .learn-panel-inline{
@@ -276,8 +283,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-radius:14px;
     box-shadow:0 4px 20px rgba(90,67,128,.1);
     overflow:hidden;
-    display:flex; flex-direction:column;
-    max-height:calc(100vh - 88px);
+    display:flex;
+    flex-direction:column;
+    max-height:calc(100vh - 90px); /* scroll internally if content overflows */
   }
   .learn-panel-inline .learn-head{
     display:flex;align-items:center;justify-content:space-between;
@@ -873,8 +881,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=95"></script>
-<script src="script.js?v=95"></script>
+<script src="config.js?v=96"></script>
+<script src="script.js?v=96"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

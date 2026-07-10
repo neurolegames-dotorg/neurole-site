@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=99">
+<link rel="stylesheet" href="style.css?v=100">
 <style>
   :root{--start-display:flex;}
 
@@ -547,6 +547,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @keyframes questionFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .specimen,.choices{animation:questionFade .3s ease;}
 
+
+  /* Fun color accents on choice letters */
+  .choice-btn:nth-child(1) .choice-letter{ background:rgba(168,68,58,.12) !important; color:#8B2635 !important; }
+  .choice-btn:nth-child(2) .choice-letter{ background:rgba(107,79,148,.12) !important; color:var(--neuro-blue-deep) !important; }
+  .choice-btn:nth-child(3) .choice-letter{ background:rgba(92,181,124,.14) !important; color:#3d8a5e !important; }
+  .choice-btn:nth-child(4) .choice-letter{ background:rgba(64,145,212,.12) !important; color:#2a6a9e !important; }
+  .choice-btn:nth-child(1):hover:not(:disabled){ border-color:rgba(168,68,58,.3) !important; }
+  .choice-btn:nth-child(2):hover:not(:disabled){ border-color:rgba(107,79,148,.3) !important; }
+  .choice-btn:nth-child(3):hover:not(:disabled){ border-color:rgba(92,181,124,.3) !important; }
+  .choice-btn:nth-child(4):hover:not(:disabled){ border-color:rgba(64,145,212,.3) !important; }
+
+  /* Mobile: fix padding on choice buttons */
+  @media(max-width:480px){
+    .choice-btn{ padding:14px 14px 14px 56px !important; font-size:14px !important; }
+    .choice-letter{ left:14px !important; width:28px !important; height:28px !important; }
+  }
+
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script type="application/ld+json">
@@ -832,8 +849,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=99"></script>
-<script src="script.js?v=99"></script>
+<script src="config.js?v=100"></script>
+<script src="script.js?v=100"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

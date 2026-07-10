@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=99">
+<link rel="stylesheet" href="style.css?v=100">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -87,31 +87,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      the purple gradient shows on the sides naturally */
   .start-screen{
     position:fixed;inset:0;z-index:200;
-    background:var(--paper);
+    background:linear-gradient(160deg,#faf8ff 0%,rgba(145,118,184,.06) 60%,rgba(90,67,128,.1) 100%);
     width:100%;height:100%;
     display:flex;flex-direction:column;align-items:center;
     justify-content:center;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
-    padding:32px 24px;
+    padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
     text-align:center;
   }
-  .start-screen-inner{max-width:420px;width:100%;display:flex;flex-direction:column;align-items:center;}
-  .start-logo{
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:22px;
-  }
+  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
   .start-screen h1{
-    font-family:var(--serif-display);font-size:38px;margin:0 0 14px;
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:clamp(34px,8vw,46px);font-weight:700;margin:0 0 10px;letter-spacing:-.02em;
   }
   .start-screen p{
-    color:var(--ink-soft);font-size:16px;margin:0 0 28px;max-width:320px;
+    color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:300px;line-height:1.6;
+    font-family:'Outfit',sans-serif;
   }
-  .start-actions{display:flex;gap:14px;margin-bottom:30px;}
-  .start-actions .btn{padding:13px 34px;font-size:13px;}
-  .start-meta{
-    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
-    line-height:1.8;letter-spacing:.02em;
+  .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
+  .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;}
+  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
+  /* Accent pill bar above title */
+  .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
+  .start-pill{
+    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:4px 12px;border-radius:20px;
+  }
+  .pill-red{background:rgba(168,68,58,.1);color:#8B2635;}
+  .pill-purple{background:rgba(107,79,148,.1);color:var(--neuro-blue-deep);}
+  .pill-green{background:rgba(92,181,124,.12);color:#3d8a5e;}
+
+  /* iPhone fix — vertically centred */
+  @media(max-width:480px){
+    .start-screen{justify-content:center;padding:50px 22px 40px;}
+    .start-screen h1{font-size:32px !important;}
+    .start-screen p{font-size:14px !important;margin-bottom:20px !important;}
+    .start-actions{flex-direction:row !important;gap:10px !important;}
+    .start-actions .btn{font-size:12px !important;padding:12px 0 !important;}
   }
 
   /* iPhone — start screen compact */
@@ -470,18 +484,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <div class="start-screen-inner">
       <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
-        </svg>
+        <img src="assets/neurole-logo.png" alt="Neurole" style="width:62px;height:62px;object-fit:contain;">
       </div>
       <h1>The Daily Case</h1>
-      <p>Read the chart. Guess the diagnosis in 5 tries or fewer.</p>
-      <div class="start-actions">
-        <button class="btn ghost" data-signin>Log in</button>
-        <button class="btn" id="start-play-btn">Play</button>
+      <p>A new patient every day. Read the symptoms and name the diagnosis — 5 tries, then the answer is revealed.</p>
+      <div class="start-pills">
+        <span class="start-pill pill-red">🩺 Daily reset</span>
+        <span class="start-pill pill-purple">🧠 Neurology</span>
+        <span class="start-pill pill-green">✓ Free</span>
       </div>
-      <div id="streak-label" style="font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin-top:4px;min-height:22px;"></div>
-      <div class="start-meta" id="start-meta">—</div>
+      <div class="start-actions">
+        <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
+        <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
+      </div>
+      <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:6px;min-height:22px;"></div>
+      <div class="start-meta" id="start-meta" style="margin-top:4px;"></div>
     </div>
   </div>
 
@@ -599,8 +616,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=99"></script>
-<script src="script.js?v=99"></script>
+<script src="config.js?v=100"></script>
+<script src="script.js?v=100"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -741,10 +758,25 @@ async function loadCase(){
       console.warn("Neurole: no row for day index", idx);
     }
     if(chosen){
-      state.symptoms = [1,2,3,4,5].map(n=>findField(chosen,'symptom_'+n)||findField(chosen,'Symptom_'+n)).filter(Boolean);
-      state.answer = findField(chosen,'answer')||findField(chosen,'Answer')||'';
-      state.synonyms = (findField(chosen,'accepted_synonyms')||findField(chosen,'Accepted_Synonyms')||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
-      state.explanation = findField(chosen,'explanation')||findField(chosen,'Explanation')||'';
+      state.symptoms = [1,2,3,4,5].map(n => {
+        // Try every possible column name variation
+        return findField(chosen,'symptom_'+n)
+          || findField(chosen,'symptom '+n)
+          || findField(chosen,'symptom'+n)
+          || findField(chosen,'Symptom '+n)
+          || findField(chosen,'hint_'+n)
+          || findField(chosen,'hint '+n)
+          || findField(chosen,'hint'+n)
+          || findField(chosen,'clue'+n)
+          || findField(chosen,'clue_'+n)
+          || '';
+      }).filter(Boolean);
+      state.answer = findField(chosen,'answer')||findField(chosen,'Answer')||findField(chosen,'diagnosis')||findField(chosen,'Diagnosis')||'';
+      state.synonyms = (findField(chosen,'accepted_synonyms')||findField(chosen,'acceptedsynonyms')||findField(chosen,'synonyms')||findField(chosen,'Synonyms')||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = findField(chosen,'explanation')||findField(chosen,'Explanation')||findField(chosen,'explanation_text')||findField(chosen,'info')||'';
+      // Debug: log what was found
+      console.log('Neurole: row', getDayIndex()+1, '| columns:', Object.keys(chosen).join(', '));
+      console.log('Neurole: symptoms found:', state.symptoms, '| answer:', state.answer);
     }
   }catch(err){ console.error("Neurole: sheet error —", err.message); }
 

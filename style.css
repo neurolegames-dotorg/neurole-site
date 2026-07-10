@@ -926,3 +926,81 @@ h1,h2,h3,h4,
   padding:5px 12px !important;border-radius:20px !important;
   text-transform:capitalize !important;
 }
+
+/* =====================================================
+   EXPANDED COLOR PALETTE — muted, real, not just purple
+   ===================================================== */
+:root{
+  --coral:   #C4614A;   /* warm terracotta — correct answers, success */
+  --coral-bg:rgba(196,97,74,.08);
+  --sage:    #5A8C6E;   /* muted green — correct state */
+  --sage-bg: rgba(90,140,110,.1);
+  --gold:    #B8933A;   /* warm gold — streaks, highlights */
+  --gold-bg: rgba(184,147,58,.1);
+  --slate:   #4A6080;   /* blue-grey — score pills, neutral info */
+  --slate-bg:rgba(74,96,128,.08);
+}
+
+/* Symptom list — warm left border instead of always purple */
+.symptom-log li{
+  border-left-color:var(--coral) !important;
+}
+.symptom-log li:nth-child(2){ border-left-color:var(--gold) !important; }
+.symptom-log li:nth-child(3){ border-left-color:var(--neuro-blue) !important; }
+.symptom-log li:nth-child(4){ border-left-color:var(--sage) !important; }
+.symptom-log li:nth-child(5){ border-left-color:var(--slate) !important; }
+
+/* Wrong guess category pill — warm slate */
+.wrong-guess-cat{
+  background:var(--slate-bg) !important;
+  color:var(--slate) !important;
+}
+
+/* Streak label — gold */
+#streak-label, #home-streak-display{
+  color:var(--gold) !important;
+  background:var(--gold-bg) !important;
+}
+
+/* Correct answer — sage green */
+.choice-btn.correct{
+  background:var(--sage-bg) !important;
+  border-color:var(--sage) !important;
+}
+.choice-btn.correct .choice-letter{
+  background:var(--sage) !important;
+  color:#fff !important;
+}
+
+/* Wrong answer — terracotta (warmer than harsh red) */
+.choice-btn.wrong{
+  background:var(--coral-bg) !important;
+  border-color:var(--coral) !important;
+}
+.choice-btn.wrong .choice-letter{
+  background:var(--coral) !important;
+  color:#fff !important;
+}
+
+/* Score pills — slate */
+.score-pill{
+  background:var(--slate-bg) !important;
+  color:var(--slate) !important;
+  border-color:rgba(74,96,128,.2) !important;
+}
+
+/* Progress bar — coral to purple gradient */
+.progress-bar-fill{
+  background:linear-gradient(90deg, var(--coral), var(--neuro-blue-bright)) !important;
+}
+
+/* Attempt dots */
+.attempt-dot.used{ background:var(--coral) !important; border-color:var(--coral) !important; }
+.attempt-dot.correct{ background:var(--sage) !important; border-color:var(--sage) !important; }
+.attempts-dots span.filled{ background:var(--coral) !important; }
+.attempts-dots span.won{ background:var(--sage) !important; }
+
+/* Start pill colors */
+.pill-red{  background:var(--coral-bg); color:var(--coral); }
+.pill-green{ background:var(--sage-bg); color:var(--sage); }
+.pill-gold{ background:var(--gold-bg); color:var(--gold); }

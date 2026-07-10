@@ -28,7 +28,7 @@
 <link rel="canonical" href="https://neurole.org/contact.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Contact Us — Neurole</title>
-<link rel="stylesheet" href="style.css?v=100">
+<link rel="stylesheet" href="style.css?v=102">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;margin-bottom:40px;}
@@ -149,4 +149,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
     <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
+
+<!-- Subscribe modal -->
+<div class="modal-backdrop" id="reminder-signup-modal" style="display:none;" onclick="if(event.target.id==='reminder-signup-modal')this.classList.remove('open')">
+  <div class="modal" style="max-width:420px;text-align:center;padding:40px 32px;">
+    <button onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;margin:0 0 8px;">Get daily reminders 🧠</h3>
+    <p style="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;">One email at 9 AM ET when today's case drops.</p>
+    <form id="subscribe-footer-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+      <input type="hidden" name="type" value="Subscribe - daily reminder">
+      <div class="field"><input type="email" name="email" placeholder="your@email.com" required style="width:100%;padding:12px 14px;font-size:15px;border:1.5px solid var(--rule);border-radius:8px;box-sizing:border-box;font-family:'Outfit',sans-serif;"></div>
+      <button class="btn" type="submit" style="width:100%;justify-content:center;margin-top:4px;">Subscribe →</button>
+      <p id="subscribe-footer-ok" style="display:none;font-family:'Outfit',sans-serif;font-size:13px;color:var(--sage);margin:10px 0 0;font-weight:600;">✓ You're subscribed!</p>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  const f = document.getElementById('subscribe-footer-form');
+  if(f) f.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = f.querySelector('button[type=submit]');
+    btn.textContent='Saving…';btn.disabled=true;
+    try{
+      const res = await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});
+      if(res.ok){ f.style.display='none'; document.getElementById('subscribe-footer-ok').style.display='block'; }
+      else { btn.textContent='Subscribe →';btn.disabled=false; }
+    }catch(e){ btn.textContent='Subscribe →';btn.disabled=false; }
+  });
+})();
+</script>
 </body></html>

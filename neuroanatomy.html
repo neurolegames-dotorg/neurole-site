@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=100">
+<link rel="stylesheet" href="style.css?v=102">
 <style>
   :root{--start-display:flex;}
 
@@ -825,6 +825,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer id="footer-contact">
   <div class="wrap">
+    <!-- Footer nav links -->
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,.08);">
+      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em;">Contact Us</a>
+      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em;">About</a>
+      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;color:var(--neuro-blue-deep);text-decoration:none;letter-spacing:.02em;">Subscribe →</a>
+    </div>
     <div class="social-row">
       <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
@@ -841,16 +847,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="modal-backdrop" id="signin-modal">
-  <div class="modal">
-    <button class="close" data-close>✕</button>
-    <h3>Sign in to Neurole</h3>
-    <p style="color:var(--ink-soft);font-size:14.5px;margin-top:-6px;">Sign in with Google to save your progress and streaks.</p>
-    <div id="signin-google-container" style="display:flex;justify-content:center;margin-top:10px;"></div>
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
+</div>
 
-<script src="config.js?v=100"></script>
-<script src="script.js?v=100"></script>
+<script src="config.js?v=102"></script>
+<script src="script.js?v=102"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

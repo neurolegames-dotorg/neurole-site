@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=90">
+<link rel="stylesheet" href="style.css?v=91">
 <style>
   :root{--start-display:flex;}
 
@@ -259,82 +259,88 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ===============================================================
-     AI PANEL — DESKTOP: side-by-side grid. MOBILE: bottom-sheet popup.
+  /* ===============================================================
+     AI PANEL LAYOUT
+     Desktop (>900px): game left half, AI fixed to right half
+     Mobile (≤900px): centered popup overlay
      =============================================================== */
 
-  /* Desktop only (>900px): AI panel fixed to right side of viewport */
   @media(min-width:901px){
-    body.ai-panel-open #game-split-container{
-      display:block;
-    }
+    /* When AI is open, game content shrinks to left half */
     body.ai-panel-open .game-shell{
-      max-width:none !important;
-      /* Push game content left to make room for fixed AI panel */
-      padding-right:calc(50vw + 16px) !important;
+      max-width:50vw !important;
+      margin-left:0 !important;
+      margin-right:0 !important;
+      padding-right:24px !important;
+      padding-left:32px !important;
     }
+    /* AI panel — fixed to right half, doesn't move at all when scrolling */
     body.ai-panel-open .learn-backdrop{
       position:fixed !important;
-      top:58px;
-      right:0;
-      bottom:0;
-      width:50vw;
-      background:none !important;
+      top:58px !important;
+      right:0 !important;
+      bottom:0 !important;
+      left:50vw !important;
+      width:auto !important;
+      background:var(--paper-deep) !important;
+      border-left:1.5px solid var(--rule) !important;
       display:flex !important;
-      align-items:stretch;
-      padding:16px 20px 20px 12px !important;
-      z-index:90 !important;
+      flex-direction:column !important;
+      padding:20px 24px 24px !important;
+      z-index:80 !important;
     }
+    /* The actual panel fills the backdrop */
     body.ai-panel-open .learn-panel{
       position:relative !important;
       width:100% !important;
       height:100% !important;
       max-height:none !important;
       background:#fff !important;
-      border:1.5px solid var(--rule);
-      border-radius:14px;
-      box-shadow:-4px 0 30px rgba(90,67,128,.1), 0 4px 20px rgba(0,0,0,.08);
-      overflow:hidden;
+      border:1.5px solid var(--rule) !important;
+      border-radius:14px !important;
+      box-shadow:0 4px 24px rgba(90,67,128,.12) !important;
+      overflow:hidden !important;
       display:flex !important;
-      flex-direction:column;
+      flex-direction:column !important;
     }
     body.ai-panel-open .learn-body{
-      flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+      flex:1 !important;
+      overflow-y:auto !important;
+      -webkit-overflow-scrolling:touch;
     }
   }
 
-  /* Mobile ≤900px: AI is always a bottom-sheet popup, never side panel */
+  /* Mobile ≤900px: centered popup */
   @media(max-width:900px){
     body.ai-panel-open #game-split-container{ display:block !important; }
-    body.ai-panel-open .game-shell{ max-width:680px !important; }
+    body.ai-panel-open .game-shell{ max-width:100% !important; margin:0 auto !important; }
     body.ai-panel-open .learn-backdrop{
       position:fixed !important;
       inset:0 !important;
-      background:rgba(0,0,0,.55) !important;
+      background:rgba(0,0,0,.6) !important;
       display:flex !important;
-      align-items:flex-end !important;
+      align-items:center !important;
       justify-content:center !important;
-      padding:0 !important;
+      padding:20px 16px !important;
       z-index:300 !important;
     }
     body.ai-panel-open .learn-panel{
       position:relative !important;
       width:100% !important;
-      max-width:100% !important;
-      max-height:75vh !important;
-      height:75vh;
-      border-radius:18px 18px 0 0 !important;
-      border-left:none !important;
-      border-right:none !important;
-      border-bottom:none !important;
-      border-top:2px solid var(--rule) !important;
-      box-shadow:0 -8px 40px rgba(0,0,0,.18) !important;
+      max-width:480px !important;
+      max-height:80vh !important;
+      border-radius:16px !important;
+      border:none !important;
+      box-shadow:0 8px 40px rgba(0,0,0,.3) !important;
       background:#fff !important;
       overflow:hidden !important;
       display:flex !important;
-      flex-direction:column;
+      flex-direction:column !important;
     }
     body.ai-panel-open .learn-body{
-      flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+      flex:1 !important;
+      overflow-y:auto !important;
+      -webkit-overflow-scrolling:touch;
     }
   }
 
@@ -881,8 +887,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=90"></script>
-<script src="script.js?v=90"></script>
+<script src="config.js?v=91"></script>
+<script src="script.js?v=91"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

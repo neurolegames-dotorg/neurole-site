@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=112">
+<link rel="stylesheet" href="style.css?v=114">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -793,23 +793,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 
 <div class="modal-backdrop" id="neuro-result-modal">
-  <div class="modal" style="max-height:85vh;overflow-y:auto;">
-    <button class="close-left" id="neuro-result-close">✕</button>
-    <div class="result-headline">
-      <div class="result-logo">Neurole<span class="dot">.</span></div>
-      <h3>Round complete!</h3>
+  <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:18px;">
+    <!-- Top band -->
+    <div style="background:var(--neuro-blue-deep);padding:30px 28px 22px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;">🧠</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;margin:0 0 5px;">Round complete</h3>
+      <p id="neuro-result-stats" style="font-family:'Outfit',sans-serif;font-size:15px;color:rgba(255,255,255,.85);margin:0;font-weight:500;"></p>
     </div>
-    <p class="result-stats" id="neuro-result-stats"></p>
-
-    <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
-
-    <p style="color:var(--ink-soft);font-size:14.5px;text-align:center;margin-top:0;">Sign in to save your progress and streaks.</p>
-    <div id="neuro-google-container" style="display:flex;justify-content:center;margin-bottom:18px;"></div>
-
-    <div class="modal-actions">
-      <button class="btn ghost" id="new-round-btn">Choose a new round</button>
-      <a class="btn" href="daily-game.html">Try The Daily Case →</a>
-      <a class="btn ghost" href="index.html">← Home</a>
+    <!-- Body -->
+    <div style="padding:22px 28px 26px;background:#fff;">
+      <div id="neuro-google-container" style="display:flex;justify-content:center;margin-bottom:18px;"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn" id="new-round-btn" style="width:100%;justify-content:center;">Play another round →</button>
+        <a class="btn ghost" href="daily-game.html" style="width:100%;justify-content:center;display:flex;">Try The Daily Case</a>
+      </div>
+      <button id="neuro-result-close" style="display:block;width:100%;margin-top:12px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:6px;">Close</button>
     </div>
   </div>
 </div>
@@ -887,8 +885,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=112"></script>
-<script src="script.js?v=112"></script>
+<script src="config.js?v=114"></script>
+<script src="script.js?v=114"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1392,6 +1390,45 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
   startRound(saved.count || '10');
 })();
 
+</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top">
+      <div style="font-size:32px;margin-bottom:10px;">🧠</div>
+      <h3>Daily Brain Case</h3>
+      <p>Get today's neurological case delivered to your inbox at 9 AM ET — free, every day.</p>
+    </div>
+    <div class="sub-body">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label>Your email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button class="btn sub-submit" type="submit">Subscribe — it's free</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:10px;">✓ You're subscribed!</p>
+      </form>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')">No thanks</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Try again';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Try again';btn.disabled=false;});
+  });
+})();
 </script>
 </body>
 </html>

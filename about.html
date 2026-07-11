@@ -28,7 +28,7 @@
 <link rel="canonical" href="https://neurole.org/about.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>About Neurole — Free Neuroscience Education Games</title>
-<link rel="stylesheet" href="style.css?v=112">
+<link rel="stylesheet" href="style.css?v=114">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .about-values{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
@@ -180,6 +180,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div></div>
-<script src="config.js?v=112"></script><script src="script.js?v=112"></script>
+<script src="config.js?v=114"></script><script src="script.js?v=114"></script>
 <script>document.getElementById('social-instagram').href=window.NEUROLE_CONFIG.SOCIAL.instagram;document.getElementById('social-email').href=window.NEUROLE_CONFIG.SOCIAL.email;document.getElementById('social-youtube').href=window.NEUROLE_CONFIG.SOCIAL.youtube;</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top">
+      <div style="font-size:32px;margin-bottom:10px;">🧠</div>
+      <h3>Daily Brain Case</h3>
+      <p>Get today's neurological case delivered to your inbox at 9 AM ET — free, every day.</p>
+    </div>
+    <div class="sub-body">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label>Your email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button class="btn sub-submit" type="submit">Subscribe — it's free</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:10px;">✓ You're subscribed!</p>
+      </form>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')">No thanks</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Try again';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Try again';btn.disabled=false;});
+  });
+})();
+</script>
 </body></html>

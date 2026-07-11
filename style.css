@@ -1006,3 +1006,81 @@ main{ animation:questionIn .25s ease; }
 .category-btn{ -webkit-tap-highlight-color:transparent; }
 .round-choice{ -webkit-tap-highlight-color:transparent; }
 .start-actions .btn{ -webkit-tap-highlight-color:transparent; }
+
+/* =====================================================
+   SUBSCRIBE MODAL
+   ===================================================== */
+#reminder-signup-modal{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:20px 16px;
+}
+#reminder-signup-modal.open{ display:flex; }
+#reminder-signup-modal .sub-card{
+  background:#fff;
+  border-radius:18px;
+  width:100%;max-width:440px;
+  overflow:hidden;
+  box-shadow:0 12px 48px rgba(0,0,0,.22);
+}
+#reminder-signup-modal .sub-top{
+  background:var(--neuro-blue-deep);
+  padding:32px 30px 24px;
+  text-align:center;
+}
+#reminder-signup-modal .sub-top h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:700;color:#fff;
+  margin:0 0 8px;
+}
+#reminder-signup-modal .sub-top p{
+  font-family:'Outfit',sans-serif;
+  font-size:14px;color:rgba(255,255,255,.8);
+  margin:0;line-height:1.6;
+}
+#reminder-signup-modal .sub-body{
+  padding:24px 28px 28px;
+}
+#reminder-signup-modal .sub-body .field{
+  margin-bottom:12px;
+}
+#reminder-signup-modal .sub-body .field label{
+  font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;
+  color:var(--ink);display:block;margin-bottom:5px;
+}
+#reminder-signup-modal .sub-body input[type=email]{
+  width:100%;padding:12px 14px;
+  font-family:'Outfit',sans-serif;font-size:15px;
+  border:1.5px solid var(--rule);border-radius:8px;
+  box-sizing:border-box;
+  transition:border-color .15s;
+}
+#reminder-signup-modal .sub-body input[type=email]:focus{
+  outline:none;border-color:var(--neuro-blue-deep);
+  box-shadow:0 0 0 3px rgba(122,95,175,.12);
+}
+#reminder-signup-modal .sub-submit{
+  width:100%;justify-content:center;
+  border-radius:10px;font-size:15px;padding:13px;
+  margin-top:4px;
+}
+#reminder-signup-modal .sub-close-text{
+  display:block;width:100%;margin-top:12px;
+  background:none;border:none;
+  font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);
+  cursor:pointer;padding:4px;text-align:center;
+}
+#sub-success-msg{
+  display:none;text-align:center;padding:8px 0 4px;
+  font-family:'Outfit',sans-serif;font-size:14px;
+  font-weight:600;color:#3a7d5a;
+}
+@media(max-width:480px){
+  #reminder-signup-modal .sub-top{padding:24px 20px 18px;}
+  #reminder-signup-modal .sub-top h3{font-size:26px;}
+  #reminder-signup-modal .sub-body{padding:18px 20px 22px;}
+}

@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=112">
+<link rel="stylesheet" href="style.css?v=114">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -499,6 +499,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:6px;min-height:22px;"></div>
       <div class="start-meta" id="start-meta" style="margin-top:4px;"></div>
+      <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
     </div>
   </div>
 
@@ -608,37 +609,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="modal-backdrop" id="result-modal">
-  <div class="modal" style="max-height:85vh;overflow-y:auto;padding-top:14px;">
-    <div style="display:flex;justify-content:flex-start;margin-bottom:20px;border-bottom:1px solid var(--rule);padding-bottom:14px;">
-      <button id="result-modal-close" style="background:none;border:1.5px solid var(--rule);border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);cursor:pointer;padding:6px 12px;letter-spacing:.04em;">✕ Close</button>
-    </div>
-    <div class="result-headline">
-      <div class="result-logo">Neurole<span class="dot">.</span></div>
-      <h3 id="result-headline-text">Result</h3>
-    </div>
-    <p class="result-stats" id="result-stats-text" style="text-align:center;font-size:17px;font-weight:600;"></p>
+  <div class="modal" style="max-width:420px;padding:0;overflow:hidden;border-radius:18px;">
 
-    <!-- Prominent share button -->
-    <div style="display:flex;gap:10px;justify-content:center;margin:14px 0;">
-      <button type="button" id="share-btn" class="btn" style="font-size:15px;padding:12px 28px;border-radius:10px;background:var(--neuro-blue-deep);">
-        Share your result 🔗
+    <!-- Coloured top band — green for win, dark for fail -->
+    <div id="result-top-band" style="padding:32px 28px 24px;text-align:center;">
+      <div id="result-emoji" style="font-size:40px;margin-bottom:10px;"></div>
+      <h3 id="result-headline-text" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;margin:0 0 6px;"></h3>
+      <p id="result-stats-text" style="font-family:'Outfit',sans-serif;font-size:15px;color:rgba(255,255,255,.85);margin:0;font-weight:500;"></p>
+      <p id="next-case-countdown" style="font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.65);margin:8px 0 0;"></p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:22px 28px 28px;background:#fff;">
+      <!-- Emoji grid -->
+      <div id="result-grid" style="font-size:22px;letter-spacing:3px;text-align:center;margin-bottom:20px;"></div>
+
+      <!-- Share -->
+      <button type="button" id="share-btn" class="btn" style="width:100%;justify-content:center;font-size:14px;padding:13px;border-radius:10px;margin-bottom:12px;">
+        Share result 🔗
       </button>
+
+      <!-- Google sign-in -->
+      <div id="result-google-container" style="display:flex;justify-content:center;margin-bottom:14px;"></div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:10px;">
+        <a class="btn ghost" href="neuroanatomy.html" style="flex:1;justify-content:center;font-size:13px;padding:11px;">Map the Brain</a>
+        <a class="btn ghost" href="archive.html" style="flex:1;justify-content:center;font-size:13px;padding:11px;">Archive</a>
+      </div>
+
+      <button id="result-modal-close" style="display:block;width:100%;margin-top:12px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:6px;">Close</button>
     </div>
 
-    <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
-
-    <p style="color:var(--ink-soft);font-size:14px;text-align:center;margin-top:0;">Sign in to save your streak across devices.</p>
-    <div id="result-google-container" style="display:flex;justify-content:center;margin-bottom:16px;"></div>
-
-    <div class="modal-actions">
-      <a class="btn" href="neuroanatomy.html">Try Map the Brain →</a>
-      <a class="btn ghost" href="index.html">← Home</a>
-    </div>
   </div>
 </div>
 
-<script src="config.js?v=112"></script>
-<script src="script.js?v=112"></script>
+<script src="config.js?v=114"></script>
+<script src="script.js?v=114"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1148,27 +1155,34 @@ function getSavedDailyCompletion(){
 }
 
 function openResultPopup(won){
+  const band = document.getElementById('result-top-band');
+  const emoji = document.getElementById('result-emoji');
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
-  headline.textContent = won ? 'Diagnosed! 🧠' : 'Better luck tomorrow';
+  const grid = document.getElementById('result-grid');
+
+  band.style.background = won ? '#3a7d5a' : '#2f2f3a';
+  emoji.textContent = won ? '🧠' : '💭';
+  headline.textContent = won ? 'Diagnosed!' : 'Better luck tomorrow';
   stats.textContent = won
-    ? `${state.answer} — got it in ${state.attemptsUsed} ${state.attemptsUsed===1?'guess':'guesses'}`
-    : `The answer was: ${state.answer}`;
+    ? `${state.answer} — ${state.attemptsUsed} ${state.attemptsUsed===1?'try':'tries'}`
+    : `The diagnosis was: ${state.answer}`;
 
-  // Add countdown to next case
-  let countdownEl = document.getElementById('next-case-countdown');
-  if(!countdownEl){
-    countdownEl = document.createElement('p');
-    countdownEl.id = 'next-case-countdown';
-    countdownEl.style.cssText = 'font-family:\'Outfit\',sans-serif;font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center;';
-    stats.parentNode.insertBefore(countdownEl, stats.nextSibling);
+  // Emoji grid
+  const total=5, used=state.attemptsUsed||0;
+  let g='';
+  for(let i=0;i<total;i++){
+    if(i<used-(won?1:0)) g+='🟥';
+    else if(i===used-1&&won) g+='🟩';
+    else g+='⬜';
   }
-  startCountdown('next-case-countdown');
+  if(grid) grid.textContent=g;
 
+  startCountdown('next-case-countdown');
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
-      `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">✓ Signed in as ${googleSignInState.email} — streak saved!</p>`;
+      `<p style="font-family:'Outfit',sans-serif;font-size:12px;color:#5C8C72;text-align:center;">✓ Signed in — streak saved!</p>`;
   });
 }
 
@@ -1288,6 +1302,45 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 
   aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now — try again in a moment.";
 });
+</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top">
+      <div style="font-size:32px;margin-bottom:10px;">🧠</div>
+      <h3>Daily Brain Case</h3>
+      <p>Get today's neurological case delivered to your inbox at 9 AM ET — free, every day.</p>
+    </div>
+    <div class="sub-body">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label>Your email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button class="btn sub-submit" type="submit">Subscribe — it's free</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:10px;">✓ You're subscribed!</p>
+      </form>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')">No thanks</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Try again';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Try again';btn.disabled=false;});
+  });
+})();
 </script>
 </body>
 </html>

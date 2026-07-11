@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=108">
+<link rel="stylesheet" href="style.css?v=112">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -508,7 +508,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Attempt dots -->
     <!-- Attempt dots are shown in the header, not here -->
       <div class="case-meta">
-        <span id="case-date">—</span>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="case-number" style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
+          <span id="case-date">—</span>
+        </div>
         <div class="attempts-dots" id="attempts-dots">
           <span></span><span></span><span></span><span></span><span></span>
         </div>
@@ -634,8 +637,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=108"></script>
-<script src="script.js?v=108"></script>
+<script src="config.js?v=112"></script>
+<script src="script.js?v=112"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -764,44 +767,43 @@ let state = { symptoms: [], answer: '', synonyms: [], explanation: '', shown: 1,
 
 async function loadCase(){
   document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  const caseNum = getDayIndex() + 1;
+  const caseNumEl = document.getElementById('case-number');
+  if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
   let chosen = null;
   try{
-    // Load CSV raw so we can read ALL rows by position (no header row in sheet)
-    const sheetUrl = window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    // Load CSV raw — read by column position
+    // Layout: A=caseID(skip), B=date(skip), C=symp1, D=symp2, E=symp3, F=symp4, G=symp5, H=answer, I=synonyms, J=explanation
+    const sheetUrl = window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + Date.now();
     const res = await fetch(sheetUrl, {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const csvText = await res.text();
-    const allRows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
+    let allRows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
+
+    // Skip header row if first row doesn't have a date in col 1 or a number in col 0
+    const col0 = (allRows[0]?.[0]||'').trim();
+    const col1 = (allRows[0]?.[1]||'').trim();
+    const isDataRow = /^\d+$/.test(col0) || /^\d{4}-/.test(col0) || /^\d{4}-/.test(col1);
+    if(!isDataRow && allRows.length > 1){
+      console.log('Neurole: skipping header row');
+      allRows = allRows.slice(1);
+    }
+
     const idx = getDayIndex();
-    console.log('Neurole: total rows (no header skipped):', allRows.length, '| day index:', idx);
-    if(allRows.length > 0) console.log('Neurole: first row preview:', allRows[0].slice(0,5));
+    console.log('Neurole: rows:', allRows.length, '| dayIdx:', idx);
+    console.log('Neurole: row[0] =', allRows[0]?.slice(0,5));
 
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
-      console.log('Neurole: row', idx+1, '| raw cells:', row);
-      // Detect layout: find where symptoms start
-      // Layout A: col0=ID, col1=date, col2-6=symptoms, col7=answer, col8=synonyms, col9=explanation
-      // Layout B: col0=symptom1... (no ID/date columns)
-      // We detect by checking if col0 or col1 looks like a date or number
-      let offset = 0;
-      if(row.length >= 8){
-        const c0 = (row[0]||'').trim();
-        const c1 = (row[1]||'').trim();
-        if(/^\d{4}-\d{2}-\d{2}$/.test(c0) || /^\d{4}-\d{2}-\d{2}$/.test(c1)){
-          offset = c1.match(/^\d{4}/) ? 2 : 1; // skip date cols
-        } else if(/^\d+$/.test(c0)){
-          offset = c1.match(/^\d{4}/) ? 2 : 1; // skip ID + maybe date
-        }
-      }
-      console.log('Neurole: column offset =', offset);
-      state.symptoms = [0,1,2,3,4].map(i => (row[offset+i]||'').trim()).filter(Boolean);
-      state.answer    = (row[offset+5]||'').trim();
-      state.synonyms  = (row[offset+6]||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
-      state.explanation = (row[offset+7]||'').trim();
-      console.log('Neurole: symptoms:', state.symptoms, '| answer:', state.answer);
-      chosen = true; // mark as found
+      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation
+      state.symptoms    = [1,2,3,4,5].map(i => (row[i]||'').trim()).filter(Boolean);
+      state.answer      = (row[6]||'').trim();
+      state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = (row[8]||'').trim();
+      console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
+      if(state.symptoms.length > 0 && state.answer) chosen = true;
     } else {
-      console.warn('Neurole: no row for day index', idx, '— sheet has', allRows.length, 'rows');
+      console.warn('Neurole: no row for dayIdx', idx, '| rows:', allRows.length);
     }
   }catch(err){ console.error("Neurole: sheet error —", err.message); }
 

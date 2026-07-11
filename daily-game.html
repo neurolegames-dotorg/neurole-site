@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=105">
+<link rel="stylesheet" href="style.css?v=106">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -634,8 +634,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=105"></script>
-<script src="script.js?v=105"></script>
+<script src="config.js?v=106"></script>
+<script src="script.js?v=106"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -766,44 +766,46 @@ async function loadCase(){
   document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   let chosen = null;
   try{
+    // Load CSV raw so we can read ALL rows by position (no header row in sheet)
     const sheetUrl = window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
-    const rows = await fetchSheetAsObjects(sheetUrl);
+    const res = await fetch(sheetUrl, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const csvText = await res.text();
+    const allRows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
     const idx = getDayIndex();
-    console.log("Neurole: day index", idx, "| rows:", rows.length);
-    if(rows.length > 0){
-      console.log("Neurole: COLUMN HEADERS =", JSON.stringify(Object.keys(rows[0])));
-      console.log("Neurole: ROW 1 DATA =", JSON.stringify(rows[0]));
-    }
-    if(idx >= 0 && idx < rows.length){
-      chosen = rows[idx];
-      console.log("Neurole: using row", idx+1, "| full data:", JSON.stringify(chosen));
+    console.log('Neurole: total rows (no header skipped):', allRows.length, '| day index:', idx);
+    if(allRows.length > 0) console.log('Neurole: first row preview:', allRows[0].slice(0,5));
+
+    if(idx >= 0 && idx < allRows.length){
+      const row = allRows[idx];
+      console.log('Neurole: row', idx+1, '| raw cells:', row);
+      // Detect layout: find where symptoms start
+      // Layout A: col0=ID, col1=date, col2-6=symptoms, col7=answer, col8=synonyms, col9=explanation
+      // Layout B: col0=symptom1... (no ID/date columns)
+      // We detect by checking if col0 or col1 looks like a date or number
+      let offset = 0;
+      if(row.length >= 8){
+        const c0 = (row[0]||'').trim();
+        const c1 = (row[1]||'').trim();
+        if(/^\d{4}-\d{2}-\d{2}$/.test(c0) || /^\d{4}-\d{2}-\d{2}$/.test(c1)){
+          offset = c1.match(/^\d{4}/) ? 2 : 1; // skip date cols
+        } else if(/^\d+$/.test(c0)){
+          offset = c1.match(/^\d{4}/) ? 2 : 1; // skip ID + maybe date
+        }
+      }
+      console.log('Neurole: column offset =', offset);
+      state.symptoms = [0,1,2,3,4].map(i => (row[offset+i]||'').trim()).filter(Boolean);
+      state.answer    = (row[offset+5]||'').trim();
+      state.synonyms  = (row[offset+6]||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = (row[offset+7]||'').trim();
+      console.log('Neurole: symptoms:', state.symptoms, '| answer:', state.answer);
+      chosen = true; // mark as found
     } else {
-      console.warn("Neurole: no row for day index", idx, "— sheet has", rows.length, "rows");
-    }
-    if(chosen){
-      state.symptoms = [1,2,3,4,5].map(n => {
-        // Try every possible column name variation
-        return findField(chosen,'symptom_'+n)
-          || findField(chosen,'symptom '+n)
-          || findField(chosen,'symptom'+n)
-          || findField(chosen,'Symptom '+n)
-          || findField(chosen,'hint_'+n)
-          || findField(chosen,'hint '+n)
-          || findField(chosen,'hint'+n)
-          || findField(chosen,'clue'+n)
-          || findField(chosen,'clue_'+n)
-          || '';
-      }).filter(Boolean);
-      state.answer = findField(chosen,'answer')||findField(chosen,'Answer')||findField(chosen,'diagnosis')||findField(chosen,'Diagnosis')||'';
-      state.synonyms = (findField(chosen,'accepted_synonyms')||findField(chosen,'acceptedsynonyms')||findField(chosen,'synonyms')||findField(chosen,'Synonyms')||'').split(';').map(s=>s.trim().toLowerCase()).filter(Boolean);
-      state.explanation = findField(chosen,'explanation')||findField(chosen,'Explanation')||findField(chosen,'explanation_text')||findField(chosen,'info')||'';
-      // Debug: log what was found
-      console.log('Neurole: row', getDayIndex()+1, '| columns:', Object.keys(chosen).join(', '));
-      console.log('Neurole: symptoms found:', state.symptoms, '| answer:', state.answer);
+      console.warn('Neurole: no row for day index', idx, '— sheet has', allRows.length, 'rows');
     }
   }catch(err){ console.error("Neurole: sheet error —", err.message); }
 
-  if(!chosen){
+  if(!chosen || !state.answer){
     document.getElementById('game-content').style.display='block';
     document.getElementById('start-screen').style.display='none';
     const area = document.getElementById('result-area');

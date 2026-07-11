@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=107">
+<link rel="stylesheet" href="style.css?v=108">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -155,9 +155,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight:600 !important;
     border-radius:10px !important;
   }
-  .category-btn.active{
-    border-radius:10px !important;
-  }
+
   .round-choice{
     font-family:var(--game-font) !important;
     font-size:14px !important;font-weight:700 !important;
@@ -188,7 +186,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .start-screen p{color:var(--ink-soft) !important;}
   .start-screen .back-home{color:var(--ink-soft) !important;-webkit-text-fill-color:var(--ink-soft);}
   .start-screen .category-btn{color:var(--ink-soft) !important;-webkit-text-fill-color:var(--ink-soft);}
-  .start-screen .category-btn.active{color:#fff !important;-webkit-text-fill-color:#fff;}
+  .start-screen .category-btn.active{background:var(--neuro-blue-deep) !important;border-color:var(--neuro-blue-deep) !important;color:#fff !important;-webkit-text-fill-color:#fff !important;}
   .start-screen .btn{color:#fff !important;-webkit-text-fill-color:#fff;}
   .start-screen .btn.ghost{color:var(--ink) !important;-webkit-text-fill-color:var(--ink);}
   .start-screen .learn-tab-toggle{color:var(--ink) !important;-webkit-text-fill-color:var(--ink);}
@@ -215,17 +213,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .category-btn:hover{border-color:var(--neuro-blue);}
   /* Active/press state — no white flash */
-  .category-btn:active{
+  .category-btn:not(.active):active{
     background:var(--paper-deep) !important;
     transform:scale(.96);
   }
   .category-btn.active:active{
-    background:var(--neuro-blue-deep) !important;
     opacity:.85;
+    transform:scale(.96);
   }
+
   .category-btn.active{
-    background:var(--neuro-blue-bright), var(--neuro-blue-deep));
-    border-color:var(--neuro-blue-deep);color:#fff;
+    background:var(--neuro-blue-deep) !important;
+    border-color:var(--neuro-blue-deep) !important;
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
   }
 
 
@@ -324,7 +325,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .specimen::before{
     content:'';position:absolute;top:0;left:0;right:0;height:4px;
-    background:var(--neuro-blue-bright), var(--neuro-blue-deep));
+    background:var(--neuro-blue-deep);
   }
   .specimen img{
     width:100%;
@@ -379,14 +380,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
     height:50px;padding:0 22px 0 18px;border-radius:30px;
-    background:var(--neuro-blue-bright), var(--plum));color:#fff;
+    background:var(--neuro-blue-deep);color:#fff;
     border:none;display:none;align-items:center;justify-content:center;gap:8px;
     box-shadow:0 8px 22px rgba(0,0,0,.18);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
   .chat-fab.show{display:flex;}
-  .chat-fab:hover{background:var(--neuro-blue), var(--neuro-blue-deep));}
+  .chat-fab:hover{background:var(--plum);}
 
   .learn-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
@@ -886,8 +887,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=107"></script>
-<script src="script.js?v=107"></script>
+<script src="config.js?v=108"></script>
+<script src="script.js?v=108"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

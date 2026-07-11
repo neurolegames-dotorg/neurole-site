@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=104">
+<link rel="stylesheet" href="style.css?v=105">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -634,8 +634,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=104"></script>
-<script src="script.js?v=104"></script>
+<script src="config.js?v=105"></script>
+<script src="script.js?v=105"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -770,11 +770,15 @@ async function loadCase(){
     const rows = await fetchSheetAsObjects(sheetUrl);
     const idx = getDayIndex();
     console.log("Neurole: day index", idx, "| rows:", rows.length);
+    if(rows.length > 0){
+      console.log("Neurole: COLUMN HEADERS =", JSON.stringify(Object.keys(rows[0])));
+      console.log("Neurole: ROW 1 DATA =", JSON.stringify(rows[0]));
+    }
     if(idx >= 0 && idx < rows.length){
       chosen = rows[idx];
-      console.log("Neurole: row", idx+1, "answer:", findField(chosen,'answer')||findField(chosen,'Answer'));
+      console.log("Neurole: using row", idx+1, "| full data:", JSON.stringify(chosen));
     } else {
-      console.warn("Neurole: no row for day index", idx);
+      console.warn("Neurole: no row for day index", idx, "— sheet has", rows.length, "rows");
     }
     if(chosen){
       state.symptoms = [1,2,3,4,5].map(n => {
@@ -1172,21 +1176,43 @@ document.getElementById('result-modal').addEventListener('click', (e) => {
 });
 
 document.getElementById('share-btn').addEventListener('click', async () => {
-  const won = document.getElementById('result-headline-text').textContent === 'Congrats!';
-  const text = won
-    ? `I just diagnosed today's Neurole case (${state.answer}) in ${state.attemptsUsed + 1} ${state.attemptsUsed + 1 === 1 ? 'guess' : 'guesses'}! Play The Daily Case at Neurole.`
-    : `I just played today's Neurole Daily Case — stumped me this time! Think you can diagnose it? Play at Neurole.`;
+  // Build Wordle-style grid: each attempt = colored square
+  const total = 5;
+  const used = state.attemptsUsed || 0;
+  const won = state.solved;
+
+  let grid = '';
+  for(let i = 0; i < total; i++){
+    if(i < used - (won ? 1 : 0))      grid += '🟥'; // wrong guess
+    else if(i === used - 1 && won)     grid += '🟩'; // correct
+    else                               grid += '⬜'; // unused
+  }
+
+  const tries = won
+    ? `${used}/${total}`
+    : `X/${total}`;
+
+  const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
+
+  const shareText =
+`Neurole Daily Case — ${today}
+${tries}
+
+${grid}
+
+🧠 neurole.org/daily-game.html`;
+
   const shareBtn = document.getElementById('share-btn');
   try{
     if(navigator.share){
-      await navigator.share({ text, title: 'Neurole — The Daily Case' });
+      await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' });
     } else {
-      await navigator.clipboard.writeText(text);
-      const original = shareBtn.textContent;
-      shareBtn.textContent = 'Copied!';
-      setTimeout(() => shareBtn.textContent = original, 1800);
+      await navigator.clipboard.writeText(shareText);
+      const orig = shareBtn.textContent;
+      shareBtn.textContent = 'Copied! ✓';
+      setTimeout(() => shareBtn.textContent = orig, 2000);
     }
-  }catch(err){ /* user canceled share sheet — no action needed */ }
+  }catch(err){}
 });
 
 document.getElementById('start-play-btn').addEventListener('click', () => {

@@ -926,3 +926,83 @@ h1,h2,h3,h4,
   padding:5px 12px !important;border-radius:20px !important;
   text-transform:capitalize !important;
 }
+
+
+/* =====================================================
+   REAL GAME FEEL — global polish
+   ===================================================== */
+
+/* No tap flash anywhere */
+* { -webkit-tap-highlight-color:transparent; }
+
+/* Buttons feel physical */
+.btn:active{ transform:scale(.97); opacity:.9; }
+.btn.ghost:active{ transform:scale(.97); }
+
+/* Choice buttons — strong press state */
+.choice-btn:active:not(:disabled){
+  transform:scale(.98) !important;
+  box-shadow:0 1px 4px rgba(0,0,0,.08) !important;
+}
+
+/* Symptom list — reveal animation */
+@keyframes symptomReveal{
+  from{ opacity:0; transform:translateX(-10px); }
+  to{   opacity:1; transform:translateX(0); }
+}
+.symptom-log li{ animation:symptomReveal .3s ease both; }
+.symptom-log li:nth-child(1){ animation-delay:.05s; }
+.symptom-log li:nth-child(2){ animation-delay:.12s; }
+.symptom-log li:nth-child(3){ animation-delay:.19s; }
+.symptom-log li:nth-child(4){ animation-delay:.26s; }
+.symptom-log li:nth-child(5){ animation-delay:.33s; }
+
+/* Wrong answer shake */
+@keyframes shake{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-6px); }
+  40%{ transform:translateX(6px); }
+  60%{ transform:translateX(-4px); }
+  80%{ transform:translateX(4px); }
+}
+.shake{ animation:shake .35s ease; }
+
+/* Question fade in on each new question */
+@keyframes questionIn{
+  from{ opacity:0; transform:translateY(12px); }
+  to{   opacity:1; transform:translateY(0); }
+}
+.specimen{ animation:questionIn .35s ease; }
+
+/* Correct flash */
+@keyframes correctFlash{
+  0%{ background:rgba(92,181,124,.2); }
+  100%{ background:transparent; }
+}
+.correct-flash{ animation:correctFlash .5s ease; }
+
+/* Case card — solid, real feel */
+.case-card{
+  background:#fff !important;
+  border:1.5px solid var(--rule) !important;
+  border-radius:14px !important;
+  box-shadow:0 2px 16px rgba(0,0,0,.05) !important;
+  padding:28px 28px 22px !important;
+}
+
+/* Score tag — real capsule */
+.score-tag, .score-pill{
+  font-size:12px !important;
+  padding:5px 14px !important;
+  border-radius:20px !important;
+  letter-spacing:.02em !important;
+  font-weight:700 !important;
+}
+
+/* Page transitions — subtle */
+main{ animation:questionIn .25s ease; }
+
+/* Category buttons on Map the Brain — no flash */
+.category-btn{ -webkit-tap-highlight-color:transparent; }
+.round-choice{ -webkit-tap-highlight-color:transparent; }
+.start-actions .btn{ -webkit-tap-highlight-color:transparent; }

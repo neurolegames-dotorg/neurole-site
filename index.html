@@ -45,7 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=114">
+<link rel="stylesheet" href="style.css?v=115">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script type="application/ld+json">
@@ -439,9 +439,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=114"></script>
-<script src="games-data.js?v=114"></script>
-<script src="script.js?v=114"></script>
+<script src="config.js?v=115"></script>
+<script src="games-data.js?v=115"></script>
+<script src="script.js?v=115"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -488,23 +488,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Subscribe modal -->
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
-    <div class="sub-top">
-      <div style="font-size:32px;margin-bottom:10px;">🧠</div>
-      <h3>Daily Brain Case</h3>
-      <p>Get today's neurological case delivered to your inbox at 9 AM ET — free, every day.</p>
+    <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
     </div>
-    <div class="sub-body">
+    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label>Your email address</label>
-          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
         </div>
-        <button class="btn sub-submit" type="submit">Subscribe — it's free</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:10px;">✓ You're subscribed!</p>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')">No thanks</button>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>
@@ -519,8 +521,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
     .then(function(r){
       if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
-      else{btn.textContent='Try again';btn.disabled=false;}
-    }).catch(function(){btn.textContent='Try again';btn.disabled=false;});
+      else{btn.textContent='Continue';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
   });
 })();
 </script>

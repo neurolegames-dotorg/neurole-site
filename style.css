@@ -1028,7 +1028,7 @@ main{ animation:questionIn .25s ease; }
   box-shadow:0 12px 48px rgba(0,0,0,.22);
 }
 #reminder-signup-modal .sub-top{
-  background:var(--neuro-blue-deep);
+  background:#1a1a1a;
   padding:32px 30px 24px;
   text-align:center;
 }
@@ -1060,8 +1060,8 @@ main{ animation:questionIn .25s ease; }
   transition:border-color .15s;
 }
 #reminder-signup-modal .sub-body input[type=email]:focus{
-  outline:none;border-color:var(--neuro-blue-deep);
-  box-shadow:0 0 0 3px rgba(122,95,175,.12);
+  outline:none;border-color:#1a1a1a;
+  box-shadow:0 0 0 3px rgba(0,0,0,.08);
 }
 #reminder-signup-modal .sub-submit{
   width:100%;justify-content:center;

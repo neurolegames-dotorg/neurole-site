@@ -1084,3 +1084,86 @@ main{ animation:questionIn .25s ease; }
   #reminder-signup-modal .sub-top h3{font-size:26px;}
   #reminder-signup-modal .sub-body{padding:18px 20px 22px;}
 }
+
+/* =====================================================
+   MODERN CLASSIC POPUP SYSTEM
+   Clean lines, sharp corners, refined spacing
+   ===================================================== */
+
+/* Base modal */
+.modal{
+  background:#fff;
+  border-radius:3px !important;
+  box-shadow:0 2px 40px rgba(0,0,0,.22), 0 0 0 1px rgba(0,0,0,.06) !important;
+  position:relative;
+  width:100%;
+}
+
+/* Modal backdrop — slightly lighter blur feel */
+.modal-backdrop.open{
+  background:rgba(0,0,0,.5);
+}
+
+/* Sign-in modal refinement */
+#signin-modal .modal{
+  max-width:460px;
+  padding:40px 36px 34px;
+  text-align:center;
+}
+#signin-modal .modal h3{
+  font-family:'Cormorant Garamond',serif !important;
+  font-size:26px !important;
+  font-weight:700 !important;
+  letter-spacing:-.01em;
+  margin-bottom:20px !important;
+}
+#signin-modal .modal input[type=email]{
+  border-radius:3px !important;
+  border:1px solid #c8c8c8 !important;
+  padding:13px 14px !important;
+  font-size:15px !important;
+  font-family:'Outfit',sans-serif !important;
+  transition:border-color .15s, box-shadow .15s;
+}
+#signin-modal .modal input[type=email]:focus{
+  border-color:#1a1a1a !important;
+  box-shadow:0 0 0 2px rgba(0,0,0,.07) !important;
+  outline:none !important;
+}
+
+/* End screen modals — crisp NYT */
+#result-modal .modal,
+#neuro-result-modal .modal{
+  border-radius:3px !important;
+  overflow:hidden;
+}
+
+/* Role card grid — 3 columns on wider screens */
+.role-grid{
+  grid-template-columns:repeat(3,1fr);
+}
+@media(max-width:780px){ .role-grid{grid-template-columns:1fr 1fr;} }
+@media(max-width:540px){ .role-grid{grid-template-columns:1fr;} }
+
+/* Role cards — more refined */
+.role-card{
+  border-radius:3px !important;
+  border:1px solid rgba(0,0,0,.1) !important;
+  padding:20px 18px !important;
+  transition:box-shadow .18s, transform .18s !important;
+}
+.role-card:hover{
+  box-shadow:0 4px 20px rgba(0,0,0,.1) !important;
+  transform:translateY(-2px) !important;
+}
+.role-tag{
+  font-family:'Outfit',sans-serif !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+  color:var(--neuro-blue-deep) !important;
+  background:rgba(122,95,175,.08) !important;
+  border-radius:2px !important;
+  padding:3px 9px !important;
+}

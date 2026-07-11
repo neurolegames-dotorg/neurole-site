@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="canonical" href="https://neurole.org/volunteer.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Join Us — Contribute to Neurole</title>
-<link rel="stylesheet" href="style.css?v=115">
+<link rel="stylesheet" href="style.css?v=117">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .role-grid{
@@ -194,20 +194,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h3>Build &amp; Design</h3>
       <p>Engineers and designers welcome — help us ship new game modes and improve the experience.</p>
     </div>
-  </div>
-
-  <!-- Media section -->
-  <div class="media-section">
-    <h3>📲 Media &amp; Outreach</h3>
-    <p style="color:var(--ink-soft);font-size:15px;">Help manage and grow Neurole's presence across platforms:</p>
-    <ul class="media-list">
-      <li>Create and schedule Instagram, YouTube, and TikTok content about neuroscience</li>
-      <li>Design graphics and short explainer videos based on game cases</li>
-      <li>Write newsletters and blog posts</li>
-      <li>Coordinate partnerships with neuroscience clubs, premed societies, and student organisations</li>
-      <li>Monitor engagement and suggest content ideas</li>
-    </ul>
-    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);">Ideal for: communications, marketing, journalism, or neuroscience students active on social media.</p>
+    <div class="role-card">
+      <span class="role-tag">Outreach</span>
+      <h3>Grow the Community</h3>
+      <p>Email neuroscience clubs, partner with universities, manage social media, and help bring Neurole to more students and clinicians worldwide.</p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">Media</span>
+      <h3>Create Content</h3>
+      <p>Produce Instagram, TikTok, and YouTube content based on game cases — short explainers, diagnostic challenges, and behind-the-scenes neuroscience.</p>
+    </div>
   </div>
 
   <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
@@ -224,7 +220,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Fact-checking</button>
       <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Engineering</button>
       <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Design</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Media &amp; outreach</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Outreach</button>
+      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Media &amp; content</button>
     </div>
 
     <div data-fs-success style="display:none;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--neuro-blue-deep);padding:20px;background:rgba(107,79,148,.07);border-radius:12px;text-align:center;">✓ Thanks! We'll be in touch soon.</div>
@@ -286,8 +283,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=115"></script>
-<script src="script.js?v=115"></script>
+<script src="config.js?v=117"></script>
+<script src="script.js?v=117"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

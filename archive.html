@@ -9,7 +9,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <title>Case Archive — Neurole</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=115">
+<link rel="stylesheet" href="style.css?v=117">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .archive-grid{display:flex;flex-direction:column;gap:0;max-width:640px;}
@@ -135,8 +135,8 @@
   </div>
 </div>
 
-<script src="config.js?v=115"></script>
-<script src="script.js?v=115"></script>
+<script src="config.js?v=117"></script>
+<script src="script.js?v=117"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -180,15 +180,13 @@ async function loadArchive(){
     if(!published.length){ grid.innerHTML = '<div class="loading-state">No cases published yet.</div>'; return; }
 
     grid.innerHTML = published.map((row, i) => {
-      const caseNum = published.length - i; // newest = highest number
+      const caseNum = published.length - i;
       const dateRaw = (row[0]||'').trim();
-      const answer  = (row[6]||'').trim();
       const dateDisplay = dateRaw ? new Date(dateRaw + 'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
       return `<div class="archive-card">
         <span class="case-num-badge">Case #${caseNum}</span>
         <div style="flex:1;min-width:0;">
-          <div class="archive-title">${answer || 'Case #' + caseNum}</div>
-          <div class="archive-date">${dateDisplay}</div>
+          <div class="archive-date" style="color:var(--neuro-blue-deep);font-weight:600;">${dateDisplay}</div>
         </div>
         <span class="archive-arrow">›</span>
       </div>`;

@@ -9,41 +9,64 @@
 <link rel="manifest" href="/site.webmanifest">
 <title>Case Archive — Neurole</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=117">
+<link rel="stylesheet" href="style.css?v=119">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
-.archive-grid{display:flex;flex-direction:column;gap:0;max-width:640px;}
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  max-width:860px;
+}
+@media(max-width:640px){.archive-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:380px){.archive-grid{grid-template-columns:1fr;}}
+
 .archive-card{
-  display:flex;align-items:center;gap:18px;
-  padding:18px 0;border-bottom:1px solid var(--rule);
-  text-decoration:none;color:var(--ink);
-  transition:background .12s;
+  background:#fff;
+  border:1.5px solid var(--rule);
+  border-radius:16px;
+  padding:22px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  text-decoration:none;
+  color:var(--ink);
   cursor:pointer;
+  transition:transform .18s, box-shadow .18s, border-color .18s;
 }
-.archive-card:last-child{border-bottom:none;}
-.archive-card:hover .archive-title{color:var(--neuro-blue-deep);}
+.archive-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(90,67,128,.12);
+  border-color:var(--neuro-blue);
+}
 .case-num-badge{
-  font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;
-  letter-spacing:.08em;text-transform:uppercase;
-  background:var(--neuro-blue-deep);color:#fff;
-  padding:4px 10px;border-radius:20px;
-  flex-shrink:0;min-width:68px;text-align:center;
-}
-.archive-title{
-  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
-  margin:0 0 3px;line-height:1.2;flex:1;
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-.01em;
+  line-height:1;
 }
 .archive-date{
-  font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--neuro-blue-deep);
+  letter-spacing:.02em;
 }
-.archive-arrow{color:var(--ink-soft);font-size:18px;flex-shrink:0;}
-.loading-state{
-  font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink-soft);
-  padding:48px 0;text-align:center;
+.archive-arrow{
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-soft);
+  margin-top:auto;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  font-size:10.5px;
 }
 @media(max-width:480px){
-  .archive-title{font-size:18px;}
-  .case-num-badge{font-size:10px;min-width:58px;}
+  .case-num-badge{font-size:22px;}
+  .archive-card{padding:18px 16px 14px;}
 }
 </style>
 </head>
@@ -135,8 +158,8 @@
   </div>
 </div>
 
-<script src="config.js?v=117"></script>
-<script src="script.js?v=117"></script>
+<script src="config.js?v=119"></script>
+<script src="script.js?v=119"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -184,11 +207,9 @@ async function loadArchive(){
       const dateRaw = (row[0]||'').trim();
       const dateDisplay = dateRaw ? new Date(dateRaw + 'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
       return `<div class="archive-card">
-        <span class="case-num-badge">Case #${caseNum}</span>
-        <div style="flex:1;min-width:0;">
-          <div class="archive-date" style="color:var(--neuro-blue-deep);font-weight:600;">${dateDisplay}</div>
-        </div>
-        <span class="archive-arrow">›</span>
+        <div class="case-num-badge">Case #${caseNum}</div>
+        <div class="archive-date">${dateDisplay}</div>
+        <div class="archive-arrow">Play →</div>
       </div>`;
     }).join('');
   }catch(e){

@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="canonical" href="https://neurole.org/volunteer.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Join Us — Contribute to Neurole</title>
-<link rel="stylesheet" href="style.css?v=117">
+<link rel="stylesheet" href="style.css?v=119">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .role-grid{
@@ -283,15 +283,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=117"></script>
-<script src="script.js?v=117"></script>
+<script src="config.js?v=119"></script>
+<script src="script.js?v=119"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
-  document.getElementById('volunteer-form').addEventListener('submit', e=>{
+
+  // Collect selected role chips and add to form before submit
+  const vForm = document.getElementById('volunteer-form');
+  vForm.addEventListener('submit', async function(e){
     e.preventDefault();
-    e.target.innerHTML = '<p style="font-family:var(--serif-display);font-size:20px;text-align:center;padding:24px 0;">Thanks! We\'ll be in touch soon. 🧠</p>';
+    const btn = vForm.querySelector('button[type=submit]');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+
+    // Gather selected chips
+    const chips = [...document.querySelectorAll('.role-chip.selected')].map(c=>c.textContent.trim()).join(', ');
+    let rolesInput = vForm.querySelector('input[name=roles]');
+    if(!rolesInput){ rolesInput = document.createElement('input'); rolesInput.type='hidden'; rolesInput.name='roles'; vForm.appendChild(rolesInput); }
+    rolesInput.value = chips || 'Not specified';
+
+    // Subject line
+    let subj = vForm.querySelector('input[name=_subject]');
+    if(!subj){ subj=document.createElement('input');subj.type='hidden';subj.name='_subject';vForm.appendChild(subj); }
+    subj.value = 'Neurole — New volunteer: ' + (vForm.querySelector('[name=name]').value||'Anonymous');
+
+    try{
+      const res = await fetch(vForm.action, {
+        method: 'POST',
+        body: new FormData(vForm),
+        headers: { Accept: 'application/json' }
+      });
+      if(res.ok){
+        vForm.innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-size:22px;text-align:center;padding:28px 0 16px;color:var(--ink);">Thanks for reaching out! 🧠<br><span style="font-family:\'Outfit\',sans-serif;font-size:15px;color:var(--ink-soft);">We\'ll be in touch at your email soon.</span></p>';
+      } else {
+        btn.textContent = 'Try again'; btn.disabled = false;
+        alert('Something went wrong — please try again or email us at neurolegames@gmail.com');
+      }
+    }catch(err){
+      btn.textContent = 'Try again'; btn.disabled = false;
+    }
   });
 </script>
 <!-- Subscribe modal -->

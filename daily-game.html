@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=117">
+<link rel="stylesheet" href="style.css?v=119">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -608,42 +608,79 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<div class="modal-backdrop" id="result-modal">
-  <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:4px;box-shadow:0 4px 32px rgba(0,0,0,.28);">
+<div class="modal-backdrop" id="result-modal" style="background:rgba(0,0,0,.88);">
+  <div style="background:#121212;color:#fff;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;border-radius:14px;padding:0;-webkit-overflow-scrolling:touch;">
 
-    <!-- NYT-style top: black, logo, headline -->
-    <div id="result-top-band" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:0 0 10px;">Neurole</p>
-      <h3 id="result-headline-text" style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.02em;"></h3>
-      <p id="result-stats-text" style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;font-weight:500;"></p>
-      <p id="next-case-countdown" style="font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.35);margin:8px 0 0;letter-spacing:.02em;"></p>
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.1);">
+      <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);">The Daily Case</span>
+      <button id="result-modal-close" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;padding:2px 6px;line-height:1;">✕</button>
     </div>
 
-    <!-- Body -->
-    <div style="padding:22px 28px 26px;background:#fff;">
-      <!-- Emoji grid -->
-      <div id="result-grid" style="font-size:20px;letter-spacing:3px;text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--rule);"></div>
+    <!-- Headline -->
+    <div style="text-align:center;padding:28px 24px 20px;">
+      <div style="width:52px;height:52px;border-radius:10px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:26px;" id="result-icon-wrap">🧠</div>
+      <h3 id="result-headline-text" style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.02em;"></h3>
+      <p id="result-stats-text" style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.6);margin:0;"></p>
+    </div>
 
-      <!-- Share -->
-      <button type="button" id="share-btn" style="width:100%;padding:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;background:#1a1a1a;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:10px;">Share your result</button>
-
-      <!-- Google sign-in -->
-      <div id="result-google-container" style="margin-bottom:14px;"></div>
-
-      <!-- Actions -->
-      <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <a href="neuroanatomy.html" style="flex:1;display:flex;align-items:center;justify-content:center;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:1.5px solid var(--rule);border-radius:4px;text-decoration:none;color:var(--ink);text-align:center;">Map the Brain</a>
-        <a href="archive.html" style="flex:1;display:flex;align-items:center;justify-content:center;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:1.5px solid var(--rule);border-radius:4px;text-decoration:none;color:var(--ink);text-align:center;">Archive</a>
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:20px;">
+      <div id="stat-played" style="text-align:center;padding:16px 6px;border-right:1px solid rgba(255,255,255,.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;"></div>
+        <div style="font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:5px;">Played</div>
       </div>
+      <div id="stat-win" style="text-align:center;padding:16px 6px;border-right:1px solid rgba(255,255,255,.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;"></div>
+        <div style="font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:5px;">Win %</div>
+      </div>
+      <div id="stat-streak" style="text-align:center;padding:16px 6px;border-right:1px solid rgba(255,255,255,.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;"></div>
+        <div style="font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:5px;">Streak</div>
+      </div>
+      <div id="stat-maxstreak" style="text-align:center;padding:16px 6px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;"></div>
+        <div style="font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:5px;">Best</div>
+      </div>
+    </div>
 
-      <button id="result-modal-close" style="display:block;width:100%;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;letter-spacing:.02em;">Close</button>
+    <!-- Guess distribution -->
+    <div style="padding:0 24px 20px;">
+      <p style="font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:0 0 12px;">Guess Distribution</p>
+      <div id="result-distribution"></div>
+    </div>
+
+    <!-- Countdown + Share -->
+    <div style="padding:0 24px 20px;border-top:1px solid rgba(255,255,255,.1);margin-top:4px;padding-top:18px;">
+      <p id="next-case-countdown" style="font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.4);text-align:center;margin:0 0 14px;letter-spacing:.06em;text-transform:uppercase;"></p>
+      <button type="button" id="share-btn" style="width:100%;padding:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#6aaa64;color:#fff;border:none;border-radius:30px;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;">
+        Share ↗
+      </button>
+      <div id="result-google-container" style="margin-bottom:12px;"></div>
+    </div>
+
+    <!-- Play today's games -->
+    <div style="border-top:1px solid rgba(255,255,255,.1);padding:16px 24px 24px;">
+      <p style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:0 0 12px;">Play Today's Games</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <a href="neuroanatomy.html" style="background:#1e1e1e;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 12px;text-decoration:none;display:block;">
+          <div style="font-size:20px;margin-bottom:6px;">🧠</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#fff;">Map the Brain</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;">Identify brain regions</div>
+        </a>
+        <a href="archive.html" style="background:#1e1e1e;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 12px;text-decoration:none;display:block;">
+          <div style="font-size:20px;margin-bottom:6px;">📋</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#fff;">Case Archive</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;">Browse past cases</div>
+        </a>
+      </div>
     </div>
 
   </div>
 </div>
 
-<script src="config.js?v=117"></script>
-<script src="script.js?v=117"></script>
+<script src="config.js?v=119"></script>
+<script src="script.js?v=119"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

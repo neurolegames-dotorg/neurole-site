@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<link rel="icon" type="image/png" href="/assets/favicon-32x32.png" sizes="32x32">
-<link rel="shortcut icon" href="/assets/favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <title>Case Archive — Neurole</title>
 <meta name="description" content="Browse every Daily Case ever published on Neurole. Revisit past neurological diagnoses and test your knowledge.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=122">
+<script src="theme-init.js?v=124"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=124">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .archive-grid{
@@ -74,7 +75,7 @@
 <body>
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="brand"><a href="index.html"><img src="assets/neurole-logo.png" alt="Neurole" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
     <nav class="nav-left">
       <a href="contact.html">Contact Us</a>
       <a href="volunteer.html">Join Us</a>
@@ -88,7 +89,7 @@
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" id="mobile-nav-close">✕</button>
-  <div class="mobile-nav-brand"><img src="assets/neurole-logo.png" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
     <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
     <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
@@ -160,7 +161,7 @@
 </div>
 
 <script src="config.js?v=122"></script>
-<script src="script.js?v=122"></script>
+<script src="script.js?v=124"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

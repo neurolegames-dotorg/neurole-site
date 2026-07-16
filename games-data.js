@@ -3,7 +3,7 @@
    Edit this array to add, remove, or update games shown on the homepage.
    - type: 'daily'  -> shown in the "Daily Game" section, one per date
    - type: 'normal' -> shown in the "All Games" grid, always visible
-   - thumbnail: a local path (e.g. "assets/thumbnails/daily-case.jpg")
+   - thumbnail: a local path (e.g. "/thumbnails/daily-case.jpg")
    - availableDate: required for daily games, format YYYY-MM-DD,
      matched against the player's local date.
 ===================================================================== */

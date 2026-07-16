@@ -360,15 +360,17 @@ function recordWin(todayKey){
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){
-  const footerBg = '#EDEEF1'; // same as --paper-deep, always matches footer
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
-    if(maxScroll <= 0) return;
-    const progress = Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
-    const r = Math.round(248 - progress * 19);
-    const g = Math.round(249 - progress * 29);
-    const b = Math.round(250 - progress * 5);
+    const progress = maxScroll <= 0 ? 0 : Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
+    const dark = document.documentElement.dataset.theme === 'dark';
+    const start = dark ? [17,18,23] : [248,249,250];
+    const end = dark ? [27,24,37] : [229,220,245];
+    const r = Math.round(start[0] + progress * (end[0] - start[0]));
+    const g = Math.round(start[1] + progress * (end[1] - start[1]));
+    const b = Math.round(start[2] + progress * (end[2] - start[2]));
+    const footerBg = dark ? '#1A1B21' : '#EDEEF1';
     document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
     // html element controls what shows in the iOS overscroll (bounce) zone.
     // At the bottom of the page match the footer; at top match body.
@@ -377,9 +379,7 @@ function initScrollPurple(){
     document.documentElement.style.backgroundColor = atBottom ? footerBg : `rgb(${r},${g},${b})`;
   }
   window.addEventListener('scroll', applyTint, {passive:true});
-  // Set both immediately to footer color on load so the default iOS overscroll
-  // is never white or purple — always the footer grey
-  document.documentElement.style.backgroundColor = footerBg;
+  document.addEventListener('neurole:themechange', applyTint);
   applyTint();
 }
 
@@ -415,25 +415,37 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFunFact();
 });
 
-/* ===================== Settings dropdown: dark background toggle (site-wide) ===================== */
+/* ===================== Settings dropdown and color theme ===================== */
 (function(){
-  function applyBw(on){
-    document.documentElement.classList.toggle('bw-mode', on);
+  const storageKey = 'neurole_theme';
+
+  function getTheme(){
+    const current = document.documentElement.dataset.theme;
+    if(current === 'light' || current === 'dark') return current;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-  let isOn = false;
-  try{ isOn = localStorage.getItem('neurole_bw_mode') === '1'; }catch(e){}
-  if(isOn) applyBw(true);
+
+  function applyTheme(theme, persist){
+    document.documentElement.dataset.theme = theme;
+    if(persist){
+      try{ localStorage.setItem(storageKey, theme); }catch(e){}
+    }
+    const dark = theme === 'dark';
+    document.querySelectorAll('.theme-switch').forEach(sw => {
+      sw.classList.toggle('on', dark);
+      sw.setAttribute('aria-checked', String(dark));
+    });
+    document.dispatchEvent(new CustomEvent('neurole:themechange', {detail:{theme}}));
+  }
 
   function makeSwitch(){
     const sw = document.createElement('button');
     sw.type = 'button';
-    sw.className = 'bw-switch' + (isOn ? ' on' : '');
+    sw.className = 'theme-switch';
+    sw.setAttribute('role', 'switch');
     sw.setAttribute('aria-label', 'Toggle dark background');
     sw.addEventListener('click', () => {
-      isOn = !isOn;
-      applyBw(isOn);
-      sw.classList.toggle('on', isOn);
-      try{ localStorage.setItem('neurole_bw_mode', isOn ? '1' : '0'); }catch(e){}
+      applyTheme(getTheme() === 'dark' ? 'light' : 'dark', true);
     });
     return sw;
   }
@@ -450,6 +462,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(getTheme(), false);
+
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const syncSystemTheme = event => {
+      try{ if(localStorage.getItem(storageKey)) return; }catch(e){}
+      applyTheme(event.matches ? 'dark' : 'light', false);
+    };
+    if(systemTheme.addEventListener) systemTheme.addEventListener('change', syncSystemTheme);
+    else systemTheme.addListener(syncSystemTheme);
+
     // Interactive nav link (with Beta badge) — desktop
     const desktopNavForInteractive = document.querySelector('.nav-left');
     if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
@@ -498,6 +520,8 @@ document.addEventListener('DOMContentLoaded', () => {
       li.appendChild(makeSettingsRow());
       mobileNav.insertBefore(li, mobileNav.lastElementChild);
     }
+
+    applyTheme(getTheme(), false);
   });
 })();
 

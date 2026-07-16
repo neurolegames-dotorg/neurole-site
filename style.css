@@ -1249,10 +1249,6 @@ main{ animation:questionIn .25s ease; }
 }
 :root[data-theme="dark"] .btn:not(.ghost):hover{background:#6F50A4 !important;}
 :root[data-theme="dark"] .btn.ghost{background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);}
-:root[data-theme="dark"] .mobile-nav-items .settings-label{
-  color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
-}
-
 html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
 .game-card,.home-game-card,.case-card,.archive-card,.role-card,.donate-card,
 .contact-card,.value-card,.modal,input,textarea,select{
@@ -1265,38 +1261,17 @@ html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
   .contact-card,.value-card,.modal,input,textarea,select{transition:none;}
 }
 
-/* Settings nav item + dropdown (always light, regardless of dark mode, so the label stays legible) */
-.settings-nav-wrap{ position:relative; display:inline-flex; align-items:center; }
-.settings-trigger{
-  background:none; border:none; cursor:pointer; padding:0; color:inherit;
-  font-family:var(--game-font,'Outfit',sans-serif); font-size:15px; line-height:1;
-  display:inline-flex; align-items:center; gap:4px;
+/* Compact, icon-only theme toggle */
+.theme-toggle-btn{
+  width:30px;height:30px;padding:0;border:1px solid var(--rule);border-radius:50%;
+  background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);
+  display:inline-grid;place-items:center;cursor:pointer;font-family:Arial,sans-serif;
+  font-size:17px;line-height:1;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
 }
-.settings-dropdown{
-  display:none; position:absolute; top:calc(100% + 14px); right:0; z-index:1000;
-  background:#fff !important; border:1px solid rgba(0,0,0,.1); border-radius:12px;
-  box-shadow:0 12px 32px rgba(0,0,0,.18); padding:14px 16px; min-width:210px;
-}
-.settings-dropdown.open{ display:block; }
-.settings-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; }
-.settings-row .settings-label{
-  font-family:var(--game-font,'Outfit',sans-serif); font-size:13.5px; font-weight:600;
-  color:#111 !important; -webkit-text-fill-color:#111 !important; white-space:nowrap;
-}
-.theme-switch{
-  position:relative; width:40px; height:22px; border-radius:20px; background:#ccc;
-  flex-shrink:0; cursor:pointer; transition:background .2s ease; border:none;
-}
-.theme-switch::after{
-  content:''; position:absolute; top:2px; left:2px; width:18px; height:18px;
-  border-radius:50%; background:#fff; transition:transform .2s ease; box-shadow:0 1px 3px rgba(0,0,0,.3);
-}
-.theme-switch.on{ background:#8062B8; }
-.theme-switch.on::after{ transform:translateX(18px); }
-.theme-switch:focus-visible{outline:2px solid var(--neuro-blue-deep);outline-offset:3px;}
-
-.mobile-nav-items .settings-row{ padding:10px 4px; }
-.mobile-nav-items .settings-label{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
+.theme-toggle-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue-deep);transform:translateY(-1px);}
+.theme-toggle-btn:focus-visible{outline:2px solid var(--neuro-blue-deep);outline-offset:3px;}
+.theme-toggle-mobile-item{display:flex;justify-content:flex-end;padding:14px 28px;border-bottom:1px solid var(--rule);}
+.theme-toggle-mobile-item .theme-toggle-btn{width:34px;height:34px;font-size:19px;}
 
 
 /* ===================== Partnerships section ===================== */

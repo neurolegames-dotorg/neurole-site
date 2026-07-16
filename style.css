@@ -1241,26 +1241,69 @@ main{ animation:questionIn .25s ease; }
   .score-pill, .score-tag{ background:#1E1F26 !important; }
 }
 
-/* ===================== Black & White mode toggle ===================== */
+/* ===================== Settings dropdown + dark background mode ===================== */
+/* Darkens page backgrounds only — images, icons, and photos stay full color. */
 html.bw-mode{
-  filter: grayscale(100%) !important;
+  --paper:#111217;
+  --paper-deep:#1A1B21;
+  --ink:#F0EFF4;
+  --ink-soft:#9A9AA8;
+  --rule:rgba(255,255,255,.1);
 }
-.bw-toggle-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--game-font,'Outfit',sans-serif);font-size:12px;font-weight:600;
-  background:none;border:1.5px solid rgba(0,0,0,.18);border-radius:20px;
-  padding:6px 12px;cursor:pointer;color:inherit;line-height:1;
-  transition:background .15s ease;
+html.bw-mode .masthead{ background:#111217 !important; border-bottom:1px solid rgba(255,255,255,.08) !important; }
+html.bw-mode .brand-wordmark, html.bw-mode .nav-left a{ color:#F0EFF4 !important; }
+html.bw-mode .game-card, html.bw-mode .case-card, html.bw-mode .role-card,
+html.bw-mode .donate-card, html.bw-mode .modal, html.bw-mode .learn-panel-inline{
+  background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; color:#F0EFF4 !important;
 }
-.bw-toggle-btn:hover{ background:rgba(0,0,0,.05); }
-.bw-toggle-btn .bw-dot{
-  width:12px;height:12px;border-radius:50%;
-  background:linear-gradient(90deg,#111 50%,#fff 50%);
-  border:1.5px solid rgba(0,0,0,.25);flex-shrink:0;
+html.bw-mode .choice-btn{ background:#1E1F26 !important; border-color:rgba(255,255,255,.12) !important; color:#F0EFF4 !important; }
+html.bw-mode input, html.bw-mode textarea, html.bw-mode select{
+  background:#1A1B21 !important; border-color:rgba(255,255,255,.15) !important; color:#F0EFF4 !important;
 }
-.mobile-nav-items .bw-toggle-btn{
-  width:100%;justify-content:center;border-color:rgba(255,255,255,.25);color:#fff;
+html.bw-mode .start-screen{ background:#111217 !important; }
+html.bw-mode .specimen{ background:#1E1F26 !important; }
+html.bw-mode .modal-backdrop{ background:rgba(0,0,0,.75) !important; }
+html.bw-mode footer{ background:#111217 !important; border-top:1px solid rgba(255,255,255,.08) !important; }
+html.bw-mode .mobile-nav-overlay{ background:#111217 !important; }
+html.bw-mode #result-modal > div, html.bw-mode #neuro-result-modal > div{ background:#1A1B21 !important; }
+html.bw-mode .archive-card{ background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; }
+html.bw-mode body{ background:#111217 !important; }
+html.bw-mode .symptom-log li{ background:#1E1F26 !important; border-color:rgba(255,255,255,.1) !important; }
+html.bw-mode .guess-row input{ background:#1E1F26 !important; color:#F0EFF4 !important; }
+html.bw-mode .score-pill, html.bw-mode .score-tag{ background:#1E1F26 !important; }
+
+/* Settings nav item + dropdown (always light, regardless of dark mode, so the label stays legible) */
+.settings-nav-wrap{ position:relative; display:inline-flex; align-items:center; }
+.settings-trigger{
+  background:none; border:none; cursor:pointer; padding:0; color:inherit;
+  font-family:var(--game-font,'Outfit',sans-serif); font-size:15px; line-height:1;
+  display:inline-flex; align-items:center; gap:4px;
 }
+.settings-dropdown{
+  display:none; position:absolute; top:calc(100% + 14px); right:0; z-index:1000;
+  background:#fff !important; border:1px solid rgba(0,0,0,.1); border-radius:12px;
+  box-shadow:0 12px 32px rgba(0,0,0,.18); padding:14px 16px; min-width:210px;
+}
+.settings-dropdown.open{ display:block; }
+.settings-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.settings-row .settings-label{
+  font-family:var(--game-font,'Outfit',sans-serif); font-size:13.5px; font-weight:600;
+  color:#111 !important; -webkit-text-fill-color:#111 !important; white-space:nowrap;
+}
+.bw-switch{
+  position:relative; width:40px; height:22px; border-radius:20px; background:#ccc;
+  flex-shrink:0; cursor:pointer; transition:background .2s ease; border:none;
+}
+.bw-switch::after{
+  content:''; position:absolute; top:2px; left:2px; width:18px; height:18px;
+  border-radius:50%; background:#fff; transition:transform .2s ease; box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.bw-switch.on{ background:var(--neuro-blue-deep,#5C4480); }
+.bw-switch.on::after{ transform:translateX(18px); }
+
+.mobile-nav-items .settings-row{ padding:10px 4px; }
+.mobile-nav-items .settings-label{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
+
 
 /* ===================== Partnerships section ===================== */
 .partner-grid{

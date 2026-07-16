@@ -415,37 +415,87 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFunFact();
 });
 
-/* ===================== Black & White mode toggle (site-wide) ===================== */
+/* ===================== Settings dropdown: dark background toggle (site-wide) ===================== */
 (function(){
   function applyBw(on){
     document.documentElement.classList.toggle('bw-mode', on);
   }
-  try{
-    if(localStorage.getItem('neurole_bw_mode') === '1') applyBw(true);
-  }catch(e){}
+  let isOn = false;
+  try{ isOn = localStorage.getItem('neurole_bw_mode') === '1'; }catch(e){}
+  if(isOn) applyBw(true);
 
-  function makeToggleBtn(){
-    const btn = document.createElement('button');
-    btn.className = 'bw-toggle-btn';
-    btn.type = 'button';
-    btn.innerHTML = '<span class="bw-dot"></span><span class="bw-label">B&W</span>';
-    btn.addEventListener('click', () => {
-      const isOn = !document.documentElement.classList.contains('bw-mode');
+  function makeSwitch(){
+    const sw = document.createElement('button');
+    sw.type = 'button';
+    sw.className = 'bw-switch' + (isOn ? ' on' : '');
+    sw.setAttribute('aria-label', 'Toggle dark background');
+    sw.addEventListener('click', () => {
+      isOn = !isOn;
       applyBw(isOn);
+      sw.classList.toggle('on', isOn);
       try{ localStorage.setItem('neurole_bw_mode', isOn ? '1' : '0'); }catch(e){}
     });
-    return btn;
+    return sw;
+  }
+
+  function makeSettingsRow(){
+    const row = document.createElement('div');
+    row.className = 'settings-row';
+    const label = document.createElement('span');
+    label.className = 'settings-label';
+    label.textContent = 'Dark background';
+    row.appendChild(label);
+    row.appendChild(makeSwitch());
+    return row;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const desktopNav = document.querySelector('.nav-left');
-    if(desktopNav) desktopNav.insertBefore(makeToggleBtn(), desktopNav.lastElementChild);
+    // Interactive nav link (with Beta badge) — desktop
+    const desktopNavForInteractive = document.querySelector('.nav-left');
+    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
+      const a = document.createElement('a');
+      a.href = 'interactive.html';
+      a.innerHTML = 'Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span>';
+      desktopNavForInteractive.insertBefore(a, desktopNavForInteractive.lastElementChild);
+    }
+    // Interactive nav link — mobile
+    const mobileNavForInteractive = document.querySelector('.mobile-nav-items');
+    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="interactive.html"]')){
+      const li = document.createElement('li');
+      li.innerHTML = '<a href="interactive.html">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
+      mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
+    }
 
+    // Desktop nav: "Settings" trigger + dropdown, inserted before Sign In
+    const desktopNav = document.querySelector('.nav-left');
+    if(desktopNav){
+      const wrap = document.createElement('div');
+      wrap.className = 'settings-nav-wrap';
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'settings-trigger';
+      trigger.textContent = 'Settings';
+      const dropdown = document.createElement('div');
+      dropdown.className = 'settings-dropdown';
+      dropdown.appendChild(makeSettingsRow());
+      wrap.appendChild(trigger);
+      wrap.appendChild(dropdown);
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if(!wrap.contains(e.target)) dropdown.classList.remove('open');
+      });
+      desktopNav.insertBefore(wrap, desktopNav.lastElementChild);
+    }
+
+    // Mobile nav: settings row inline in the menu list
     const mobileNav = document.querySelector('.mobile-nav-items');
     if(mobileNav){
       const li = document.createElement('li');
       li.style.marginTop = '6px';
-      li.appendChild(makeToggleBtn());
+      li.appendChild(makeSettingsRow());
       mobileNav.insertBefore(li, mobileNav.lastElementChild);
     }
   });

@@ -604,10 +604,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </head>
 <body>
 <script>
-// Hide start screen instantly if we're restoring a session — prevents flicker
-if(location.hash==='#playing'){
-  document.documentElement.style.setProperty('--start-display','none');
-}
+// This page IS the game — always hide the setup screen instantly, no flicker.
+document.documentElement.style.setProperty('--start-display','none');
 </script>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
@@ -1108,22 +1106,12 @@ async function startRound(countOption){
 }
 
 document.querySelectorAll('.round-choice').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const params = new URLSearchParams({
-      category: selectedCategory,
-      difficulty: selectedDifficulty,
-      count: btn.dataset.count
-    });
-    window.location.href = 'neuroanatomy-play.html?' + params.toString();
-  });
+  btn.addEventListener('click', () => startRound(btn.dataset.count));
 });
 
 document.getElementById('new-round-btn').addEventListener('click', () => {
-  document.getElementById('neuro-result-modal').classList.remove('open');
-  document.getElementById('game-play').style.display = 'none';
-  document.getElementById('round-setup').style.display = 'flex';
-  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
-  history.replaceState(null,'',location.pathname);
+  // Same round type, fresh questions
+  location.reload();
 });
 
 function shuffle(arr){
@@ -1288,17 +1276,11 @@ document.getElementById('next-btn').addEventListener('click', () => {
 });
 
 document.getElementById('neuro-result-close').addEventListener('click', () => {
-  document.getElementById('neuro-result-modal').classList.remove('open');
-  document.getElementById('round-setup').style.display = 'flex';
-  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
-  history.replaceState(null,'',location.pathname);
+  window.location.href = 'neuroanatomy.html';
 });
 document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
   if(e.target.id === 'neuro-result-modal'){
-    e.currentTarget.classList.remove('open');
-    document.getElementById('round-setup').style.display = 'flex';
-  try{sessionStorage.removeItem('neurole_game_session');}catch(e){}
-  history.replaceState(null,'',location.pathname);
+    window.location.href = 'neuroanatomy.html';
   }
 });
 
@@ -1446,9 +1428,12 @@ setupAccordion('learn-toggle', 'learn-tab-body', () => {
 setupAccordion('neuropsych-toggle', 'neuropsych-tab-body', null);
 
 document.getElementById('start-neuropsych-btn').addEventListener('click', () => {
-  window.location.href = 'neuroanatomy-play.html?' + new URLSearchParams({
-    category: 'Neuropsychology', difficulty: 'all', count: '10'
-  }).toString();
+  selectedCategory = 'Neuropsychology';
+  selectedDifficulty = 'all';
+  document.querySelectorAll('.category-btn[data-difficulty]').forEach(b => b.classList.toggle('active', b.dataset.difficulty === 'all'));
+  document.querySelectorAll('.category-btn[data-category]').forEach(b => b.classList.toggle('active', b.dataset.category === 'Neuropsychology'));
+  updateAllButtonCount();
+  startRound('10');
 });
 
 // Beginner mode is now identical to normal mode — same AI fab
@@ -1457,28 +1442,35 @@ function activateSplitScreen(on){
 }
 
 document.getElementById('start-beginner-btn').addEventListener('click', () => {
-  window.location.href = 'neuroanatomy-play.html?' + new URLSearchParams({
-    category: 'Cortex', difficulty: 'Easy', count: '10'
-  }).toString();
+  // Set Easy difficulty + Cortex category
+  selectedDifficulty = 'Easy';
+  selectedCategory = 'Cortex';
+  document.querySelectorAll('.category-btn[data-difficulty]').forEach(b => {
+    b.classList.toggle('active', b.dataset.difficulty === 'Easy');
+  });
+  document.querySelectorAll('.category-btn[data-category]').forEach(b => {
+    b.classList.toggle('active', b.dataset.category === 'Cortex');
+  });
+  updateAllButtonCount();
+  activateSplitScreen(true);
+  startRound('10');
 });
 
-// ── Restore game session if page was refreshed mid-game ──
-(async function restoreSession(){
-  if(location.hash !== '#playing') return;
-  let saved = null;
-  try{ saved = JSON.parse(sessionStorage.getItem('neurole_game_session')); }catch(e){}
-  if(!saved) return;
-  // Wait for bank
-  let tries = 0;
-  while(!bankReady && tries++ < 40) await new Promise(r=>setTimeout(r,250));
-  if(!bankReady) return;
-  selectedDifficulty = saved.difficulty || 'all';
-  selectedCategory  = saved.category  || 'Random';
+// This page IS the game — read the round config straight from the URL so a
+// refresh always lands back in the same round type (no hash/session tricks needed).
+(async function initFromQuery(){
+  document.getElementById('round-setup').style.display = 'none';
+  const params = new URLSearchParams(location.search);
+  selectedCategory = params.get('category') || 'Random';
+  selectedDifficulty = params.get('difficulty') || 'all';
+  const count = params.get('count') || '10';
   document.querySelectorAll('.category-btn[data-difficulty]').forEach(b=>
     b.classList.toggle('active', b.dataset.difficulty===selectedDifficulty));
   document.querySelectorAll('.category-btn[data-category]').forEach(b=>
     b.classList.toggle('active', b.dataset.category===selectedCategory));
-  startRound(saved.count || '10');
+  let tries = 0;
+  while(!bankReady && tries++ < 40) await new Promise(r=>setTimeout(r,250));
+  startRound(count);
 })();
 
 </script>

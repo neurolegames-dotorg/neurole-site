@@ -24,8 +24,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
-<title>Neurole — Free Daily Neuroscience Games | Brain Quiz & Neurology Cases</title>
-<meta name="description" content="Neurole is a free daily neuroscience game. Play The Daily Case — guess neurological diagnoses like Wordle — or test your neuroanatomy with Map the Brain. Free brain quiz for students, pre-med, and curious minds.">
+<title>Neurole — Free Daily Neuroscience Games</title>
+<meta name="description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
 <meta name="keywords" content="neuroscience games, neuroanatomy quiz, neurology game, brain quiz, free neuroscience quiz, neuroscience Wordle, medical student games, neuroanatomy practice, brain region quiz, neurology diagnosis game">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Neurole">
@@ -33,19 +33,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neurole.org/">
 <meta property="og:title" content="Neurole — Free Daily Neuroscience Games">
-<meta property="og:description" content="Guess neurological diagnoses, identify brain regions, and learn with AI. Free daily neuroscience games for students and curious minds.">
+<meta property="og:description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
 <meta property="og:image" content="https://neurole.org/assets/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Neurole — Free Daily Neuroscience Games">
-<meta name="twitter:description" content="Guess neurological diagnoses, identify brain regions, and learn with AI. Free daily neuroscience games.">
+<meta name="twitter:description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
 <meta name="twitter:image" content="https://neurole.org/assets/neurole-logo.png">
 <link rel="canonical" href="https://neurole.org/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=119">
+<link rel="stylesheet" href="style.css?v=122">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script type="application/ld+json">
@@ -269,7 +269,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hero-fade"></div>
     <div class="hero-text">
       <h1>Neurole</h1>
-      <p>Games for your brain</p>
+      <p>Games about your brain</p>
     </div>
   </div>
 </section>
@@ -393,6 +393,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
+  <!-- Interactive section -->
+  <div class="wrap">
+    <span class="section-eyebrow">Interactive<span class="beta-pill">Beta</span></span>
+    <h2 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;font-size:26px;letter-spacing:-.01em;margin:0 0 8px;">Watch Alzheimer's progress</h2>
+    <p style="color:var(--ink-soft);font-size:14.5px;max-width:560px;margin:0;">Scroll through this early beta of our interactive teaching tools to see how the disease changes the brain over time.</p>
+  </div>
+
+  <div class="alz-scroller" id="alz-scroller">
+    <div class="alz-sticky" id="alz-sticky" data-stage="0">
+      <div class="alz-visual">
+        <svg class="alz-brain" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+          <path class="alz-brain-shape" d="M100 18c-28 0-46 16-52 34-14 3-24 16-22 32 1 10 8 18 17 22-4 9-3 20 5 28 8 8 19 9 28 5 6 9 16 15 24 15s18-6 24-15c9 4 20 3 28-5 8-8 9-19 5-28 9-4 16-12 17-22 2-16-8-29-22-32-6-18-24-34-52-34z"/>
+          <path d="M100 18c0 40 0 84 0 124" stroke="rgba(0,0,0,.15)" stroke-width="2" fill="none"/>
+          <circle class="alz-plaque p1" cx="72" cy="58" r="4"/>
+          <circle class="alz-plaque p1" cx="128" cy="64" r="3.5"/>
+          <circle class="alz-plaque p1" cx="60" cy="90" r="3"/>
+          <circle class="alz-plaque p2" cx="140" cy="92" r="4"/>
+          <circle class="alz-plaque p2" cx="90" cy="40" r="3"/>
+          <circle class="alz-plaque p2" cx="110" cy="110" r="3.5"/>
+          <circle class="alz-plaque p2" cx="50" cy="70" r="2.5"/>
+          <circle class="alz-plaque p3" cx="150" cy="70" r="3"/>
+          <circle class="alz-plaque p3" cx="80" cy="120" r="3"/>
+          <circle class="alz-plaque p3" cx="120" cy="50" r="2.5"/>
+          <circle class="alz-plaque p3" cx="65" cy="105" r="2.5"/>
+          <circle class="alz-plaque p3" cx="135" cy="115" r="3"/>
+        </svg>
+      </div>
+      <div class="alz-caption">
+        <div class="alz-stage-label" id="alz-stage-label">Stage 1 of 4</div>
+        <h3 id="alz-stage-title">A healthy brain</h3>
+        <p id="alz-stage-text">Billions of neurons connect in dense networks, supporting sharp memory, language, and thought.</p>
+      </div>
+      <div class="alz-dots">
+        <span class="alz-dot active" data-i="0"></span>
+        <span class="alz-dot" data-i="1"></span>
+        <span class="alz-dot" data-i="2"></span>
+        <span class="alz-dot" data-i="3"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partnerships -->
+  <div class="wrap">
+    <span class="section-eyebrow">Partnerships</span>
+    <h2 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;font-size:26px;letter-spacing:-.01em;margin:0 0 8px;">Working with organizations who share our mission</h2>
+    <p style="color:var(--ink-soft);font-size:14.5px;max-width:560px;margin:0 0 6px;">Neurole partners with universities, student groups, and neuroscience organizations to expand free access to brain science education.</p>
+    <div class="partner-grid">
+      <div class="partner-card">Your Org Here</div>
+      <div class="partner-card">Your Org Here</div>
+      <div class="partner-card">Your Org Here</div>
+      <div class="partner-card">Your Org Here</div>
+    </div>
+    <a class="btn ghost" href="contact.html" style="margin-top:18px;display:inline-flex;">Become a Partner →</a>
+  </div>
+
 </main>
 
 <footer id="footer-contact">
@@ -439,9 +494,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=119"></script>
-<script src="games-data.js?v=119"></script>
-<script src="script.js?v=119"></script>
+<script src="config.js?v=122"></script>
+<script src="games-data.js?v=122"></script>
+<script src="script.js?v=122"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

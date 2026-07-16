@@ -433,6 +433,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+<script>
+// This page IS the game — always show it instantly, no popup ever.
+document.documentElement.style.setProperty('--start-display','none');
+document.documentElement.style.setProperty('--game-content-display','block');
+</script>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -1357,13 +1362,14 @@ document.getElementById('share-btn').addEventListener('click', async () => {
   }catch(err){}
 });
 
+// start-play-btn is unreachable on this page (start screen is never shown here),
+// left as a no-op safety fallback in case it's ever revealed.
 document.getElementById('start-play-btn').addEventListener('click', () => {
-  window.location.href = 'daily-game-play.html';
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('game-content').style.display = 'block';
 });
 
-// Lightweight landing check — no sheet fetch needed here, just today's local completion status.
-state.alreadyCompletedToday = !!getSavedDailyCompletion();
-updateStartScreen();
+loadCase();
 
 /* ---------- AI chat modal ---------- */
 document.getElementById('case-chat-fab').addEventListener('click', () => {

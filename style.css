@@ -1167,3 +1167,150 @@ main{ animation:questionIn .25s ease; }
   border-radius:2px !important;
   padding:3px 9px !important;
 }
+
+/* =====================================================
+   DARK MODE — follows device preference
+   ===================================================== */
+@media(prefers-color-scheme:dark){
+  :root{
+    --paper:#111217;
+    --paper-deep:#1A1B21;
+    --ink:#F0EFF4;
+    --ink-soft:#9A9AA8;
+    --rule:rgba(255,255,255,.1);
+    --neuro-blue:#B4A0D8;
+    --neuro-blue-deep:#9B82C8;
+    --neuro-blue-bright:#C8BAEC;
+  }
+
+  /* Masthead */
+  .masthead{ background:#111217 !important; border-bottom:1px solid rgba(255,255,255,.08) !important; }
+  .brand-wordmark, .nav-left a{ color:#F0EFF4 !important; }
+
+  /* Cards */
+  .game-card, .case-card, .role-card, .donate-card, .modal, .learn-panel-inline{
+    background:#1A1B21 !important;
+    border-color:rgba(255,255,255,.1) !important;
+    color:#F0EFF4 !important;
+  }
+
+  /* Choice buttons */
+  .choice-btn{ background:#1E1F26 !important; border-color:rgba(255,255,255,.12) !important; color:#F0EFF4 !important; }
+  .choice-btn.correct{ background:rgba(92,181,124,.15) !important; }
+  .choice-btn.wrong{ background:rgba(196,97,74,.15) !important; }
+
+  /* Inputs */
+  input, textarea, select{
+    background:#1A1B21 !important;
+    border-color:rgba(255,255,255,.15) !important;
+    color:#F0EFF4 !important;
+  }
+
+  /* Start screens */
+  .start-screen{ background:#111217 !important; }
+
+  /* Specimen image background */
+  .specimen{ background:#1E1F26 !important; }
+
+  /* Modals */
+  .modal-backdrop{ background:rgba(0,0,0,.75) !important; }
+  .modal{ background:#1A1B21 !important; color:#F0EFF4 !important; }
+
+  /* Footer */
+  footer{ background:#111217 !important; border-top:1px solid rgba(255,255,255,.08) !important; }
+
+  /* Mobile nav */
+  .mobile-nav-overlay{ background:#111217 !important; }
+
+  /* Result modal cards */
+  #result-modal > div, #neuro-result-modal > div{ background:#1A1B21 !important; }
+
+  /* Archive cards */
+  .archive-card{ background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; }
+
+  /* Page background */
+  body{ background:#111217 !important; }
+
+  /* Symptom log items */
+  .symptom-log li{ background:#1E1F26 !important; border-color:rgba(255,255,255,.1) !important; }
+
+  /* Guess input */
+  .guess-row input{ background:#1E1F26 !important; color:#F0EFF4 !important; }
+
+  /* Score pills */
+  .score-pill, .score-tag{ background:#1E1F26 !important; }
+}
+
+/* ===================== Black & White mode toggle ===================== */
+html.bw-mode{
+  filter: grayscale(100%) !important;
+}
+.bw-toggle-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--game-font,'Outfit',sans-serif);font-size:12px;font-weight:600;
+  background:none;border:1.5px solid rgba(0,0,0,.18);border-radius:20px;
+  padding:6px 12px;cursor:pointer;color:inherit;line-height:1;
+  transition:background .15s ease;
+}
+.bw-toggle-btn:hover{ background:rgba(0,0,0,.05); }
+.bw-toggle-btn .bw-dot{
+  width:12px;height:12px;border-radius:50%;
+  background:linear-gradient(90deg,#111 50%,#fff 50%);
+  border:1.5px solid rgba(0,0,0,.25);flex-shrink:0;
+}
+.mobile-nav-items .bw-toggle-btn{
+  width:100%;justify-content:center;border-color:rgba(255,255,255,.25);color:#fff;
+}
+
+/* ===================== Partnerships section ===================== */
+.partner-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:18px;
+}
+.partner-card{
+  border:1.5px dashed rgba(0,0,0,.18);border-radius:12px;
+  padding:22px 12px;text-align:center;
+  font-family:var(--game-font,'Outfit',sans-serif);font-size:12.5px;font-weight:600;
+  color:var(--ink-soft);letter-spacing:.01em;
+  display:flex;align-items:center;justify-content:center;min-height:64px;
+}
+
+/* ===================== Interactive: Alzheimer's scroll section ===================== */
+.alz-scroller{ position:relative; height:380vh; margin-top:18px; }
+.alz-sticky{
+  position:sticky; top:0; height:100vh; min-height:480px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  overflow:hidden; text-align:center; padding:20px;
+}
+.alz-visual{ width:220px; height:180px; margin-bottom:6px; }
+.alz-brain{ width:100%; height:100%; transition:transform .6s ease; }
+.alz-brain-shape{ fill:#8B6BB8; transition:fill .6s ease; }
+.alz-plaque{ fill:#3A2E4D; opacity:0; transition:opacity .6s ease; }
+
+.alz-sticky[data-stage="0"] .alz-brain-shape{ fill:#8B6BB8; }
+.alz-sticky[data-stage="0"] .alz-brain{ transform:scale(1); }
+
+.alz-sticky[data-stage="1"] .alz-brain-shape{ fill:#A18BC4; }
+.alz-sticky[data-stage="1"] .alz-brain{ transform:scale(.96); }
+.alz-sticky[data-stage="1"] .alz-plaque.p1{ opacity:.55; }
+
+.alz-sticky[data-stage="2"] .alz-brain-shape{ fill:#BBAFCB; }
+.alz-sticky[data-stage="2"] .alz-brain{ transform:scale(.9); }
+.alz-sticky[data-stage="2"] .alz-plaque.p1,
+.alz-sticky[data-stage="2"] .alz-plaque.p2{ opacity:.65; }
+
+.alz-sticky[data-stage="3"] .alz-brain-shape{ fill:#D8D2DE; }
+.alz-sticky[data-stage="3"] .alz-brain{ transform:scale(.8); }
+.alz-sticky[data-stage="3"] .alz-plaque{ opacity:.75; }
+
+.alz-caption{ max-width:360px; margin-top:14px; }
+.alz-stage-label{ font-family:var(--game-font,'Outfit',sans-serif); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--neuro-blue-deep); margin-bottom:6px; }
+.alz-caption h3{ font-family:'Cormorant Garamond','Playfair Display',serif; font-size:22px; margin:0 0 6px; }
+.alz-caption p{ font-family:var(--game-font,'Outfit',sans-serif); font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.6; }
+.alz-dots{ display:flex; gap:8px; margin-top:20px; }
+.alz-dot{ width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,.15); transition:background .3s ease; }
+.alz-dot.active{ background:var(--neuro-blue-deep); }
+.beta-pill{
+  display:inline-block; font-family:var(--game-font,'Outfit',sans-serif); font-size:9.5px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:#B84A0A; background:#FCEBDD;
+  border-radius:20px; padding:3px 9px; margin-left:8px; vertical-align:middle;
+}

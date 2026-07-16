@@ -414,3 +414,93 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSignInTriggers();
   loadFunFact();
 });
+
+/* ===================== Black & White mode toggle (site-wide) ===================== */
+(function(){
+  function applyBw(on){
+    document.documentElement.classList.toggle('bw-mode', on);
+  }
+  try{
+    if(localStorage.getItem('neurole_bw_mode') === '1') applyBw(true);
+  }catch(e){}
+
+  function makeToggleBtn(){
+    const btn = document.createElement('button');
+    btn.className = 'bw-toggle-btn';
+    btn.type = 'button';
+    btn.innerHTML = '<span class="bw-dot"></span><span class="bw-label">B&W</span>';
+    btn.addEventListener('click', () => {
+      const isOn = !document.documentElement.classList.contains('bw-mode');
+      applyBw(isOn);
+      try{ localStorage.setItem('neurole_bw_mode', isOn ? '1' : '0'); }catch(e){}
+    });
+    return btn;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const desktopNav = document.querySelector('.nav-left');
+    if(desktopNav) desktopNav.insertBefore(makeToggleBtn(), desktopNav.lastElementChild);
+
+    const mobileNav = document.querySelector('.mobile-nav-items');
+    if(mobileNav){
+      const li = document.createElement('li');
+      li.style.marginTop = '6px';
+      li.appendChild(makeToggleBtn());
+      mobileNav.insertBefore(li, mobileNav.lastElementChild);
+    }
+  });
+})();
+
+/* ===================== Interactive: Alzheimer's scroll section (beta) ===================== */
+(function(){
+  const stages = [
+    { title:'A healthy brain', text:'Billions of neurons connect in dense networks, supporting sharp memory, language, and thought.' },
+    { title:'Early / mild stage', text:'Small protein plaques begin forming. Mild memory lapses appear — misplacing items, forgetting recent conversations.' },
+    { title:'Moderate stage', text:'Plaques and tangles spread. Confusion grows, memory loss becomes more noticeable, and daily tasks get harder.' },
+    { title:'Severe stage', text:'Widespread tissue loss (atrophy) shrinks the brain. Memory, communication, and independence are significantly affected.' }
+  ];
+
+  function initAlz(){
+    const scroller = document.getElementById('alz-scroller');
+    const sticky = document.getElementById('alz-sticky');
+    if(!scroller || !sticky) return;
+
+    const labelEl = document.getElementById('alz-stage-label');
+    const titleEl = document.getElementById('alz-stage-title');
+    const textEl = document.getElementById('alz-stage-text');
+    const dots = Array.from(document.querySelectorAll('.alz-dot'));
+
+    let currentStage = -1;
+    function setStage(i){
+      if(i === currentStage) return;
+      currentStage = i;
+      sticky.setAttribute('data-stage', i);
+      labelEl.textContent = `Stage ${i+1} of ${stages.length}`;
+      titleEl.textContent = stages[i].title;
+      textEl.textContent = stages[i].text;
+      dots.forEach((d, di) => d.classList.toggle('active', di === i));
+    }
+
+    let ticking = false;
+    function update(){
+      ticking = false;
+      const rect = scroller.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      if(total <= 0){ setStage(0); return; }
+      let progress = (-rect.top) / total;
+      progress = Math.min(1, Math.max(0, progress));
+      const idx = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+      setStage(idx);
+    }
+    function onScroll(){
+      if(!ticking){ requestAnimationFrame(update); ticking = true; }
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+    setStage(0);
+    update();
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAlz);
+  else initAlz();
+})();

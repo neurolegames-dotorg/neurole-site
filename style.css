@@ -1168,109 +1168,102 @@ main{ animation:questionIn .25s ease; }
   padding:3px 9px !important;
 }
 
-/* =====================================================
-   DARK MODE — follows device preference
-   ===================================================== */
-@media(prefers-color-scheme:dark){
-  :root{
-    --paper:#111217;
-    --paper-deep:#1A1B21;
-    --ink:#F0EFF4;
-    --ink-soft:#9A9AA8;
-    --rule:rgba(255,255,255,.1);
-    --neuro-blue:#B4A0D8;
-    --neuro-blue-deep:#9B82C8;
-    --neuro-blue-bright:#C8BAEC;
-  }
-
-  /* Masthead */
-  .masthead{ background:#111217 !important; border-bottom:1px solid rgba(255,255,255,.08) !important; }
-  .brand-wordmark, .nav-left a{ color:#F0EFF4 !important; }
-
-  /* Cards */
-  .game-card, .case-card, .role-card, .donate-card, .modal, .learn-panel-inline{
-    background:#1A1B21 !important;
-    border-color:rgba(255,255,255,.1) !important;
-    color:#F0EFF4 !important;
-  }
-
-  /* Choice buttons */
-  .choice-btn{ background:#1E1F26 !important; border-color:rgba(255,255,255,.12) !important; color:#F0EFF4 !important; }
-  .choice-btn.correct{ background:rgba(92,181,124,.15) !important; }
-  .choice-btn.wrong{ background:rgba(196,97,74,.15) !important; }
-
-  /* Inputs */
-  input, textarea, select{
-    background:#1A1B21 !important;
-    border-color:rgba(255,255,255,.15) !important;
-    color:#F0EFF4 !important;
-  }
-
-  /* Start screens */
-  .start-screen{ background:#111217 !important; }
-
-  /* Specimen image background */
-  .specimen{ background:#1E1F26 !important; }
-
-  /* Modals */
-  .modal-backdrop{ background:rgba(0,0,0,.75) !important; }
-  .modal{ background:#1A1B21 !important; color:#F0EFF4 !important; }
-
-  /* Footer */
-  footer{ background:#111217 !important; border-top:1px solid rgba(255,255,255,.08) !important; }
-
-  /* Mobile nav */
-  .mobile-nav-overlay{ background:#111217 !important; }
-
-  /* Result modal cards */
-  #result-modal > div, #neuro-result-modal > div{ background:#1A1B21 !important; }
-
-  /* Archive cards */
-  .archive-card{ background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; }
-
-  /* Page background */
-  body{ background:#111217 !important; }
-
-  /* Symptom log items */
-  .symptom-log li{ background:#1E1F26 !important; border-color:rgba(255,255,255,.1) !important; }
-
-  /* Guess input */
-  .guess-row input{ background:#1E1F26 !important; color:#F0EFF4 !important; }
-
-  /* Score pills */
-  .score-pill, .score-tag{ background:#1E1F26 !important; }
-}
-
-/* ===================== Settings dropdown + dark background mode ===================== */
-/* Darkens page backgrounds only — images, icons, and photos stay full color. */
-html.bw-mode{
+/* ===================== Unified color theme ===================== */
+:root[data-theme="dark"]{
+  color-scheme:dark;
   --paper:#111217;
   --paper-deep:#1A1B21;
-  --ink:#F0EFF4;
-  --ink-soft:#9A9AA8;
-  --rule:rgba(255,255,255,.1);
+  --ink:#F2F0F6;
+  --ink-soft:#B3AFBC;
+  --rule:#37343F;
+  --neuro-blue:#B7A5E0;
+  --neuro-blue-deep:#C4AFE9;
+  --neuro-blue-bright:#D4C2F2;
+  --signal-red:#E58276;
+  --gold:#D7AD61;
 }
-html.bw-mode .masthead{ background:#111217 !important; border-bottom:1px solid rgba(255,255,255,.08) !important; }
-html.bw-mode .brand-wordmark, html.bw-mode .nav-left a{ color:#F0EFF4 !important; }
-html.bw-mode .game-card, html.bw-mode .case-card, html.bw-mode .role-card,
-html.bw-mode .donate-card, html.bw-mode .modal, html.bw-mode .learn-panel-inline{
-  background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; color:#F0EFF4 !important;
+
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] .masthead,
+:root[data-theme="dark"] .mobile-nav-overlay,
+:root[data-theme="dark"] .page-hero,
+:root[data-theme="dark"] .start-screen,
+:root[data-theme="dark"] footer{background:var(--paper) !important;color:var(--ink) !important;}
+
+:root[data-theme="dark"] .game-card,
+:root[data-theme="dark"] .home-game-card,
+:root[data-theme="dark"] .how-card,
+:root[data-theme="dark"] .stats-row,
+:root[data-theme="dark"] .panel,
+:root[data-theme="dark"] .case-card,
+:root[data-theme="dark"] .archive-card,
+:root[data-theme="dark"] .role-card,
+:root[data-theme="dark"] .donate-card,
+:root[data-theme="dark"] .contact-card,
+:root[data-theme="dark"] .value-card,
+:root[data-theme="dark"] .interest-form-wrap,
+:root[data-theme="dark"] .modal,
+:root[data-theme="dark"] .learn-panel,
+:root[data-theme="dark"] .learn-panel-inline,
+:root[data-theme="dark"] .chat-panel,
+:root[data-theme="dark"] .learn-tab-body,
+:root[data-theme="dark"] .sub-card,
+:root[data-theme="dark"] .sub-body{
+  background:#1A1B21 !important;border-color:var(--rule) !important;color:var(--ink) !important;
 }
-html.bw-mode .choice-btn{ background:#1E1F26 !important; border-color:rgba(255,255,255,.12) !important; color:#F0EFF4 !important; }
-html.bw-mode input, html.bw-mode textarea, html.bw-mode select{
-  background:#1A1B21 !important; border-color:rgba(255,255,255,.15) !important; color:#F0EFF4 !important;
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] .choice-btn,
+:root[data-theme="dark"] .category-btn,
+:root[data-theme="dark"] .score-pill,
+:root[data-theme="dark"] .autocomplete-list,
+:root[data-theme="dark"] .chat-msg.ai{
+  background:#202128 !important;border-color:var(--rule) !important;color:var(--ink) !important;
+  -webkit-text-fill-color:var(--ink) !important;
 }
-html.bw-mode .start-screen{ background:#111217 !important; }
-html.bw-mode .specimen{ background:#1E1F26 !important; }
-html.bw-mode .modal-backdrop{ background:rgba(0,0,0,.75) !important; }
-html.bw-mode footer{ background:#111217 !important; border-top:1px solid rgba(255,255,255,.08) !important; }
-html.bw-mode .mobile-nav-overlay{ background:#111217 !important; }
-html.bw-mode #result-modal > div, html.bw-mode #neuro-result-modal > div{ background:#1A1B21 !important; }
-html.bw-mode .archive-card{ background:#1A1B21 !important; border-color:rgba(255,255,255,.1) !important; }
-html.bw-mode body{ background:#111217 !important; }
-html.bw-mode .symptom-log li{ background:#1E1F26 !important; border-color:rgba(255,255,255,.1) !important; }
-html.bw-mode .guess-row input{ background:#1E1F26 !important; color:#F0EFF4 !important; }
-html.bw-mode .score-pill, html.bw-mode .score-tag{ background:#1E1F26 !important; }
+
+:root[data-theme="dark"] .symptom-log li:not(.locked),
+:root[data-theme="dark"] .specimen{background:#1E1F26 !important;border-color:var(--rule) !important;}
+:root[data-theme="dark"] .specimen img{background:var(--paper-deep) !important;}
+:root[data-theme="dark"] .choice-btn:hover:not(:disabled){background:#292531 !important;}
+:root[data-theme="dark"] .choice-btn.correct{background:rgba(92,181,124,.16) !important;}
+:root[data-theme="dark"] .choice-btn.wrong,
+:root[data-theme="dark"] .choice-btn.incorrect{background:rgba(229,130,118,.13) !important;}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder{color:#85818E;opacity:1;}
+:root[data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.78) !important;}
+:root[data-theme="dark"] .hero-img-wrap{filter:hue-rotate(55deg) saturate(.9) brightness(.58) contrast(1.08);}
+:root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,var(--paper)) !important;}
+:root[data-theme="dark"] .games-spotlight{background:#181621 !important;}
+:root[data-theme="dark"] #sheet-warning-banner{color:#F1D18A !important;background:#2A2418 !important;border-color:#65552C !important;}
+:root[data-theme="dark"] #neuro-result-modal .modal > div,
+:root[data-theme="dark"] #ai-mobile-panel{background:#1A1B21 !important;color:var(--ink) !important;border-color:var(--rule) !important;}
+:root[data-theme="dark"] #neuro-result-modal h3{color:var(--ink) !important;}
+:root[data-theme="dark"] .btn:not(.ghost),
+:root[data-theme="dark"] .play-cta,
+:root[data-theme="dark"] .score-tag,
+:root[data-theme="dark"] .category-btn.active{
+  background:#8062B8 !important;color:#fff !important;-webkit-text-fill-color:#fff !important;
+}
+:root[data-theme="dark"] .btn:not(.ghost):hover{background:#6F50A4 !important;}
+:root[data-theme="dark"] .btn.ghost{background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);}
+:root[data-theme="dark"] .mobile-nav-items .settings-label{
+  color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
+}
+
+html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
+.game-card,.home-game-card,.case-card,.archive-card,.role-card,.donate-card,
+.contact-card,.value-card,.modal,input,textarea,select{
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease;
+}
+
+@media(prefers-reduced-motion:reduce){
+  html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
+  .game-card,.home-game-card,.case-card,.archive-card,.role-card,.donate-card,
+  .contact-card,.value-card,.modal,input,textarea,select{transition:none;}
+}
 
 /* Settings nav item + dropdown (always light, regardless of dark mode, so the label stays legible) */
 .settings-nav-wrap{ position:relative; display:inline-flex; align-items:center; }
@@ -1290,16 +1283,17 @@ html.bw-mode .score-pill, html.bw-mode .score-tag{ background:#1E1F26 !important
   font-family:var(--game-font,'Outfit',sans-serif); font-size:13.5px; font-weight:600;
   color:#111 !important; -webkit-text-fill-color:#111 !important; white-space:nowrap;
 }
-.bw-switch{
+.theme-switch{
   position:relative; width:40px; height:22px; border-radius:20px; background:#ccc;
   flex-shrink:0; cursor:pointer; transition:background .2s ease; border:none;
 }
-.bw-switch::after{
+.theme-switch::after{
   content:''; position:absolute; top:2px; left:2px; width:18px; height:18px;
   border-radius:50%; background:#fff; transition:transform .2s ease; box-shadow:0 1px 3px rgba(0,0,0,.3);
 }
-.bw-switch.on{ background:var(--neuro-blue-deep,#5C4480); }
-.bw-switch.on::after{ transform:translateX(18px); }
+.theme-switch.on{ background:#8062B8; }
+.theme-switch.on::after{ transform:translateX(18px); }
+.theme-switch:focus-visible{outline:2px solid var(--neuro-blue-deep);outline-offset:3px;}
 
 .mobile-nav-items .settings-row{ padding:10px 4px; }
 .mobile-nav-items .settings-label{ color:#111 !important; -webkit-text-fill-color:#111 !important; }

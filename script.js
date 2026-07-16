@@ -431,34 +431,24 @@ document.addEventListener('DOMContentLoaded', () => {
       try{ localStorage.setItem(storageKey, theme); }catch(e){}
     }
     const dark = theme === 'dark';
-    document.querySelectorAll('.theme-switch').forEach(sw => {
-      sw.classList.toggle('on', dark);
-      sw.setAttribute('aria-checked', String(dark));
+    document.querySelectorAll('.theme-toggle-btn').forEach(button => {
+      button.classList.toggle('is-dark', dark);
+      button.setAttribute('aria-pressed', String(dark));
+      button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      button.setAttribute('title', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      button.textContent = dark ? '\u2600' : '\u263e';
     });
     document.dispatchEvent(new CustomEvent('neurole:themechange', {detail:{theme}}));
   }
 
-  function makeSwitch(){
-    const sw = document.createElement('button');
-    sw.type = 'button';
-    sw.className = 'theme-switch';
-    sw.setAttribute('role', 'switch');
-    sw.setAttribute('aria-label', 'Toggle dark background');
-    sw.addEventListener('click', () => {
+  function makeThemeButton(){
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'theme-toggle-btn';
+    button.addEventListener('click', () => {
       applyTheme(getTheme() === 'dark' ? 'light' : 'dark', true);
     });
-    return sw;
-  }
-
-  function makeSettingsRow(){
-    const row = document.createElement('div');
-    row.className = 'settings-row';
-    const label = document.createElement('span');
-    label.className = 'settings-label';
-    label.textContent = 'Dark background';
-    row.appendChild(label);
-    row.appendChild(makeSwitch());
-    return row;
+    return button;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -488,37 +478,19 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
     }
 
-    // Desktop nav: "Settings" trigger + dropdown, inserted before Sign In
+    // Theme toggle — inserted before Sign In on desktop.
     const desktopNav = document.querySelector('.nav-left');
     if(desktopNav){
-      const wrap = document.createElement('div');
-      wrap.className = 'settings-nav-wrap';
-      const trigger = document.createElement('button');
-      trigger.type = 'button';
-      trigger.className = 'settings-trigger';
-      trigger.textContent = 'Settings';
-      const dropdown = document.createElement('div');
-      dropdown.className = 'settings-dropdown';
-      dropdown.appendChild(makeSettingsRow());
-      wrap.appendChild(trigger);
-      wrap.appendChild(dropdown);
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdown.classList.toggle('open');
-      });
-      document.addEventListener('click', (e) => {
-        if(!wrap.contains(e.target)) dropdown.classList.remove('open');
-      });
-      desktopNav.insertBefore(wrap, desktopNav.lastElementChild);
+      desktopNav.insertBefore(makeThemeButton(), desktopNav.lastElementChild);
     }
 
-    // Mobile nav: settings row inline in the menu list
+    // Mobile nav: compact icon control inline in the menu list.
     const mobileNav = document.querySelector('.mobile-nav-items');
     if(mobileNav){
       const li = document.createElement('li');
-      li.style.marginTop = '6px';
-      li.appendChild(makeSettingsRow());
-      mobileNav.insertBefore(li, mobileNav.lastElementChild);
+      li.className = 'theme-toggle-mobile-item';
+      li.appendChild(makeThemeButton());
+      mobileNav.appendChild(li);
     }
 
     applyTheme(getTheme(), false);

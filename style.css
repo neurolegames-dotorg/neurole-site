@@ -199,7 +199,7 @@ body{padding-top:58px;}
   position:relative;
   width:100%;
   overflow:hidden;
-  background:#111217;
+  background:var(--paper);
   margin:0 !important;
   padding:0 !important;
   display:block;
@@ -214,13 +214,13 @@ body{padding-top:58px;}
   background-image:url('/neuron-hero.webp');
   background-size:cover;
   background-position:50% 58%;
-  background-color:#111217;
+  background-color:var(--paper);
   filter:hue-rotate(55deg) saturate(1.15);
 }
 
 .hero-fade{
   position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(17,18,23,0) 0%, rgba(17,18,23,0.25) 42%, rgba(17,18,23,0.96) 76%, #111217 100%);
+  background:linear-gradient(180deg, rgba(241,242,244,0) 0%, rgba(241,242,244,0.18) 42%, rgba(241,242,244,0.95) 76%, var(--paper) 100%);
 }
 .hero-text{
   position:absolute;left:0;right:0;bottom:0;
@@ -232,7 +232,7 @@ body{padding-top:58px;}
   font-weight:800;
   font-size:clamp(48px,9vw,108px);
   margin:0;
-  color:#F2F0F6;
+  color:var(--ink);
   letter-spacing:.01em;
 }
 .hero-text p{
@@ -240,7 +240,7 @@ body{padding-top:58px;}
   text-transform:uppercase;
   letter-spacing:.18em;
   font-size:13px;
-  color:#C4AFE9;
+  color:var(--neuro-blue-deep);
   margin:6px 0 0;
 }
 
@@ -1235,6 +1235,7 @@ main{ animation:questionIn .25s ease; }
 :root[data-theme="dark"] textarea::placeholder{color:#85818E;opacity:1;}
 :root[data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.78) !important;}
 :root[data-theme="dark"] .hero-img-wrap{filter:invert(1) hue-rotate(180deg);}
+:root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,var(--paper)) !important;}
 :root[data-theme="dark"] .games-spotlight{background:#181621 !important;}
 :root[data-theme="dark"] #sheet-warning-banner{color:#F1D18A !important;background:#2A2418 !important;border-color:#65552C !important;}
 :root[data-theme="dark"] #neuro-result-modal .modal > div,
@@ -1260,36 +1261,17 @@ html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
   .contact-card,.value-card,.modal,input,textarea,select{transition:none;}
 }
 
-/* Settings nav item + dropdown (always light, so the label stays legible in both themes) */
-.settings-nav-wrap{ position:relative; display:inline-flex; align-items:center; }
-.settings-trigger{
-  background:none; border:none; cursor:pointer; padding:0; color:inherit;
-  font-family:var(--game-font,'Outfit',sans-serif); font-size:15px; line-height:1;
-  display:inline-flex; align-items:center; gap:4px;
+/* Compact, icon-only theme toggle */
+.theme-toggle-btn{
+  width:30px;height:30px;padding:0;border:1px solid var(--rule);border-radius:50%;
+  background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);
+  display:inline-grid;place-items:center;cursor:pointer;font-family:Arial,sans-serif;
+  font-size:17px;line-height:1;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
 }
-.settings-dropdown{
-  display:none; position:absolute; top:calc(100% + 14px); right:0; z-index:1000;
-  background:#fff !important; border:1px solid rgba(0,0,0,.1); border-radius:12px;
-  box-shadow:0 12px 32px rgba(0,0,0,.18); padding:14px 16px; min-width:210px;
-}
-.settings-dropdown.open{ display:block; }
-.settings-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; }
-.settings-row .settings-label{
-  font-family:var(--game-font,'Outfit',sans-serif); font-size:13.5px; font-weight:600;
-  color:#111 !important; -webkit-text-fill-color:#111 !important; white-space:nowrap;
-}
-.theme-switch{
-  position:relative; width:40px; height:22px; border-radius:20px; background:#ccc;
-  flex-shrink:0; cursor:pointer; transition:background .2s ease; border:none;
-}
-.theme-switch::after{
-  content:''; position:absolute; top:2px; left:2px; width:18px; height:18px;
-  border-radius:50%; background:#fff; transition:transform .2s ease; box-shadow:0 1px 3px rgba(0,0,0,.3);
-}
-.theme-switch.on{ background:var(--neuro-blue-deep,#5C4480); }
-.theme-switch.on::after{ transform:translateX(18px); }
-.mobile-nav-items .settings-row{ padding:10px 4px; }
-.mobile-nav-items .settings-label{ color:#111 !important; -webkit-text-fill-color:#111 !important; }
+.theme-toggle-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue-deep);transform:translateY(-1px);}
+.theme-toggle-btn:focus-visible{outline:2px solid var(--neuro-blue-deep);outline-offset:3px;}
+.theme-toggle-mobile-item{display:flex;justify-content:flex-end;padding:14px 28px;border-bottom:1px solid var(--rule);}
+.theme-toggle-mobile-item .theme-toggle-btn{width:34px;height:34px;font-size:19px;}
 
 
 /* ===================== Partnerships section ===================== */

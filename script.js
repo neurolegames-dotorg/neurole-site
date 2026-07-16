@@ -360,17 +360,15 @@ function recordWin(todayKey){
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){
+  const footerBg = '#EDEEF1'; // same as --paper-deep, always matches footer
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
-    const progress = maxScroll <= 0 ? 0 : Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
-    const dark = document.documentElement.dataset.theme === 'dark';
-    const start = dark ? [17,18,23] : [248,249,250];
-    const end = dark ? [27,24,37] : [229,220,245];
-    const r = Math.round(start[0] + progress * (end[0] - start[0]));
-    const g = Math.round(start[1] + progress * (end[1] - start[1]));
-    const b = Math.round(start[2] + progress * (end[2] - start[2]));
-    const footerBg = dark ? '#1A1B21' : '#EDEEF1';
+    if(maxScroll <= 0) return;
+    const progress = Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
+    const r = Math.round(248 - progress * 19);
+    const g = Math.round(249 - progress * 29);
+    const b = Math.round(250 - progress * 5);
     document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
     // html element controls what shows in the iOS overscroll (bounce) zone.
     // At the bottom of the page match the footer; at top match body.
@@ -379,7 +377,9 @@ function initScrollPurple(){
     document.documentElement.style.backgroundColor = atBottom ? footerBg : `rgb(${r},${g},${b})`;
   }
   window.addEventListener('scroll', applyTint, {passive:true});
-  document.addEventListener('neurole:themechange', applyTint);
+  // Set both immediately to footer color on load so the default iOS overscroll
+  // is never white or purple — always the footer grey
+  document.documentElement.style.backgroundColor = footerBg;
   applyTint();
 }
 
@@ -415,53 +415,41 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFunFact();
 });
 
-/* ===================== Settings dropdown and color theme ===================== */
+/* ===================== Settings dropdown: dark background toggle (site-wide) ===================== */
 (function(){
-  const storageKey = 'neurole_theme';
+  function applyBw(on){
+    document.documentElement.classList.toggle('bw-mode', on);
+  }
+  let isOn = false;
+  try{ isOn = localStorage.getItem('neurole_bw_mode') === '1'; }catch(e){}
+  if(isOn) applyBw(true);
 
-  function getTheme(){
-    const current = document.documentElement.dataset.theme;
-    if(current === 'light' || current === 'dark') return current;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  function makeSwitch(){
+    const sw = document.createElement('button');
+    sw.type = 'button';
+    sw.className = 'bw-switch' + (isOn ? ' on' : '');
+    sw.setAttribute('aria-label', 'Toggle dark background');
+    sw.addEventListener('click', () => {
+      isOn = !isOn;
+      applyBw(isOn);
+      sw.classList.toggle('on', isOn);
+      try{ localStorage.setItem('neurole_bw_mode', isOn ? '1' : '0'); }catch(e){}
+    });
+    return sw;
   }
 
-  function applyTheme(theme, persist){
-    document.documentElement.dataset.theme = theme;
-    if(persist){
-      try{ localStorage.setItem(storageKey, theme); }catch(e){}
-    }
-    const dark = theme === 'dark';
-    document.querySelectorAll('.theme-toggle-btn').forEach(button => {
-      button.classList.toggle('is-dark', dark);
-      button.setAttribute('aria-pressed', String(dark));
-      button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-      button.setAttribute('title', dark ? 'Switch to light mode' : 'Switch to dark mode');
-      button.textContent = dark ? '\u2600' : '\u263e';
-    });
-    document.dispatchEvent(new CustomEvent('neurole:themechange', {detail:{theme}}));
-  }
-
-  function makeThemeButton(){
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'theme-toggle-btn';
-    button.addEventListener('click', () => {
-      applyTheme(getTheme() === 'dark' ? 'light' : 'dark', true);
-    });
-    return button;
+  function makeSettingsRow(){
+    const row = document.createElement('div');
+    row.className = 'settings-row';
+    const label = document.createElement('span');
+    label.className = 'settings-label';
+    label.textContent = 'Dark background';
+    row.appendChild(label);
+    row.appendChild(makeSwitch());
+    return row;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    applyTheme(getTheme(), false);
-
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const syncSystemTheme = event => {
-      try{ if(localStorage.getItem(storageKey)) return; }catch(e){}
-      applyTheme(event.matches ? 'dark' : 'light', false);
-    };
-    if(systemTheme.addEventListener) systemTheme.addEventListener('change', syncSystemTheme);
-    else systemTheme.addListener(syncSystemTheme);
-
     // Interactive nav link (with Beta badge) — desktop
     const desktopNavForInteractive = document.querySelector('.nav-left');
     if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
@@ -478,22 +466,38 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
     }
 
-    // Theme toggle — inserted before Sign In on desktop.
+    // Desktop nav: "Settings" trigger + dropdown, inserted before Sign In
     const desktopNav = document.querySelector('.nav-left');
     if(desktopNav){
-      desktopNav.insertBefore(makeThemeButton(), desktopNav.lastElementChild);
+      const wrap = document.createElement('div');
+      wrap.className = 'settings-nav-wrap';
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'settings-trigger';
+      trigger.textContent = 'Settings';
+      const dropdown = document.createElement('div');
+      dropdown.className = 'settings-dropdown';
+      dropdown.appendChild(makeSettingsRow());
+      wrap.appendChild(trigger);
+      wrap.appendChild(dropdown);
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if(!wrap.contains(e.target)) dropdown.classList.remove('open');
+      });
+      desktopNav.insertBefore(wrap, desktopNav.lastElementChild);
     }
 
-    // Mobile nav: compact icon control inline in the menu list.
+    // Mobile nav: settings row inline in the menu list
     const mobileNav = document.querySelector('.mobile-nav-items');
     if(mobileNav){
       const li = document.createElement('li');
-      li.className = 'theme-toggle-mobile-item';
-      li.appendChild(makeThemeButton());
-      mobileNav.appendChild(li);
+      li.style.marginTop = '6px';
+      li.appendChild(makeSettingsRow());
+      mobileNav.insertBefore(li, mobileNav.lastElementChild);
     }
-
-    applyTheme(getTheme(), false);
   });
 })();
 

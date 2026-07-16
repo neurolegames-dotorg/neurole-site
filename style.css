@@ -211,10 +211,13 @@ body{padding-top:58px;}
   height:clamp(220px, 26vw, 360px);
   overflow:hidden;
   margin:0;
+  background-color:var(--paper);
+}
+.hero-bg-image{
+  position:absolute;inset:0;
   background-image:url('/neuron-hero.webp');
   background-size:cover;
   background-position:50% 58%;
-  background-color:var(--paper);
   filter:hue-rotate(55deg) saturate(1.15);
 }
 
@@ -1234,7 +1237,7 @@ main{ animation:questionIn .25s ease; }
 :root[data-theme="dark"] input::placeholder,
 :root[data-theme="dark"] textarea::placeholder{color:#85818E;opacity:1;}
 :root[data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.78) !important;}
-:root[data-theme="dark"] .hero-img-wrap{filter:invert(1) hue-rotate(180deg);}
+:root[data-theme="dark"] .hero-bg-image{filter:invert(1) hue-rotate(180deg) hue-rotate(55deg) saturate(1.15);}
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,var(--paper)) !important;}
 :root[data-theme="dark"] .games-spotlight{background:#181621 !important;}
 :root[data-theme="dark"] #sheet-warning-banner{color:#F1D18A !important;background:#2A2418 !important;border-color:#65552C !important;}

@@ -758,7 +758,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Two-column row: question left, AI right (desktop only) -->
       <div class="game-row">
         <div class="game-col-left">
-          <div class="specimen">
+          <div class="specimen" id="specimen">
             <img id="specimen-img" src="" alt="Brain region to identify"
                  onerror="console.error('Neurole: image failed ->', this.src);"
                  onload="console.log('Neurole: image loaded ->', this.src);">
@@ -1101,7 +1101,34 @@ async function startRound(countOption){
   document.getElementById('round-setup').style.display = 'none';
   document.getElementById('neuro-result-modal').classList.remove('open');
   document.getElementById('game-play').style.display = 'block';
+
+  // Preload every image in the round so there's no pop-in lag between questions.
+  // Wait for just the first one so question 1 appears fully formed, image included.
+  const preloadPromises = qBank.map(q => preloadQuestionImage(q));
+  const specimenEl = document.getElementById('specimen');
+  if(specimenEl) specimenEl.classList.add('specimen-loading');
+  await preloadPromises[0];
+  if(specimenEl) specimenEl.classList.remove('specimen-loading');
   showQuestion();
+}
+
+function getQuestionImageUrl(q){
+  return q['imageurl'] || q['image_url'] || q['imageURL'] || q['image'] || q['img'] || q['url'] || findField(q,'image_url') || '';
+}
+
+const preloadedImageCache = {};
+function preloadQuestionImage(q){
+  const url = getQuestionImageUrl(q);
+  if(!url) return Promise.resolve();
+  if(preloadedImageCache[url]) return preloadedImageCache[url];
+  const promise = new Promise(resolve => {
+    const img = new Image();
+    img.onload = resolve;
+    img.onerror = resolve;
+    img.src = url;
+  });
+  preloadedImageCache[url] = promise;
+  return promise;
 }
 
 document.querySelectorAll('.round-choice').forEach(btn => {
@@ -1129,10 +1156,10 @@ function shuffle(arr){
 function showQuestion(){
   answered = false;
   current = qBank[qIndex];
-  // Try every possible column name the sheet might use
-  const imgUrl = current['imageurl'] || current['image_url'] || current['imageURL'] || current['image'] || current['img'] || current['url'] || findField(current,'image_url') || '';
-  console.log('Neurole: loading image:', imgUrl);
+  const imgUrl = getQuestionImageUrl(current);
   document.getElementById('specimen-img').src = imgUrl;
+  // Make sure the next question's image is warm in cache by the time they get there
+  if(qBank[qIndex+1]) preloadQuestionImage(qBank[qIndex+1]);
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
   // Update progress bar

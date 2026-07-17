@@ -1199,14 +1199,21 @@ main{ animation:questionIn .25s ease; }
   --gold:#D7AD61;
 }
 
+/* Smooth theme toggle transition — fades colors instead of snapping */
+body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
+.game-card, .home-game-card, .how-card, .case-card, .role-card, .donate-card,
+.modal, .specimen, .choice-btn, .symptom-log li, input, textarea, select,
+.factbox, .archive-card, .partner-card{
+  transition:background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+
 :root[data-theme="dark"] .masthead,
 :root[data-theme="dark"] .mobile-nav-overlay,
 :root[data-theme="dark"] .page-hero,
 :root[data-theme="dark"] .start-screen,
 :root[data-theme="dark"] footer{background:var(--paper) !important;color:var(--ink) !important;}
 :root[data-theme="dark"] body{
-  background:linear-gradient(180deg,#1B1530 0%,#141024 35%,#0F0D18 70%,#111217 100%) !important;
-  background-attachment:fixed !important;
+  background:linear-gradient(180deg,#111217 0%,#111217 15%,#1B1530 55%,#241A3D 100%) !important;
   color:var(--ink) !important;
 }
 
@@ -1308,11 +1315,11 @@ html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
 }
 a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1px);}
 .partner-card-logo{
-  border-style:solid !important;border-color:rgba(0,0,0,.08) !important;
-  background:#fff !important;padding:16px !important;min-height:76px;
+  border-style:solid !important;border-color:rgba(122,95,175,.2) !important;
+  background:#EFE9F7 !important;padding:22px 18px !important;min-height:110px;
   box-shadow:0 1px 4px rgba(0,0,0,.06);
 }
-.partner-card-logo img{max-width:100%;max-height:44px;width:auto;height:auto;object-fit:contain;}
+.partner-card-logo img{max-width:100%;max-height:76px;width:auto;height:auto;object-fit:contain;}
 
 /* ===================== Interactive: Alzheimer's scroll section ===================== */
 .alz-scroller{ position:relative; height:380vh; margin-top:18px; }

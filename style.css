@@ -1199,12 +1199,16 @@ main{ animation:questionIn .25s ease; }
   --gold:#D7AD61;
 }
 
-:root[data-theme="dark"] body,
 :root[data-theme="dark"] .masthead,
 :root[data-theme="dark"] .mobile-nav-overlay,
 :root[data-theme="dark"] .page-hero,
 :root[data-theme="dark"] .start-screen,
 :root[data-theme="dark"] footer{background:var(--paper) !important;color:var(--ink) !important;}
+:root[data-theme="dark"] body{
+  background:linear-gradient(180deg,#1B1530 0%,#141024 35%,#0F0D18 70%,#111217 100%) !important;
+  background-attachment:fixed !important;
+  color:var(--ink) !important;
+}
 
 :root[data-theme="dark"] .game-card,
 :root[data-theme="dark"] .home-game-card,
@@ -1303,6 +1307,12 @@ html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
   text-decoration:none;transition:border-color .15s ease,transform .15s ease;
 }
 a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1px);}
+.partner-card-logo{
+  border-style:solid !important;border-color:rgba(0,0,0,.08) !important;
+  background:#fff !important;padding:16px !important;min-height:76px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.partner-card-logo img{max-width:100%;max-height:44px;width:auto;height:auto;object-fit:contain;}
 
 /* ===================== Interactive: Alzheimer's scroll section ===================== */
 .alz-scroller{ position:relative; height:380vh; margin-top:18px; }

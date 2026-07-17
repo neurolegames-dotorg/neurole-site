@@ -1123,10 +1123,11 @@ function preloadQuestionImage(q){
   if(preloadedImageCache[url]) return preloadedImageCache[url];
   const promise = new Promise(resolve => {
     const img = new Image();
-    img.onload = resolve;
-    img.onerror = resolve;
+    img.onload = () => { promise._resolved = true; resolve(); };
+    img.onerror = () => { promise._resolved = true; resolve(); };
     img.src = url;
   });
+  promise._resolved = false;
   preloadedImageCache[url] = promise;
   return promise;
 }
@@ -1157,9 +1158,22 @@ function showQuestion(){
   answered = false;
   current = qBank[qIndex];
   const imgUrl = getQuestionImageUrl(current);
-  document.getElementById('specimen-img').src = imgUrl;
-  // Make sure the next question's image is warm in cache by the time they get there
+  const specimenEl = document.getElementById('specimen');
+  const imgEl = document.getElementById('specimen-img');
+
+  // If this image isn't cached yet, show a loading state instead of a slow pop-in
+  const cached = preloadedImageCache[imgUrl];
+  const isReady = cached && cached._resolved;
+  if(specimenEl) specimenEl.classList.toggle('specimen-loading', !isReady);
+  imgEl.src = imgUrl;
+  if(!isReady){
+    preloadQuestionImage(current).then(() => {
+      if(current === qBank[qIndex] && specimenEl) specimenEl.classList.remove('specimen-loading');
+    });
+  }
+  // Make sure the next couple of questions' images are warm in cache by the time they get there
   if(qBank[qIndex+1]) preloadQuestionImage(qBank[qIndex+1]);
+  if(qBank[qIndex+2]) preloadQuestionImage(qBank[qIndex+2]);
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
   // Update progress bar

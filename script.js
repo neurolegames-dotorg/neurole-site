@@ -126,14 +126,15 @@ async function loadFunFact(){
   const el = document.getElementById('fun-fact-box');
   if(!el) return;
 
-  // Always show something immediately from built-in facts while we fetch the sheet
+  // Week boundary = Sunday 12:00 AM ET. Anchored to 2023-12-31, a Sunday,
+  // so "weeksSinceEpoch" ticks over every Sunday at midnight ET.
   const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-  const dayOfWeek = etNow.getDay() || 7;
-  const monday = new Date(etNow);
-  monday.setDate(etNow.getDate() - (dayOfWeek - 1));
-  monday.setHours(0,0,0,0);
-  const epoch = new Date('2024-01-01T05:00:00Z');
-  const weeksSinceEpoch = Math.max(0, Math.floor((monday - epoch) / (7*24*60*60*1000)));
+  const dayOfWeek = etNow.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+  const sunday = new Date(etNow);
+  sunday.setDate(etNow.getDate() - dayOfWeek);
+  sunday.setHours(0,0,0,0);
+  const epoch = new Date('2023-12-31T05:00:00Z'); // Sunday, midnight ET
+  const weeksSinceEpoch = Math.max(0, Math.floor((sunday - epoch) / (7*24*60*60*1000)));
   const builtinIdx = weeksSinceEpoch % BUILTIN_FACTS.length;
   const builtinFact = BUILTIN_FACTS[builtinIdx];
 
@@ -148,47 +149,44 @@ async function loadFunFact(){
     }
   }
 
-  // Show built-in immediately
+  // Show built-in immediately so the box never looks empty while the fetch runs
   displayFact(builtinFact.fact, builtinFact.source, builtinFact.url);
 
-  // Then try to load from Google Sheet (overrides built-in if successful)
+  // Then try to load from the Google Sheet (overrides built-in if successful).
+  // Uses the same fetchSheetAsObjects/findField helpers as the games, so
+  // header capitalization/spacing in the sheet ("Fact", "fact ", etc.) can't
+  // silently break this the way the old inline parser could.
   const sheetUrl = window.NEUROLE_CONFIG?.FUN_FACT_SHEET_CSV;
   if(!sheetUrl || sheetUrl.startsWith('PASTE_')) return;
 
   try{
-    const res = await fetch(sheetUrl, { cache: 'no-store' });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    const rows = parseCSV(text).filter(r => r.some(c => c.trim()));
-    if(rows.length < 2) throw new Error('sheet empty');
-    const headers = rows[0].map(h => h.trim());
-    const usableRows = rows.slice(1)
-      .map(r => { const o={}; headers.forEach((h,i)=>o[h]=(r[i]||'').trim()); return o; })
-      .filter(r => (r.fact||r.Fact||'').trim());
+    const allRows = await fetchSheetAsObjects(sheetUrl);
+    const usableRows = allRows.filter(r => (findField(r, 'fact') || '').trim());
+    if(!usableRows.length) throw new Error('no fact column with content');
 
-    if(!usableRows.length) throw new Error('no fact column');
-
-    const weekKey = `${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
+    const weekKey = `${sunday.getFullYear()}-${String(sunday.getMonth()+1).padStart(2,'0')}-${String(sunday.getDate()).padStart(2,'0')}`;
     let best = null;
     for(const r of usableRows){
-      const raw = (r.week_start||r.Week_Start||'').trim();
+      const raw = (findField(r, 'week_start') || '').trim();
       let key = '';
       let m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
       if(m) key = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
       else { m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) key=`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`; }
       if(key === weekKey){ best = r; break; }
     }
+    // No explicit week_start match (or column left blank) — cycle through
+    // sheet rows in order, one per week, same pattern as the Daily Case.
     if(!best){
       const idx = weeksSinceEpoch % usableRows.length;
       best = usableRows[idx];
     }
 
-    const fact = best.fact || best.Fact || '';
-    const src  = best.source_title || best.Source_Title || best.source || 'Read the study';
-    let url2   = best.source_url || best.Source_URL || '';
+    const fact = findField(best, 'fact') || '';
+    const src  = findField(best, 'source_title') || findField(best, 'source') || 'Read the study';
+    let url2   = findField(best, 'source_url') || '';
     if(url2 && !/^https?:\/\//i.test(url2)) url2 = 'https://' + url2;
     displayFact(fact, src, url2);
-    console.log('Neurole: fun fact loaded from sheet');
+    console.log('Neurole: fun fact loaded from sheet — week of', weekKey, '(row', usableRows.indexOf(best) + 1, 'of', usableRows.length + ')');
   }catch(err){
     console.warn('Neurole: fun fact sheet unavailable, using built-in —', err.message);
   }

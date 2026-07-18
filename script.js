@@ -364,7 +364,7 @@ function initScrollPurple(){
     const progress = maxScroll <= 0 ? 0 : Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
     const dark = document.documentElement.dataset.theme === 'dark';
     const start = dark ? [17,18,23] : [248,249,250];
-    const end = dark ? [27,24,37] : [229,220,245];
+    const end = dark ? [36,26,61] : [229,220,245];
     const r = Math.round(start[0] + progress * (end[0] - start[0]));
     const g = Math.round(start[1] + progress * (end[1] - start[1]));
     const b = Math.round(start[2] + progress * (end[2] - start[2]));

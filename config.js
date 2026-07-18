@@ -34,7 +34,7 @@ window.NEUROLE_CONFIG = {
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):
   // week_start | fact | source_title | source_url
-  FUN_FACT_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_ck-HHRQxn-aD5K9Y57SHBEHB2pgtxFhIPpNgP-ChGX10_RJTxI29ujRSNIKfbHZAP15ohAlXM7Tu/pub?output=csv",
+  FUN_FACT_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5v2wioFljU4L_xOk4s6OXxkZDRUx3vC7yca4z9_nVbj18F3neQgSeS0kFEz83yonJiudzPls7pBD2/pub?output=csv",
 
   // --- Google Sign-In ---------------------------------------------------
   // Powers the "Sign In" button (homepage) and the "save your streak"

@@ -1213,7 +1213,7 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .start-screen,
 :root[data-theme="dark"] footer{background:var(--paper) !important;color:var(--ink) !important;}
 :root[data-theme="dark"] body{
-  background:linear-gradient(180deg,#111217 0%,#111217 15%,#1B1530 55%,#241A3D 100%) !important;
+  background:var(--paper);
   color:var(--ink) !important;
 }
 

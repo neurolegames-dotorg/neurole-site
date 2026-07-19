@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=126">
+<link rel="stylesheet" href="style.css?v=127">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -616,64 +616,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<div class="modal-backdrop" id="result-modal" style="background:rgba(15,12,20,.92);backdrop-filter:blur(8px);">
-  <div style="background:#fff;color:var(--ink);width:100%;max-width:440px;max-height:92vh;overflow-y:auto;border-radius:20px;padding:0;box-shadow:0 24px 80px rgba(0,0,0,.4);-webkit-overflow-scrolling:touch;">
+<div class="modal-backdrop rmodal-backdrop" id="result-modal">
+  <div class="rmodal-card">
 
-    <!-- Header — soft purple gradient top -->
-    <div style="background:linear-gradient(135deg,#6B4F94,#9176B8);border-radius:20px 20px 0 0;padding:28px 28px 24px;text-align:center;position:relative;">
-      <button id="result-modal-close" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:16px;cursor:pointer;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
-      <p style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 10px;">Neurole · The Daily Case</p>
-      <h3 id="result-headline-text" style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#fff;margin:0 0 6px;letter-spacing:-.02em;line-height:1.1;"></h3>
-      <p id="result-stats-text" style="font-family:'Outfit',sans-serif;font-size:13px;color:rgba(255,255,255,.75);margin:0;"></p>
+    <div class="rmodal-header">
+      <span class="rmodal-title">The Daily Case</span>
+      <button id="result-modal-close" class="rmodal-close" aria-label="Close">✕</button>
     </div>
 
-    <!-- Stats row -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(0,0,0,.07);">
-      <div id="stat-played" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Played</div>
+    <div class="rmodal-hero">
+      <div class="rmodal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+        </svg>
       </div>
-      <div id="stat-win" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Win %</div>
+      <h3 id="result-headline-text" class="rmodal-headline"></h3>
+      <p id="result-stats-text" class="rmodal-sub"></p>
+    </div>
+
+    <div class="rmodal-stats">
+      <div id="stat-played" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Played</div>
       </div>
-      <div id="stat-streak" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Streak</div>
+      <div id="stat-win" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Win %</div>
       </div>
-      <div id="stat-maxstreak" style="text-align:center;padding:16px 4px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Best</div>
+      <div id="stat-streak" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Streak</div>
+      </div>
+      <div id="stat-maxstreak" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Best</div>
       </div>
     </div>
 
-    <!-- Emoji grid + distribution -->
-    <div style="padding:18px 24px 16px;border-bottom:1px solid rgba(0,0,0,.07);">
-      <div id="result-grid" style="font-size:22px;letter-spacing:4px;text-align:center;margin-bottom:16px;"></div>
-      <p style="font-family:'Outfit',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;">Guess Distribution</p>
+    <div class="rmodal-section">
+      <div id="result-grid" class="rmodal-grid"></div>
+      <p class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
       <div id="result-distribution"></div>
     </div>
 
-    <!-- Countdown + Share -->
-    <div style="padding:16px 24px 18px;border-bottom:1px solid rgba(0,0,0,.07);">
-      <p id="next-case-countdown" style="font-family:'Outfit',sans-serif;font-size:11.5px;color:var(--ink-soft);text-align:center;margin:0 0 12px;letter-spacing:.04em;"></p>
-      <button type="button" id="share-btn" style="width:100%;padding:13px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;border:none;border-radius:10px;cursor:pointer;margin-bottom:10px;">Share result ↗</button>
+    <div class="rmodal-section">
+      <p id="next-case-countdown" class="rmodal-countdown"></p>
+      <button type="button" id="share-btn" class="rmodal-cta">Share ↗</button>
       <div id="result-google-container"></div>
     </div>
 
-    <!-- Play today's games -->
-    <div style="padding:16px 24px 22px;">
-      <p style="font-family:'Outfit',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;">Play Today's Games</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <a href="neuroanatomy.html" style="background:rgba(122,95,175,.06);border:1.5px solid rgba(122,95,175,.15);border-radius:12px;padding:14px 12px;text-decoration:none;display:block;transition:border-color .15s;">
-          <div style="font-size:18px;margin-bottom:5px;">🧠</div>
-          <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--ink);">Map the Brain</div>
-          <div style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin-top:2px;">Identify regions</div>
+    <div class="rmodal-games">
+      <p class="rmodal-section-label">Play Today's Games</p>
+      <div class="rmodal-games-grid">
+        <a href="neuroanatomy.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+            <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+          </svg>
+          <div class="rmodal-game-title">Map the Brain</div>
+          <div class="rmodal-game-sub">Identify regions</div>
         </a>
-        <a href="archive.html" style="background:rgba(122,95,175,.06);border:1.5px solid rgba(122,95,175,.15);border-radius:12px;padding:14px 12px;text-decoration:none;display:block;transition:border-color .15s;">
-          <div style="font-size:18px;margin-bottom:5px;">📋</div>
-          <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--ink);">Case Archive</div>
-          <div style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin-top:2px;">Past cases</div>
+        <a href="archive.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
+          </svg>
+          <div class="rmodal-game-title">Case Archive</div>
+          <div class="rmodal-game-sub">Past cases</div>
         </a>
       </div>
     </div>
@@ -681,8 +690,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=127"></script>
-<script src="script.js?v=127"></script>
+<script src="config.js?v=128"></script>
+<script src="script.js?v=128"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1280,10 +1289,9 @@ function openResultPopup(won){
   }
   if(grid){ grid.textContent=g; }
 
-  // Stats row + guess distribution
   const dailyStats = getDailyStats();
   const setStat = (id, val) => {
-    const el = document.querySelector('#'+id+' div');
+    const el = document.querySelector('#'+id+' .rmodal-stat-val');
     if(el) el.textContent = val;
   };
   setStat('stat-played', dailyStats.played);
@@ -1299,10 +1307,10 @@ function openResultPopup(won){
       const isThisGame = won && used === i+1;
       return `
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
-          <span style="width:12px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);">${i+1}</span>
-          <div style="flex:1;background:#F0EDF4;border-radius:4px;overflow:hidden;height:18px;">
-            <div style="width:${pct}%;min-width:${count?'22px':'0'};background:${isThisGame?'#5C4480':'#B9A9D4'};height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;box-sizing:border-box;">
-              ${count ? `<span style="font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;color:#fff;">${count}</span>` : ''}
+          <span style="width:12px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--rm-soft);">${i+1}</span>
+          <div style="flex:1;background:var(--rm-track);border-radius:4px;overflow:hidden;height:18px;">
+            <div style="width:${pct}%;min-width:${count?'22px':'0'};background:${isThisGame?'#8B2635':'var(--rm-soft)'};height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;box-sizing:border-box;">
+              ${count ? `<span style="font-family:var(--mono);font-size:10.5px;font-weight:700;color:#fff;">${count}</span>` : ''}
             </div>
           </div>
         </div>`;
@@ -1313,7 +1321,7 @@ function openResultPopup(won){
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
-      `<p style="font-family:'Outfit',sans-serif;font-size:12px;color:#5C8C72;text-align:center;">✓ Signed in — streak saved!</p>`;
+      `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`;
   });
 }
 

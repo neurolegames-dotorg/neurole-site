@@ -29,11 +29,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Donate — Support Free Neuroscience Education | Neurole</title>
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=126">
+<link rel="stylesheet" href="style.css?v=127">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .donate-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:780px;}
 @media(max-width:580px){.donate-grid{grid-template-columns:1fr;}}
+.neurole-donate-card{
+  max-width:780px;background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:16px;
+  padding:32px 30px;position:relative;
+}
+.neurole-donate-icon{width:42px;height:42px;margin-bottom:14px;}
+.neurole-donate-icon svg{width:100%;height:100%;}
+.neurole-donate-card h2{font-family:var(--serif-display);font-size:26px;margin:0 0 10px;}
+.neurole-donate-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.65;margin:0 0 18px;max-width:560px;}
 .donate-card{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:26px 22px;display:flex;flex-direction:column;gap:12px;}
 .donate-card h3{font-family:var(--serif-display);font-size:20px;margin:0;}
 .donate-card p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.65;flex:1;}
@@ -78,6 +86,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div></div>
 
 <main class="wrap" style="padding:36px 0 70px;">
+
+  <!-- Support Neurole — primary donation card -->
+  <div class="neurole-donate-card">
+    <div class="neurole-donate-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/></svg>
+    </div>
+    <h2>Support Neurole</h2>
+    <p>Neurole is built and run by volunteers and stays free for every student, clinician, and curious mind who uses it. Your donation directly covers hosting, data, and tools that keep the games running and growing — no ads, no paywalls, ever.</p>
+    <a class="btn" id="neurole-donate-btn" href="https://www.paypal.com/donate/?hosted_button_id=REPLACE_WITH_YOUR_ID" target="_blank" rel="noopener" style="background:#8B2635 !important;">Donate to Neurole →</a>
+    <p style="font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin:10px 0 0;">100% goes directly to keeping Neurole free and running.</p>
+  </div>
+
+  <p style="font-family:var(--serif-display);font-size:20px;margin:44px 0 6px;">Prefer to support research directly?</p>
+  <p style="color:var(--ink-soft);font-size:14.5px;max-width:780px;margin:0 0 20px;">These partner organizations fund Alzheimer's care, research, and awareness. Donations here go straight to them, not to Neurole.</p>
+
   <div class="donate-grid">
     <div class="donate-card" style="border-left:5px solid #E8474C;">
       <h3 style="color:#C4323A;">Hilarity for Charity</h3>
@@ -136,7 +159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div></div>
-<script src="config.js?v=127"></script><script src="script.js?v=127"></script>
+<script src="config.js?v=128"></script><script src="script.js?v=128"></script>
 <script>document.getElementById('social-instagram').href=window.NEUROLE_CONFIG.SOCIAL.instagram;document.getElementById('social-email').href=window.NEUROLE_CONFIG.SOCIAL.email;document.getElementById('social-youtube').href=window.NEUROLE_CONFIG.SOCIAL.youtube;</script>
 <!-- Subscribe modal -->
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">

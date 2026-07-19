@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=126">
+<link rel="stylesheet" href="style.css?v=127">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -796,42 +796,80 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </main>
 
-<div class="modal-backdrop" id="neuro-result-modal">
-  <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.4);">
-    <div style="background:linear-gradient(135deg,#6B4F94,#9176B8);padding:28px 28px 26px;text-align:center;position:relative;">
-      <p style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 14px;">Neurole · Map the Brain</p>
-      <div id="neuro-score-ring" style="width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:conic-gradient(#fff 0deg, rgba(255,255,255,.25) 0deg);">
-        <div style="width:78px;height:78px;border-radius:50%;background:#7A5FAF;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-          <span id="neuro-score-pct" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;line-height:1;"></span>
-          <span style="font-family:'Outfit',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:2px;">Correct</span>
-        </div>
-      </div>
-      <h3 id="neuro-result-headline" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;margin:0 0 6px;letter-spacing:-.01em;"></h3>
-      <p id="neuro-result-stats" style="font-family:'Outfit',sans-serif;font-size:13px;color:rgba(255,255,255,.75);margin:0;"></p>
+<div class="modal-backdrop rmodal-backdrop" id="neuro-result-modal">
+  <div class="rmodal-card">
+
+    <div class="rmodal-header">
+      <span class="rmodal-title">Map the Brain</span>
+      <button id="neuro-result-close-x" class="rmodal-close" aria-label="Close">✕</button>
     </div>
-    <div id="neuro-best-banner" style="display:none;padding:10px 28px;background:#F4EFFA;text-align:center;border-bottom:1px solid rgba(0,0,0,.06);">
-      <span style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);">🏆 New personal best for this round type!</span>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(0,0,0,.07);">
-      <div id="neuro-stat-rounds" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Rounds Played</div>
+
+    <div class="rmodal-hero">
+      <div class="rmodal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+          <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+        </svg>
       </div>
-      <div id="neuro-stat-avg" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Avg Score</div>
+      <h3 id="neuro-result-headline" class="rmodal-headline"></h3>
+      <p id="neuro-result-stats" class="rmodal-sub"></p>
+    </div>
+
+    <div id="neuro-best-banner" style="display:none;padding:10px 24px;text-align:center;border-bottom:1px solid var(--rm-line);">
+      <span style="font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--rm-ink);">🏆 New personal best for this round type!</span>
+    </div>
+
+    <div class="rmodal-stats">
+      <div id="neuro-stat-rounds" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Rounds</div>
       </div>
-      <div id="neuro-stat-best" style="text-align:center;padding:16px 4px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Best (this type)</div>
+      <div id="neuro-stat-avg" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Avg Score</div>
+      </div>
+      <div id="neuro-stat-streak" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Streak</div>
+      </div>
+      <div id="neuro-stat-best" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Best</div>
       </div>
     </div>
-    <div style="padding:22px 28px 26px;background:#fff;">
-      <div id="neuro-google-container" style="margin-bottom:14px;"></div>
-      <button class="btn" id="new-round-btn" style="width:100%;justify-content:center;border-radius:8px;background:var(--neuro-blue-deep);font-size:13px;padding:14px;letter-spacing:.03em;margin-bottom:8px;">Play another round</button>
-      <a href="daily-game.html" style="display:flex;align-items:center;justify-content:center;padding:11px;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.02em;border:1.5px solid #e0e0e0;border-radius:8px;text-decoration:none;color:var(--ink);margin-bottom:8px;">Try The Daily Case</a>
-      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Outfit',sans-serif;font-size:11.5px;color:var(--ink-soft);cursor:pointer;padding:6px;text-align:center;letter-spacing:.03em;">Dismiss</button>
+
+    <div class="rmodal-section">
+      <div id="neuro-result-grid" class="rmodal-grid"></div>
+      <p class="rmodal-section-label" style="margin-top:16px;">Round Results</p>
     </div>
+
+    <div class="rmodal-section">
+      <button type="button" id="new-round-btn" class="rmodal-cta">Play Another Round ↗</button>
+      <div id="neuro-google-container"></div>
+    </div>
+
+    <div class="rmodal-games">
+      <p class="rmodal-section-label">Play Today's Games</p>
+      <div class="rmodal-games-grid">
+        <a href="daily-game.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+          </svg>
+          <div class="rmodal-game-title">The Daily Case</div>
+          <div class="rmodal-game-sub">Diagnose the case</div>
+        </a>
+        <a href="archive.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
+          </svg>
+          <div class="rmodal-game-title">Case Archive</div>
+          <div class="rmodal-game-sub">Past cases</div>
+        </a>
+      </div>
+      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Outfit',sans-serif;font-size:11.5px;color:var(--rm-soft);cursor:pointer;padding:12px 6px 0;text-align:center;letter-spacing:.03em;">Dismiss</button>
+    </div>
+
   </div>
 </div>
 
@@ -908,8 +946,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=127"></script>
-<script src="script.js?v=127"></script>
+<script src="config.js?v=128"></script>
+<script src="script.js?v=128"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -946,6 +984,7 @@ let qIndex = 0;
 let current = null;
 let answered = false;
 let correctCount = 0;
+let roundResults = [];
 let selectedCategory = 'Random';
 let selectedDifficulty = 'all';
 let bankLoading = false;
@@ -1093,6 +1132,7 @@ async function startRound(countOption){
   qBank = shuffle(bank).slice(0, total);
   qIndex = 0;
   correctCount = 0;
+  roundResults = [];
 
   // Save game state so refresh restores the game, not the start screen
   const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption };
@@ -1223,6 +1263,7 @@ function selectChoice(btn){
   let correctText = '';
   const gotItRight = btn.dataset.correct === 'true';
   if(gotItRight) correctCount++;
+  roundResults.push(gotItRight);
   const pill = document.getElementById('score-pill');
   if(pill){
     pill.textContent = 'Score: ' + correctCount + '/' + (qIndex+1);
@@ -1253,6 +1294,34 @@ function selectChoice(btn){
   document.getElementById('learn-fab').classList.add('show');
 }
 
+function recordMTBPlay(){
+  const todayKey = (() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  })();
+  const yesterdayKey = (() => {
+    const d = new Date(); d.setDate(d.getDate()-1);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  })();
+  let streak = { count: 0, best: 0, lastPlayedDate: '' };
+  try{
+    const raw = localStorage.getItem('neurole_neuro_streak');
+    if(raw) streak = JSON.parse(raw);
+  }catch(e){}
+  if(streak.lastPlayedDate === todayKey){
+    // already played today — no change
+  } else if(streak.lastPlayedDate === yesterdayKey){
+    streak.count += 1;
+    streak.lastPlayedDate = todayKey;
+  } else {
+    streak.count = 1;
+    streak.lastPlayedDate = todayKey;
+  }
+  if(streak.count > (streak.best||0)) streak.best = streak.count;
+  try{ localStorage.setItem('neurole_neuro_streak', JSON.stringify(streak)); }catch(e){}
+  return streak;
+}
+
 document.getElementById('next-btn').addEventListener('click', () => {
   qIndex++;
   if(qIndex >= qBank.length){
@@ -1262,16 +1331,16 @@ document.getElementById('next-btn').addEventListener('click', () => {
 
     const total = qBank.length;
     const pct = total ? Math.round((correctCount/total)*100) : 0;
-    const ring = document.getElementById('neuro-score-ring');
-    if(ring) ring.style.background = `conic-gradient(#fff ${pct*3.6}deg, rgba(255,255,255,.25) 0deg)`;
-    const pctEl = document.getElementById('neuro-score-pct');
-    if(pctEl) pctEl.textContent = pct + '%';
     const headline = document.getElementById('neuro-result-headline');
     if(headline){
-      headline.textContent = pct===100 ? 'Perfect round!' : pct>=80 ? 'Great work.' : pct>=50 ? 'Round complete.' : 'Keep practicing.';
+      headline.textContent = pct===100 ? 'Perfect round.' : pct>=80 ? 'Well mapped.' : pct>=50 ? 'Round complete.' : 'Keep practicing.';
     }
     document.getElementById('neuro-result-stats').textContent =
-      `You got ${correctCount} out of ${total} correct.`;
+      `${correctCount}/${total} correct — ${pct}%`;
+
+    // Round results grid — one square per question, same visual language as the Daily Case
+    const gridEl = document.getElementById('neuro-result-grid');
+    if(gridEl) gridEl.textContent = roundResults.map(r => r ? '🟩' : '🟥').join('');
 
     // Personal best per round type (category + difficulty + size)
     const bestKey = 'neurole_neuro_best_' + selectedCategory + '_' + selectedDifficulty + '_' + total;
@@ -1298,18 +1367,23 @@ document.getElementById('next-btn').addEventListener('click', () => {
       avgPct = Math.round(totalPct / roundsPlayed);
       localStorage.setItem('neurole_neuro_stats', JSON.stringify({ rounds: roundsPlayed, totalPct }));
     }catch(e){}
+
+    // Daily play streak (mirrors The Daily Case's day-based streak)
+    const streak = recordMTBPlay();
+
     const setNeuroStat = (id, val) => {
-      const el = document.querySelector('#'+id+' div');
+      const el = document.querySelector('#'+id+' .rmodal-stat-val');
       if(el) el.textContent = val;
     };
     setNeuroStat('neuro-stat-rounds', roundsPlayed);
     setNeuroStat('neuro-stat-avg', avgPct + '%');
+    setNeuroStat('neuro-stat-streak', streak.count);
     setNeuroStat('neuro-stat-best', bestPct + '%');
 
     document.getElementById('neuro-result-modal').classList.add('open');
     renderGoogleSignIn('neuro-google-container', () => {
       document.getElementById('neuro-google-container').innerHTML =
-        `<p style="font-family:var(--mono);font-size:12.5px;color:#5C8C72;">Signed in as ${googleSignInState.email} — progress saved!</p>`;
+        `<p class="rmodal-signed">✓ Signed in as ${googleSignInState.email} — progress saved!</p>`;
     });
     return;
   }
@@ -1319,11 +1393,15 @@ document.getElementById('next-btn').addEventListener('click', () => {
 document.getElementById('neuro-result-close').addEventListener('click', () => {
   window.location.href = 'neuroanatomy.html';
 });
+document.getElementById('neuro-result-close-x').addEventListener('click', () => {
+  document.getElementById('neuro-result-modal').classList.remove('open');
+});
 document.getElementById('neuro-result-modal').addEventListener('click', (e) => {
   if(e.target.id === 'neuro-result-modal'){
     window.location.href = 'neuroanatomy.html';
   }
 });
+
 
 function isMobile(){ return window.innerWidth <= 900; }
 

@@ -650,7 +650,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="rmodal-section">
       <div id="result-grid" class="rmodal-grid"></div>
-      <p class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
+      <p id="result-distribution-label" class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
       <div id="result-distribution"></div>
     </div>
 
@@ -685,8 +685,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=128"></script>
-<script src="script.js?v=128"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js?v=130"></script>
+<script src="script.js?v=129"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1264,7 +1265,7 @@ function getStreak(){
   return { count: getDailyStats().currentStreak };
 }
 
-function openResultPopup(won){
+async function openResultPopup(won){
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
   const grid = document.getElementById('result-grid');
@@ -1295,10 +1296,21 @@ function openResultPopup(won){
   setStat('stat-streak', dailyStats.currentStreak);
   setStat('stat-maxstreak', dailyStats.bestStreak);
 
+  const dateKey = dateStrForDayIndex(getDayIndex());
+  submitGlobalDailyResult(dateKey, won ? used : null);
+  const global = await fetchGlobalDailyDistribution(dateKey);
+  const labelEl = document.getElementById('result-distribution-label');
+
   const distEl = document.getElementById('result-distribution');
   if(distEl){
-    const maxCount = Math.max(1, ...dailyStats.distribution);
-    distEl.innerHTML = dailyStats.distribution.map((count, i) => {
+    const dist = global ? global.d : dailyStats.distribution;
+    if(labelEl){
+      labelEl.textContent = global
+        ? `Guess Distribution — All Players (${global.total.toLocaleString()})`
+        : 'Guess Distribution — Your History';
+    }
+    const maxCount = Math.max(1, ...dist);
+    distEl.innerHTML = dist.map((count, i) => {
       const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
       const isThisGame = won && used === i+1;
       return `

@@ -655,7 +655,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="rmodal-section">
       <div id="result-grid" class="rmodal-grid"></div>
-      <p class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
+      <p id="result-distribution-label" class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
       <div id="result-distribution"></div>
     </div>
 
@@ -690,8 +690,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=128"></script>
-<script src="script.js?v=128"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js?v=130"></script>
+<script src="script.js?v=129"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -803,6 +804,19 @@ function getDayIndex(){
   return Math.floor((Date.UTC(ty,tm-1,td)-Date.UTC(ly,lm-1,ld))/(864e5));
 }
 
+// Archive support: ?day=N loads a specific past case instead of today's.
+// Falls back to today's index if the param is missing, invalid, or in the future.
+function getPlayIndex(){
+  const raw = new URLSearchParams(location.search).get('day');
+  if(raw === null) return getDayIndex();
+  const n = parseInt(raw, 10);
+  if(isNaN(n)) return getDayIndex();
+  return Math.max(0, Math.min(n, getDayIndex()));
+}
+function isArchivePlay(){
+  return getPlayIndex() !== getDayIndex();
+}
+
 function startCountdown(elId){
   function tick(){
     const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
@@ -831,8 +845,14 @@ async function loadCase(){
     }
     sessionStorage.setItem('neurole_last_play_date', etToday);
   }catch(e){}
-  document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
-  const caseNum = getDayIndex() + 1;
+  const playIdx = getPlayIndex();
+  const archiveMode = isArchivePlay();
+  const headerDate = archiveMode
+    ? new Date(dateStrForDayIndex(playIdx) + 'T12:00:00')
+    : new Date();
+  document.getElementById('case-date').textContent =
+    headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}) + (archiveMode ? ' · Archive' : '');
+  const caseNum = playIdx + 1;
   const caseNumEl = document.getElementById('case-number');
   if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
   let chosen = null;
@@ -865,7 +885,7 @@ async function loadCase(){
       allRows = allRows.slice(1);
     }
 
-    const idx = getDayIndex();
+    const idx = playIdx;
     console.log('Neurole: rows:', allRows.length, '| dayIdx:', idx);
     console.log('Neurole: row[0] =', allRows[0]?.slice(0,5));
 
@@ -1204,7 +1224,7 @@ function showResult(won){
 
 // ---------- One play per device per day ----------
 function dailyStorageKey(){
-  return 'neurole_daily_' + todayStr();
+  return 'neurole_daily_' + dateStrForDayIndex(getPlayIndex());
 }
 
 function saveDailyCompletion(won){
@@ -1269,7 +1289,7 @@ function getStreak(){
   return { count: getDailyStats().currentStreak };
 }
 
-function openResultPopup(won){
+async function openResultPopup(won){
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
   const grid = document.getElementById('result-grid');
@@ -1299,10 +1319,24 @@ function openResultPopup(won){
   setStat('stat-streak', dailyStats.currentStreak);
   setStat('stat-maxstreak', dailyStats.bestStreak);
 
+  // Contribute this result to the global count, then try to render everyone's
+  // distribution instead of just this device's own history. Falls back to
+  // personal history if Firebase isn't configured (see config.js).
+  const dateKey = dateStrForDayIndex(getPlayIndex());
+  submitGlobalDailyResult(dateKey, won ? used : null);
+  const global = await fetchGlobalDailyDistribution(dateKey);
+  const labelEl = document.getElementById('result-distribution-label');
+
   const distEl = document.getElementById('result-distribution');
   if(distEl){
-    const maxCount = Math.max(1, ...dailyStats.distribution);
-    distEl.innerHTML = dailyStats.distribution.map((count, i) => {
+    const dist = global ? global.d : dailyStats.distribution;
+    if(labelEl){
+      labelEl.textContent = global
+        ? `Guess Distribution — All Players (${global.total.toLocaleString()})`
+        : 'Guess Distribution — Your History';
+    }
+    const maxCount = Math.max(1, ...dist);
+    distEl.innerHTML = dist.map((count, i) => {
       const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
       const isThisGame = won && used === i+1;
       return `
@@ -1317,7 +1351,12 @@ function openResultPopup(won){
     }).join('');
   }
 
-  startCountdown('next-case-countdown');
+  const countdownEl = document.getElementById('next-case-countdown');
+  if(isArchivePlay()){
+    if(countdownEl) countdownEl.innerHTML = '<a href="archive.html" style="color:var(--rm-soft);text-decoration:underline;">← Back to Archive</a>';
+  } else {
+    startCountdown('next-case-countdown');
+  }
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =

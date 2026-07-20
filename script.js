@@ -355,6 +355,49 @@ function recordWin(todayKey){
   return streak;
 }
 
+// ---------- Global guess distribution (Daily Case) ----------
+// Optional — only active if FIREBASE_CONFIG is filled in in config.js.
+// Falls back silently (callers just get null) if not configured or offline.
+let neuroleFirebaseReady = false;
+try{
+  const fbConfig = window.NEUROLE_CONFIG?.FIREBASE_CONFIG;
+  if(fbConfig && fbConfig.apiKey && !String(fbConfig.apiKey).startsWith('REPLACE_') && window.firebase){
+    if(!firebase.apps.length) firebase.initializeApp(fbConfig);
+    neuroleFirebaseReady = true;
+  }
+}catch(e){ console.warn('Neurole: Firebase not configured —', e.message); }
+
+// Records this device's result toward the global total for that day.
+// Only ever contributes once per day per device (guarded via localStorage)
+// so refreshing the result popup can't inflate the count.
+async function submitGlobalDailyResult(dateKey, attemptsUsed){
+  if(!neuroleFirebaseReady) return;
+  const flagKey = 'neurole_global_submitted_' + dateKey;
+  try{
+    if(localStorage.getItem(flagKey)) return;
+    const field = (attemptsUsed >= 1 && attemptsUsed <= 5) ? ('d' + attemptsUsed) : 'fail';
+    await firebase.firestore().collection('daily_stats').doc(dateKey).set(
+      { [field]: firebase.firestore.FieldValue.increment(1) },
+      { merge: true }
+    );
+    localStorage.setItem(flagKey, '1');
+  }catch(e){ console.warn('Neurole: could not submit global result —', e.message); }
+}
+
+// Returns { d:[d1,d2,d3,d4,d5], fail, total } for a given day, or null if
+// Firebase isn't configured / the request fails — callers should fall back
+// to the player's own personal distribution in that case.
+async function fetchGlobalDailyDistribution(dateKey){
+  if(!neuroleFirebaseReady) return null;
+  try{
+    const snap = await firebase.firestore().collection('daily_stats').doc(dateKey).get();
+    const data = snap.exists ? (snap.data() || {}) : {};
+    const d = [1,2,3,4,5].map(n => data['d' + n] || 0);
+    const fail = data.fail || 0;
+    return { d, fail, total: d.reduce((a,b) => a+b, 0) + fail };
+  }catch(e){ console.warn('Neurole: could not fetch global distribution —', e.message); return null; }
+}
+
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){

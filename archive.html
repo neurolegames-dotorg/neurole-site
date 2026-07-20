@@ -24,7 +24,7 @@
 @media(max-width:380px){.archive-grid{grid-template-columns:1fr;}}
 
 .archive-card{
-  background:#fff;
+  background:var(--paper-deep);
   border:1.5px solid var(--rule);
   border-radius:16px;
   padding:22px 18px 18px;
@@ -160,8 +160,8 @@
   </div>
 </div>
 
-<script src="config.js?v=128"></script>
-<script src="script.js?v=128"></script>
+<script src="config.js?v=130"></script>
+<script src="script.js?v=129"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -206,13 +206,14 @@ async function loadArchive(){
 
     grid.innerHTML = published.map((row, i) => {
       const caseNum = published.length - i;
+      const dayIdx = caseNum - 1;
       const dateRaw = (row[0]||'').trim();
       const dateDisplay = dateRaw ? new Date(dateRaw + 'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
-      return `<div class="archive-card">
+      return `<a class="archive-card" href="daily-game-play.html?day=${dayIdx}">
         <div class="case-num-badge">Case #${caseNum}</div>
         <div class="archive-date">${dateDisplay}</div>
         <div class="archive-arrow">Play →</div>
-      </div>`;
+      </a>`;
     }).join('');
   }catch(e){
     grid.innerHTML = '<div class="loading-state">Could not load archive.</div>';

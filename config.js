@@ -106,5 +106,50 @@ window.NEUROLE_CONFIG = {
     instagram: "https://www.instagram.com/neurolegames/",
     email: "mailto:neurolegames@gmail.com",
     youtube: "https://www.youtube.com/@Neurolegames"
+  },
+
+  // --- Global Guess Distribution (Daily Case) ---------------------------
+  // Powers the "Guess Distribution — All Players" bars in the end-of-game
+  // popup, showing how everyone who played today's case did, not just you.
+  // Uses Firebase Firestore, which is free for this kind of light usage
+  // and needs no server of your own — the browser talks to it directly.
+  //
+  // SETUP (free, ~10 minutes):
+  //   1. Go to https://console.firebase.google.com and create a project
+  //      (any name — e.g. "neurole").
+  //   2. In the left sidebar: Build -> Firestore Database -> Create database.
+  //      Choose "Start in production mode", pick any region, click Enable.
+  //   3. Go to Firestore -> Rules tab and replace the rules with:
+  //
+  //        rules_version = '2';
+  //        service cloud.firestore {
+  //          match /databases/{database}/documents {
+  //            match /daily_stats/{day} {
+  //              allow read: if true;
+  //              allow write: if request.resource.data.diff(resource.data == null ? {} : resource.data).affectedKeys()
+  //                             .hasOnly(['d1','d2','d3','d4','d5','fail']);
+  //            }
+  //          }
+  //        }
+  //
+  //      This lets anyone read the daily totals (needed to show the bars)
+  //      and only ever increment the five known counters — it can't be
+  //      used to write arbitrary data. Click "Publish".
+  //   4. Back in Project Overview, click the "</>" (web app) icon to
+  //      register a web app. Skip Firebase Hosting — you don't need it.
+  //   5. It'll show you a firebaseConfig object. Copy those values into
+  //      FIREBASE_CONFIG below. (These values are meant to be public —
+  //      unlike API keys elsewhere in this file, they're not secret;
+  //      the Firestore Rules above are what actually control access.)
+  //
+  // Until this is filled in, the popup automatically falls back to
+  // showing your own personal guess history instead — nothing breaks.
+  FIREBASE_CONFIG: {
+    apiKey: "AIzaSyAdbHOuaT5tucKUL_8oUs1dRQc_VJCPGWw",
+    authDomain: "neurole-3abac.firebaseapp.com",
+    projectId: "neurole-3abac",
+    storageBucket: "neurole-3abac.firebasestorage.app",
+    messagingSenderId: "68816405131",
+    appId: "1:68816405131:web:c465646700c2c8c0bd4a8e"
   }
 };

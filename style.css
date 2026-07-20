@@ -430,6 +430,44 @@ footer {
   bottom: max(26px, calc(env(safe-area-inset-bottom, 0px) + 16px));
 }
 
+/* ---------- Chat FAB: liquid-glass linger interaction ---------- */
+/* Keeps the button's existing color/shape — this only layers on motion:
+   a cursor-tracking glass highlight on hover, a small magnetic pull toward
+   the pointer, and an escalated glow/breathing pulse once you linger. */
+.chat-fab{
+  --fab-x:50%; --fab-y:50%;
+  overflow:hidden;
+  isolation:isolate;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  will-change:transform;
+}
+.chat-fab::before{
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(circle 70px at var(--fab-x) var(--fab-y), rgba(255,255,255,.55), rgba(255,255,255,0) 70%);
+  opacity:0;
+  transition:opacity .3s ease;
+  pointer-events:none;
+  mix-blend-mode:soft-light;
+  z-index:1;
+}
+.chat-fab:hover::before{ opacity:1; }
+.chat-fab svg{ position:relative; z-index:2; transition:transform .45s cubic-bezier(.34,1.56,.64,1); }
+.chat-fab > *{ position:relative; z-index:2; }
+
+.chat-fab.linger{
+  animation:fab-breathe 1.8s ease-in-out infinite;
+  box-shadow:0 10px 32px rgba(0,0,0,.26), 0 0 0 5px rgba(255,255,255,.10);
+}
+.chat-fab.linger svg{ transform:scale(1.12) rotate(-8deg); }
+@keyframes fab-breathe{
+  0%,100%{ box-shadow:0 10px 32px rgba(0,0,0,.26), 0 0 0 5px rgba(255,255,255,.10); }
+  50%{ box-shadow:0 10px 36px rgba(0,0,0,.3), 0 0 0 9px rgba(255,255,255,.16); }
+}
+@media (prefers-reduced-motion: reduce){
+  .chat-fab, .chat-fab svg{ transition:none; animation:none; }
+}
+
 .back-home{
   display:inline-flex;align-items:center;gap:7px;
   font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;

@@ -398,6 +398,44 @@ async function fetchGlobalDailyDistribution(dateKey){
   }catch(e){ console.warn('Neurole: could not fetch global distribution —', e.message); return null; }
 }
 
+// ---------- Chat FAB: liquid-glass linger interaction ----------
+// Applies to any .chat-fab button (both games' "Explain" buttons share the
+// class). Purely additive motion — doesn't touch existing colors/markup.
+function initChatFabInteraction(){
+  const LINGER_DELAY = 400;   // ms of continuous hover before the "linger" state kicks in
+  const PULL_STRENGTH = 7;    // px of magnetic pull toward the cursor, max
+
+  document.querySelectorAll('.chat-fab').forEach(fab => {
+    let lingerTimer = null;
+
+    fab.addEventListener('mousemove', e => {
+      const rect = fab.getBoundingClientRect();
+      const relX = e.clientX - rect.left, relY = e.clientY - rect.top;
+      // Glass highlight follows the cursor
+      fab.style.setProperty('--fab-x', relX + 'px');
+      fab.style.setProperty('--fab-y', relY + 'px');
+      // Gentle magnetic pull toward the cursor, clamped to a small radius
+      const dx = ((relX / rect.width) - 0.5) * PULL_STRENGTH * 2;
+      const dy = ((relY / rect.height) - 0.5) * PULL_STRENGTH * 2;
+      fab.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+    });
+
+    fab.addEventListener('mouseenter', () => {
+      clearTimeout(lingerTimer);
+      lingerTimer = setTimeout(() => fab.classList.add('linger'), LINGER_DELAY);
+    });
+
+    fab.addEventListener('mouseleave', () => {
+      clearTimeout(lingerTimer);
+      fab.classList.remove('linger');
+      fab.style.transform = '';
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', initChatFabInteraction);
+// In case script.js loads after DOMContentLoaded already fired
+if(document.readyState !== 'loading') initChatFabInteraction();
+
 // ---------- Scroll-driven purple background tint ----------
 // Fades in only as the user scrolls toward the bottom of the page.
 function initScrollPurple(){

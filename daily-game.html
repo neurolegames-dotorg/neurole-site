@@ -687,7 +687,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="config.js?v=130"></script>
-<script src="script.js?v=129"></script>
+<script src="script.js?v=130"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1265,7 +1265,7 @@ function getStreak(){
   return { count: getDailyStats().currentStreak };
 }
 
-async function openResultPopup(won){
+function openResultPopup(won){
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
   const grid = document.getElementById('result-grid');
@@ -1296,19 +1296,11 @@ async function openResultPopup(won){
   setStat('stat-streak', dailyStats.currentStreak);
   setStat('stat-maxstreak', dailyStats.bestStreak);
 
-  const dateKey = dateStrForDayIndex(getDayIndex());
-  submitGlobalDailyResult(dateKey, won ? used : null);
-  const global = await fetchGlobalDailyDistribution(dateKey);
   const labelEl = document.getElementById('result-distribution-label');
-
   const distEl = document.getElementById('result-distribution');
-  if(distEl){
-    const dist = global ? global.d : dailyStats.distribution;
-    if(labelEl){
-      labelEl.textContent = global
-        ? `Guess Distribution — All Players (${global.total.toLocaleString()})`
-        : 'Guess Distribution — Your History';
-    }
+  function renderDistribution(dist, label){
+    if(!distEl) return;
+    if(labelEl) labelEl.textContent = label;
     const maxCount = Math.max(1, ...dist);
     distEl.innerHTML = dist.map((count, i) => {
       const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
@@ -1324,12 +1316,21 @@ async function openResultPopup(won){
         </div>`;
     }).join('');
   }
+  renderDistribution(dailyStats.distribution, 'Guess Distribution — Your History');
 
   startCountdown('next-case-countdown');
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
       `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`;
+  });
+
+  // Contribute this result and swap in the global distribution once it's
+  // back — fire-and-forget, doesn't block the popup opening above.
+  const dateKey = dateStrForDayIndex(getDayIndex());
+  submitGlobalDailyResult(dateKey, won ? used : null);
+  fetchGlobalDailyDistribution(dateKey).then(global => {
+    if(global) renderDistribution(global.d, `Guess Distribution — All Players (${global.total.toLocaleString()})`);
   });
 }
 

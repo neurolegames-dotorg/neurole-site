@@ -255,13 +255,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
     height:50px;padding:0 22px 0 18px;border-radius:30px;
-    background:var(--neuro-blue-bright), var(--plum));color:#fff;
+    background:var(--neuro-blue-bright);color:#fff;
     border:none;display:flex;align-items:center;justify-content:center;gap:8px;
     box-shadow:0 8px 22px rgba(0,0,0,.18);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
-  .chat-fab:hover{background:var(--neuro-blue), var(--neuro-blue-deep));}
+  .chat-fab:hover{background:var(--neuro-blue-deep);}
   .chat-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
     display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
@@ -692,7 +692,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="config.js?v=130"></script>
-<script src="script.js?v=129"></script>
+<script src="script.js?v=130"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -940,6 +940,9 @@ async function loadCase(){
       ? `<h4>Correct — it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
       : `<h4>The diagnosis was ${saved.answer}.</h4><p>${saved.explanation}</p>`;
     area.appendChild(banner);
+    // Coming back to a finished case (back button, reload, revisit) should
+    // land straight on the result popup, not just the inline banner.
+    openResultPopup(saved.won);
   }
 
   updateStartScreen();
@@ -1289,7 +1292,7 @@ function getStreak(){
   return { count: getDailyStats().currentStreak };
 }
 
-async function openResultPopup(won){
+function openResultPopup(won){
   const headline = document.getElementById('result-headline-text');
   const stats = document.getElementById('result-stats-text');
   const grid = document.getElementById('result-grid');
@@ -1319,22 +1322,14 @@ async function openResultPopup(won){
   setStat('stat-streak', dailyStats.currentStreak);
   setStat('stat-maxstreak', dailyStats.bestStreak);
 
-  // Contribute this result to the global count, then try to render everyone's
-  // distribution instead of just this device's own history. Falls back to
-  // personal history if Firebase isn't configured (see config.js).
-  const dateKey = dateStrForDayIndex(getPlayIndex());
-  submitGlobalDailyResult(dateKey, won ? used : null);
-  const global = await fetchGlobalDailyDistribution(dateKey);
+  // Show personal distribution immediately so the popup never waits on a
+  // network call to appear — global numbers (if configured) swap in once
+  // they arrive, without delaying the popup itself.
   const labelEl = document.getElementById('result-distribution-label');
-
   const distEl = document.getElementById('result-distribution');
-  if(distEl){
-    const dist = global ? global.d : dailyStats.distribution;
-    if(labelEl){
-      labelEl.textContent = global
-        ? `Guess Distribution — All Players (${global.total.toLocaleString()})`
-        : 'Guess Distribution — Your History';
-    }
+  function renderDistribution(dist, label){
+    if(!distEl) return;
+    if(labelEl) labelEl.textContent = label;
     const maxCount = Math.max(1, ...dist);
     distEl.innerHTML = dist.map((count, i) => {
       const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
@@ -1350,6 +1345,7 @@ async function openResultPopup(won){
         </div>`;
     }).join('');
   }
+  renderDistribution(dailyStats.distribution, 'Guess Distribution — Your History');
 
   const countdownEl = document.getElementById('next-case-countdown');
   if(isArchivePlay()){
@@ -1361,6 +1357,14 @@ async function openResultPopup(won){
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
       `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`;
+  });
+
+  // Contribute this result and swap in the global distribution once it's
+  // back — fire-and-forget, doesn't block anything above.
+  const dateKey = dateStrForDayIndex(getPlayIndex());
+  submitGlobalDailyResult(dateKey, won ? used : null);
+  fetchGlobalDailyDistribution(dateKey).then(global => {
+    if(global) renderDistribution(global.d, `Guess Distribution — All Players (${global.total.toLocaleString()})`);
   });
 }
 

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDT6M74DR');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+<title>Neurole — Free Daily Neuroscience Games</title>
+<meta name="description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
+<meta name="keywords" content="neuroscience games, neuroanatomy quiz, neurology game, brain quiz, free neuroscience quiz, neuroscience Wordle, medical student games, neuroanatomy practice, brain region quiz, neurology diagnosis game">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/">
+<meta property="og:title" content="Neurole — Free Daily Neuroscience Games">
+<meta property="og:description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Neurole — Free Daily Neuroscience Games">
+<meta name="twitter:description" content="Play The Daily Case and Map the Brain — free daily neuroscience games for students, clinicians, and curious minds. A new patient case every day.">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
+<link rel="canonical" href="https://neurole.org/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=127">
+<style>
+/* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
+:root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
+:root[data-theme="dark"] .hero,
+:root[data-theme="dark"] .hero-img-wrap{background-color:#111217 !important;}
+:root[data-theme="dark"] .hero-bg-image{filter:invert(1) hue-rotate(180deg) hue-rotate(55deg) saturate(1.15) !important;}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type":"WebSite","@id":"https://neurole.org/#website","url":"https://neurole.org/","name":"Neurole","description":"Free daily neuroscience games — The Daily Case and Map the Brain."},
+    {"@type":"EducationalOrganization","name":"Neurole","url":"https://neurole.org/","description":"Free neuroscience games for students, pre-med, clinicians, and curious minds."},
+    {"@type":"ItemList","name":"Neurole Games","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"The Daily Case","url":"https://neurole.org/daily-game.html","description":"Daily neurology diagnosis game — guess the condition from symptoms in 5 tries."},
+      {"@type":"ListItem","position":2,"name":"Map the Brain","url":"https://neurole.org/neuroanatomy.html","description":"Free neuroanatomy quiz — identify brain regions from anatomical images."}
+    ]}
+  ]
+}
+</script>
+
+<style>
+:root{--game-font:'Outfit',sans-serif;}
+
+/* ── Hero ── */
+.hero-text h1{letter-spacing:-.02em;font-family:var(--game-font);font-weight:900;}
+.hero-text p{letter-spacing:.18em;font-family:var(--game-font);font-weight:500;}
+
+/* ── Fun fact ── */
+.factbox{
+  background:rgba(160,142,200,.08);
+  border:1.5px solid rgba(145,118,184,.28);border-left:5px solid var(--neuro-blue);
+  border-radius:12px;padding:24px 28px;display:flex;flex-direction:column;gap:10px;
+}
+.factbox p{margin:0;font-size:17px;line-height:1.75;font-style:italic;color:var(--ink);}
+.factbox .cite{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
+.factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
+
+/* ── Games spotlight — fun, energetic ── */
+.games-spotlight{
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:52px 0 60px;
+  margin:44px 0;
+}
+.games-spotlight .eyebrow-pill{
+  display:block;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:14px;
+}
+.games-spotlight h2{
+  font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;
+  font-size:clamp(28px,4.5vw,42px);margin:0 0 10px;line-height:1.15;
+  letter-spacing:-.01em;
+}
+.games-spotlight .sub{
+  font-family:var(--game-font);color:var(--ink-soft);font-size:15.5px;
+  margin:0 auto 40px;max-width:440px;line-height:1.6;
+}
+
+.home-games-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:600px){.home-games-grid{grid-template-columns:1fr;}}
+
+.home-game-card{
+  background:var(--paper);border:1.5px solid var(--rule);border-radius:12px;overflow:hidden;
+  display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  position:relative;
+}
+.home-game-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(0,0,0,.08);
+  border-color:var(--ink-soft);
+}
+.home-game-card-stripe{height:4px;background:#8B2635;}
+.home-game-card-stripe--purple{background:#6B4F94;}
+.home-game-card-body{padding:26px 24px 24px;display:flex;flex-direction:column;gap:11px;flex:1;}
+.game-card-icon-wrap{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--paper-deep);
+  display:flex;align-items:center;justify-content:center;
+}
+.game-card-badge{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.home-game-card-body h3{
+  font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;font-size:clamp(21px,3vw,25px);margin:0;letter-spacing:-.01em;
+}
+.home-game-card-body p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.65;flex:1;}
+.play-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);
+  padding:0;align-self:flex-start;margin-top:4px;
+  transition:gap .15s ease;
+  border-bottom:1.5px solid var(--ink);
+}
+.home-game-card:hover .play-cta{gap:10px;}
+
+/* ── How it works ── */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0 0 52px;border:1.5px solid var(--rule);border-radius:12px;overflow:hidden;}
+@media(max-width:640px){.how-grid{grid-template-columns:1fr;}}
+.how-card{
+  background:var(--paper);
+  padding:24px 22px;position:relative;
+  border-right:1px solid var(--rule);
+}
+.how-card:last-child{border-right:none;}
+@media(max-width:640px){
+  .how-card{border-right:none;border-bottom:1px solid var(--rule);}
+  .how-card:last-child{border-bottom:none;}
+}
+.step-num{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;
+  color:var(--ink-soft);line-height:1;margin-bottom:12px;
+}
+.how-card h4{font-family:var(--game-font);font-size:16px;font-weight:700;margin:0 0 8px;}
+.how-card p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.65;}
+
+/* ── Stats ── */
+.stats-row{
+  display:flex;justify-content:center;gap:40px;
+  padding:8px 0 44px;
+  flex-wrap:wrap;
+}
+.stat-cell{text-align:center;}
+.stat-num{
+  font-family:'Cormorant Garamond','Playfair Display',serif;font-size:26px;font-weight:700;
+  color:var(--ink);line-height:1;margin-bottom:5px;
+}
+.stat-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+
+/* ── SEO text section ── */
+.seo-section{
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:36px 0;margin-bottom:52px;
+}
+.seo-section h2{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:22px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em;}
+.seo-section p{font-size:14.5px;color:var(--ink-soft);line-height:1.75;margin:0 0 12px;max-width:680px;}
+.seo-section p:last-child{margin:0;}
+.seo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.seo-tag{
+  font-family:var(--game-font);font-size:11px;font-weight:600;letter-spacing:.04em;
+  background:#fff;border:1.5px solid var(--rule);border-radius:20px;padding:5px 13px;color:var(--ink-soft);
+}
+@media(max-width:480px){.seo-section{padding:22px 18px;}}
+
+/* ── Volunteer banner ── */
+.volunteer-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  background:var(--paper);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;
+  border-radius:8px;padding:26px 30px;margin-bottom:0;
+  flex-wrap:wrap;
+}
+.volunteer-banner-text h4{
+  font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;
+  color:var(--ink);margin:0 0 6px;
+}
+.volunteer-banner-text p{font-family:var(--game-font);color:var(--ink-soft);font-size:14px;margin:0;}
+@media(max-width:480px){
+  .volunteer-banner{padding:22px 18px;flex-direction:column;align-items:flex-start;gap:16px;}
+  .volunteer-banner .btn{width:100%;justify-content:center;}
+}
+
+/* ── Section eyebrow ── */
+.section-eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:10px;display:block;
+}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></div>
+    <nav class="nav-left">
+      <a href="contact.html">Contact Us</a>
+      <a href="volunteer.html">Join Us</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <ul class="mobile-nav-items">
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
+<section class="hero">
+  <div class="hero-img-wrap" role="img" aria-label="Magnified purple neurons connected by branching dendrites">
+    <div class="hero-bg-image"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-text">
+      <h1>Neurole</h1>
+      <p>Games about your brain</p>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- Fun Fact -->
+  <div class="wrap" style="margin-top:52px;">
+    <span class="section-eyebrow">Weekly Neuroscience Fun Fact</span>
+    <div class="factbox" id="fun-fact-box">
+      <p class="fact-text">Loading this week's fact…</p>
+      <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">—</a></span>
+    </div>
+  </div>
+
+  <!-- Games spotlight -->
+  <section class="games-spotlight">
+    <div class="wrap" style="text-align:center;">
+      <span class="eyebrow-pill">Free to play, no sign-up</span>
+      <h2 style="font-weight:700;">Two games. A new case every day.</h2>
+      <p class="sub">A neurology case each morning, and a neuroanatomy quiz whenever you want it.</p>
+
+      <div class="home-games-grid">
+
+        <a class="home-game-card" href="daily-game.html">
+          <div class="home-game-card-stripe"></div>
+          <div class="home-game-card-body">
+            <div class="game-card-icon-wrap">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+              </svg>
+            </div>
+            <span class="game-card-badge">Daily · Diagnostic</span>
+            <h3>The Daily Case</h3>
+            <p>A new patient each day. Read the symptoms, guess the diagnosis in five tries. Resets at midnight ET.</p>
+            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;align-self:flex-start;"></div>
+            <span class="play-cta">Play today's case →</span>
+          </div>
+        </a>
+
+        <a class="home-game-card" href="neuroanatomy.html">
+          <div class="home-game-card-stripe home-game-card-stripe--purple"></div>
+          <div class="home-game-card-body">
+            <div class="game-card-icon-wrap">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+                <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+                <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+                <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+                <path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/>
+              </svg>
+            </div>
+            <span class="game-card-badge">Untimed · Visual</span>
+            <h3>Map the Brain</h3>
+            <p>A brain image appears. Pick the highlighted region from four choices, then ask the built-in tutor what it does and what happens when it's damaged.</p>
+            <span class="play-cta">Explore neuroanatomy →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <div class="wrap">
+    <span class="section-eyebrow">How it works</span>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="step-num">01</div>
+        <h4>Pick a game</h4>
+        <p>The Daily Case for a diagnostic challenge, or Map the Brain to drill neuroanatomy at your own pace. No account needed.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">02</div>
+        <h4>Learn by doing</h4>
+        <p>Each question teaches real neuroscience. Wrong answers reveal more clues, and a built-in tutor can explain anything you're stuck on.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">03</div>
+        <h4>Come back daily</h4>
+        <p>A new case drops every day at midnight ET. Build a streak and work your way across 45+ brain regions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="stat-cell"><div class="stat-num">45+</div><div class="stat-label">Brain regions</div></div>
+      <div class="stat-cell"><div class="stat-num">Daily</div><div class="stat-label">New cases</div></div>
+      <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">No account needed</div></div>
+    </div>
+  </div>
+
+  <!-- SEO prose — kept for Google ranking, keyword pills moved to About -->
+  <div class="wrap">
+    <div class="seo-section">
+      <h2 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;font-size:26px;letter-spacing:-.01em;">The neuroscience game built for real learning</h2>
+      <p>Neurole is a free daily neuroscience game for pre-med students, neuroscience majors, medical students, clinicians, and anyone curious about how the brain works. A new neurological case appears every day: read five clinical symptoms and identify the diagnosis in five tries or fewer.</p>
+      <p>The neuroanatomy quiz presents real brain images. Identify the highlighted region, then ask the built-in tutor about its function, clinical relevance, and connections to neighboring areas. Neurole covers sulci, gyri, cortical areas, and neuropsychology, all reviewed for clinical accuracy. Free, forever.</p>
+    </div>
+  </div>
+
+  <!-- Community banner -->
+  <div class="wrap">
+    <div class="volunteer-banner">
+      <div class="volunteer-banner-text">
+        <h4>Help build Neurole</h4>
+        <p>Clinicians, students, designers, and developers work on Neurole as volunteers. If you'd like to help, we'd like to hear from you.</p>
+      </div>
+      <a class="btn" href="volunteer.html" style="border-radius:8px;flex-shrink:0;">Join Us →</a>
+    </div>
+  </div>
+
+  <!-- Interactive teaser -->
+  <div class="wrap" style="margin-top:52px;">
+    <span class="section-eyebrow">Interactive<span class="beta-pill">Beta</span></span>
+    <a href="interactive.html" style="display:flex;align-items:center;gap:16px;background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:10px;padding:20px;text-decoration:none;margin-top:10px;">
+      <div style="width:44px;height:44px;border-radius:10px;background:var(--paper);border:1.5px solid var(--rule);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5C4480" stroke-width="1.6"><path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/><path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/></svg>
+      </div>
+      <div>
+        <h3 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;font-size:19px;margin:0 0 2px;color:var(--ink);">Watch Alzheimer's progress</h3>
+        <p style="color:var(--ink-soft);font-size:13.5px;margin:0;">An early look at our interactive teaching tools →</p>
+      </div>
+    </a>
+  </div>
+
+</main>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <!-- Footer nav links -->
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
+      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Contact Us</a>
+      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">About</a>
+      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Donate</a>
+      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;line-height:1.2;">Subscribe</a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<script src="config.js?v=130"></script>
+<script src="games-data.js?v=125"></script>
+<script src="script.js?v=130"></script>
+<script>
+  document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+  document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+  document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+  // Show streak on homepage game card
+  try{
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('neurole_daily_'));
+    if(keys.length > 0){
+      // Count consecutive days up to yesterday
+      let streak = 0;
+      const et = d => new Date(new Date(d).toLocaleString('en-US',{timeZone:'America/New_York'}));
+      const today = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+      for(let i=0;i<60;i++){
+        const d = new Date(today); d.setDate(d.getDate()-i);
+        const key = 'neurole_daily_' + d.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+        const saved = localStorage.getItem(key);
+        if(saved && JSON.parse(saved).won){ streak++; } else if(i>0){ break; }
+      }
+      if(streak > 0){
+        const el = document.getElementById('home-streak-display');
+        if(el){ el.style.display='flex'; el.textContent = '🔥 ' + streak + '-day streak'; }
+      }
+    }
+  }catch(e){}
+
+  // Email reminder form
+  const rf = document.getElementById('reminder-form');
+  if(rf){
+    rf.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = rf.querySelector('button');
+      btn.textContent = 'Saving…'; btn.disabled = true;
+      try{
+        const res = await fetch(rf.action, {method:'POST',body:new FormData(rf),headers:{Accept:'application/json'}});
+        if(res.ok){
+          rf.style.display = 'none';
+          document.getElementById('reminder-success').style.display = 'block';
+        } else { btn.textContent = 'Remind me →'; btn.disabled = false; }
+      }catch(e){ btn.textContent = 'Remind me →'; btn.disabled = false; }
+    });
+  }
+</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+    </div>
+    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+        </div>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+      </form>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Continue';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>

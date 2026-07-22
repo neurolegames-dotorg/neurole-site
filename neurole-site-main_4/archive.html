@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<title>Case Archive — Neurole</title>
+<meta name="description" content="Browse every Daily Case ever published on Neurole. Revisit past neurological diagnoses and test your knowledge.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=127">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  max-width:860px;
+}
+@media(max-width:640px){.archive-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:380px){.archive-grid{grid-template-columns:1fr;}}
+
+.archive-card{
+  background:var(--paper-deep);
+  border:1.5px solid var(--rule);
+  border-radius:16px;
+  padding:22px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  text-decoration:none;
+  color:var(--ink);
+  cursor:pointer;
+  transition:transform .18s, box-shadow .18s, border-color .18s;
+}
+.archive-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(90,67,128,.12);
+  border-color:var(--neuro-blue);
+}
+.case-num-badge{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-.01em;
+  line-height:1;
+}
+.archive-date{
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--neuro-blue-deep);
+  letter-spacing:.02em;
+}
+.archive-arrow{
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-soft);
+  margin-top:auto;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  font-size:10.5px;
+}
+@media(max-width:480px){
+  .case-num-badge{font-size:22px;}
+  .archive-card{padding:18px 16px 14px;}
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <nav class="nav-left">
+      <a href="contact.html">Contact Us</a>
+      <a href="volunteer.html">Join Us</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close">✕</button>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <ul class="mobile-nav-items">
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="wrap">
+    <a class="back-home" href="daily-game.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Daily Case
+    </a>
+    <h1>Case Archive</h1>
+    <p>Every case ever published on Neurole — click any to revisit.</p>
+  </div>
+</div>
+
+<main class="wrap" style="padding:36px 0 80px;">
+  <div class="archive-grid" id="archive-grid">
+    <div class="loading-state">Loading cases…</div>
+  </div>
+</main>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" id="social-email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
+      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">Contact Us</a>
+      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">About</a>
+      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">Donate</a>
+      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;">Subscribe</a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;">Email address</label>
+      <input type="email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="reminder-signup-modal" style="display:none;" onclick="if(event.target.id==='reminder-signup-modal')this.classList.remove('open')">
+  <div class="modal" style="max-width:420px;text-align:center;padding:40px 32px;">
+    <button onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;margin:0 0 8px;">Get daily reminders 🧠</h3>
+    <p style="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;">One email at 9 AM ET when today's case drops.</p>
+    <form id="subscribe-footer-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+      <input type="hidden" name="type" value="Subscribe - daily reminder">
+      <div class="field"><input type="email" name="email" placeholder="your@email.com" required style="width:100%;padding:12px 14px;font-size:15px;border:1.5px solid var(--rule);border-radius:8px;box-sizing:border-box;font-family:'Outfit',sans-serif;"></div>
+      <button class="btn" type="submit" style="width:100%;justify-content:center;margin-top:4px;">Subscribe →</button>
+    </form>
+  </div>
+</div>
+
+<script src="config.js?v=130"></script>
+<script src="script.js?v=130"></script>
+<script>
+document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+const LAUNCH = '2026-07-10';
+function parseCSV(text){
+  const rows=[];let cur=[],cell='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){ if(inQ&&text[i+1]==='"'){cell+='"';i++;}else inQ=!inQ; }
+    else if(ch===','&&!inQ){cur.push(cell);cell='';}
+    else if((ch==='\n'||ch==='\r')&&!inQ){
+      cur.push(cell);if(cur.some(c=>c.trim()))rows.push(cur);
+      cur=[];cell='';if(ch==='\r'&&text[i+1]==='\n')i++;
+    } else cell+=ch;
+  }
+  if(cell||cur.length)cur.push(cell);if(cur.some(c=>c.trim()))rows.push(cur);
+  return rows;
+}
+
+async function loadArchive(){
+  const grid = document.getElementById('archive-grid');
+  try{
+    const res = await fetch(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + Date.now(), {cache:'no-store'});
+    const text = await res.text();
+    let rows = parseCSV(text).filter(r => r.some(c => c.trim()));
+
+    // Skip header if first cell isn't a date
+    const c0 = (rows[0]?.[0]||'').trim();
+    if(!/^\d{4}-/.test(c0) && rows.length > 1) rows = rows.slice(1);
+
+    // Only show cases up to today
+    const [ly,lm,ld] = LAUNCH.split('-').map(Number);
+    const etToday = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const todayUTC = Date.UTC(etToday.getFullYear(),etToday.getMonth(),etToday.getDate());
+    const launchUTC = Date.UTC(ly,lm-1,ld);
+    const daysElapsed = Math.floor((todayUTC - launchUTC) / 864e5);
+    const published = rows.slice(0, daysElapsed + 1).reverse(); // newest first
+
+    if(!published.length){ grid.innerHTML = '<div class="loading-state">No cases published yet.</div>'; return; }
+
+    grid.innerHTML = published.map((row, i) => {
+      const caseNum = published.length - i;
+      const dayIdx = caseNum - 1;
+      const dateRaw = (row[0]||'').trim();
+      const dateDisplay = dateRaw ? new Date(dateRaw + 'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
+      return `<a class="archive-card" href="daily-game-play.html?day=${dayIdx}">
+        <div class="case-num-badge">Case #${caseNum}</div>
+        <div class="archive-date">${dateDisplay}</div>
+        <div class="archive-arrow">Play →</div>
+      </a>`;
+    }).join('');
+  }catch(e){
+    grid.innerHTML = '<div class="loading-state">Could not load archive.</div>';
+  }
+}
+loadArchive();
+</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+    </div>
+    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+        </div>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+      </form>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Continue';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>

@@ -27,8 +27,17 @@ window.NEUROLE_CONFIG = {
   LEARN_REGIONS_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_LEARN_REGIONS",
 
   // --- Neuroanatomy game ---------------------------------------------
-  // Columns expected (header row):
-  // id | image_url | choice_a | choice_b | choice_c | choice_d | correct_choice | function_text
+  // The code reads columns by HEADER NAME (row 1), not by column letter —
+  // so it doesn't matter which literal column something sits in, as long
+  // as row 1 has these exact header names somewhere in it:
+  //   region | image_url | choice_a | choice_b | choice_c | choice_d |
+  //   correct_choice | function_text | category (optional) | difficulty (optional)
+  //
+  // Matching your current sheet layout (A→P):
+  //   A region | B image_url | C category | D difficulty | E-J (unused by
+  //   the game — free for your own notes/reference) | K choice_a |
+  //   L choice_b | M choice_c | N choice_d | O correct_choice (A/B/C/D —
+  //   which of K-N is right) | P function_text
   NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",
 
   // --- Weekly fun fact -------------------------------------------------

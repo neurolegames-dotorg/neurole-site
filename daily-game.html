@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=129">
+<link rel="stylesheet" href="style.css?v=130">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -495,6 +495,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
         <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
       </div>
+      <div id="case-byline" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:14px;letter-spacing:.03em;"></div>
       <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:6px;min-height:22px;"></div>
       <div class="start-meta" id="start-meta" style="margin-top:4px;"></div>
       <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
@@ -702,7 +703,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="config.js?v=130"></script>
+<script src="config.js?v=131"></script>
 <script src="script.js?v=130"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
@@ -845,6 +846,7 @@ async function loadCase(){
   }catch(e){}
   document.getElementById('case-date').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const caseNum = getDayIndex() + 1;
+  state.caseNum = caseNum;
   const caseNumEl = document.getElementById('case-number');
   if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
   let chosen = null;
@@ -943,6 +945,18 @@ function updateStartScreen(){
   const playBtn = document.getElementById('start-play-btn');
   const meta = document.getElementById('start-meta');
   const streakLabel = document.getElementById('streak-label');
+  const bylineEl = document.getElementById('case-byline');
+  if(bylineEl){
+    const parts = [];
+    if(state.caseNum) parts.push('Case #' + state.caseNum);
+    if(state.author && state.author.trim()) parts.push('By ' + state.author.trim());
+    if(parts.length){
+      bylineEl.textContent = parts.join(' · ');
+      bylineEl.style.display = 'block';
+    } else {
+      bylineEl.style.display = 'none';
+    }
+  }
   if(state.alreadyCompletedToday){
     playBtn.textContent = 'View Result';
   } else {

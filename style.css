@@ -91,11 +91,31 @@ body{padding-top:58px;}
   background:var(--paper);
   display:flex;flex-direction:column;
   opacity:0;
+  transform:translateX(24px);
   pointer-events:none;
-  transition:opacity .28s ease;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
   overflow-y:auto;
 }
-.mobile-nav-overlay.open{opacity:1;pointer-events:auto;}
+.mobile-nav-overlay.open{opacity:1;transform:translateX(0);pointer-events:auto;}
+
+/* Nav items stagger in slightly after the panel, for a more graceful reveal */
+.mobile-nav-items li{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .3s ease, transform .3s ease;
+  transition-delay:0s;
+}
+.mobile-nav-overlay.open .mobile-nav-items li{opacity:1;transform:translateY(0);}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(1){transition-delay:.06s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(2){transition-delay:.1s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(3){transition-delay:.14s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(4){transition-delay:.18s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(5){transition-delay:.22s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(6){transition-delay:.26s;}
+.mobile-nav-overlay.open .mobile-nav-items li:nth-child(n+7){transition-delay:.3s;}
+@media (prefers-reduced-motion: reduce){
+  .mobile-nav-overlay, .mobile-nav-items li{transition:opacity .15s ease !important;transform:none !important;}
+}
 
 /* Close button inside the overlay */
 .mobile-nav-close{

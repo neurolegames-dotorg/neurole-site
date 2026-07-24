@@ -17,7 +17,7 @@ window.NEUROLE_CONFIG = {
 
   // --- Daily Clinical Case game -------------------------------------
   // Columns expected (header row): 
-  // date | case_id | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation
+  // Column layout (A→J): date | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation | author
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
   // --- Learn Regions (beginners section on Map the Brain) ---------

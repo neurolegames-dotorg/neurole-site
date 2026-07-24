@@ -241,6 +241,21 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
   return answer || `I can't reach an AI provider right now — but here's what I know: ${function_text}`;
 }
 
+// Explains, in 2-3 sentences, what a wrong guess actually is and how it
+// differs from the real answer — used by The Daily Case after each
+// incorrect guess. Generated live rather than pre-written, since we can't
+// pre-author a factual blurb for every possible free-text guess a player
+// might type.
+async function explainWrongGuess(guess, correctAnswer){
+  const prompt = `You are a neurology tutor inside an educational diagnostic game called Neurole.
+A player is trying to diagnose a clinical case. The correct diagnosis is "${correctAnswer}", but the player just guessed "${guess}", which is incorrect.
+
+In exactly 2-3 sentences, briefly explain what "${guess}" actually is (its key features), and why it doesn't fit this case as well as the real answer would. Do not reveal the correct answer's name in your response — only describe the guessed condition. Keep it factual, plain-language, and suitable for a pre-med or nursing student. If "${guess}" isn't a real recognizable medical condition, briefly say so instead.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || null;
+}
+
 // ---------- Google Sign-In (shared across all pages) ----------
 // Renders a real "Sign in with Google" button into the given container
 // ---------- Google Sign-In (with localStorage persistence) ----------

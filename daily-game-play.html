@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=127">
+<link rel="stylesheet" href="style.css?v=128">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -537,6 +537,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </button>
         </form>
         <div class="closest-note" id="closest-note"></div>
+        <div id="guess-explain" style="display:none;margin-top:12px;padding:14px 16px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #8B2635;border-radius:8px;">
+          <p style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why that's not it</p>
+          <p id="guess-explain-text" style="margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);">Thinking…</p>
+        </div>
         <div class="past-guesses" id="past-guesses"></div>
       </div>
 
@@ -664,6 +668,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rmodal-section" id="result-explanation-section" style="display:none;">
       <p class="rmodal-section-label">Why</p>
       <p id="result-explanation-text" style="margin:0;font-size:14px;line-height:1.65;color:var(--rm-ink);"></p>
+      <p id="result-author-line" style="display:none;margin:10px 0 0;font-family:var(--mono);font-size:11px;color:var(--rm-soft);"></p>
     </div>
 
     <div class="rmodal-section">
@@ -898,11 +903,12 @@ async function loadCase(){
 
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
-      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation
+      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation, col 9=author
       state.symptoms    = [1,2,3,4,5].map(i => (row[i]||'').trim()).filter(Boolean);
       state.answer      = (row[6]||'').trim();
       state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
       state.explanation = (row[8]||'').trim();
+      state.author      = (row[9]||'').trim();
       console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
       if(state.symptoms.length > 0 && state.answer) chosen = true;
     } else {
@@ -935,6 +941,7 @@ async function loadCase(){
     // but don't show it yet; the start screen's "View Result" button reveals it.
     state.answer = saved.answer;
     state.explanation = saved.explanation;
+    state.author = saved.author;
     state.attemptsUsed = saved.attemptsUsed;
     state.solved = saved.won;
     state.shown = state.symptoms.length;
@@ -1035,6 +1042,8 @@ document.getElementById('guess-form').addEventListener('submit', e => {
   if(checkAnswer(guess)){
     state.solved = true;
     note.textContent = '';
+    const explBox = document.getElementById('guess-explain');
+    if(explBox) explBox.style.display = 'none';
     showResult(true);
   } else {
     state.attemptsUsed++;
@@ -1054,6 +1063,8 @@ document.getElementById('guess-form').addEventListener('submit', e => {
     const closest = findClosestKnownDisorder(guess);
     note.textContent = closest ? `Read as: "${closest}" — not quite right.` : '';
 
+    showGuessExplanation(guess);
+
     if(state.attemptsUsed >= 5){
       showResult(false);
     } else {
@@ -1063,6 +1074,25 @@ document.getElementById('guess-form').addEventListener('submit', e => {
   }
   input.value = '';
 });
+
+// Brief, live-generated explanation of what the wrong guess actually is,
+// shown at the bottom of the guess area after each incorrect attempt.
+let guessExplainToken = 0;
+async function showGuessExplanation(guess){
+  const box = document.getElementById('guess-explain');
+  const textEl = document.getElementById('guess-explain-text');
+  if(!box || !textEl) return;
+  const myToken = ++guessExplainToken;
+  box.style.display = 'block';
+  textEl.textContent = 'Thinking…';
+  const explanation = await explainWrongGuess(guess, state.answer);
+  if(myToken !== guessExplainToken) return; // a newer guess has since been made — drop this stale result
+  if(explanation){
+    textEl.textContent = explanation;
+  } else {
+    box.style.display = 'none';
+  }
+}
 
 function updateAttemptDots(won){
   for(let i=1;i<=5;i++){
@@ -1240,7 +1270,7 @@ function dailyStorageKey(){
 function saveDailyCompletion(won){
   try{
     localStorage.setItem(dailyStorageKey(), JSON.stringify({
-      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation
+      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author
     }));
   }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage —", err.message); }
 }
@@ -1311,12 +1341,22 @@ function openResultPopup(won){
 
   const explSection = document.getElementById('result-explanation-section');
   const explText = document.getElementById('result-explanation-text');
+  const authorLine = document.getElementById('result-author-line');
   if(explSection && explText){
     if(state.explanation && state.explanation.trim()){
       explText.textContent = state.explanation;
       explSection.style.display = 'block';
     } else {
       explSection.style.display = 'none';
+    }
+  }
+  if(authorLine){
+    if(state.author && state.author.trim()){
+      authorLine.textContent = 'By ' + state.author.trim();
+      authorLine.style.display = 'block';
+      if(explSection) explSection.style.display = 'block';
+    } else {
+      authorLine.style.display = 'none';
     }
   }
 

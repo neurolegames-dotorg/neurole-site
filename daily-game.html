@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=127">
+<link rel="stylesheet" href="style.css?v=128">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -659,6 +659,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rmodal-section" id="result-explanation-section" style="display:none;">
       <p class="rmodal-section-label">Why</p>
       <p id="result-explanation-text" style="margin:0;font-size:14px;line-height:1.65;color:var(--rm-ink);"></p>
+      <p id="result-author-line" style="display:none;margin:10px 0 0;font-family:var(--mono);font-size:11px;color:var(--rm-soft);"></p>
     </div>
 
     <div class="rmodal-section">
@@ -874,11 +875,12 @@ async function loadCase(){
 
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
-      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation
+      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation, col 9=author
       state.symptoms    = [1,2,3,4,5].map(i => (row[i]||'').trim()).filter(Boolean);
       state.answer      = (row[6]||'').trim();
       state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
       state.explanation = (row[8]||'').trim();
+      state.author      = (row[9]||'').trim();
       console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
       if(state.symptoms.length > 0 && state.answer) chosen = true;
     } else {
@@ -911,6 +913,7 @@ async function loadCase(){
     // but don't show it yet; the start screen's "View Result" button reveals it.
     state.answer = saved.answer;
     state.explanation = saved.explanation;
+    state.author = saved.author;
     state.attemptsUsed = saved.attemptsUsed;
     state.solved = saved.won;
     state.shown = state.symptoms.length;
@@ -1213,7 +1216,7 @@ function dailyStorageKey(){
 function saveDailyCompletion(won){
   try{
     localStorage.setItem(dailyStorageKey(), JSON.stringify({
-      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation
+      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author
     }));
   }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage —", err.message); }
 }
@@ -1284,12 +1287,22 @@ function openResultPopup(won){
 
   const explSection = document.getElementById('result-explanation-section');
   const explText = document.getElementById('result-explanation-text');
+  const authorLine = document.getElementById('result-author-line');
   if(explSection && explText){
     if(state.explanation && state.explanation.trim()){
       explText.textContent = state.explanation;
       explSection.style.display = 'block';
     } else {
       explSection.style.display = 'none';
+    }
+  }
+  if(authorLine){
+    if(state.author && state.author.trim()){
+      authorLine.textContent = 'By ' + state.author.trim();
+      authorLine.style.display = 'block';
+      if(explSection) explSection.style.display = 'block';
+    } else {
+      authorLine.style.display = 'none';
     }
   }
 

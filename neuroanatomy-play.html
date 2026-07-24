@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=127">
+<link rel="stylesheet" href="style.css?v=128">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -1655,11 +1655,14 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
   const params = new URLSearchParams(location.search);
   selectedCategory = params.get('category') || 'Random';
   selectedDifficulty = params.get('difficulty') || 'all';
+  selectedQuestionType = params.get('questionType') || 'region';
   const count = params.get('count') || '10';
   document.querySelectorAll('.category-btn[data-difficulty]').forEach(b=>
     b.classList.toggle('active', b.dataset.difficulty===selectedDifficulty));
   document.querySelectorAll('.category-btn[data-category]').forEach(b=>
     b.classList.toggle('active', b.dataset.category===selectedCategory));
+  document.querySelectorAll('.category-btn[data-qtype]').forEach(b=>
+    b.classList.toggle('active', b.dataset.qtype===selectedQuestionType));
   let tries = 0;
   while(!bankReady && tries++ < 40) await new Promise(r=>setTimeout(r,250));
   startRound(count);

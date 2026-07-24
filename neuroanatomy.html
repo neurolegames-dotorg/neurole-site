@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=127">
+<link rel="stylesheet" href="style.css?v=128">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -685,6 +685,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
+      <!-- Question type -->
+      <div style="width:100%;text-align:left;margin:14px 0 8px;">
+        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
+        <div class="category-row" id="question-type-row">
+          <button class="category-btn active" data-qtype="region">Name the Region</button>
+          <button class="category-btn" data-qtype="function">Name from Function</button>
+          <button class="category-btn" data-qtype="mixed">Mixed</button>
+        </div>
+      </div>
+
       <!-- Area -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
         <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
@@ -948,6 +958,7 @@ let current = null;
 let answered = false;
 let correctCount = 0;
 let selectedCategory = 'Random';
+let selectedQuestionType = 'region';
 let selectedDifficulty = 'all';
 let bankLoading = false;
 let bankReady = false;
@@ -1058,6 +1069,14 @@ document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
   });
 });
 
+document.querySelectorAll('.category-btn[data-qtype]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.category-btn[data-qtype]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedQuestionType = btn.dataset.qtype;
+  });
+});
+
 async function startRound(countOption){
   // Wait for bank to load if it hasn't yet
   if(!bankReady){
@@ -1111,6 +1130,7 @@ document.querySelectorAll('.round-choice').forEach(btn => {
     const params = new URLSearchParams({
       category: selectedCategory,
       difficulty: selectedDifficulty,
+      questionType: selectedQuestionType,
       count: btn.dataset.count
     });
     window.location.href = 'neuroanatomy-play.html?' + params.toString();

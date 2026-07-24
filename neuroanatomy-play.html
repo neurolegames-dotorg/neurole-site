@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=130">
+<link rel="stylesheet" href="style.css?v=131">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -956,8 +956,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=131"></script>
-<script src="script.js?v=130"></script>
+<script src="config.js?v=132"></script>
+<script src="script.js?v=131"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1287,11 +1287,21 @@ function showQuestion(){
 
   // Build the 4 choices as {text, isCorrect} objects, then shuffle their
   // display order so the correct answer isn't always in the same slot.
+  // Correctness is determined by matching each choice's text against the
+  // region name itself (column A) — no separate "correct letter" column
+  // needed. Falls back to a correct_choice letter column if present, for
+  // any older rows that might still use that format.
+  const normText = s => String(s||'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  const regionName = normText(findField(current,'region') || '');
   const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
-  const rawChoices = ['a','b','c','d'].map(letter => ({
-    text: findField(current, 'choice_' + letter),
-    isCorrect: letter.toUpperCase() === correctLetter
-  }));
+  const rawChoices = ['a','b','c','d'].map(letter => {
+    const text = findField(current, 'choice_' + letter) || '';
+    const matchesRegion = regionName && normText(text) === regionName;
+    return {
+      text,
+      isCorrect: matchesRegion || (!regionName && letter.toUpperCase() === correctLetter)
+    };
+  });
   const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');

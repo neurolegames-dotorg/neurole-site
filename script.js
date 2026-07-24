@@ -457,7 +457,7 @@ function initScrollPurple(){
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
-    const progress = maxScroll <= 0 ? 0 : Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
+    const progress = maxScroll <= 0 ? 0 : Math.max(0, Math.min(1, (scrolled / maxScroll - 0.25) / 0.55));
     const dark = document.documentElement.dataset.theme === 'dark';
     const start = dark ? [17,18,23] : [248,249,250];
     const end = dark ? [36,26,61] : [229,220,245];

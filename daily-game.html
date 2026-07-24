@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=130">
+<link rel="stylesheet" href="style.css?v=131">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -703,8 +703,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="config.js?v=131"></script>
-<script src="script.js?v=130"></script>
+<script src="config.js?v=132"></script>
+<script src="script.js?v=131"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1466,7 +1466,43 @@ document.getElementById('start-play-btn').addEventListener('click', () => {
 
 // Lightweight landing check — no sheet fetch needed here, just today's local completion status.
 state.alreadyCompletedToday = !!getSavedDailyCompletion();
+state.caseNum = getDayIndex() + 1; // pure date math, doesn't need the sheet
+const savedForByline = getSavedDailyCompletion();
+if(savedForByline && savedForByline.author) state.author = savedForByline.author;
 updateStartScreen();
+
+// Fill in the "By [author]" byline in the background without delaying the
+// page — the landing page intentionally skips the full sheet fetch for
+// speed, so this fetches just enough to read today's author column.
+(async function loadByline(){
+  if(state.author) return; // already have it from a saved completion above
+  try{
+    let csvText = null;
+    try{
+      const age = Date.now() - (parseInt(sessionStorage.getItem('neurole_csv_time')||'0'));
+      if(age < 1800000) csvText = sessionStorage.getItem('neurole_csv_cache');
+    }catch(e){}
+    if(!csvText){
+      const res = await fetch(window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + Date.now(), {cache:'no-store'});
+      if(!res.ok) return;
+      csvText = await res.text();
+      try{
+        sessionStorage.setItem('neurole_csv_cache', csvText);
+        sessionStorage.setItem('neurole_csv_time', String(Date.now()));
+      }catch(e){}
+    }
+    let allRows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
+    const col0 = (allRows[0]?.[0]||'').trim();
+    const col1 = (allRows[0]?.[1]||'').trim();
+    const isDataRow = /^\d+$/.test(col0) || /^\d{4}-/.test(col0) || /^\d{4}-/.test(col1);
+    if(!isDataRow && allRows.length > 1) allRows = allRows.slice(1);
+    const idx = getDayIndex();
+    if(idx >= 0 && idx < allRows.length){
+      state.author = (allRows[idx][9]||'').trim();
+      updateStartScreen();
+    }
+  }catch(e){ console.warn('Neurole: could not load byline —', e.message); }
+})();
 
 /* ---------- AI chat modal ---------- */
 document.getElementById('case-chat-fab').addEventListener('click', () => {

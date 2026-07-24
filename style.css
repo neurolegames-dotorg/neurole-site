@@ -1358,7 +1358,6 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 }
 
 :root[data-theme="dark"] .game-card,
-:root[data-theme="dark"] .home-game-card,
 :root[data-theme="dark"] .how-card,
 :root[data-theme="dark"] .panel,
 :root[data-theme="dark"] .case-card,
@@ -1377,6 +1376,9 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .sub-body{
   background:#1A1B21 !important;border-color:var(--rule) !important;color:var(--ink) !important;
 }
+
+:root[data-theme="dark"] .home-game-card{background:rgba(139,38,53,.1) !important;border-color:var(--rule) !important;}
+:root[data-theme="dark"] .home-game-card:nth-child(2){background:rgba(107,79,148,.12) !important;}
 
 :root[data-theme="dark"] input,
 :root[data-theme="dark"] textarea,

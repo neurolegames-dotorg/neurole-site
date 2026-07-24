@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=130">
+<link rel="stylesheet" href="style.css?v=131">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -91,8 +91,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .games-spotlight{
   border-top:1px solid var(--rule);
   border-bottom:1px solid var(--rule);
-  padding:52px 0 60px;
-  margin:44px 0;
+  padding:44px 0;
+  margin:44px 0 0;
 }
 .games-spotlight .eyebrow-pill{
   display:block;
@@ -114,12 +114,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(max-width:600px){.home-games-grid{grid-template-columns:1fr;}}
 
 .home-game-card{
-  background:var(--paper);border:1.5px solid var(--rule);border-radius:14px;overflow:visible;
+  background:rgba(139,38,53,.045);border:1.5px solid var(--rule);border-radius:14px;overflow:visible;
   display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
   transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
   position:relative;
   padding:24px 22px;
 }
+.home-game-card:nth-child(2){background:rgba(107,79,148,.045);}
 .home-game-card:hover{
   transform:translateY(-3px);
   box-shadow:0 12px 28px rgba(0,0,0,.09);
@@ -330,7 +331,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- Stats -->
-  <div class="wrap" style="margin-top:44px;">
+  <div class="wrap">
     <div class="stats-row">
       <div class="stat-cell"><div class="stat-num">45+</div><div class="stat-label">Brain regions</div></div>
       <div class="stat-cell"><div class="stat-num">Daily</div><div class="stat-label">New cases</div></div>
@@ -446,9 +447,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=131"></script>
+<script src="config.js?v=132"></script>
 <script src="games-data.js?v=125"></script>
-<script src="script.js?v=130"></script>
+<script src="script.js?v=131"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

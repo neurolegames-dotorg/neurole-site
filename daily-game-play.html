@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=128">
+<link rel="stylesheet" href="style.css?v=129">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -496,11 +496,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <h1>The Daily Case</h1>
       <p>A new patient every day. Read the symptoms and name the diagnosis — 5 tries, then the answer is revealed.</p>
-      <div class="start-pills">
-        <span class="start-pill pill-red">🩺 Daily reset</span>
-        <span class="start-pill pill-gold">🧠 Neurology</span>
-        <span class="start-pill pill-green">✓ Free</span>
-      </div>
       <div class="start-actions">
         <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
         <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
@@ -658,11 +653,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="rmodal-section">
-      <div id="result-grid" class="rmodal-grid"></div>
-      <p id="result-distribution-label" class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
-      <div id="result-distribution"></div>
-      <p id="result-compare-line" style="font-family:var(--mono);font-size:11.5px;color:var(--rm-soft);text-align:center;margin:12px 0 0;"></p>
+      <div class="rmodal-tabs">
+        <button type="button" class="rmodal-tab-btn active" id="result-tab-btn-dist">Distribution</button>
+        <button type="button" class="rmodal-tab-btn" id="result-tab-btn-compare">Compare</button>
+      </div>
 
+      <div id="result-tab-dist">
+        <div id="result-grid" class="rmodal-grid"></div>
+        <p id="result-distribution-label" class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
+        <div id="result-distribution"></div>
+      </div>
+
+      <div id="result-tab-compare" style="display:none;">
+        <p id="result-compare-line" style="font-family:var(--serif-body);font-size:15px;color:var(--rm-ink);text-align:center;margin:8px 0 18px;line-height:1.6;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center;">
+          <div><div id="compare-total-players" class="rmodal-stat-val" style="font-size:20px;"></div><div class="rmodal-stat-label">Players Today</div></div>
+          <div><div id="compare-win-rate" class="rmodal-stat-val" style="font-size:20px;"></div><div class="rmodal-stat-label">Solved It</div></div>
+        </div>
+      </div>
     </div>
 
     <div class="rmodal-section" id="result-explanation-section" style="display:none;">
@@ -1425,18 +1433,36 @@ function openResultPopup(won){
     if(!global || !global.total) return;
     renderDistribution(global.d, `Guess Distribution — All Players (${global.total.toLocaleString()})`);
     const compareEl = document.getElementById('result-compare-line');
-    if(!compareEl) return;
-    if(won){
-      const worse = global.d.slice(used).reduce((a,b) => a+b, 0) + global.fail;
-      const pct = Math.round((worse / global.total) * 100);
-      compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'} — faster than ${pct}% of today's players.`;
-    } else {
-      const solved = global.d.reduce((a,b) => a+b, 0);
-      const pct = Math.round((solved / global.total) * 100);
-      compareEl.textContent = `${pct}% of today's players solved it — you'll get the next one.`;
+    const solved = global.d.reduce((a,b) => a+b, 0);
+    if(compareEl){
+      if(won){
+        const worse = global.d.slice(used).reduce((a,b) => a+b, 0) + global.fail;
+        const pct = Math.round((worse / global.total) * 100);
+        compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'} — faster than ${pct}% of today's players.`;
+      } else {
+        const pct = Math.round((solved / global.total) * 100);
+        compareEl.textContent = `${pct}% of today's players solved it — you'll get the next one.`;
+      }
     }
+    const totalEl = document.getElementById('compare-total-players');
+    const winEl = document.getElementById('compare-win-rate');
+    if(totalEl) totalEl.textContent = global.total.toLocaleString();
+    if(winEl) winEl.textContent = Math.round((solved / global.total) * 100) + '%';
   });
 }
+
+document.getElementById('result-tab-btn-dist').addEventListener('click', () => {
+  document.getElementById('result-tab-dist').style.display = 'block';
+  document.getElementById('result-tab-compare').style.display = 'none';
+  document.getElementById('result-tab-btn-dist').classList.add('active');
+  document.getElementById('result-tab-btn-compare').classList.remove('active');
+});
+document.getElementById('result-tab-btn-compare').addEventListener('click', () => {
+  document.getElementById('result-tab-dist').style.display = 'none';
+  document.getElementById('result-tab-compare').style.display = 'block';
+  document.getElementById('result-tab-btn-compare').classList.add('active');
+  document.getElementById('result-tab-btn-dist').classList.remove('active');
+});
 
 document.getElementById('result-modal-close').addEventListener('click', () => {
   document.getElementById('result-modal').classList.remove('open');

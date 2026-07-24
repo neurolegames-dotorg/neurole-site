@@ -550,6 +550,15 @@ footer {
 .rmodal-stat-label{font-family:var(--mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--rm-soft);margin-top:6px;}
 .rmodal-section{padding:18px 24px;border-bottom:1px solid var(--rm-line);}
 .rmodal-section-label{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rm-soft);margin:0 0 12px;}
+.rmodal-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--rm-line);}
+.rmodal-tab-btn{
+  font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:none;border:none;padding:0 0 10px;margin-right:22px;cursor:pointer;
+  color:var(--rm-soft);border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .15s;
+}
+.rmodal-tab-btn.active{color:var(--rm-ink);border-bottom-color:var(--rm-ink);}
+.rmodal-tab-btn:hover{color:var(--rm-ink);}
 .rmodal-grid{font-size:20px;letter-spacing:4px;text-align:center;}
 .rmodal-countdown{font-family:var(--mono);font-size:11.5px;color:var(--rm-soft);text-align:center;margin:0 0 14px;letter-spacing:.03em;}
 .rmodal-cta{width:100%;padding:14px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:#5C9A57;color:#fff;border:none;border-radius:999px;cursor:pointer;text-align:center;display:block;text-decoration:none;}
@@ -1331,7 +1340,6 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .game-card,
 :root[data-theme="dark"] .home-game-card,
 :root[data-theme="dark"] .how-card,
-:root[data-theme="dark"] .stats-row,
 :root[data-theme="dark"] .panel,
 :root[data-theme="dark"] .case-card,
 :root[data-theme="dark"] .archive-card,
@@ -1374,7 +1382,6 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.78) !important;}
 :root[data-theme="dark"] .hero-bg-image{filter:invert(1) hue-rotate(180deg) hue-rotate(55deg) saturate(1.15);}
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,var(--paper)) !important;}
-:root[data-theme="dark"] .games-spotlight{background:#181621 !important;}
 :root[data-theme="dark"] #sheet-warning-banner{color:#F1D18A !important;background:#2A2418 !important;border-color:#65552C !important;}
 :root[data-theme="dark"] #neuro-result-modal .modal > div,
 :root[data-theme="dark"] #ai-mobile-panel{background:#1A1B21 !important;color:var(--ink) !important;border-color:var(--rule) !important;}

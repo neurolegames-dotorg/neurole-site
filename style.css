@@ -395,7 +395,7 @@ h2.section-title{
 
 /* ---------- footer ---------- */
 footer{
-  border-top:2px solid var(--ink);
+  border-top:1px solid var(--rule);
   margin-top:0;
   padding:44px 0 max(30px, env(safe-area-inset-bottom, 30px));
   background:var(--paper-deep);

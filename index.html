@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=132">
+<link rel="stylesheet" href="style.css?v=133">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -177,11 +177,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* ── Stats ── */
 .stats-row{
-  display:flex;justify-content:center;gap:40px;
-  padding:8px 0 0;
-  flex-wrap:wrap;
+  display:flex;justify-content:center;
+  border:1.5px solid var(--rule);border-radius:12px;
+  background:rgba(122,95,175,.04);
+  overflow:hidden;
 }
-.stat-cell{text-align:center;}
+:root[data-theme="dark"] .stats-row{background:rgba(160,142,200,.05);}
+.stat-cell{
+  flex:1;text-align:center;
+  padding:28px 20px;
+  border-right:1px solid var(--rule);
+}
+.stat-cell:last-child{border-right:none;}
+@media(max-width:560px){
+  .stats-row{flex-direction:column;}
+  .stat-cell{border-right:none;border-bottom:1px solid var(--rule);}
+  .stat-cell:last-child{border-bottom:none;}
+}
 .stat-num{
   font-family:'Cormorant Garamond','Playfair Display',serif;font-size:26px;font-weight:700;
   color:var(--ink);line-height:1;margin-bottom:5px;

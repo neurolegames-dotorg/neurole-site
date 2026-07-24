@@ -108,6 +108,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 .interest-form-wrap h3{font-family:var(--serif-display);margin-top:0;}
 
+/* Volunteer/Case tabs */
+.volunteer-tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1.5px solid var(--rule);}
+.volunteer-tab-btn{
+  font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:none;border:none;padding:0 2px 12px;margin-right:20px;cursor:pointer;
+  color:var(--ink-soft);border-bottom:2px solid transparent;margin-bottom:-1.5px;
+  transition:color .15s;
+}
+.volunteer-tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);}
+.volunteer-tab-btn:hover{color:var(--ink);}
+
 /* Role select chips */
 .role-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
 .role-chip{
@@ -210,31 +221,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
 
   <!-- Interest form -->
-  <div class="interest-form-wrap">
-    <h3>Get in touch</h3>
-    <p style="color:var(--ink-soft);font-size:14.5px;margin:-6px 0 18px;">Tell us what you'd like to help with and we'll reach out.</p>
-
-    <p style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:10px;">I'm interested in</p>
-    <div class="role-chips">
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Writing cases</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Brain images</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Fact-checking</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Engineering</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Design</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Outreach</button>
-      <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Media &amp; content</button>
+  <div class="interest-form-wrap" id="create-a-case">
+    <div class="volunteer-tabs">
+      <button type="button" class="volunteer-tab-btn active" id="tab-btn-join">Join the Team</button>
+      <button type="button" class="volunteer-tab-btn" id="tab-btn-case">Submit a Case</button>
     </div>
 
-    <div data-fs-success style="display:none;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--neuro-blue-deep);padding:20px;background:rgba(107,79,148,.07);border-radius:12px;text-align:center;">✓ Thanks! We'll be in touch soon.</div>
-      <form id="volunteer-form" action="https://formspree.io/f/maqgkjlr" method="POST">
-      <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
-      <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
-      <div class="field"><label>Background (optional)</label><input type="text" name="background" placeholder="e.g. Neuroscience BSc, 2nd year · Pre-med · Graphic designer"></div>
-      <div class="field"><label>Anything else to share? (optional)</label>
-        <textarea rows="3" placeholder="Background, ideas, questions…" style="font-family:var(--serif-body);font-size:15px;padding:9px 10px;border:1px solid var(--ink-soft);border-radius:4px;width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+    <div id="tab-join">
+      <h3>Get in touch</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px;margin:-6px 0 18px;">Tell us what you'd like to help with and we'll reach out.</p>
+
+      <p style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:10px;">I'm interested in</p>
+      <div class="role-chips">
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Writing cases</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Brain images</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Fact-checking</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Engineering</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Design</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Outreach</button>
+        <button type="button" class="role-chip" onclick="this.classList.toggle('selected')">Media &amp; content</button>
       </div>
-      <button class="btn" type="submit" style="width:100%;justify-content:center;">Join Us →</button>
-    </form>
+
+      <div data-fs-success style="display:none;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--neuro-blue-deep);padding:20px;background:rgba(107,79,148,.07);border-radius:12px;text-align:center;">✓ Thanks! We'll be in touch soon.</div>
+        <form id="volunteer-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+        <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
+        <div class="field"><label>Background (optional)</label><input type="text" name="background" placeholder="e.g. Neuroscience BSc, 2nd year · Pre-med · Graphic designer"></div>
+        <div class="field"><label>Anything else to share? (optional)</label>
+          <textarea rows="3" placeholder="Background, ideas, questions…" style="font-family:var(--serif-body);font-size:15px;padding:9px 10px;border:1px solid var(--ink-soft);border-radius:4px;width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+        </div>
+        <button class="btn" type="submit" style="width:100%;justify-content:center;">Join Us →</button>
+      </form>
+    </div>
+
+    <div id="tab-case" style="display:none;">
+      <h3>Submit a Daily Case</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px;margin:-6px 0 18px;">Write a case for The Daily Case. Every submission is clinically reviewed before it goes live, and you'll be credited by name if it's published.</p>
+
+      <div data-fs-success-case style="display:none;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--neuro-blue-deep);padding:20px;background:rgba(107,79,148,.07);border-radius:12px;text-align:center;">✓ Thanks! We'll review your case and follow up if we have questions.</div>
+      <form id="case-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="form_type" value="Daily Case submission">
+        <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name — this is how you'll be credited" required></div>
+        <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
+        <div class="field"><label>Diagnosis</label><input type="text" name="diagnosis" placeholder="e.g. Wernicke's aphasia" required></div>
+        <div class="field"><label>Symptoms, in reveal order (1 = first shown)</label>
+          <input type="text" name="symptom_1" placeholder="Symptom 1" style="margin-bottom:6px;" required>
+          <input type="text" name="symptom_2" placeholder="Symptom 2" style="margin-bottom:6px;" required>
+          <input type="text" name="symptom_3" placeholder="Symptom 3" style="margin-bottom:6px;">
+          <input type="text" name="symptom_4" placeholder="Symptom 4" style="margin-bottom:6px;">
+          <input type="text" name="symptom_5" placeholder="Symptom 5">
+        </div>
+        <div class="field"><label>Accepted alternate answers (optional)</label><input type="text" name="synonyms" placeholder="e.g. Wernicke aphasia, receptive aphasia"></div>
+        <div class="field"><label>Explanation</label>
+          <textarea name="explanation" rows="3" placeholder="A few sentences on why this is the diagnosis — shown to players after they finish." style="font-family:var(--serif-body);font-size:15px;padding:9px 10px;border:1px solid var(--ink-soft);border-radius:4px;width:100%;box-sizing:border-box;resize:vertical;" required></textarea>
+        </div>
+        <button class="btn" type="submit" style="width:100%;justify-content:center;">Submit Case →</button>
+      </form>
+    </div>
   </div>
 
   <div class="synapse-rule" style="margin:36px 0 28px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
@@ -306,6 +349,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
   document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
 
+  // ---------- Tabs: Join the Team / Submit a Case ----------
+  const tabBtnJoin = document.getElementById('tab-btn-join');
+  const tabBtnCase = document.getElementById('tab-btn-case');
+  const tabJoin = document.getElementById('tab-join');
+  const tabCase = document.getElementById('tab-case');
+  function showTab(which){
+    const isCase = which === 'case';
+    tabCase.style.display = isCase ? 'block' : 'none';
+    tabJoin.style.display = isCase ? 'none' : 'block';
+    tabBtnCase.classList.toggle('active', isCase);
+    tabBtnJoin.classList.toggle('active', !isCase);
+  }
+  tabBtnJoin.addEventListener('click', () => showTab('join'));
+  tabBtnCase.addEventListener('click', () => showTab('case'));
+  // Deep-link support: footer's "Create a Case" link lands here with #create-a-case&case
+  if(location.hash.includes('case')) showTab('case');
+
   // Collect selected role chips and add to form before submit
   const vForm = document.getElementById('volunteer-form');
   vForm.addEventListener('submit', async function(e){
@@ -332,6 +392,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
       if(res.ok){
         vForm.innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-size:22px;text-align:center;padding:28px 0 16px;color:var(--ink);">Thanks for reaching out! 🧠<br><span style="font-family:\'Outfit\',sans-serif;font-size:15px;color:var(--ink-soft);">We\'ll be in touch at your email soon.</span></p>';
+      } else {
+        btn.textContent = 'Try again'; btn.disabled = false;
+        alert('Something went wrong — please try again or email us at neurolegames@gmail.com');
+      }
+    }catch(err){
+      btn.textContent = 'Try again'; btn.disabled = false;
+    }
+  });
+
+  // ---------- Submit a Case form ----------
+  const cForm = document.getElementById('case-form');
+  cForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = cForm.querySelector('button[type=submit]');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+
+    let subj = cForm.querySelector('input[name=_subject]');
+    if(!subj){ subj=document.createElement('input');subj.type='hidden';subj.name='_subject';cForm.appendChild(subj); }
+    subj.value = 'Neurole — New case submission: ' + (cForm.querySelector('[name=diagnosis]').value||'Untitled');
+
+    try{
+      const res = await fetch(cForm.action, {
+        method: 'POST',
+        body: new FormData(cForm),
+        headers: { Accept: 'application/json' }
+      });
+      if(res.ok){
+        cForm.innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-size:22px;text-align:center;padding:28px 0 16px;color:var(--ink);">Case received! 🧠<br><span style="font-family:\'Outfit\',sans-serif;font-size:15px;color:var(--ink-soft);">We\'ll review it and follow up at your email if we have questions.</span></p>';
       } else {
         btn.textContent = 'Try again'; btn.disabled = false;
         alert('Something went wrong — please try again or email us at neurolegames@gmail.com');

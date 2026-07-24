@@ -48,9 +48,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=128">
 <style>
-/* Classic typographic hero — no photo/gradient, just the wordmark */
-.hero-text-plain h1{color:var(--ink);}
-:root[data-theme="dark"] .hero{background-color:var(--paper) !important;}
+/* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
+:root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
+:root[data-theme="dark"] .hero,
+:root[data-theme="dark"] .hero-img-wrap{background-color:#111217 !important;}
+:root[data-theme="dark"] .hero-bg-image{filter:invert(1) hue-rotate(180deg) hue-rotate(55deg) saturate(1.15) !important;}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -72,26 +74,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 :root{--game-font:'Outfit',sans-serif;}
 
 /* ── Hero ── */
-.hero-text-plain{
-  text-align:center;
-  padding:56px 20px 44px;
-  border-bottom:1px solid var(--rule);
-}
-.hero-text-plain h1{
-  font-family:'Playfair Display','Times New Roman',serif;
-  font-weight:700;
-  font-size:clamp(42px,7vw,72px);
-  margin:0;
-  letter-spacing:-.01em;
-}
-.hero-text-plain p{
-  font-family:var(--mono);
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  font-size:12px;
-  color:var(--ink-soft);
-  margin:10px 0 0;
-}
+.hero-text h1{letter-spacing:-.01em;font-family:'Playfair Display','Times New Roman',serif;font-weight:700;}
+.hero-text p{letter-spacing:.16em;font-family:var(--mono);font-weight:500;text-transform:uppercase;}
 
 /* ── Fun fact ── */
 .factbox{
@@ -275,9 +259,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <section class="hero">
-  <div class="hero-text-plain">
-    <h1>Neurole</h1>
-    <p>Games about your brain</p>
+  <div class="hero-img-wrap" role="img" aria-label="Magnified purple neurons connected by branching dendrites">
+    <div class="hero-bg-image"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-text">
+      <h1>Neurole</h1>
+      <p>Games about your brain</p>
+    </div>
   </div>
 </section>
 
@@ -409,7 +397,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-col">
         <p class="footer-col-title">Get Involved</p>
         <a href="volunteer.html">Join Us</a>
-        <a href="volunteer.html">Create a Case</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
         <a href="donate.html">Donate</a>
         <a href="mailto:neurolegames@gmail.com">Contact Us</a>
       </div>

@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=131">
+<link rel="stylesheet" href="style.css?v=132">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -93,7 +93,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   border-bottom:1px solid var(--rule);
   padding:44px 0;
   margin:44px 0 0;
+  background:rgba(122,95,175,.06);
 }
+:root[data-theme="dark"] .games-spotlight{background:rgba(160,142,200,.07) !important;}
 .games-spotlight .eyebrow-pill{
   display:block;
   font-family:var(--mono);font-size:11px;font-weight:700;
@@ -114,13 +116,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(max-width:600px){.home-games-grid{grid-template-columns:1fr;}}
 
 .home-game-card{
-  background:rgba(139,38,53,.045);border:1.5px solid var(--rule);border-radius:14px;overflow:visible;
+  background:var(--paper);border:1.5px solid var(--rule);border-radius:14px;overflow:visible;
   display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
   transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
   position:relative;
   padding:24px 22px;
 }
-.home-game-card:nth-child(2){background:rgba(107,79,148,.045);}
 .home-game-card:hover{
   transform:translateY(-3px);
   box-shadow:0 12px 28px rgba(0,0,0,.09);

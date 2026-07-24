@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=131">
+<link rel="stylesheet" href="style.css?v=132">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -500,9 +500,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
         <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
       </div>
-      <div id="case-byline" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:14px;letter-spacing:.03em;"></div>
-      <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:6px;min-height:22px;"></div>
-      <div class="start-meta" id="start-meta" style="margin-top:4px;"></div>
+      <div class="start-meta" id="start-meta"></div>
+      <div id="case-num-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:8px;letter-spacing:.03em;"></div>
+      <div id="case-author-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.03em;"></div>
+      <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;"></div>
       <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
     </div>
   </div>
@@ -976,17 +977,15 @@ function updateStartScreen(){
   const playBtn = document.getElementById('start-play-btn');
   const meta = document.getElementById('start-meta');
   const streakLabel = document.getElementById('streak-label');
-  const bylineEl = document.getElementById('case-byline');
-  if(bylineEl){
-    const parts = [];
-    if(state.caseNum) parts.push('Case #' + state.caseNum);
-    if(state.author && state.author.trim()) parts.push('By ' + state.author.trim());
-    if(parts.length){
-      bylineEl.textContent = parts.join(' · ');
-      bylineEl.style.display = 'block';
-    } else {
-      bylineEl.style.display = 'none';
-    }
+  const caseNumEl = document.getElementById('case-num-line');
+  const authorEl = document.getElementById('case-author-line');
+  if(caseNumEl){
+    if(state.caseNum){ caseNumEl.textContent = 'Case #' + state.caseNum; caseNumEl.style.display = 'block'; }
+    else { caseNumEl.style.display = 'none'; }
+  }
+  if(authorEl){
+    if(state.author && state.author.trim()){ authorEl.textContent = 'By ' + state.author.trim(); authorEl.style.display = 'block'; }
+    else { authorEl.style.display = 'none'; }
   }
   if(state.alreadyCompletedToday){
     playBtn.textContent = 'View Result';

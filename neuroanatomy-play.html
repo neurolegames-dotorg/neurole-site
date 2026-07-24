@@ -26,14 +26,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://neurole.org/neuroanatomy.html">
 <meta property="og:title" content="Map the Brain — Neurole">
 <meta property="og:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
-<meta property="og:image" content="https://neurole.org//neurole-logo.png">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Map the Brain — Neurole">
 <meta name="twitter:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
-<meta name="twitter:image" content="https://neurole.org//neurole-logo.png">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="https://neurole.org/neuroanatomy.html">
@@ -683,6 +683,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
+      <!-- Question type -->
+      <div style="width:100%;text-align:left;margin:14px 0 8px;">
+        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
+        <div class="category-row" id="question-type-row">
+          <button class="category-btn active" data-qtype="region">Name the Region</button>
+          <button class="category-btn" data-qtype="function">Name from Function</button>
+          <button class="category-btn" data-qtype="mixed">Mixed</button>
+        </div>
+      </div>
+
       <!-- Area -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
         <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
@@ -763,9 +773,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                  decoding="async" fetchpriority="high"
                  onerror="console.error('Neurole: image failed ->', this.src);"
                  onload="console.log('Neurole: image loaded ->', this.src);">
-            <p class="cap">Which region is highlighted?</p>
+            <div id="function-clue" style="display:none;padding:40px 26px;text-align:center;background:var(--paper-deep);border-radius:16px;">
+              <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:22px;line-height:1.5;color:var(--ink);margin:0;font-style:italic;">"<span id="function-clue-text"></span>"</p>
+            </div>
+            <p class="cap" id="specimen-cap">Which region is highlighted?</p>
           </div>
           <div class="choices" id="choices"></div>
+          <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:8px;">
+            <p style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why</p>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink);"><strong id="wrong-explain-region"></strong> <span id="wrong-explain-text"></span></p>
+          </div>
           <div class="next-row">
             <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
           </div>
@@ -986,6 +1003,7 @@ let answered = false;
 let correctCount = 0;
 let roundResults = [];
 let selectedCategory = 'Random';
+let selectedQuestionType = 'region';
 let selectedDifficulty = 'all';
 let bankLoading = false;
 let bankReady = false;
@@ -1096,6 +1114,14 @@ document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
   });
 });
 
+document.querySelectorAll('.category-btn[data-qtype]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.category-btn[data-qtype]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedQuestionType = btn.dataset.qtype;
+  });
+});
+
 async function startRound(countOption){
   // Wait for bank to load if it hasn't yet
   if(!bankReady){
@@ -1129,13 +1155,26 @@ async function startRound(countOption){
     ? bank.length
     : Math.min(parseInt(countOption, 10), bank.length);
 
-  qBank = shuffle(bank).slice(0, total);
+  // For function-based questions we need rows that actually have a
+  // function_text to quiz on — fall back to the full bank if too few do.
+  let modeBank = bank;
+  if(selectedQuestionType !== 'region'){
+    const withFunction = bank.filter(row => (findField(row,'function_text') || '').trim());
+    if(withFunction.length >= Math.min(4, total)) modeBank = withFunction;
+  }
+
+  qBank = shuffle(modeBank).slice(0, total).map(q => {
+    const qMode = selectedQuestionType === 'mixed'
+      ? (Math.random() < 0.5 ? 'region' : 'function')
+      : selectedQuestionType;
+    return Object.assign({}, q, { qMode });
+  });
   qIndex = 0;
   correctCount = 0;
   roundResults = [];
 
   // Save game state so refresh restores the game, not the start screen
-  const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption };
+  const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption, questionType: selectedQuestionType };
   try{ sessionStorage.setItem('neurole_game_session', JSON.stringify(savedState)); }catch(e){}
   history.replaceState(null, '', '#playing');
 
@@ -1201,19 +1240,35 @@ function showQuestion(){
   const imgUrl = getQuestionImageUrl(current);
   const specimenEl = document.getElementById('specimen');
   const imgEl = document.getElementById('specimen-img');
+  const clueEl = document.getElementById('function-clue');
+  const capEl = document.getElementById('specimen-cap');
+  const isFunctionMode = current.qMode === 'function';
 
-  // If this image isn't cached yet, show a loading state instead of a slow pop-in
-  const cached = preloadedImageCache[imgUrl];
-  const isReady = cached && cached._resolved;
-  if(specimenEl) specimenEl.classList.toggle('specimen-loading', !isReady);
-  imgEl.src = imgUrl;
-  if(!isReady){
-    preloadQuestionImage(current).then(() => {
-      if(current === qBank[qIndex] && specimenEl) specimenEl.classList.remove('specimen-loading');
-    });
+  if(isFunctionMode){
+    imgEl.style.display = 'none';
+    if(specimenEl) specimenEl.classList.remove('specimen-loading');
+    if(clueEl){
+      clueEl.style.display = 'block';
+      document.getElementById('function-clue-text').textContent = findField(current,'function_text') || '';
+    }
+    if(capEl) capEl.textContent = 'Which region does this describe?';
+  } else {
+    if(clueEl) clueEl.style.display = 'none';
+    imgEl.style.display = '';
+    if(capEl) capEl.textContent = 'Which region is highlighted?';
+    // If this image isn't cached yet, show a loading state instead of a slow pop-in
+    const cached = preloadedImageCache[imgUrl];
+    const isReady = cached && cached._resolved;
+    if(specimenEl) specimenEl.classList.toggle('specimen-loading', !isReady);
+    imgEl.src = imgUrl;
+    if(!isReady){
+      preloadQuestionImage(current).then(() => {
+        if(current === qBank[qIndex] && specimenEl) specimenEl.classList.remove('specimen-loading');
+      });
+    }
   }
   // Make sure the next couple of questions' images are warm in cache by the time they get there
-  if(qBank[qIndex+1]) preloadQuestionImage(qBank[qIndex+1]);
+  if(qBank[qIndex+1] && qBank[qIndex+1].qMode !== 'function') preloadQuestionImage(qBank[qIndex+1]);
   if(qBank[qIndex+2]) preloadQuestionImage(qBank[qIndex+2]);
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
@@ -1234,6 +1289,8 @@ function showQuestion(){
   document.getElementById('next-btn').style.display = 'none';
   document.getElementById('learn-fab').classList.remove('show');
   document.getElementById('ai-col').style.display='none'; document.body.classList.remove('ai-panel-open');
+  const wrongExplainReset = document.getElementById('wrong-explain');
+  if(wrongExplainReset) wrongExplainReset.style.display = 'none';
 
   // Build the 4 choices as {text, isCorrect} objects, then shuffle their
   // display order so the correct answer isn't always in the same slot.
@@ -1292,6 +1349,22 @@ function selectChoice(btn){
   document.getElementById('learn-function').textContent = findField(current,'function_text');
   document.getElementById('chat-log').innerHTML = '';
   document.getElementById('learn-fab').classList.add('show');
+
+  const wrongExplain = document.getElementById('wrong-explain');
+  if(wrongExplain){
+    if(!gotItRight){
+      if(current.qMode === 'function'){
+        document.getElementById('wrong-explain-region').textContent = correctText + '.';
+        document.getElementById('wrong-explain-text').textContent = 'That\'s the region described above.';
+      } else {
+        document.getElementById('wrong-explain-region').textContent = correctText + ' —';
+        document.getElementById('wrong-explain-text').textContent = findField(current,'function_text') || '';
+      }
+      wrongExplain.style.display = 'block';
+    } else {
+      wrongExplain.style.display = 'none';
+    }
+  }
 }
 
 function recordMTBPlay(){

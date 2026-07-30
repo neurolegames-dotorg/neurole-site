@@ -1,0 +1,13 @@
+/* Match the original site's baseline exactly: its only global reset was
+   *{box-sizing:border-box} (also present in style.css). The React shell must
+   not add margin/padding/display resets the static pages never had, or spacing
+   and inline-icon layout drift from neurole.org. */
+* { box-sizing: border-box; }
+
+/* On the static site the <body> background propagates to the canvas, so the
+   page/overscroll background is --paper (#111217 dark). The React shell's extra
+   #root wrapper breaks that propagation, letting style.css's
+   html{background:var(--paper-deep)} (#1A1B21) show through instead. Force the
+   root to --paper so the canvas matches neurole.org in both themes. The :root
+   selector outranks the html rule, so import order doesn't matter. */
+:root { background: var(--paper); }

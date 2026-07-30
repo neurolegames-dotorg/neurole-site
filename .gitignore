@@ -1,0 +1,10 @@
+# Agent/AI-generated working notes — never commit to the client repo
+CLAUDE.md
+NOTES.md
+NOTES-*.md
+*.notes.md
+*.agent.md
+.claude/
+
+# Dependencies — never commit into the client repo
+node_modules/

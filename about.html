@@ -6,7 +6,7 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<meta name="description" content="Neurole is a free educational neuroscience games platform built for students, clinicians, and curious minds worldwide.">
+<meta name="description" content="Neurole is a free, volunteer-built neuroscience education platform — daily diagnosis puzzles and neuroanatomy quizzes for pre-med, nursing, and medical students, and clinicians worldwide.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Neurole">
 
@@ -14,20 +14,20 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neurole.org/about.html">
 <meta property="og:title" content="About Neurole">
-<meta property="og:description" content="Neurole is a free educational neuroscience games platform built for students, clinicians, and curious minds worldwide.">
+<meta property="og:description" content="Neurole is a free, volunteer-built neuroscience education platform — daily diagnosis puzzles and neuroanatomy quizzes for pre-med, nursing, and medical students, and clinicians worldwide.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="About Neurole">
-<meta name="twitter:description" content="Neurole is a free educational neuroscience games platform built for students, clinicians, and curious minds worldwide.">
+<meta name="twitter:description" content="Neurole is a free, volunteer-built neuroscience education platform — daily diagnosis puzzles and neuroanatomy quizzes for pre-med, nursing, and medical students, and clinicians worldwide.">
 <meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="https://neurole.org/about.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>About Neurole</title>
+<title>About Neurole — Free Neuroscience Education Platform</title>
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=134">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -42,7 +42,28 @@
 @media(max-width:480px){.about-cta-row .btn{width:100%;justify-content:center;}}
 .seo-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .seo-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;background:#fff;border:1.5px solid var(--rule);border-radius:20px;padding:5px 13px;color:var(--ink-soft);}
+details summary::-webkit-details-marker{display:none;}
+details summary{position:relative;padding-right:44px !important;list-style:none;}
+details summary::after{
+  content:'+';
+  position:absolute;right:20px;top:18px;
+  font-family:var(--mono);font-size:18px;color:var(--ink-soft);
+}
+details[open] summary::after{content:'−';}
+details summary:hover{background:var(--paper-deep);}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is Neurole free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Neurole is completely free, with no account required to play either game."}},
+    {"@type":"Question","name":"What is The Daily Case?","acceptedAnswer":{"@type":"Answer","text":"The Daily Case is a Wordle-style daily neurology game. A new patient case appears every day at midnight ET — read the symptoms and guess the diagnosis in five tries or fewer."}},
+    {"@type":"Question","name":"What is Map the Brain?","acceptedAnswer":{"@type":"Answer","text":"Map the Brain is a free neuroanatomy quiz. A labeled brain image appears and you identify the highlighted region from multiple choice, with an option to quiz in reverse by function instead of image."}},
+    {"@type":"Question","name":"Who is Neurole for?","acceptedAnswer":{"@type":"Answer","text":"Neurole is designed for pre-med students, neuroscience majors, medical students, nursing students, clinicians, and anyone curious about how the brain works."}}
+  ]
+}
+</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -151,6 +172,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="partner-card">Your Org Here</div>
   </div>
   <a class="btn ghost" href="contact.html" style="margin-top:18px;display:inline-flex;">Become a Partner →</a>
+
+  <div class="synapse-rule" style="margin:36px 0 28px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+
+  <span class="section-eyebrow">Questions</span>
+  <div style="border:1.5px solid var(--rule);border-radius:12px;overflow:hidden;margin-top:10px;">
+    <details style="border-bottom:1px solid var(--rule);">
+      <summary style="cursor:pointer;padding:18px 22px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:var(--ink);list-style:none;">Is Neurole free?</summary>
+      <p style="margin:0;padding:0 22px 18px;color:var(--ink-soft);font-size:14px;line-height:1.65;">Yes. Neurole is completely free, with no account required to play either game.</p>
+    </details>
+    <details style="border-bottom:1px solid var(--rule);">
+      <summary style="cursor:pointer;padding:18px 22px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:var(--ink);list-style:none;">What is The Daily Case?</summary>
+      <p style="margin:0;padding:0 22px 18px;color:var(--ink-soft);font-size:14px;line-height:1.65;">A Wordle-style daily neurology game. A new patient case appears every day at midnight ET — read the symptoms and guess the diagnosis in five tries or fewer.</p>
+    </details>
+    <details style="border-bottom:1px solid var(--rule);">
+      <summary style="cursor:pointer;padding:18px 22px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:var(--ink);list-style:none;">What is Map the Brain?</summary>
+      <p style="margin:0;padding:0 22px 18px;color:var(--ink-soft);font-size:14px;line-height:1.65;">A free neuroanatomy quiz. A labeled brain image appears and you identify the highlighted region from multiple choice — or quiz in reverse, guessing the region from its function instead.</p>
+    </details>
+    <details>
+      <summary style="cursor:pointer;padding:18px 22px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:var(--ink);list-style:none;">Who is Neurole for?</summary>
+      <p style="margin:0;padding:0 22px 18px;color:var(--ink-soft);font-size:14px;line-height:1.65;">Pre-med students, neuroscience majors, medical students, nursing students, clinicians, and anyone curious about how the brain works.</p>
+    </details>
+  </div>
 
 </main>
 

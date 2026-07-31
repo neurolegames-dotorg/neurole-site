@@ -344,13 +344,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-align:center;
     margin-top:8px;letter-spacing:.08em;text-transform:uppercase;
   }
-  .specimen .cap.cap-quote{
-    font-family:'Cormorant Garamond','Playfair Display',serif;font-size:17px;color:var(--ink);
-    text-transform:none;letter-spacing:0;font-style:italic;line-height:1.5;
-    padding:0 8px;
-  }
-  .specimen .cap.cap-quote::before{content:'"';}
-  .specimen .cap.cap-quote::after{content:'"';}
 
   /* Answer choices — more compact on phone */
   .choices{display:grid;grid-template-columns:1fr;gap:9px;}
@@ -1269,14 +1262,8 @@ function showQuestion(){
   const specimenEl = document.getElementById('specimen');
   const imgEl = document.getElementById('specimen-img');
   const capEl = document.getElementById('specimen-cap');
-  const isFunctionMode = current.qMode === 'function';
 
-  if(isFunctionMode){
-    const funcText = findField(current,'function_text') || '';
-    if(capEl){ capEl.textContent = funcText; capEl.classList.add('cap-quote'); }
-  } else {
-    if(capEl){ capEl.textContent = 'Which region is highlighted?'; capEl.classList.remove('cap-quote'); }
-  }
+  if(capEl) capEl.textContent = 'Which region is highlighted?';
   imgEl.style.display = '';
   // If this image isn't cached yet, show a loading state instead of a slow pop-in
   const cached = preloadedImageCache[imgUrl];
@@ -1377,18 +1364,15 @@ function selectChoice(btn){
 
   const wrongExplain = document.getElementById('wrong-explain');
   if(wrongExplain){
-    if(!gotItRight){
-      if(current.qMode === 'function'){
-        document.getElementById('wrong-explain-region').textContent = correctText + ' —';
-        document.getElementById('wrong-explain-text').textContent = findField(current,'function_text') || '';
-      } else {
-        document.getElementById('wrong-explain-region').textContent = correctText + '.';
-        document.getElementById('wrong-explain-text').textContent = '';
-      }
-      wrongExplain.style.display = 'block';
+    if(current.qMode === 'function'){
+      document.getElementById('wrong-explain-region').textContent = correctText + ' —';
+      document.getElementById('wrong-explain-text').textContent = findField(current,'function_text') || '';
     } else {
-      wrongExplain.style.display = 'none';
+      const regionExplanation = findField(current,'explanation') || '';
+      document.getElementById('wrong-explain-region').textContent = regionExplanation ? (correctText + ' —') : (correctText + '.');
+      document.getElementById('wrong-explain-text').textContent = regionExplanation;
     }
+    wrongExplain.style.display = 'block';
   }
 }
 

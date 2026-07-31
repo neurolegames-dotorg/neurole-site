@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=135">
+<link rel="stylesheet" href="style.css?v=136">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -658,10 +658,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Logo + title -->
       <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
-          <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
-          <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
-          <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8"/>
+          <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8"/>
+          <path d="M12 4.5V20"/>
+          <circle cx="17.3" cy="6.3" r="1.5" fill="#7E5FA6" stroke="none"/>
         </svg>
       </div>
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
@@ -869,6 +870,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer id="footer-contact">
   <div class="wrap">
+    <!-- About + columns -->
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html">The Daily Case</a>
+        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+      </div>
+    </div>
+
     <!-- Footer nav links -->
     <div class="social-row">
       <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
@@ -882,12 +914,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
     </div>
     <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
-    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
-      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Contact Us</a>
-      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">About</a>
-      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Donate</a>
-      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;line-height:1.2;">Subscribe</a>
-    </div>
   </div>
 </footer>
 
@@ -912,7 +938,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=132"></script>
+<script src="config.js?v=133"></script>
 <script src="script.js?v=131"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;

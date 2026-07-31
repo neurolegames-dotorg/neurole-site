@@ -11,7 +11,7 @@
 <meta name="description" content="Every past Daily Case, browsable and replayable. Practice neurological diagnosis puzzles from previous days at your own pace.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=135">
+<link rel="stylesheet" href="style.css?v=136">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .archive-grid{
@@ -118,18 +118,50 @@
 
 <footer id="footer-contact">
   <div class="wrap">
+    <!-- About + columns -->
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html">The Daily Case</a>
+        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+      </div>
+    </div>
+
+    <!-- Footer nav links -->
     <div class="social-row">
-      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
-      <a href="#" id="social-email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
-      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
     </div>
     <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
-    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
-      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">Contact Us</a>
-      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">About</a>
-      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);">Donate</a>
-      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;">Subscribe</a>
-    </div>
   </div>
 </footer>
 
@@ -160,7 +192,7 @@
   </div>
 </div>
 
-<script src="config.js?v=132"></script>
+<script src="config.js?v=133"></script>
 <script src="script.js?v=131"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;

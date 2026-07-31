@@ -31,17 +31,18 @@ window.NEUROLE_CONFIG = {
   // so it doesn't matter which literal column something sits in, as long
   // as row 1 has these exact header names somewhere in it:
   //   region | image_url | choice_a | choice_b | choice_c | choice_d |
-  //   function_text | category (optional) | difficulty (optional)
+  //   correct_choice | function_text | category (optional) | difficulty (optional)
   //
-  // No separate "correct answer" column is needed — the game figures out
-  // which of the 4 choices is correct by matching each choice's text
-  // against the region name itself. So whichever of choice_a-d exactly
-  // matches the region column is treated as correct automatically.
+  // IMPORTANT: correct_choice must contain the literal SHEET column letter
+  // of the right answer — "K", "L", "M", or "N" — matching where choice_a,
+  // choice_b, choice_c, and choice_d actually sit in your sheet. Not
+  // generic A/B/C/D labels.
   //
-  // Matching your current sheet layout (A→P):
+  // Your current sheet layout (A→P):
   //   A region | B image_url | C category | D difficulty | E-J (unused by
   //   the game — free for your own notes/reference) | K choice_a |
-  //   L choice_b | M choice_c | N choice_d | O (unused) | P function_text
+  //   L choice_b | M choice_c | N choice_d | O correct_choice (K/L/M/N) |
+  //   P function_text
   NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",
 
   // --- Weekly fun fact -------------------------------------------------

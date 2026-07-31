@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=135">
+<link rel="stylesheet" href="style.css?v=136">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -271,7 +271,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .category-row{gap:5px !important;}
     .category-btn{font-size:10.5px !important;padding:7px 9px !important;}
     .start-actions-stacked .btn{width:100% !important;}
-    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .specimen img{height:200px;width:100%;object-fit:contain;}
     .choices{gap:8px !important;}
     .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
     .game-stats-bar{flex-wrap:wrap;gap:6px;padding-bottom:10px;}
@@ -330,13 +330,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .specimen img{
     width:100%;
-    max-height:240px;
+    height:240px;
+    aspect-ratio:4/3;
     object-fit:contain;
     background:var(--paper-deep);
     display:block;
   }
   @media(max-width:480px){
-    .specimen img{max-height:180px;}
+    .specimen img{height:180px;}
     .specimen{padding:10px;}
   }
   .specimen .cap{
@@ -426,7 +427,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* Game area — iPhone */
     main.game-shell{max-width:100% !important;padding:8px 0 50px !important;}
     .specimen{padding:8px !important;border:none !important;background:transparent !important;}
-    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .specimen img{height:200px;width:100%;object-fit:contain;}
     .cap{font-size:13px !important;}
     .choices{gap:8px !important;}
     .choice-btn{font-size:13px !important;padding:10px 10px 10px 36px !important;}
@@ -499,7 +500,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .score-tag,.score-pill{font-size:10.5px !important;}
   .difficulty-badge{font-size:10px !important;}
   .specimen{border:none !important;background:transparent !important;padding:6px 0 !important;}
-  .specimen img{max-height:210px !important;width:100% !important;object-fit:contain !important;}
+  .specimen img{height:210px !important;width:100% !important;object-fit:contain !important;}
   .cap{font-size:13px !important;}
   .choices{gap:8px !important;}
   .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
@@ -601,7 +602,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "inLanguage": "en"
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <script>
@@ -656,10 +657,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Logo + title -->
       <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
-          <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
-          <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
-          <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8"/>
+          <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8"/>
+          <path d="M12 4.5V20"/>
+          <circle cx="17.3" cy="6.3" r="1.5" fill="#7E5FA6" stroke="none"/>
         </svg>
       </div>
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
@@ -766,10 +768,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                  decoding="async" fetchpriority="high"
                  onerror="console.error('Neurole: image failed ->', this.src);"
                  onload="console.log('Neurole: image loaded ->', this.src);">
-            <div id="function-clue" style="display:none;padding:40px 26px;text-align:center;background:var(--paper-deep);border-radius:16px;">
-              <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:22px;line-height:1.5;color:var(--ink);margin:0;font-style:italic;">"<span id="function-clue-text"></span>"</p>
-            </div>
             <p class="cap" id="specimen-cap">Which region is highlighted?</p>
+            <div id="function-clue" style="display:none;padding:14px 18px;margin:-6px 0 4px;background:var(--paper-deep);border-radius:10px;">
+              <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:16px;line-height:1.5;color:var(--ink);margin:0;font-style:italic;">"<span id="function-clue-text"></span>"</p>
+            </div>
           </div>
           <div class="choices" id="choices"></div>
           <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:8px;">
@@ -815,11 +817,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="rmodal-hero">
-      <div class="rmodal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-          <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+      <div class="rmodal-icon" style="background:#6B4F94;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8"/>
+          <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8"/>
+          <path d="M12 4.5V20"/>
+          <circle cx="17.3" cy="6.3" r="1.5" fill="#fff" stroke="none"/>
         </svg>
       </div>
       <h3 id="neuro-result-headline" class="rmodal-headline"></h3>
@@ -863,13 +866,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="rmodal-section-label">Play Today's Games</p>
       <div class="rmodal-games-grid">
         <a href="daily-game.html" class="rmodal-game-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+          <svg viewBox="0 0 24 24">
+            <rect x="1" y="1" width="10" height="10" rx="2.5" fill="#fff"/>
+            <rect x="13" y="1" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
+            <rect x="1" y="13" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
+            <rect x="13" y="13" width="10" height="10" rx="2.5" fill="#fff"/>
           </svg>
           <div class="rmodal-game-title">The Daily Case</div>
           <div class="rmodal-game-sub">Diagnose the case</div>
         </a>
-        <a href="archive.html" class="rmodal-game-card">
+        <a href="archive.html" class="rmodal-game-card rmodal-game-neutral">
           <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
           </svg>
@@ -913,6 +919,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer id="footer-contact">
   <div class="wrap">
+    <!-- About + columns -->
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html">The Daily Case</a>
+        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+      </div>
+    </div>
+
     <!-- Footer nav links -->
     <div class="social-row">
       <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
@@ -926,12 +963,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
     </div>
     <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
-    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
-      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Contact Us</a>
-      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">About</a>
-      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Donate</a>
-      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;line-height:1.2;">Subscribe</a>
-    </div>
   </div>
 </footer>
 
@@ -956,7 +987,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=132"></script>
+<script src="config.js?v=133"></script>
 <script src="script.js?v=131"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
@@ -1238,30 +1269,28 @@ function showQuestion(){
   const isFunctionMode = current.qMode === 'function';
 
   if(isFunctionMode){
-    imgEl.style.display = 'none';
-    if(specimenEl) specimenEl.classList.remove('specimen-loading');
+    if(capEl) capEl.textContent = 'Which region does this describe?';
     if(clueEl){
       clueEl.style.display = 'block';
       document.getElementById('function-clue-text').textContent = findField(current,'function_text') || '';
     }
-    if(capEl) capEl.textContent = 'Which region does this describe?';
   } else {
-    if(clueEl) clueEl.style.display = 'none';
-    imgEl.style.display = '';
     if(capEl) capEl.textContent = 'Which region is highlighted?';
-    // If this image isn't cached yet, show a loading state instead of a slow pop-in
-    const cached = preloadedImageCache[imgUrl];
-    const isReady = cached && cached._resolved;
-    if(specimenEl) specimenEl.classList.toggle('specimen-loading', !isReady);
-    imgEl.src = imgUrl;
-    if(!isReady){
-      preloadQuestionImage(current).then(() => {
-        if(current === qBank[qIndex] && specimenEl) specimenEl.classList.remove('specimen-loading');
-      });
-    }
+    if(clueEl) clueEl.style.display = 'none';
+  }
+  imgEl.style.display = '';
+  // If this image isn't cached yet, show a loading state instead of a slow pop-in
+  const cached = preloadedImageCache[imgUrl];
+  const isReady = cached && cached._resolved;
+  if(specimenEl) specimenEl.classList.toggle('specimen-loading', !isReady);
+  imgEl.src = imgUrl;
+  if(!isReady){
+    preloadQuestionImage(current).then(() => {
+      if(current === qBank[qIndex] && specimenEl) specimenEl.classList.remove('specimen-loading');
+    });
   }
   // Make sure the next couple of questions' images are warm in cache by the time they get there
-  if(qBank[qIndex+1] && qBank[qIndex+1].qMode !== 'function') preloadQuestionImage(qBank[qIndex+1]);
+  if(qBank[qIndex+1]) preloadQuestionImage(qBank[qIndex+1]);
   if(qBank[qIndex+2]) preloadQuestionImage(qBank[qIndex+2]);
   document.getElementById('score-tag').textContent = 'Question ' + (qIndex+1) + ' of ' + qBank.length;
   document.getElementById('score-pill').textContent = 'Score: ' + correctCount + '/' + qIndex;
@@ -1287,21 +1316,16 @@ function showQuestion(){
 
   // Build the 4 choices as {text, isCorrect} objects, then shuffle their
   // display order so the correct answer isn't always in the same slot.
-  // Correctness is determined by matching each choice's text against the
-  // region name itself (column A) — no separate "correct letter" column
-  // needed. Falls back to a correct_choice letter column if present, for
-  // any older rows that might still use that format.
-  const normText = s => String(s||'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');
-  const regionName = normText(findField(current,'region') || '');
+  // Choices live in columns K/L/M/N (choice_a-d), and column O
+  // (correct_choice) contains the literal column letter of the right one —
+  // "K", "L", "M", or "N" — matching the sheet's own lettering, not
+  // generic A/B/C/D.
+  const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
   const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
-  const rawChoices = ['a','b','c','d'].map(letter => {
-    const text = findField(current, 'choice_' + letter) || '';
-    const matchesRegion = regionName && normText(text) === regionName;
-    return {
-      text,
-      isCorrect: matchesRegion || (!regionName && letter.toUpperCase() === correctLetter)
-    };
-  });
+  const rawChoices = ['a','b','c','d'].map(letter => ({
+    text: findField(current, 'choice_' + letter) || '',
+    isCorrect: columnLetterMap[letter] === correctLetter
+  }));
   const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');

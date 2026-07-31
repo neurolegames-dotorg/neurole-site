@@ -29,28 +29,19 @@ window.NEUROLE_CONFIG = {
   // --- Neuroanatomy game ---------------------------------------------
   // The code reads columns by HEADER NAME (row 1), not by column letter —
   // so it doesn't matter which literal column something sits in, as long
-  // as row 1 has these exact header names somewhere in it:
+  // as row 1 has these exact header names somewhere in it.
+  //
+  // REGION mode (image shown, guess which region is highlighted):
   //   region | image_url | choice_a | choice_b | choice_c | choice_d |
-  //   correct_choice | function_text | explanation | category (optional) | difficulty (optional)
+  //   correct_choice (K/L/M/N) | explanation ("Why", shown after answering)
   //
-  // IMPORTANT: correct_choice must contain the literal SHEET column letter
-  // of the right answer — "K", "L", "M", or "N" — matching where choice_a,
-  // choice_b, choice_c, and choice_d actually sit in your sheet. Not
-  // generic A/B/C/D labels. Choices are shuffled for display each round,
-  // but which text came from which column is always read correctly.
+  // FUNCTION mode (same image, but the "Why" explanation comes from a
+  // different column — see below):
+  //   Function A | Function B | Function C | Function D | Correct
+  //   (containing literally "A", "B", "C", or "D") | function_text
+  //   ("Why", shown after answering)
   //
-  // Every question shows just the image + the four K/L/M/N choices — no
-  // separate clue text before answering, in either mode. The only
-  // difference between Region and Function mode is which column supplies
-  // the "Why" explanation shown after you answer:
-  //   Region mode   -> column H (header name: "explanation")
-  //   Function mode -> column P (header name: "function_text")
-  //
-  // Your current sheet layout (A→P):
-  //   A region | B image_url | C category | D difficulty | E-G (unused —
-  //   free for your own notes) | H explanation (region mode's "Why") |
-  //   I-J (unused) | K choice_a | L choice_b | M choice_c | N choice_d |
-  //   O correct_choice (K/L/M/N) | P function_text (function mode's "Why")
+  // category (optional) | difficulty (optional) apply to both modes.
   NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",
 
   // --- Weekly fun fact -------------------------------------------------

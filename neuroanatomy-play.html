@@ -984,7 +984,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=133"></script>
+<script src="config.js?v=134"></script>
 <script src="script.js?v=132"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
@@ -1300,17 +1300,27 @@ function showQuestion(){
   const wrongExplainReset = document.getElementById('wrong-explain');
   if(wrongExplainReset) wrongExplainReset.style.display = 'none';
 
-  // Build the 4 choices as {text, isCorrect} objects. Sourced from columns
-  // K/L/M/N (choice_a-d), with column O (correct_choice) holding the
-  // literal column letter of the right one — "K", "L", "M", or "N".
-  // Display order is randomized so the correct answer isn't always in the
-  // same slot, but which text came from which sheet column never changes.
-  const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
-  const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
-  const rawChoices = ['a','b','c','d'].map(letter => ({
-    text: findField(current, 'choice_' + letter) || '',
-    isCorrect: columnLetterMap[letter] === correctLetter
-  }));
+  // Build the 4 choices as {text, isCorrect} objects.
+  // Function mode reads from columns headed "Function A", "Function B",
+  // "Function C", "Function D", with the right one named in the "Correct"
+  // column (containing literally "A", "B", "C", or "D").
+  // Region mode reads from choice_a-d / correct_choice as before.
+  const isFunctionMode = current.qMode === 'function';
+  let rawChoices;
+  if(isFunctionMode){
+    const correctLetter = (findField(current,'Correct') || '').trim().toUpperCase();
+    rawChoices = ['A','B','C','D'].map(letter => ({
+      text: findField(current, 'Function ' + letter) || '',
+      isCorrect: letter === correctLetter
+    }));
+  } else {
+    const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
+    const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
+    rawChoices = ['a','b','c','d'].map(letter => ({
+      text: findField(current, 'choice_' + letter) || '',
+      isCorrect: columnLetterMap[letter] === correctLetter
+    }));
+  }
   const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');

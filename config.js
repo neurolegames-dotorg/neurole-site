@@ -36,7 +36,8 @@ window.NEUROLE_CONFIG = {
   // IMPORTANT: correct_choice must contain the literal SHEET column letter
   // of the right answer — "K", "L", "M", or "N" — matching where choice_a,
   // choice_b, choice_c, and choice_d actually sit in your sheet. Not
-  // generic A/B/C/D labels.
+  // generic A/B/C/D labels. Choices are shuffled for display each round,
+  // but which text came from which column is always read correctly.
   //
   // Your current sheet layout (A→P):
   //   A region | B image_url | C category | D difficulty | E-J (unused by

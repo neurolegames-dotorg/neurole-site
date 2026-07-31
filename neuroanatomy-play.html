@@ -331,19 +331,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .specimen img{
     width:100%;
     height:240px;
-    aspect-ratio:4/3;
     object-fit:contain;
     background:var(--paper-deep);
     display:block;
+    border-radius:8px;
   }
   @media(max-width:480px){
-    .specimen img{height:180px;}
+    .specimen img{height:200px;}
     .specimen{padding:10px;}
   }
   .specimen .cap{
     font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-align:center;
     margin-top:8px;letter-spacing:.08em;text-transform:uppercase;
   }
+  .specimen .cap.cap-quote{
+    font-family:'Cormorant Garamond','Playfair Display',serif;font-size:17px;color:var(--ink);
+    text-transform:none;letter-spacing:0;font-style:italic;line-height:1.5;
+    padding:0 8px;
+  }
+  .specimen .cap.cap-quote::before{content:'"';}
+  .specimen .cap.cap-quote::after{content:'"';}
 
   /* Answer choices — more compact on phone */
   .choices{display:grid;grid-template-columns:1fr;gap:9px;}
@@ -769,9 +776,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                  onerror="console.error('Neurole: image failed ->', this.src);"
                  onload="console.log('Neurole: image loaded ->', this.src);">
             <p class="cap" id="specimen-cap">Which region is highlighted?</p>
-            <div id="function-clue" style="display:none;padding:14px 18px;margin:-6px 0 4px;background:var(--paper-deep);border-radius:10px;">
-              <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:16px;line-height:1.5;color:var(--ink);margin:0;font-style:italic;">"<span id="function-clue-text"></span>"</p>
-            </div>
           </div>
           <div class="choices" id="choices"></div>
           <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:8px;">
@@ -1264,19 +1268,14 @@ function showQuestion(){
   const imgUrl = getQuestionImageUrl(current);
   const specimenEl = document.getElementById('specimen');
   const imgEl = document.getElementById('specimen-img');
-  const clueEl = document.getElementById('function-clue');
   const capEl = document.getElementById('specimen-cap');
   const isFunctionMode = current.qMode === 'function';
 
   if(isFunctionMode){
-    if(capEl) capEl.textContent = 'Which region does this describe?';
-    if(clueEl){
-      clueEl.style.display = 'block';
-      document.getElementById('function-clue-text').textContent = findField(current,'function_text') || '';
-    }
+    const funcText = findField(current,'function_text') || '';
+    if(capEl){ capEl.textContent = funcText; capEl.classList.add('cap-quote'); }
   } else {
-    if(capEl) capEl.textContent = 'Which region is highlighted?';
-    if(clueEl) clueEl.style.display = 'none';
+    if(capEl){ capEl.textContent = 'Which region is highlighted?'; capEl.classList.remove('cap-quote'); }
   }
   imgEl.style.display = '';
   // If this image isn't cached yet, show a loading state instead of a slow pop-in
@@ -1314,21 +1313,22 @@ function showQuestion(){
   const wrongExplainReset = document.getElementById('wrong-explain');
   if(wrongExplainReset) wrongExplainReset.style.display = 'none';
 
-  // Build the 4 choices as {text, isCorrect} objects. Displayed in the
-  // exact sheet order — K -> A, L -> B, M -> C, N -> D — no shuffling, so
-  // the on-screen letter always matches the sheet's own column lettering.
-  // Column O (correct_choice) contains the literal column letter of the
-  // right one — "K", "L", "M", or "N".
+  // Build the 4 choices as {text, isCorrect} objects. Sourced from columns
+  // K/L/M/N (choice_a-d), with column O (correct_choice) holding the
+  // literal column letter of the right one — "K", "L", "M", or "N".
+  // Display order is randomized so the correct answer isn't always in the
+  // same slot, but which text came from which sheet column never changes.
   const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
   const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
   const rawChoices = ['a','b','c','d'].map(letter => ({
     text: findField(current, 'choice_' + letter) || '',
     isCorrect: columnLetterMap[letter] === correctLetter
   }));
+  const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');
   choices.innerHTML = '';
-  rawChoices.forEach((choice, idx) => {
+  shuffledChoices.forEach((choice, idx) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.textContent = choice.text;

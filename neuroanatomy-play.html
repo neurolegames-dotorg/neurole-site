@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=137">
+<link rel="stylesheet" href="style.css?v=138">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -880,18 +880,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="ai-mobile-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:20px;">
   <div id="ai-mobile-panel" style="background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.25);">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);">
-      <h4 id="ai-mobile-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0;">Region</h4>
-      <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+      <div>
+        <p style="font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#75747A;margin:0 0 3px;">Correct Answer</p>
+        <h4 id="ai-mobile-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0;color:#16171A;">Region</h4>
+      </div>
+      <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:#75747A;">✕</button>
     </div>
     <div style="flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch;">
-      <p id="ai-mobile-function" style="color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
+      <p id="ai-mobile-function" style="color:#4A4A52;font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
       <div style="border-top:1px solid var(--rule);padding-top:12px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 0 10px;">Ask the AI</p>
+        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#75747A;margin:0 0 10px;">Ask the AI</p>
         <div id="ai-mobile-chat" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
       </div>
     </div>
     <form id="ai-mobile-form" style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--rule);">
-      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Outfit',sans-serif;">
+      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Outfit',sans-serif;background:#fff;color:#16171A;">
       <button class="btn" type="submit" style="height:38px;padding:0 14px;font-size:13px;border-radius:8px;">Ask</button>
     </form>
   </div>
@@ -1525,7 +1528,7 @@ document.getElementById('ai-mobile-form').addEventListener('submit', async e => 
   u.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:8px;align-self:flex-end;max-width:85%;";
   u.textContent=q; chat.appendChild(u); input.value='';
   const a = document.createElement('div');
-  a.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);padding:6px 0;";
+  a.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;color:#4A4A52;padding:6px 0;";
   a.textContent='…'; chat.appendChild(a);
   const title = document.getElementById('ai-mobile-title').textContent;
   const func  = document.getElementById('ai-mobile-function').textContent;

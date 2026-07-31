@@ -988,7 +988,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=133"></script>
-<script src="script.js?v=131"></script>
+<script src="script.js?v=132"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1314,23 +1314,21 @@ function showQuestion(){
   const wrongExplainReset = document.getElementById('wrong-explain');
   if(wrongExplainReset) wrongExplainReset.style.display = 'none';
 
-  // Build the 4 choices as {text, isCorrect} objects, then shuffle their
-  // display order so the correct answer isn't always in the same slot.
-  // Choices live in columns K/L/M/N (choice_a-d), and column O
-  // (correct_choice) contains the literal column letter of the right one —
-  // "K", "L", "M", or "N" — matching the sheet's own lettering, not
-  // generic A/B/C/D.
+  // Build the 4 choices as {text, isCorrect} objects. Displayed in the
+  // exact sheet order — K -> A, L -> B, M -> C, N -> D — no shuffling, so
+  // the on-screen letter always matches the sheet's own column lettering.
+  // Column O (correct_choice) contains the literal column letter of the
+  // right one — "K", "L", "M", or "N".
   const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
   const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
   const rawChoices = ['a','b','c','d'].map(letter => ({
     text: findField(current, 'choice_' + letter) || '',
     isCorrect: columnLetterMap[letter] === correctLetter
   }));
-  const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');
   choices.innerHTML = '';
-  shuffledChoices.forEach((choice, idx) => {
+  rawChoices.forEach((choice, idx) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.textContent = choice.text;
@@ -1381,11 +1379,11 @@ function selectChoice(btn){
   if(wrongExplain){
     if(!gotItRight){
       if(current.qMode === 'function'){
-        document.getElementById('wrong-explain-region').textContent = correctText + '.';
-        document.getElementById('wrong-explain-text').textContent = 'That\'s the region described above.';
-      } else {
         document.getElementById('wrong-explain-region').textContent = correctText + ' —';
         document.getElementById('wrong-explain-text').textContent = findField(current,'function_text') || '';
+      } else {
+        document.getElementById('wrong-explain-region').textContent = correctText + '.';
+        document.getElementById('wrong-explain-text').textContent = '';
       }
       wrongExplain.style.display = 'block';
     } else {

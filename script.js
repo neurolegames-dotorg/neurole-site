@@ -93,11 +93,43 @@ function initSignIn(){
   const triggers = document.querySelectorAll('[data-signin]');
   const backdrop = document.getElementById('signin-modal');
   if(!triggers.length || !backdrop) return;
+  const modalBox = backdrop.querySelector('.modal');
   const closeEls = backdrop.querySelectorAll('[data-close]');
+  const originalModalHTML = modalBox ? modalBox.innerHTML : '';
+
+  function showAccountPanel(){
+    if(!modalBox) return;
+    modalBox.innerHTML = `
+      <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:26px;">Neurole</div>
+      <p style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 4px;">Signed in as</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 24px;word-break:break-word;">${googleSignInState.email}</p>
+      <button type="button" id="signout-btn" class="btn ghost" style="width:100%;justify-content:center;">Sign Out</button>
+    `;
+    modalBox.querySelector('[data-close]').addEventListener('click', () => backdrop.classList.remove('open'));
+    modalBox.querySelector('#signout-btn').addEventListener('click', () => {
+      clearSignInState();
+      googleSignInState = { signedIn:false, name:'', email:'' };
+      updateSignInTriggers();
+      backdrop.classList.remove('open');
+      if(modalBox) modalBox.innerHTML = originalModalHTML;
+      initSignInFormHandlers();
+    });
+  }
+
+  function initSignInFormHandlers(){
+    const closeEls2 = backdrop.querySelectorAll('[data-close]');
+    closeEls2.forEach(el => el.addEventListener('click', () => backdrop.classList.remove('open')));
+  }
+
   triggers.forEach(trigger => {
     trigger.addEventListener('click', e => {
       e.preventDefault();
       backdrop.classList.add('open');
+      if(googleSignInState.signedIn){
+        showAccountPanel();
+        return;
+      }
       renderGoogleSignIn('signin-google-container', () => {
         backdrop.classList.remove('open');
         const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';

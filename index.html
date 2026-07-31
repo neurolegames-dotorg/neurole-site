@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=136">
+<link rel="stylesheet" href="style.css?v=137">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -118,13 +118,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .home-game-card{
   background:var(--paper);border:1.5px solid var(--rule);border-radius:16px;overflow:hidden;
   display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
-  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  transition:border-color .15s ease;
   position:relative;
   padding:28px 26px;
 }
 .home-game-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 16px 34px rgba(0,0,0,.11);
   border-color:var(--ink-soft);
 }
 .home-game-card-stripe{position:absolute;top:0;left:0;right:0;height:3px;background:#8B2635;}
@@ -320,12 +318,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-stripe"></div>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
-              <svg width="28" height="28" viewBox="0 0 24 24">
-                <rect x="1" y="1" width="10" height="10" rx="2.5" fill="#6aaa64"/>
-                <rect x="13" y="1" width="10" height="10" rx="2.5" fill="#c9b458"/>
-                <rect x="1" y="13" width="10" height="10" rx="2.5" fill="#8b8f92"/>
-                <rect x="13" y="13" width="10" height="10" rx="2.5" fill="#6aaa64"/>
-              </svg>
+              <img src="daily-case-icon.png" alt="The Daily Case" width="38" height="41" style="object-fit:contain;">
             </div>
             <span class="game-card-badge">Daily · Diagnostic</span>
             <h3>The Daily Case</h3>
@@ -498,7 +491,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="config.js?v=134"></script>
 <script src="games-data.js?v=125"></script>
-<script src="script.js?v=132"></script>
+<script src="script.js?v=133"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

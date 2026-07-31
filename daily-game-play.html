@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=136">
+<link rel="stylesheet" href="style.css?v=137">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -254,14 +254,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
-    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    height:52px;padding:0 24px 0 20px;border-radius:999px;
     background:var(--neuro-blue-deep);color:#fff;
     border:none;display:flex;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    box-shadow:0 8px 24px rgba(122,95,175,.35), 0 2px 8px rgba(0,0,0,.12);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
-  .chat-fab:hover{background:var(--plum);}
+  .chat-fab:hover{background:var(--plum);box-shadow:0 10px 28px rgba(122,95,175,.45), 0 2px 8px rgba(0,0,0,.14);}
   .chat-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
     display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
@@ -278,9 +278,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
   .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
   .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:var(--paper);color:var(--ink);}
   @media(max-width:480px){
     /* Start screen — iPhone */
     .start-screen{padding:0 16px !important;overflow-y:auto;}
@@ -490,12 +490,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <div class="start-screen-inner">
       <div class="start-logo">
-        <svg width="50" height="50" viewBox="0 0 24 24">
-          <rect x="1" y="1" width="10" height="10" rx="2.5" fill="#6aaa64"/>
-          <rect x="13" y="1" width="10" height="10" rx="2.5" fill="#c9b458"/>
-          <rect x="1" y="13" width="10" height="10" rx="2.5" fill="#8b8f92"/>
-          <rect x="13" y="13" width="10" height="10" rx="2.5" fill="#6aaa64"/>
-        </svg>
+        <img src="daily-case-icon.png" alt="The Daily Case" width="56" height="60" style="object-fit:contain;">
       </div>
       <h1>The Daily Case</h1>
       <p>A new patient every day. Read the symptoms and name the diagnosis — 5 tries, then the answer is revealed.</p>
@@ -654,14 +649,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="rmodal-hero">
-      <div class="rmodal-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="1" y="1" width="10" height="10" rx="2.5" fill="#fff"/>
-          <rect x="13" y="1" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
-          <rect x="1" y="13" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
-          <rect x="13" y="13" width="10" height="10" rx="2.5" fill="#fff"/>
-        </svg>
-      </div>
+      <div class="rmodal-icon" style="background:#fff;"><img src="daily-case-icon.png" alt="The Daily Case" width="40" height="43" style="object-fit:contain;"></div>
       <h3 id="result-headline-text" class="rmodal-headline"></h3>
       <p id="result-stats-text" class="rmodal-sub"></p>
     </div>
@@ -746,7 +734,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="config.js?v=134"></script>
-<script src="script.js?v=132"></script>
+<script src="script.js?v=133"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

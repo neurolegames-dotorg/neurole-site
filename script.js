@@ -467,9 +467,18 @@ function initChatFabInteraction(){
       fab.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
     });
 
-    fab.addEventListener('mouseenter', () => {
+    fab.addEventListener('mouseenter', e => {
       clearTimeout(lingerTimer);
       lingerTimer = setTimeout(() => fab.classList.add('linger'), LINGER_DELAY);
+      // Ripple/wave that expands outward from exactly where the cursor entered
+      const rect = fab.getBoundingClientRect();
+      const relX = e.clientX - rect.left, relY = e.clientY - rect.top;
+      const ripple = document.createElement('span');
+      ripple.className = 'fab-ripple';
+      ripple.style.left = relX + 'px';
+      ripple.style.top = relY + 'px';
+      fab.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
     });
 
     fab.addEventListener('mouseleave', () => {

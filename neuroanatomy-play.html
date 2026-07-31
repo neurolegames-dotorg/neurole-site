@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=136">
+<link rel="stylesheet" href="style.css?v=137">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -117,11 +117,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transform:translateX(3px);
   }
   .choice-btn.correct{
-    background:rgba(92,181,124,.15),rgba(92,181,124,.08)) !important;
+    background:#E7F1EC !important;
     border-color:#5CB57C !important;color:var(--ink) !important;
   }
   .choice-btn.wrong{
-    background:rgba(168,68,58,.1),rgba(168,68,58,.05)) !important;
+    background:#F5E4E1 !important;
     border-color:var(--signal-red) !important;
   }
   .choice-letter{
@@ -334,7 +334,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     object-fit:contain;
     background:var(--paper-deep);
     display:block;
-    border-radius:8px;
   }
   @media(max-width:480px){
     .specimen img{height:200px;}
@@ -366,10 +365,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:flex;align-items:center;justify-content:center;
   }
   .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
-  .choice-btn.correct{background:#E7F1EC;border-color:#5C8C72;}
-  .choice-btn.correct::before{background:#5C8C72;border-color:#5C8C72;color:#fff;}
-  .choice-btn.incorrect{background:#F5E4E1;border-color:var(--signal-red);}
-  .choice-btn.incorrect::before{background:var(--signal-red);border-color:var(--signal-red);color:#fff;}
   .choice-btn:disabled{cursor:default;}
 
   .next-row{display:flex;justify-content:flex-end;margin-top:18px;}
@@ -381,15 +376,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
-    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    height:52px;padding:0 24px 0 20px;border-radius:999px;
     background:var(--neuro-blue-deep);color:#fff;
     border:none;display:none;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    box-shadow:0 8px 24px rgba(122,95,175,.35), 0 2px 8px rgba(0,0,0,.12);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
   .chat-fab.show{display:flex;}
-  .chat-fab:hover{background:var(--plum);}
+  .chat-fab:hover{background:var(--plum);box-shadow:0 10px 28px rgba(122,95,175,.45), 0 2px 8px rgba(0,0,0,.14);}
 
   .learn-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
@@ -407,9 +402,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-log{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
   .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:var(--paper);color:var(--ink);}
   @media(max-width:480px){
     /* Start screen — iPhone */
     .start-screen{padding:50px 16px 40px !important;}
@@ -863,12 +858,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="rmodal-section-label">Play Today's Games</p>
       <div class="rmodal-games-grid">
         <a href="daily-game.html" class="rmodal-game-card">
-          <svg viewBox="0 0 24 24">
-            <rect x="1" y="1" width="10" height="10" rx="2.5" fill="#fff"/>
-            <rect x="13" y="1" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
-            <rect x="1" y="13" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/>
-            <rect x="13" y="13" width="10" height="10" rx="2.5" fill="#fff"/>
-          </svg>
+          <img src="daily-case-icon.png" alt="" width="22" height="24" style="object-fit:contain;margin-bottom:10px;">
           <div class="rmodal-game-title">The Daily Case</div>
           <div class="rmodal-game-sub">Diagnose the case</div>
         </a>
@@ -985,7 +975,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=134"></script>
-<script src="script.js?v=132"></script>
+<script src="script.js?v=133"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

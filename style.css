@@ -496,6 +496,19 @@ footer {
 .chat-fab svg{ position:relative; z-index:2; transition:transform .45s cubic-bezier(.34,1.56,.64,1); }
 .chat-fab > *{ position:relative; z-index:2; }
 
+.fab-ripple{
+  position:absolute; z-index:1;
+  width:8px; height:8px; margin:-4px 0 0 -4px;
+  border-radius:50%;
+  background:rgba(255,255,255,.55);
+  pointer-events:none;
+  animation:fab-wave .6s ease-out forwards;
+}
+@keyframes fab-wave{
+  0%{ transform:scale(0); opacity:.6; }
+  100%{ transform:scale(14); opacity:0; }
+}
+
 .chat-fab.linger{
   animation:fab-breathe 1.8s ease-in-out infinite;
   box-shadow:0 10px 32px rgba(0,0,0,.26), 0 0 0 5px rgba(255,255,255,.10);

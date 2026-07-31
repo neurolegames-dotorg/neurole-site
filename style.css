@@ -533,7 +533,7 @@ footer {
 .modal-backdrop.open{display:flex;}
 
 /* ---------- Result modal (game end screen) — theme-reactive ---------- */
-.rmodal-backdrop{background:rgba(10,10,12,.75);backdrop-filter:blur(8px);}
+.rmodal-backdrop{background:transparent;backdrop-filter:none;padding:0 !important;align-items:stretch;justify-content:stretch;}
 .rmodal-card{
   --rm-bg:#ffffff;
   --rm-bg-soft:#F7F6F4;
@@ -542,10 +542,11 @@ footer {
   --rm-line:rgba(0,0,0,.09);
   --rm-track:rgba(0,0,0,.06);
   background:var(--rm-bg);color:var(--rm-ink);
-  width:100%;max-width:460px;max-height:92vh;overflow-y:auto;
-  border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.35);
+  width:100%;max-width:none;height:100%;max-height:none;overflow-y:auto;
+  border-radius:0;box-shadow:none;
   -webkit-overflow-scrolling:touch;
 }
+.rmodal-card > *{max-width:520px;margin-left:auto;margin-right:auto;}
 :root[data-theme="dark"] .rmodal-card{
   --rm-bg:#0A0A0C;
   --rm-bg-soft:#151517;

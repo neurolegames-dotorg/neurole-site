@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=134">
+<link rel="stylesheet" href="style.css?v=135">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -127,17 +127,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   box-shadow:0 16px 34px rgba(0,0,0,.11);
   border-color:var(--ink-soft);
 }
-.home-game-card-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#8B2635,#B5455A);}
-.home-game-card-stripe--purple{background:linear-gradient(90deg,#6B4F94,#8B6DB8);}
+.home-game-card-stripe{position:absolute;top:0;left:0;right:0;height:3px;background:#8B2635;}
+.home-game-card-stripe--purple{background:#6B4F94;}
 .home-game-card-body{display:flex;flex-direction:column;gap:12px;flex:1;}
 .game-card-icon-wrap{
-  width:68px;height:68px;border-radius:18px;
-  background:linear-gradient(135deg,#8B2635,#A8324A);
-  box-shadow:0 8px 20px rgba(139,38,53,.28);
+  width:40px;height:40px;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:6px;
+  margin-bottom:2px;
 }
-.home-game-card:nth-child(2) .game-card-icon-wrap{background:linear-gradient(135deg,#6B4F94,#83629F);box-shadow:0 8px 20px rgba(107,79,148,.28);}
 .game-card-badge{
   font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-soft);
@@ -301,13 +298,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main>
 
-  <!-- Personal note -->
-  <div class="wrap" style="margin-top:44px;max-width:640px;">
-    <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:19px;line-height:1.7;color:var(--ink);font-style:italic;margin:0;">
-      Hi — we're a small volunteer team of students and clinicians who kept wishing there was a Wordle for the brain, so we built one. New case every morning, no account needed. Hope you learn something.
-    </p>
-  </div>
-
   <!-- Fun Fact -->
   <div class="wrap" style="margin-top:48px;">
     <span class="section-eyebrow">Weekly Neuroscience Fun Fact</span>
@@ -330,7 +320,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-stripe"></div>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
               </svg>
             </div>
@@ -346,7 +336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-stripe home-game-card-stripe--purple"></div>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
                 <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
                 <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
@@ -411,6 +401,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p style="color:var(--ink-soft);font-size:14.5px;margin:0;">An early look at our interactive teaching tools →</p>
       </div>
     </a>
+  </div>
+
+  <!-- What is Neurole -->
+  <div class="wrap" style="margin-top:48px;">
+    <span class="section-eyebrow">What is Neurole</span>
+    <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;line-height:1.65;color:var(--ink);margin:0;max-width:680px;">
+      Neurole is a free, volunteer-built neuroscience education platform. The Daily Case is a Wordle-style diagnosis puzzle — a new patient case every morning, guess the condition in five tries. Map the Brain is a neuroanatomy quiz covering 45+ brain regions. Both are built by students and clinicians, free forever, no account required.
+    </p>
   </div>
 
   <!-- Join Us -->

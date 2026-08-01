@@ -33,13 +33,16 @@ window.NEUROLE_CONFIG = {
   //
   // REGION mode (image shown, guess which region is highlighted):
   //   region | image_url | choice_a | choice_b | choice_c | choice_d |
-  //   correct_choice (K/L/M/N) | explanation ("Why", shown after answering)
+  //   correct_choice (K/L/M/N) | function_text ("Why", shown after answering)
   //
-  // FUNCTION mode (same image, but the "Why" explanation comes from a
-  // different column — see below):
+  // FUNCTION mode (same image, choices from a separate set of columns):
   //   Function A | Function B | Function C | Function D | Correct
   //   (containing literally "A", "B", "C", or "D") | function_text
-  //   ("Why", shown after answering)
+  //   ("Which region?", shown after answering)
+  //
+  // Both modes pull their post-answer explanation from the same
+  // function_text column — only the section label differs (Region mode
+  // says "Why", Function mode says "Which region?").
   //
   // category (optional) | difficulty (optional) apply to both modes.
   NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",

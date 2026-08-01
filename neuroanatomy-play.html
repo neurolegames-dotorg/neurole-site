@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=138">
+<link rel="stylesheet" href="style.css?v=139">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -124,15 +124,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background:#F5E4E1 !important;
     border-color:var(--signal-red) !important;
   }
-  .choice-letter{
-    font-family:var(--game-font) !important;font-size:12px !important;font-weight:800;
-    width:26px !important;height:26px !important;line-height:26px !important;left:12px !important;
-    border-radius:8px !important;
-    background:var(--paper-deep) !important;
-    color:var(--ink) !important;
-  }
-  .choice-btn.correct .choice-letter{background:#5CB57C !important;color:#fff !important;}
-  .choice-btn.wrong .choice-letter{background:var(--signal-red) !important;color:#fff !important;}
 
   /* Next button */
   .next-row{margin-top:20px;}
@@ -364,6 +355,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--ink-soft);font-family:var(--mono);font-size:11px;font-weight:600;
     display:flex;align-items:center;justify-content:center;
   }
+  .choice-btn.correct::before{background:#5CB57C !important;border-color:#5CB57C !important;color:#fff !important;}
+  .choice-btn.wrong::before{background:var(--signal-red) !important;border-color:var(--signal-red) !important;color:#fff !important;}
   .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
   .choice-btn:disabled{cursor:default;}
 
@@ -404,7 +397,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
   .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:var(--paper);color:var(--ink);}
+  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
   @media(max-width:480px){
     /* Start screen — iPhone */
     .start-screen{padding:50px 16px 40px !important;}
@@ -426,7 +419,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .cap{font-size:13px !important;}
     .choices{gap:8px !important;}
     .choice-btn{font-size:13px !important;padding:10px 10px 10px 36px !important;}
-    .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
     .game-stats-bar{padding:0 4px 10px;}
     .score-tag,.score-pill{font-size:10.5px !important;}
     .difficulty-badge{font-size:10px !important;}
@@ -499,7 +491,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cap{font-size:13px !important;}
   .choices{gap:8px !important;}
   .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
-  .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
 
   /* AI — ALWAYS bottom-sheet popup on iPhone, never side panel */
   body.ai-panel-open #game-split-container{display:block !important;}
@@ -565,10 +556,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   /* Fun color accents on choice letters */
-  .choice-btn:nth-child(1) .choice-letter{ background:rgba(168,68,58,.12) !important; color:#8B2635 !important; }
-  .choice-btn:nth-child(2) .choice-letter{ background:rgba(107,79,148,.12) !important; color:var(--neuro-blue-deep) !important; }
-  .choice-btn:nth-child(3) .choice-letter{ background:rgba(92,181,124,.14) !important; color:#3d8a5e !important; }
-  .choice-btn:nth-child(4) .choice-letter{ background:rgba(64,145,212,.12) !important; color:#2a6a9e !important; }
   .choice-btn:nth-child(1):hover:not(:disabled){ border-color:rgba(168,68,58,.3) !important; }
   .choice-btn:nth-child(2):hover:not(:disabled){ border-color:rgba(107,79,148,.3) !important; }
   .choice-btn:nth-child(3):hover:not(:disabled){ border-color:rgba(92,181,124,.3) !important; }
@@ -577,7 +564,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Mobile: fix padding on choice buttons */
   @media(max-width:480px){
     .choice-btn{ padding:14px 14px 14px 56px !important; font-size:14px !important; }
-    .choice-letter{ left:14px !important; width:28px !important; height:28px !important; }
   }
 
 </style>
@@ -767,7 +753,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="choices" id="choices"></div>
           <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:8px;">
-            <p style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why</p>
+            <p id="wrong-explain-label" style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why</p>
             <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink);"><strong id="wrong-explain-region"></strong> <span id="wrong-explain-text"></span></p>
           </div>
           <div class="next-row">
@@ -977,7 +963,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=134"></script>
+<script src="config.js?v=135"></script>
 <script src="script.js?v=133"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
@@ -1366,15 +1352,16 @@ function selectChoice(btn){
   document.getElementById('learn-fab').classList.add('show');
 
   const wrongExplain = document.getElementById('wrong-explain');
+  const wrongExplainLabel = document.getElementById('wrong-explain-label');
   if(wrongExplain){
+    const explanationText = findField(current,'function_text') || '';
     if(current.qMode === 'function'){
-      document.getElementById('wrong-explain-region').textContent = correctText + ' —';
-      document.getElementById('wrong-explain-text').textContent = findField(current,'function_text') || '';
+      if(wrongExplainLabel) wrongExplainLabel.textContent = 'Which region?';
     } else {
-      const regionExplanation = findField(current,'explanation') || '';
-      document.getElementById('wrong-explain-region').textContent = regionExplanation ? (correctText + ' —') : (correctText + '.');
-      document.getElementById('wrong-explain-text').textContent = regionExplanation;
+      if(wrongExplainLabel) wrongExplainLabel.textContent = 'Why';
     }
+    document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+    document.getElementById('wrong-explain-text').textContent = explanationText;
     wrongExplain.style.display = 'block';
   }
 }

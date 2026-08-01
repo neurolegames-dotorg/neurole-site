@@ -964,7 +964,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=135"></script>
-<script src="script.js?v=133"></script>
+<script src="script.js?v=134"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1002,6 +1002,7 @@ let current = null;
 let answered = false;
 let correctCount = 0;
 let roundResults = [];
+let regionExplainToken = 0;
 let selectedCategory = 'Random';
 let selectedQuestionType = 'region';
 let selectedDifficulty = 'all';
@@ -1278,6 +1279,7 @@ function showQuestion(){
   document.getElementById('ai-col').style.display='none'; document.body.classList.remove('ai-panel-open');
   const wrongExplainReset = document.getElementById('wrong-explain');
   if(wrongExplainReset) wrongExplainReset.style.display = 'none';
+  regionExplainToken++;
 
   // Build the 4 choices as {text, isCorrect} objects.
   // Function mode reads from columns headed "Function A", "Function B",
@@ -1293,11 +1295,16 @@ function showQuestion(){
       isCorrect: letter === correctLetter
     }));
   } else {
+    // correct_choice most likely contains a plain "A"/"B"/"C"/"D" matching
+    // choice_a-d directly. Also accept "K"/"L"/"M"/"N" (the sheet's own
+    // column letters) as a fallback, in case that convention is used
+    // instead — either way the right answer gets matched correctly.
     const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
+    const plainLetterMap = { a:'A', b:'B', c:'C', d:'D' };
     const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
     rawChoices = ['a','b','c','d'].map(letter => ({
       text: findField(current, 'choice_' + letter) || '',
-      isCorrect: columnLetterMap[letter] === correctLetter
+      isCorrect: plainLetterMap[letter] === correctLetter || columnLetterMap[letter] === correctLetter
     }));
   }
   const shuffledChoices = shuffle(rawChoices);
@@ -1357,12 +1364,30 @@ function selectChoice(btn){
     const explanationText = findField(current,'function_text') || '';
     if(current.qMode === 'function'){
       if(wrongExplainLabel) wrongExplainLabel.textContent = 'Which region?';
+      document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+      document.getElementById('wrong-explain-text').textContent = explanationText;
+      wrongExplain.style.display = 'block';
     } else {
       if(wrongExplainLabel) wrongExplainLabel.textContent = 'Why';
+      if(gotItRight){
+        document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+        document.getElementById('wrong-explain-text').textContent = explanationText;
+        wrongExplain.style.display = 'block';
+      } else {
+        // Live AI explanation covering both why your pick was wrong and
+        // why the correct region is right — no canned data exists for
+        // every possible wrong choice, so this is generated on the spot.
+        document.getElementById('wrong-explain-region').textContent = correctText + ' —';
+        document.getElementById('wrong-explain-text').textContent = 'Thinking…';
+        wrongExplain.style.display = 'block';
+        const myToken = ++regionExplainToken;
+        const wrongChoiceText = btn.textContent;
+        explainWrongRegionChoice(wrongChoiceText, correctText, explanationText).then(result => {
+          if(myToken !== regionExplainToken) return; // a newer question has since loaded
+          document.getElementById('wrong-explain-text').textContent = result || explanationText || '';
+        });
+      }
     }
-    document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
-    document.getElementById('wrong-explain-text').textContent = explanationText;
-    wrongExplain.style.display = 'block';
   }
 }
 

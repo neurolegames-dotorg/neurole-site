@@ -288,6 +288,20 @@ In exactly 2-3 sentences, briefly explain what "${guess}" actually is (its key f
   return answer || null;
 }
 
+// Explains, for Map the Brain's Region mode, both why the player's chosen
+// region was wrong AND why the correct region is actually correct —
+// generated live since we don't have canned distractor explanations for
+// every possible wrong choice on every question.
+async function explainWrongRegionChoice(wrongChoice, correctRegion, correctFunctionText){
+  const prompt = `You are a neuroanatomy tutor inside an educational game called Neurole.
+A player looked at a labeled brain image and was asked to identify the highlighted region. The correct answer is "${correctRegion}" (${correctFunctionText || 'a region of the brain'}), but the player instead picked "${wrongChoice}", which is incorrect.
+
+In exactly 2-3 sentences, explain (a) briefly what/where "${wrongChoice}" actually is and why it's not the region shown here, and (b) why "${correctRegion}" is the correct answer instead. Keep it factual, plain-language, and suitable for a pre-med or nursing student.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || null;
+}
+
 // ---------- Google Sign-In (shared across all pages) ----------
 // Renders a real "Sign in with Google" button into the given container
 // ---------- Google Sign-In (with localStorage persistence) ----------

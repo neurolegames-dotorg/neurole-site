@@ -1409,10 +1409,9 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .symptom-log li:not(.locked),
 :root[data-theme="dark"] .specimen{background:#1E1F26 !important;border-color:var(--rule) !important;}
 :root[data-theme="dark"] .specimen img{background:var(--paper-deep) !important;}
-:root[data-theme="dark"] .choice-btn:hover:not(:disabled){background:#292531 !important;}
+:root[data-theme="dark"] .choice-btn:hover:not(:disabled){background:#26272E !important;border-color:var(--rule) !important;}
 :root[data-theme="dark"] .choice-btn.correct{background:rgba(92,181,124,.16) !important;}
-:root[data-theme="dark"] .choice-btn.wrong,
-:root[data-theme="dark"] .choice-btn.incorrect{background:rgba(229,130,118,.13) !important;}
+:root[data-theme="dark"] .choice-btn.wrong{background:rgba(229,130,118,.13) !important;}
 :root[data-theme="dark"] input::placeholder,
 :root[data-theme="dark"] textarea::placeholder{color:#85818E;opacity:1;}
 :root[data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.78) !important;}

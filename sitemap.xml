@@ -2,56 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://neurole.org/</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://neurole.org/daily-game.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://neurole.org/neuroanatomy.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://neurole.org/archive.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://neurole.org/interactive.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://neurole.org/about.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://neurole.org/volunteer.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://neurole.org/contact.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://neurole.org/donate.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://neurole.org/privacy.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://neurole.org/terms.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 </urlset>

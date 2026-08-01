@@ -957,7 +957,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=135"></script>
-<script src="script.js?v=135"></script>
+<script src="script.js?v=136"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1284,10 +1284,24 @@ function showQuestion(){
   if(isFunctionMode){
     // Try a few reasonable header-name variants for the correct-answer
     // column, in case it isn't spelled exactly "Correct" in the sheet.
-    const rawCorrect = findField(current,'Correct') || findField(current,'Correct Choice')
+    let rawCorrect = findField(current,'Correct') || findField(current,'Correct Choice')
       || findField(current,'Correct Answer') || findField(current,'correct_choice') || '';
-    const correctLetter = rawCorrect.trim().toUpperCase().replace(/[^A-D]/g, '');
-    if(!correctLetter) console.warn('Neurole: Function mode — no "Correct" value found for this row. Check the header name in your sheet matches exactly. Row data:', current);
+    let correctLetter = rawCorrect.trim().toUpperCase().replace(/[^A-D]/g, '');
+    // Last resort: scan every column in this row for one whose value is
+    // literally just "A", "B", "C", or "D" on its own (ignoring the
+    // Function A-D columns themselves, whose values are full sentences).
+    if(!correctLetter){
+      for(const key in current){
+        if(/^function/i.test(key)) continue;
+        const val = String(current[key] || '').trim().toUpperCase();
+        if(val === 'A' || val === 'B' || val === 'C' || val === 'D'){
+          correctLetter = val;
+          console.warn('Neurole: Function mode — found correct-answer letter "' + val + '" in column "' + key + '" (not "Correct" as expected). Consider renaming that header to "Correct" to avoid relying on this fallback.');
+          break;
+        }
+      }
+    }
+    if(!correctLetter) console.warn('Neurole: Function mode — no correct-answer letter found anywhere in this row. Row data:', current);
     rawChoices = ['A','B','C','D'].map(letter => ({
       text: findField(current, 'Function ' + letter) || '',
       isCorrect: letter === correctLetter

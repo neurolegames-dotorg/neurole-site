@@ -957,7 +957,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=135"></script>
-<script src="script.js?v=134"></script>
+<script src="script.js?v=135"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1282,7 +1282,12 @@ function showQuestion(){
   const isFunctionMode = current.qMode === 'function';
   let rawChoices;
   if(isFunctionMode){
-    const correctLetter = (findField(current,'Correct') || '').trim().toUpperCase();
+    // Try a few reasonable header-name variants for the correct-answer
+    // column, in case it isn't spelled exactly "Correct" in the sheet.
+    const rawCorrect = findField(current,'Correct') || findField(current,'Correct Choice')
+      || findField(current,'Correct Answer') || findField(current,'correct_choice') || '';
+    const correctLetter = rawCorrect.trim().toUpperCase().replace(/[^A-D]/g, '');
+    if(!correctLetter) console.warn('Neurole: Function mode — no "Correct" value found for this row. Check the header name in your sheet matches exactly. Row data:', current);
     rawChoices = ['A','B','C','D'].map(letter => ({
       text: findField(current, 'Function ' + letter) || '',
       isCorrect: letter === correctLetter

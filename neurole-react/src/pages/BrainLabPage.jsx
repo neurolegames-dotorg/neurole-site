@@ -2,7 +2,9 @@ import pageStyle from './styles/BrainLabPage.css?raw'
 import { usePageStyle } from '../hooks/usePageStyle'
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import BrainViewer from '../components/BrainViewer'
+// Lazy wrapper, not the viewer itself — a static import here would pull
+// three.js and the Draco decoder back into the main bundle for every page.
+import BrainViewer from '../components/BrainViewerLazy'
 
 const STAGES = [
   {

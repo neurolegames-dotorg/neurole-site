@@ -12,6 +12,8 @@ import DailyGamePage from './pages/DailyGamePage';
 import DailyGamePlayPage from './pages/DailyGamePlayPage';
 import NeuroanatomyPage from './pages/NeuroanatomyPage';
 import NeuroanatomyPlayPage from './pages/NeuroanatomyPlayPage';
+import ArticlesIndexPage from './pages/ArticlesIndexPage';
+import ArticlePage from './pages/ArticlePage';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/daily-game-play" element={<DailyGamePlayPage />} />
         <Route path="/neuroanatomy" element={<NeuroanatomyPage />} />
         <Route path="/neuroanatomy-play" element={<NeuroanatomyPlayPage />} />
+        <Route path="/articles" element={<ArticlesIndexPage />} />
+        <Route path="/articles/:slug" element={<ArticlePage />} />
       </Route>
     </Routes>
   );

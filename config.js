@@ -16,9 +16,27 @@
 window.NEUROLE_CONFIG = {
 
   // --- Daily Clinical Case game -------------------------------------
-  // Columns expected (header row): 
+  // Columns expected (header row):
   // Column layout (A→J): date | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation | author
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
+
+  // --- Synapse (Connections-style daily word-grouping game) ----------
+  // The code reads columns by HEADER NAME (row 1), so column order doesn't
+  // matter as long as row 1 contains these four headers somewhere:
+  //   date | group | group_name | word
+  // ONE ROW PER WORD — 16 rows for a given date (4 groups × 4 words).
+  //   date       — YYYY-MM-DD, the same value on all 16 rows for that day.
+  //   group      — 1, 2, 3, or 4. Controls both the reveal color and the
+  //                difficulty order: 1=yellow (easiest) → 4=purple (trickiest,
+  //                usually the group with a wordplay/overlap twist).
+  //   group_name — the category label, e.g. "CRANIAL NERVES". Same on all
+  //                4 rows that belong to that group.
+  //   word       — the single word/term shown on one tile.
+  // If today's date doesn't have exactly 16 matching rows (4 per group),
+  // the game quietly falls back to a small built-in sample puzzle so the
+  // page never breaks — see the "Setting up the Synapse sheet" notes in
+  // README.md for a step-by-step template.
+  SYNAPSE_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_SYNAPSE",
 
   // --- Learn Regions (beginners section on Map the Brain) ---------
   // Columns expected (header row):

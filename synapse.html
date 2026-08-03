@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDT6M74DR');
+</script>
+<meta charset="UTF-8">
+<meta name="description" content="Synapse — a free daily neuroscience word-grouping game from Neurole, in the spirit of NYT Connections. Sort 16 terms into 4 hidden groups. New puzzle every day, no account needed.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/synapse.html">
+<meta property="og:title" content="Synapse — Neurole">
+<meta property="og:description" content="A free daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Synapse — Neurole">
+<meta name="twitter:description" content="A free daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
+
+<link rel="canonical" href="https://neurole.org/synapse.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+<title>Synapse — Neurole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=144">
+<style>
+  :root{--game-font:'Outfit',sans-serif;}
+  .start-screen{
+    position:fixed;inset:0;z-index:9999;
+    background:#FAFAFA;
+    width:100%;height:100%;
+    display:var(--start-display,flex);flex-direction:column;align-items:center;
+    justify-content:center;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
+    text-align:center;
+  }
+  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+  .start-screen h1{
+    font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;
+    font-size:clamp(34px,8vw,46px);margin:0 0 10px;letter-spacing:-.02em;
+  }
+  .start-screen p{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:320px;line-height:1.6;font-family:'Outfit',sans-serif;}
+  .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
+  .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;font-family:var(--game-font);font-weight:700;border-radius:12px;}
+  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
+  .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
+  .start-pill{
+    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:4px 12px;border-radius:20px;
+  }
+  .pill-yellow{background:rgba(217,184,74,.16);color:#8A6A16;}
+  .pill-green{background:rgba(127,174,99,.16);color:#3d6a2e;}
+  .pill-blue{background:rgba(110,151,196,.16);color:#2c5580;}
+  .pill-purple{background:rgba(163,119,188,.16);color:#5f3670;}
+  #synapse-streak-label{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;}
+
+  @media(max-width:480px){
+    .start-screen{justify-content:flex-start;padding:50px 22px 40px;}
+    .start-screen h1{font-size:28px;margin-bottom:8px;}
+    .start-screen p{font-size:14px;margin-bottom:18px;}
+    .start-logo svg{width:46px !important;height:46px !important;}
+    .start-actions{gap:10px;}
+    .start-actions .btn{font-size:12px;padding:12px 8px;}
+  }
+</style>
+</head>
+<body>
+<script>
+document.documentElement.style.setProperty('--start-display','flex');
+</script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <nav class="nav-left">
+      <a href="contact.html">Contact Us</a>
+      <a href="volunteer.html">Join Us</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <ul class="mobile-nav-items">
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
+<main class="wrap" style="min-height:70vh;">
+  <div class="start-screen" id="start-screen">
+    <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;margin-bottom:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Home
+    </a>
+    <div class="start-screen-inner">
+      <div class="start-logo">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5.5" cy="6" r="2.5"/>
+          <circle cx="18.5" cy="6" r="2.5"/>
+          <circle cx="5.5" cy="18" r="2.5"/>
+          <circle cx="18.5" cy="18" r="2.5"/>
+          <path d="M7.7 7.3 16.3 16.7M16.3 7.3 7.7 16.7M8 6h8.5M8 18h8.5"/>
+        </svg>
+      </div>
+      <div class="start-pills">
+        <span class="start-pill pill-yellow">Yellow</span>
+        <span class="start-pill pill-green">Green</span>
+        <span class="start-pill pill-blue">Blue</span>
+        <span class="start-pill pill-purple">Purple</span>
+      </div>
+      <h1>Synapse</h1>
+      <p>Sixteen neuroscience terms. Four hidden groups. Find them all in four mistakes or fewer — a new puzzle every day.</p>
+      <div class="start-actions">
+        <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
+        <button class="btn" id="synapse-play-btn" style="flex:1;">Play →</button>
+      </div>
+      <div class="start-meta" id="synapse-meta"></div>
+      <div id="synapse-streak-label"></div>
+      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">In the spirit of word-grouping games like NYT Connections, reimagined around the brain. Educational use only.</p>
+    </div>
+  </div>
+</main>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html">The Daily Case</a>
+        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="synapse.html">Synapse</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<script src="config.js?v=136"></script>
+<script src="script.js?v=139"></script>
+<script>
+(function(){
+  const LAUNCH = '2026-08-03';
+  function todayET(){ return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'}); }
+  function daysBetween(a,b){
+    const [ay,am,ad]=a.split('-').map(Number), [by,bm,bd]=b.split('-').map(Number);
+    return Math.round((Date.UTC(by,bm-1,bd)-Date.UTC(ay,am-1,ad))/86400000);
+  }
+  const today = todayET();
+  const puzzleNum = daysBetween(LAUNCH, today) + 1;
+  document.getElementById('synapse-meta').textContent =
+    'Synapse #' + puzzleNum + ' · ' + new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+
+  let alreadyPlayed = false;
+  try{
+    const raw = localStorage.getItem('neurole_synapse_' + today);
+    alreadyPlayed = !!raw;
+  }catch(e){}
+  const btn = document.getElementById('synapse-play-btn');
+  if(alreadyPlayed) btn.textContent = "View today's result →";
+
+  try{
+    const streak = JSON.parse(localStorage.getItem('neurole_synapse_streak'));
+    if(streak && streak.count > 0){
+      document.getElementById('synapse-streak-label').textContent = '🔥 ' + streak.count + '-day streak';
+    }
+  }catch(e){}
+
+  btn.addEventListener('click', () => { window.location.href = 'synapse-play.html'; });
+})();
+</script>
+</body>
+</html>

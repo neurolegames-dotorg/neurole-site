@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=142">
+<link rel="stylesheet" href="style.css?v=144">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -64,7 +64,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {"@type":"EducationalOrganization","name":"Neurole","url":"https://neurole.org/","description":"Free neuroscience games for students, pre-med, clinicians, and curious minds."},
     {"@type":"ItemList","name":"Neurole Games","itemListElement":[
       {"@type":"ListItem","position":1,"name":"The Daily Case","url":"https://neurole.org/daily-game.html","description":"Daily neurology diagnosis game — guess the condition from symptoms in 5 tries."},
-      {"@type":"ListItem","position":2,"name":"Map the Brain","url":"https://neurole.org/neuroanatomy.html","description":"Free neuroanatomy quiz — identify brain regions from anatomical images."}
+      {"@type":"ListItem","position":2,"name":"Map the Brain","url":"https://neurole.org/neuroanatomy.html","description":"Free neuroanatomy quiz — identify brain regions from anatomical images."},
+      {"@type":"ListItem","position":3,"name":"Synapse","url":"https://neurole.org/synapse.html","description":"Daily neuroscience word-grouping game — sort 16 terms into 4 hidden groups, Connections-style."}
     ]}
   ]
 }
@@ -112,8 +113,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   margin:0 auto 40px;max-width:440px;line-height:1.6;
 }
 
-.home-games-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.home-games-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;}
+@media(max-width:900px){.home-games-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:600px){.home-games-grid{grid-template-columns:1fr;}}
+.home-game-card-stripe--blue{background:#5E86A8;}
+.game-icon-badge--blue{background:rgba(94,134,168,.12);}
+:root[data-theme="dark"] .game-icon-badge--blue{background:rgba(150,190,220,.16);}
 
 .home-game-card{
   background:var(--paper);border:1.5px solid var(--rule);border-radius:16px;overflow:hidden;
@@ -129,7 +134,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .home-game-card-stripe--purple{background:#6B4F94;}
 .home-game-card-body{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
 .game-card-icon-wrap{
-  width:84px;height:84px;
+  width:112px;height:112px;
   display:flex;align-items:center;justify-content:center;
   margin-bottom:8px;
 }
@@ -138,7 +143,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color:var(--ink-soft);
 }
 .home-game-card-body h3{
-  font-family:'Archivo Black',var(--serif-display);font-weight:400;font-size:clamp(21px,3vw,25px);margin:0;letter-spacing:-.01em;
+  font-family:'Cormorant Garamond','Playfair Display',serif !important;font-weight:500 !important;
+  font-size:clamp(28px,4.2vw,34px);margin:0;letter-spacing:-.01em;
 }
 .home-game-card-body p{margin:0;color:var(--ink-soft);font-size:14px;line-height:1.6;max-width:280px;}
 .play-cta{
@@ -307,8 +313,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="games-spotlight">
     <div class="wrap" style="text-align:center;">
       <span class="eyebrow-pill">Free to play, no sign-up</span>
-      <h2 style="font-weight:700;">Two games. A new case every day.</h2>
-      <p class="sub">Like Wordle, but for the brain — a neurology case each morning, and a neuroanatomy quiz whenever you want it.</p>
+      <h2 style="font-weight:700;">Three games. A new puzzle every day.</h2>
+      <p class="sub">In the spirit of Wordle and Connections, rebuilt around the brain — a neurology case each morning, a word-grouping puzzle, and a neuroanatomy quiz whenever you want it.</p>
 
       <div class="home-games-grid">
 
@@ -317,11 +323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
               <div class="game-icon-badge game-icon-badge--red">
-                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#A8443A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 3.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V4h1.5A1.5 1.5 0 0 1 18 5.5v14A1.5 1.5 0 0 1 16.5 21h-9A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H9v-.5Z"/>
-                  <path d="M9 4h6"/>
-                  <path d="M8.5 13.2h2.1l1.1-2.4 1.6 4.6 1.1-2.2h1.6"/>
-                </svg>
+                <img src="daily-case-icon.png" alt="The Daily Case" width="96" height="104" style="object-fit:contain;">
               </div>
             </div>
             <span class="game-card-badge">Daily · Diagnostic</span>
@@ -338,17 +340,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
               <div class="game-icon-badge game-icon-badge--plum">
-                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 2.5a3 3 0 0 0-3 3v1.1A3 3 0 0 0 4 9.4v.9a3 3 0 0 0 1 5.4v1.3a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5.5a3 3 0 0 0-3-3"/>
-                  <path d="M15 2.5a3 3 0 0 1 3 3v1.1a3 3 0 0 1 2 2.8v.9a3 3 0 0 1-1 5.4v1.3a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5.5a3 3 0 0 1 3-3"/>
-                  <circle cx="12" cy="10.5" r="1.6" fill="#6B4F94" stroke="none"/>
-                </svg>
+                <img src="map-brain-icon.png" alt="Map the Brain" width="92" height="92" style="object-fit:contain;">
               </div>
             </div>
             <span class="game-card-badge">Untimed · Visual</span>
             <h3>Map the Brain</h3>
             <p>A brain image appears. Pick the highlighted region from four choices, then ask the built-in tutor what it does and what happens when it's damaged.</p>
             <span class="play-cta">Explore neuroanatomy →</span>
+          </div>
+        </a>
+
+        <a class="home-game-card" href="synapse.html">
+          <div class="home-game-card-stripe home-game-card-stripe--blue"></div>
+          <div class="home-game-card-body">
+            <div class="game-card-icon-wrap">
+              <div class="game-icon-badge game-icon-badge--blue">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3E6485" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="6" cy="7" r="2.3"/>
+                  <circle cx="18" cy="7" r="2.3"/>
+                  <circle cx="6" cy="17" r="2.3"/>
+                  <circle cx="18" cy="17" r="2.3"/>
+                  <path d="M8 8.2 16 15.8M16 8.2 8 15.8M8.3 7h7.4M8.3 17h7.4"/>
+                </svg>
+              </div>
+            </div>
+            <span class="game-card-badge">Daily · Word-grouping</span>
+            <h3>Synapse</h3>
+            <p>16 neuroscience terms, 4 hidden groups. Sort them out in four mistakes or fewer — trickier categories in purple, easier ones in yellow.</p>
+            <span class="play-cta">Play Synapse →</span>
           </div>
         </a>
 
@@ -431,7 +450,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <div style="display:flex;align-items:center;gap:10px;margin:0 0 10px;">
+          <img src="neurole-logo.png" alt="Neurole logo" style="height:28px;width:auto;display:block;">
+          <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0;color:var(--ink);">neurole.org</p>
+        </div>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
         <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
@@ -440,6 +462,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="footer-col-title">Games</p>
         <a href="daily-game.html">The Daily Case</a>
         <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="synapse.html">Synapse</a>
         <a href="archive.html">Case Archive</a>
         <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
       </div>
@@ -497,9 +520,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="config.js?v=135"></script>
+<script src="config.js?v=136"></script>
 <script src="games-data.js?v=125"></script>
-<script src="script.js?v=138"></script>
+<script src="script.js?v=139"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

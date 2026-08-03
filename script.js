@@ -701,59 +701,29 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* =====================================================================
-   NY TICKER — a slim, always-visible "New York time" strip injected on
-   every page. Neurole's daily case runs on Eastern Time, so this makes
-   that the site's literal, live-ticking clock rather than just a line
-   of copy — reinforces the theme and gives the whole site a persistent
-   "the game is live right now" feel, the way a scoreboard clock does.
+   NEXT-CASE COUNTDOWN — powers the ticking "next case in HH:MM:SS" chip
+   on the homepage's Daily Case card. No page-wide bar — just this one
+   element, wherever it appears.
 ===================================================================== */
 (function(){
   function etNowFabricated(){
-    // Builds a Date object whose wall-clock fields match America/New_York,
-    // reusing the same trick already used elsewhere in this file for the
-    // daily streak logic, so all ET-based time math here stays consistent.
     return new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
   }
 
-  function injectTicker(){
-    if(document.getElementById('ny-ticker')) return;
-    const bar = document.createElement('div');
-    bar.className = 'ny-ticker';
-    bar.id = 'ny-ticker';
-    bar.innerHTML =
-      '<div class="ny-ticker-inner">' +
-        '<span class="ny-ticker-loc"><span class="ny-ticker-dot" aria-hidden="true"></span>' +
-        '<span class="full-city">Today&rsquo;s puzzles</span></span>' +
-        '<span class="ny-ticker-clock" id="ny-ticker-clock">--</span>' +
-      '</div>';
-    document.body.insertBefore(bar, document.body.firstChild);
-  }
-
-  function updateClock(){
-    const el = document.getElementById('ny-ticker-clock');
-    if(el){
-      // A dateline, the way a NYT Games puzzle page always leads with the
-      // day's date — plus a small live clock so the page still feels
-      // "on right now" rather than a static/stale page.
-      const date = etNowFabricated().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-      const time = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/New_York'});
-      el.innerHTML = date + ' <span class="zone">&middot;</span> ' + time + ' <span class="zone">ET</span>';
-    }
+  function updateCountdown(){
     const cd = document.getElementById('next-case-countdown');
-    if(cd){
-      const now = etNowFabricated();
-      const midnight = new Date(now); midnight.setHours(24,0,0,0);
-      const diff = Math.max(0, midnight - now);
-      const pad = n => String(n).padStart(2,'0');
-      const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-      cd.textContent = 'next case in ' + pad(h) + ':' + pad(m) + ':' + pad(s);
-    }
+    if(!cd) return;
+    const now = etNowFabricated();
+    const midnight = new Date(now); midnight.setHours(24,0,0,0);
+    const diff = Math.max(0, midnight - now);
+    const pad = n => String(n).padStart(2,'0');
+    const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    cd.textContent = 'next case in ' + pad(h) + ':' + pad(m) + ':' + pad(s);
   }
 
   function start(){
-    injectTicker();
-    updateClock();
-    setInterval(updateClock, 1000);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   }
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);

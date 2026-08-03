@@ -26,8 +26,7 @@
 
   --max-w:1180px;
 
-  /* ticker + tactile-depth system */
-  --ticker-h:30px;
+  /* tactile-depth system */
   --shadow-card:0 1px 2px rgba(20,15,30,.05);
   --shadow-card-hover:0 16px 28px -12px rgba(58,49,82,.28);
 }
@@ -50,61 +49,17 @@ button{font-family:inherit;cursor:pointer;}
 
 .wrap{max-width:var(--max-w);margin:0 auto;padding:0 32px;}
 
-/* ---------- NY time ticker ---------- */
-/* A slim, always-on masthead strip that anchors the whole site to a single
-   real-world clock — New York / Eastern Time, the timezone every daily
-   case actually resets on. Injected by script.js on every page. */
-.ny-ticker{
-  position:fixed;top:0;left:0;right:0;z-index:51;
-  height:var(--ticker-h);
-  background:#15121D;
-  color:rgba(255,255,255,.82);
-  display:flex;align-items:center;
-  overflow:hidden;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.ny-ticker-inner{
-  max-width:var(--max-w);margin:0 auto;width:100%;
-  padding:0 28px;
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
-}
-.ny-ticker-loc{
-  display:flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;
-  color:rgba(255,255,255,.78);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.ny-ticker-dot{
-  width:6px;height:6px;border-radius:50%;background:#59D68C;flex-shrink:0;
-  box-shadow:0 0 0 0 rgba(89,214,140,.6);
-  animation:ny-pulse 2.2s ease-out infinite;
-}
-@keyframes ny-pulse{
-  0%{box-shadow:0 0 0 0 rgba(89,214,140,.55);}
-  70%{box-shadow:0 0 0 5px rgba(89,214,140,0);}
-  100%{box-shadow:0 0 0 0 rgba(89,214,140,0);}
-}
-.ny-ticker-clock{
-  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;
-  color:#fff;white-space:nowrap;flex-shrink:0;
-  font-variant-numeric:tabular-nums;
-}
-.ny-ticker-clock .zone{color:rgba(255,255,255,.5);font-weight:500;margin-left:5px;}
-@media (max-width:560px){
-  .ny-ticker-inner{padding:0 16px;}
-  .ny-ticker-loc span.full-city{display:none;}
-}
-
 /* ---------- masthead ---------- */
 .masthead{
   border-bottom:2px solid var(--ink);
   background:var(--paper);
-  position:fixed;top:var(--ticker-h);left:0;right:0;z-index:50;
+  position:fixed;top:0;left:0;right:0;z-index:50;
   margin:0 !important;
   transition:transform .3s ease;
 }
 .masthead.hide{transform:translateY(-100%);}
-/* Offset body so content doesn't hide behind the fixed ticker + header */
-body{padding-top:calc(58px + var(--ticker-h));}
+/* Offset body so content doesn't hide behind fixed header */
+body{padding-top:58px;}
 .masthead-inner{
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 28px;max-width:var(--max-w);margin:0 auto;
@@ -944,7 +899,7 @@ body{background:#FAFAFA;}
 /* Icon badge — colored disc behind each game's glyph so icons read as
    one designed icon set instead of loose images */
 .game-icon-badge{
-  width:84px;height:84px;border-radius:50%;
+  width:112px;height:112px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;transition:transform .25s cubic-bezier(.2,.8,.3,1);
 }
@@ -1013,6 +968,18 @@ h1,h2,h3,h4,
   font-family:'Cormorant Garamond','Playfair Display',Georgia,serif !important;
   font-weight:700;
   letter-spacing:-.01em;
+}
+
+/* Homepage game-card titles — big and legible, but NOT heavy/bold like the
+   global h3 rule above; these are the "game name" labels (The Daily Case,
+   Map the Brain, Synapse) and read better large + medium-weight */
+.home-game-card-body h3{
+  font-family:'Cormorant Garamond','Playfair Display',Georgia,serif !important;
+  font-weight:500 !important;
+  font-size:clamp(28px,4.2vw,34px);
+  margin:14px 0 8px;
+  letter-spacing:-.01em;
+  line-height:1.1;
 }
 
 /* Outfit for UI elements — game-like, modern */

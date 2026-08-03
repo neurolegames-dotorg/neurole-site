@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { listArticles } from '../lib/articles';
+
+// The Articles link appears by itself as soon as the first .md file lands in
+// src/content/articles/, and disappears if they are all removed — so
+// publishing an article never needs a second edit here, and the nav never
+// points at an empty page in the meantime.
+const hasArticles = () => listArticles().length > 0;
 import { useTheme } from '../hooks/useTheme';
 
 export default function Header({ onSignIn }) {
@@ -44,6 +51,7 @@ export default function Header({ onSignIn }) {
             <Link to="/volunteer">Join Us</Link>
             <Link to="/donate">Donate</Link>
             <Link to="/about">About</Link>
+            {hasArticles() && <Link to="/articles">Articles</Link>}
             <Link to="/interactive">Interactive<span className="beta-pill" style={{ marginLeft: 5 }}>Beta</span></Link>
             <Link to="/interactive/brain-lab" style={{ fontSize: 11.5 }}>Brain Lab<span className="beta-pill" style={{ marginLeft: 5 }}>3D</span></Link>
             <button
@@ -85,6 +93,7 @@ export default function Header({ onSignIn }) {
           <li><Link to="/volunteer" onClick={closeMobile}>Join Us <span className="nav-arrow">›</span></Link></li>
           <li><Link to="/donate" onClick={closeMobile}>Donate <span className="nav-arrow">›</span></Link></li>
           <li><Link to="/about" onClick={closeMobile}>About <span className="nav-arrow">›</span></Link></li>
+          {hasArticles() && <li><Link to="/articles" onClick={closeMobile}>Articles <span className="nav-arrow">›</span></Link></li>}
           <li><Link to="/interactive" onClick={closeMobile}>Interactive<span className="beta-pill" style={{ marginLeft: 5 }}>Beta</span> <span className="nav-arrow">›</span></Link></li>
           <li><Link to="/interactive/brain-lab" onClick={closeMobile}>Brain Lab<span className="beta-pill" style={{ marginLeft: 5 }}>3D</span> <span className="nav-arrow">›</span></Link></li>
           <li><button className="nav-tab-btn" data-signin onClick={() => { closeMobile(); if (onSignIn) onSignIn(); }}>Sign In <span className="nav-arrow">›</span></button></li>

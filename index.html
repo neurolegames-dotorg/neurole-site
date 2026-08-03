@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=141">
+<link rel="stylesheet" href="style.css?v=142">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -316,12 +316,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-stripe"></div>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
-              <img src="daily-case-icon.png" alt="The Daily Case" width="72" height="78" style="object-fit:contain;">
+              <div class="game-icon-badge game-icon-badge--red">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#A8443A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 3.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V4h1.5A1.5 1.5 0 0 1 18 5.5v14A1.5 1.5 0 0 1 16.5 21h-9A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H9v-.5Z"/>
+                  <path d="M9 4h6"/>
+                  <path d="M8.5 13.2h2.1l1.1-2.4 1.6 4.6 1.1-2.2h1.6"/>
+                </svg>
+              </div>
             </div>
             <span class="game-card-badge">Daily · Diagnostic</span>
             <h3>The Daily Case</h3>
             <p>A new patient each day. Read the symptoms, guess the diagnosis in five tries. Resets at midnight ET.</p>
-            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;align-self:flex-start;"></div>
+            <div class="next-case-chip"><span class="dot"></span><span id="next-case-countdown">next case in --:--:--</span></div>
+            <div id="home-streak-display" class="streak-chip" style="display:none;"></div>
             <span class="play-cta">Play today's case →</span>
           </div>
         </a>
@@ -330,7 +337,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="home-game-card-stripe home-game-card-stripe--purple"></div>
           <div class="home-game-card-body">
             <div class="game-card-icon-wrap">
-              <img src="map-brain-icon.png" alt="Map the Brain" width="70" height="70" style="object-fit:contain;">
+              <div class="game-icon-badge game-icon-badge--plum">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 2.5a3 3 0 0 0-3 3v1.1A3 3 0 0 0 4 9.4v.9a3 3 0 0 0 1 5.4v1.3a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5.5a3 3 0 0 0-3-3"/>
+                  <path d="M15 2.5a3 3 0 0 1 3 3v1.1a3 3 0 0 1 2 2.8v.9a3 3 0 0 1-1 5.4v1.3a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5.5a3 3 0 0 1 3-3"/>
+                  <circle cx="12" cy="10.5" r="1.6" fill="#6B4F94" stroke="none"/>
+                </svg>
+              </div>
             </div>
             <span class="game-card-badge">Untimed · Visual</span>
             <h3>Map the Brain</h3>
@@ -347,7 +360,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="stats-section" style="margin-top:48px;">
     <div class="wrap">
       <div class="stats-row">
-        <div class="stat-cell"><div class="stat-num">45+</div><div class="stat-label">Brain regions</div></div>
+        <div class="stat-cell"><div class="stat-num" data-countup="45" data-suffix="+">0+</div><div class="stat-label">Brain regions</div></div>
         <div class="stat-cell"><div class="stat-num">Daily</div><div class="stat-label">New cases</div></div>
         <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">No account needed</div></div>
       </div>
@@ -486,7 +499,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="config.js?v=135"></script>
 <script src="games-data.js?v=125"></script>
-<script src="script.js?v=136"></script>
+<script src="script.js?v=138"></script>
 <script>
   document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
   document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -508,7 +521,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
       if(streak > 0){
         const el = document.getElementById('home-streak-display');
-        if(el){ el.style.display='flex'; el.textContent = '🔥 ' + streak + '-day streak'; }
+        if(el){ el.style.display='inline-flex'; el.textContent = '🔥 ' + streak + '-day streak'; }
       }
     }
   }catch(e){}

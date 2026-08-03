@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=141">
+<link rel="stylesheet" href="style.css?v=142">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -64,16 +64,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .start-meta{font-family:var(--game-font) !important;}
 
   /* Case card */
-  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:18px !important;}
-  .symptom-log li{font-family:var(--game-font) !important;font-size:15.5px !important;font-weight:500 !important;border-radius:10px !important;}
+  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:19px !important;}
+  .symptom-log li{font-family:var(--game-font) !important;font-size:18.5px !important;font-weight:600 !important;border-radius:10px !important;}
   .symptom-log li.locked{font-family:var(--game-font) !important;}
 
-  /* Guess row */
-  .guess-row input{font-family:var(--game-font) !important;font-size:16px !important;border-radius:10px 0 0 10px !important;}
-  .guess-row .btn{border-radius:0 10px 10px 0 !important;}
+  /* Guess row — bigger, bolder input so typing a guess feels like the
+     main event of the page, closer to a Wordle/Connections input row */
+  .guess-row input{font-family:var(--game-font) !important;font-size:19px !important;font-weight:600 !important;border-radius:10px 0 0 10px !important;}
+  .guess-row .btn{border-radius:0 10px 10px 0 !important;font-size:20px !important;}
 
   /* Past guesses */
   .past-guesses span{font-family:var(--game-font) !important;font-weight:600 !important;border-radius:8px !important;}
+
+  /* Attempt dots — bigger and with a little pop when an attempt is used */
+  .attempts-dots span{width:13px !important;height:13px !important;transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .15s;}
+  .attempts-dots span.used{transform:scale(1.1);}
 
   /* Wrong flash */
   #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
@@ -144,10 +149,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* Case card — frameless on phone */
     .case-shell{padding:10px 0 50px !important;}
     .case-card{background:transparent !important;border:none !important;box-shadow:none !important;padding:0 2px !important;}
-    .symptom-log li{font-size:14.5px !important;padding:10px 12px !important;}
+    .symptom-log li{font-size:16.5px !important;padding:14px 16px !important;}
     .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
     .guess-row{gap:8px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box;}
+    .guess-row input{font-size:17px !important;font-weight:600 !important;padding:13px !important;height:50px !important;box-sizing:border-box;}
     .guess-row .btn{height:46px !important;padding:0 14px !important;}
     .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
     .modal-actions{flex-direction:column !important;gap:10px !important;}
@@ -166,14 +171,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
   .symptom-log li{
-    border:1px solid var(--rule);
+    border:1.5px solid var(--rule);
     border-left:5px solid var(--neuro-blue);
     background:var(--paper-deep);
-    padding:18px 20px;font-size:17.5px;line-height:1.55;
+    padding:20px 22px;font-size:18.5px;line-height:1.5;
     border-radius:2px;
     display:flex;gap:14px;align-items:flex-start;
   }
-  .symptom-log li.revealed{animation:fadeIn .4s ease;}
+  .symptom-log li.revealed{animation:symptomPop .38s cubic-bezier(.2,.9,.35,1.1);}
   .symptom-log li.locked{
     border-left-color:var(--rule);
     background:transparent;
@@ -186,21 +191,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     opacity:.55;
   }
   .symptom-log .hint-num{
-    font-family:var(--mono);font-size:12px;color:var(--neuro-blue-deep);
-    font-weight:600;flex-shrink:0;min-width:30px;
+    font-family:var(--mono);font-size:13px;color:var(--neuro-blue-deep);
+    font-weight:700;flex-shrink:0;min-width:30px;
   }
   .symptom-log li.locked .hint-num{color:var(--ink-soft);}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  /* A little more punch than a plain fade — the clue nudges in and
+     settles, like a card being dealt down onto the table. */
+  @keyframes symptomPop{
+    0%{opacity:0;transform:translateY(10px) scale(.97);}
+    60%{opacity:1;transform:translateY(-2px) scale(1.01);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
+  }
 
   .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
   .guess-row input{
-    flex:1;font-family:var(--serif-body);font-size:16px;padding:14px 16px;
-    border:1.5px solid var(--ink-soft);background:#fff;
-    height:52px;box-sizing:border-box;
+    flex:1;font-family:var(--game-font);font-weight:600;font-size:19px;padding:14px 18px;
+    border:2px solid var(--ink-soft);background:#fff;
+    height:56px;box-sizing:border-box;
   }
+  .guess-row input:focus{border-color:var(--neuro-blue-deep);outline:none;box-shadow:0 0 0 3px rgba(107,79,148,.15);}
   .guess-row .btn{
-    font-size:18px;padding:0 20px;
-    height:52px;box-sizing:border-box;
+    font-size:20px;padding:0 22px;
+    height:56px;box-sizing:border-box;
     display:flex;align-items:center;justify-content:center;
     flex-shrink:0;
   }
@@ -228,7 +241,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:11px 16px;
   }
   .wrong-guess-name{
-    font-family:var(--game-font,'Outfit',sans-serif);font-size:17px;font-weight:700;
+    font-family:var(--game-font,'Outfit',sans-serif);font-size:18.5px;font-weight:700;
     color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
     flex:1;
   }
@@ -302,10 +315,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       padding:0 4px !important;
     }
     .case-card > h2{font-size:17px !important;}
-    .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
+    .symptom-log li{font-size:16.5px !important;padding:14px 16px !important;line-height:1.5 !important;}
     .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
     .guess-row{gap:7px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box !important;}
+    .guess-row input{font-size:17px !important;font-weight:600 !important;padding:13px !important;height:50px !important;box-sizing:border-box !important;}
     .guess-row .btn{height:46px !important;padding:0 14px !important;min-width:46px;}
     .guess-row .btn svg{width:18px !important;height:18px !important;}
     .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
@@ -365,7 +378,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* Symptom list */
-  .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
+  .symptom-log li{font-size:16.5px !important;padding:14px 16px !important;line-height:1.5 !important;}
   .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
 
   /* Guess input + button */
@@ -733,7 +746,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="config.js?v=135"></script>
-<script src="script.js?v=136"></script>
+<script src="script.js?v=138"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;

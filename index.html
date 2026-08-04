@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=142">
+<link rel="stylesheet" href="style.css?v=143">
 <style>
 /* Inline safety net: guarantees hero fade matches theme even if style.css is stale/cached */
 :root[data-theme="dark"] .hero-fade{background:linear-gradient(180deg,rgba(17,18,23,0),rgba(17,18,23,.2) 42%,rgba(17,18,23,.95) 76%,#111217) !important;}
@@ -118,37 +118,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 .home-game-card{
   background:var(--paper);border:1.5px solid var(--rule);border-radius:16px;overflow:hidden;
-  display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--ink);
-  transition:border-color .15s ease;
+  display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  transition:transform .15s ease,box-shadow .15s ease;
   position:relative;
-  padding:40px 30px 32px;
 }
 .home-game-card:hover{
-  border-color:var(--ink-soft);
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(0,0,0,.1);
 }
-.home-game-card-stripe{position:absolute;top:0;left:0;right:0;height:3px;background:#8B2635;}
-.home-game-card-stripe--purple{background:#6B4F94;}
-.home-game-card-body{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.home-game-card-top{
+  padding:36px 24px 28px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;
+}
 .game-card-icon-wrap{
-  width:84px;height:84px;
+  width:64px;height:64px;border-radius:16px;
+  background:rgba(255,255,255,.92);
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:8px;
+  margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.12);
 }
 .game-card-badge{
   font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-soft);
+  color:rgba(255,255,255,.8);margin-bottom:4px;
 }
-.home-game-card-body h3{
-  font-family:'Archivo Black',var(--serif-display);font-weight:400;font-size:clamp(21px,3vw,25px);margin:0;letter-spacing:-.01em;
+.home-game-card-top h3{
+  font-family:'Archivo Black',var(--serif-display);font-weight:400;font-size:clamp(20px,2.8vw,24px);margin:0;letter-spacing:-.01em;color:#fff;
 }
-.home-game-card-body p{margin:0;color:var(--ink-soft);font-size:14px;line-height:1.6;max-width:280px;}
+.home-game-card-bottom{
+  background:var(--paper);padding:20px 22px 24px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;
+}
+.home-game-card-bottom p{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.6;max-width:260px;}
 .play-cta{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;
   font-family:var(--game-font);font-size:13.5px;font-weight:700;
   color:var(--ink);
   background:var(--paper);
   border:1.5px solid var(--ink);
-  padding:10px 28px;border-radius:999px;margin-top:10px;
+  padding:10px 20px;border-radius:999px;
   transition:background .15s ease,color .15s ease;
 }
 .home-game-card:hover .play-cta{background:var(--ink);color:var(--paper);}
@@ -274,11 +280,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
-    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
-    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
-    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+    <li><a href="daily-game.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="daily-case-icon.png" alt=""></span>The Daily Case</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="neuroanatomy.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="map-brain-icon.png" alt=""></span>Map the Brain</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="synapse.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="synapse-icon.png" alt=""></span>The Synapse</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="archive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C9982F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg></span>Case Archive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="interactive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A6EA5;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></span>Interactive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#5C5C66;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.6" fill="#fff" stroke="none"/></svg></span>About</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#B8577A;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Join Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C1543F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>Donate</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="contact.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A8A82;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>Contact Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin><span class="nav-item-left"><span class="nav-item-icon" style="background:#2B2B38;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>Sign In</span> <span class="nav-arrow">›</span></button></li>
   </ul>
 </div>
 
@@ -314,40 +325,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="home-games-grid">
 
         <a class="home-game-card" href="daily-game.html">
-          <div class="home-game-card-stripe"></div>
-          <div class="home-game-card-body">
+          <div class="home-game-card-top" style="background:#8B2635;">
             <div class="game-card-icon-wrap">
-              <img src="daily-case-icon.png" alt="The Daily Case" width="72" height="78" style="object-fit:contain;">
+              <img src="daily-case-icon.png" alt="The Daily Case" width="42" height="46" style="object-fit:contain;">
             </div>
             <span class="game-card-badge">Daily · Diagnostic</span>
             <h3>The Daily Case</h3>
+          </div>
+          <div class="home-game-card-bottom">
             <p>A new diagnosis every morning.</p>
-            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;align-self:flex-start;"></div>
+            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;"></div>
             <span class="play-cta">Play today's case →</span>
           </div>
         </a>
 
         <a class="home-game-card" href="neuroanatomy.html">
-          <div class="home-game-card-stripe home-game-card-stripe--purple"></div>
-          <div class="home-game-card-body">
+          <div class="home-game-card-top" style="background:#6B4F94;">
             <div class="game-card-icon-wrap">
-              <img src="map-brain-icon.png" alt="Map the Brain" width="70" height="70" style="object-fit:contain;">
+              <img src="map-brain-icon.png" alt="Map the Brain" width="42" height="42" style="object-fit:contain;">
             </div>
             <span class="game-card-badge">Untimed · Visual</span>
             <h3>Map the Brain</h3>
+          </div>
+          <div class="home-game-card-bottom">
             <p>Learn the brain, one region at a time.</p>
             <span class="play-cta">Explore neuroanatomy →</span>
           </div>
         </a>
 
         <a class="home-game-card" href="synapse.html">
-          <div class="home-game-card-stripe" style="background:#5C9A57;"></div>
-          <div class="home-game-card-body">
+          <div class="home-game-card-top" style="background:#3F7A3A;">
             <div class="game-card-icon-wrap">
-              <img src="synapse-icon.png" alt="The Synapse" width="70" height="70" style="object-fit:contain;">
+              <img src="synapse-icon.png" alt="The Synapse" width="42" height="42" style="object-fit:contain;">
             </div>
             <span class="game-card-badge">Daily · Word Puzzle</span>
             <h3>The Synapse</h3>
+          </div>
+          <div class="home-game-card-bottom">
             <p>Find the hidden connections.</p>
             <span class="play-cta">Play today's puzzle →</span>
           </div>

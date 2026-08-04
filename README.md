@@ -30,14 +30,6 @@ For each game, create a Google Sheet tab with the exact header row described bel
 **Fun fact sheet** — one row per week:
 `week_start | fact | source_title | source_url`
 
-**Synapse sheet** — one row per *word*, 16 rows per puzzle day:
-`date | group | group_name | word`
-- `date` must be `YYYY-MM-DD` — the day that puzzle should appear.
-- `group` is `1`, `2`, `3`, or `4` — controls the reveal color/difficulty (1=yellow/easiest → 4=purple/trickiest).
-- `group_name` is the shared category label for that group of 4 (e.g. "CRANIAL NERVES") — repeat it on all 4 rows in that group.
-- `word` is one tile's text — keep these short (fits the tile better).
-- Every day needs exactly 16 rows: 4 groups × 4 words, all sharing the same `date`.
-
 If a sheet link is left as the placeholder, or today has no matching row, the games fall back to a small built-in sample set so the site never breaks.
 
 ## 2. AI answers in "Map the Brain"

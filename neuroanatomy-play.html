@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=144">
+<link rel="stylesheet" href="style.css?v=142">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -102,31 +102,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--ink-soft);margin:8px 0 16px;
   }
 
-  /* Choice buttons — bigger, bolder, more tile-like. Modeled on the
-     tap-targets in NYT Connections/Wordle: big legible text, a chunky
-     lettered badge instead of a small circle, and a confident hover/press. */
+  /* Choice buttons — fun card style */
   .choice-btn{
-    font-family:var(--game-font) !important;font-size:18px !important;font-weight:600;
-    border:2px solid var(--rule) !important;border-radius:14px !important;
+    font-family:var(--game-font) !important;font-size:16px !important;font-weight:500;
+    border:2px solid var(--rule) !important;border-radius:12px !important;
     background:#fff !important;
-    padding:17px 18px 17px 58px !important;
-    transition:transform .15s cubic-bezier(.3,1.3,.5,1),border-color .15s,background .15s,box-shadow .15s !important;
+    padding:14px 14px 14px 50px !important;
+    transition:all .15s !important;
     color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
-    box-shadow:0 1px 2px rgba(20,15,30,.04);
   }
   .choice-btn:hover:not(:disabled){
     border-color:var(--neuro-blue) !important;
     background:rgba(145,118,184,.05) !important;
     transform:translateX(3px);
-    box-shadow:0 6px 16px rgba(90,67,128,.1);
   }
-  .choice-btn:active:not(:disabled){transform:translateX(1px) scale(.99);}
   .choice-btn.correct{
     background:#E7F1EC !important;
     border-color:#5CB57C !important;color:var(--ink) !important;
-    animation:choicePop .32s ease;
   }
-  @keyframes choicePop{0%{transform:scale(.97);}55%{transform:scale(1.015);}100%{transform:scale(1);}}
   .choice-btn.wrong{
     background:#F5E4E1 !important;
     border-color:var(--signal-red) !important;
@@ -178,7 +171,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:32px 24px 60px;
     text-align:center;
   }
-  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   /* iOS Safari auto-colours links/text blue inside certain containers — override all */
   .start-screen *{color:var(--ink);}
   .start-screen h1{color:var(--ink) !important;}
@@ -271,7 +264,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-actions-stacked .btn{width:100% !important;}
     .specimen img{height:200px;width:100%;object-fit:contain;}
     .choices{gap:8px !important;}
-    .choice-btn{font-size:16px !important;padding:14px 14px 14px 50px !important;}
+    .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
     .game-stats-bar{flex-wrap:wrap;gap:6px;padding-bottom:10px;}
     .score-tag,.score-pill{font-size:11px !important;}
   }
@@ -328,7 +321,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .specimen img{
     width:100%;
-    height:300px;
+    height:240px;
     object-fit:contain;
     background:var(--paper-deep);
     display:block;
@@ -345,25 +338,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Answer choices — more compact on phone */
   .choices{display:grid;grid-template-columns:1fr;gap:9px;}
   .choice-btn{
-    text-align:left;padding:17px 18px 17px 58px;border:2px solid var(--rule);background:#fff;
-    font-family:var(--game-font);font-weight:600;font-size:18px;transition:background .15s,border-color .15s,transform .1s;
+    text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:#fff;
+    font-family:var(--serif-body);font-size:15px;transition:background .15s,border-color .15s,transform .1s;
     position:relative;
     color:var(--ink) !important;
     -webkit-text-fill-color:var(--ink);
   }
   @media(max-width:480px){
-    .choice-btn{font-size:16px;padding:14px 14px 14px 50px;}
+    .choice-btn{font-size:14px;padding:11px 12px 11px 42px;}
   }
   .choice-btn::before{
     content:attr(data-letter);
     position:absolute;left:14px;top:50%;transform:translateY(-50%);
-    width:30px;height:30px;border-radius:50%;
-    background:var(--paper-deep);border:2px solid var(--rule);
-    color:var(--ink-soft);font-family:var(--mono);font-size:13px;font-weight:700;
+    width:24px;height:24px;border-radius:50%;
+    background:var(--paper-deep);border:1.5px solid var(--rule);
+    color:var(--ink-soft);font-family:var(--mono);font-size:11px;font-weight:600;
     display:flex;align-items:center;justify-content:center;
-    transition:transform .15s cubic-bezier(.3,1.3,.5,1),background .15s,border-color .15s;
   }
-  .choice-btn:hover:not(:disabled)::before{border-color:var(--neuro-blue);transform:translateY(-50%) scale(1.08);}
   .choice-btn.correct::before{background:#5CB57C !important;border-color:#5CB57C !important;color:#fff !important;}
   .choice-btn.wrong::before{background:var(--signal-red) !important;border-color:var(--signal-red) !important;color:#fff !important;}
   .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
@@ -427,7 +418,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .specimen img{height:200px;width:100%;object-fit:contain;}
     .cap{font-size:13px !important;}
     .choices{gap:8px !important;}
-    .choice-btn{font-size:16px !important;padding:14px 14px 14px 50px !important;}
+    .choice-btn{font-size:13px !important;padding:10px 10px 10px 36px !important;}
     .game-stats-bar{padding:0 4px 10px;}
     .score-tag,.score-pill{font-size:10.5px !important;}
     .difficulty-badge{font-size:10px !important;}
@@ -499,7 +490,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .specimen img{height:210px !important;width:100% !important;object-fit:contain !important;}
   .cap{font-size:13px !important;}
   .choices{gap:8px !important;}
-  .choice-btn{font-size:16px !important;padding:14px 14px 14px 50px !important;}
+  .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
 
   /* AI — ALWAYS bottom-sheet popup on iPhone, never side panel */
   body.ai-panel-open #game-split-container{display:block !important;}
@@ -565,7 +556,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* Mobile: fix padding on choice buttons */
   @media(max-width:480px){
-    .choice-btn{ padding:16px 16px 16px 58px !important; font-size:16px !important; }
+    .choice-btn{ padding:14px 14px 14px 56px !important; font-size:14px !important; }
   }
 
 </style>
@@ -623,19 +614,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </ul>
 </div>
 
-<div class="page-hero">
-  <div class="wrap">
-    <h1>Map the Brain</h1>
-    <p>An image appears. Pick the region from four choices. Then learn what it actually does — and ask follow-up questions.</p>
-  </div>
-</div>
-
 <main class="wrap game-shell">
 
   <div class="start-screen" id="round-setup">
     <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;z-index:10;margin-bottom:0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Home
     </a>
+    <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+    </button>
     <div class="start-screen-inner" style="max-width:460px;padding-top:10px;">
 
       <!-- Logo + title -->
@@ -900,8 +887,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="footer-col">
         <p class="footer-col-title">Games</p>
-        <a href="daily-game.html">The Daily Case</a>
-        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="daily-game.html" style="display:flex;align-items:center;gap:6px;"><img src="daily-case-icon.png" alt="" width="14" height="15" style="object-fit:contain;">The Daily Case</a>
+        <a href="neuroanatomy.html" style="display:flex;align-items:center;gap:6px;"><img src="map-brain-icon.png" alt="" width="14" height="14" style="object-fit:contain;">Map the Brain</a>
+        <a href="synapse.html" style="display:flex;align-items:center;gap:6px;"><img src="synapse-icon.png" alt="" width="14" height="14" style="object-fit:contain;">The Synapse</a>
         <a href="archive.html">Case Archive</a>
         <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
       </div>
@@ -935,7 +923,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
       </a>
     </div>
-    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
+    <p class="footer-fine">© 2026 Neurole. Games about your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
   </div>
 </footer>
 
@@ -961,7 +949,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=136"></script>
-<script src="script.js?v=139"></script>
+<script src="script.js?v=136"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1710,6 +1698,60 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 
 </script>
 <!-- Subscribe modal -->
+<!-- How to Play slide-out panel -->
+<div class="htp-backdrop" id="htp-backdrop">
+  <div class="htp-panel" id="htp-panel">
+    <button class="htp-close" id="htp-close" aria-label="Close">✕</button>
+    <div class="htp-brand"><img src="map-brain-icon.png" alt="" width="28" height="28" style="object-fit:contain;"><span>Map the Brain</span></div>
+    <div class="htp-section">
+      <p class="htp-section-title">How to Play</p>
+      <p class="htp-line">An image appears with one region highlighted.</p>
+      <p class="htp-line">Pick the correct region from four choices.</p>
+      <p class="htp-line">Get it right, then ask the built-in tutor what that region actually does — and what happens when it's damaged.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Modes</p>
+      <p class="htp-line"><strong>Region</strong> — identify the highlighted region.</p>
+      <p class="htp-line"><strong>Function</strong> — same image, but you're scored on what it does.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Tips</p>
+      <p class="htp-line">Start with "Easy" difficulty if you're new to neuroanatomy.</p>
+      <p class="htp-line">Every wrong answer gets explained — read it before moving on.</p>
+    </div>
+  </div>
+</div>
+<style>
+.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop.open{display:block;opacity:1;}
+.htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
+  background:var(--paper);z-index:200;
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
+  overflow-y:auto;padding:26px 26px 40px;
+}
+.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
+.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
+.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-section{margin-bottom:24px;}
+.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById('how-to-play-btn');
+  var backdrop = document.getElementById('htp-backdrop');
+  var close = document.getElementById('htp-close');
+  if(!btn || !backdrop) return;
+  btn.addEventListener('click', function(){ backdrop.classList.add('open'); });
+  close.addEventListener('click', function(){ backdrop.classList.remove('open'); });
+  backdrop.addEventListener('click', function(e){ if(e.target === backdrop) backdrop.classList.remove('open'); });
+})();
+</script>
+
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">

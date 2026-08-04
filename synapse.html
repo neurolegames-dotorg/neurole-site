@@ -1,163 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
-<!-- End Google Tag Manager -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2TDT6M74DR');
-</script>
-<meta charset="UTF-8">
-<meta name="description" content="Synapse — a free daily neuroscience word-grouping game from Neurole, in the spirit of NYT Connections. Sort 16 terms into 4 hidden groups. New puzzle every day, no account needed.">
-<meta name="robots" content="index, follow">
-<meta name="author" content="Neurole">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://neurole.org/synapse.html">
-<meta property="og:title" content="Synapse — Neurole">
-<meta property="og:description" content="A free daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
-<meta property="og:image" content="https://neurole.org/neurole-logo.png">
-<meta property="og:site_name" content="Neurole">
-
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Synapse — Neurole">
-<meta name="twitter:description" content="A free daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
-<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
-
-<link rel="canonical" href="https://neurole.org/synapse.html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<head><meta charset="UTF-8">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>Synapse — Neurole</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="The Synapse — a daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/synapse.html">
+<meta property="og:title" content="The Synapse — Neurole">
+<meta property="og:description" content="A daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+<link rel="canonical" href="https://neurole.org/synapse.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Synapse — A Daily Word-Connection Puzzle | Neurole</title>
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=144">
+<link rel="stylesheet" href="style.css?v=142">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "The Synapse",
+  "description": "A daily word-connection puzzle about the brain — find the four hidden groups of four.",
+  "url": "https://neurole.org/synapse.html",
+  "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
+  "educationalUse": "Practice",
+  "learningResourceType": "Game",
+  "teaches": "Neuroscience terminology and concepts",
+  "isAccessibleForFree": true,
+  "inLanguage": "en"
+}
+</script>
 <style>
-  :root{--game-font:'Outfit',sans-serif;}
-  .start-screen{
-    position:fixed;inset:0;z-index:9999;
-    background:#FAFAFA;
-    width:100%;height:100%;
-    display:var(--start-display,flex);flex-direction:column;align-items:center;
-    justify-content:center;
-    overflow-y:auto;-webkit-overflow-scrolling:touch;
-    padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
-    text-align:center;
-  }
-  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;}
-  .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
-  .start-screen h1{
-    font-family:'Cormorant Garamond','Playfair Display',serif;font-weight:700;
-    font-size:clamp(34px,8vw,46px);margin:0 0 10px;letter-spacing:-.02em;
-  }
-  .start-screen p{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:320px;line-height:1.6;font-family:'Outfit',sans-serif;}
-  .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
-  .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;font-family:var(--game-font);font-weight:700;border-radius:12px;}
-  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
-  .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
-  .start-pill{
-    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-    text-transform:uppercase;padding:4px 12px;border-radius:20px;
-  }
-  .pill-yellow{background:rgba(217,184,74,.16);color:#8A6A16;}
-  .pill-green{background:rgba(127,174,99,.16);color:#3d6a2e;}
-  .pill-blue{background:rgba(110,151,196,.16);color:#2c5580;}
-  .pill-purple{background:rgba(163,119,188,.16);color:#5f3670;}
-  #synapse-streak-label{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;}
-
-  @media(max-width:480px){
-    .start-screen{justify-content:flex-start;padding:50px 22px 40px;}
-    .start-screen h1{font-size:28px;margin-bottom:8px;}
-    .start-screen p{font-size:14px;margin-bottom:18px;}
-    .start-logo svg{width:46px !important;height:46px !important;}
-    .start-actions{gap:10px;}
-    .start-actions .btn{font-size:12px;padding:12px 8px;}
-  }
+.syn-shell{max-width:640px;margin:0 auto;padding:24px 20px 60px;}
+.syn-solved{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+.syn-solved-row{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 10px;border-radius:10px;color:#16171A;
+  animation:synSolveIn .4s ease;
+}
+@keyframes synSolveIn{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+.syn-solved-row .theme{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
+.syn-solved-row .words{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:600;}
+.syn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;}
+@media(max-width:480px){.syn-grid{gap:6px;}}
+.syn-tile{
+  aspect-ratio:1.35;border-radius:8px;border:none;
+  background:var(--paper-deep);color:var(--ink);
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(11px,2.6vw,14px);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;
+  cursor:pointer;user-select:none;transition:background .12s ease,transform .12s ease;
+  line-height:1.25;
+}
+.syn-tile:hover:not(:disabled){background:var(--rule);}
+.syn-tile.selected{background:#16171A;color:#fff;}
+.syn-tile.shake{animation:synShake .4s ease;}
+.syn-tile.hide{visibility:hidden;pointer-events:none;}
+.syn-tile:disabled{cursor:default;}
+@keyframes synShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.syn-mistakes{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink-soft);}
+.syn-dot{width:10px;height:10px;border-radius:50%;background:var(--ink);}
+.syn-dot.used{background:var(--rule);}
+.syn-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.syn-actions .btn{border-radius:999px;padding:10px 20px;font-size:13px;}
+.syn-msg{min-height:24px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:10px;}
 </style>
 </head>
 <body>
-<script>
-document.documentElement.style.setProperty('--start-display','flex');
-</script>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <header class="masthead">
-  <div class="masthead-inner">
-    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
-    <nav class="nav-left">
-      <a href="contact.html">Contact Us</a>
-      <a href="volunteer.html">Join Us</a>
-      <a href="donate.html">Donate</a>
-      <a href="about.html">About</a>
-      <button class="linklike" data-signin>Sign In</button>
-    </nav>
-    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
+<div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+<nav class="nav-left"></nav>
+<button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
-    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="daily-game.html">The Daily Case <span class="nav-arrow">›</span></a></li>
+    <li><a href="neuroanatomy.html">Map the Brain <span class="nav-arrow">›</span></a></li>
+    <li><a href="archive.html">Case Archive <span class="nav-arrow">›</span></a></li>
+    <li><a href="interactive.html">Interactive <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
     <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
     <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
-    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
     <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
   </ul>
 </div>
 
-<main class="wrap" style="min-height:70vh;">
-  <div class="start-screen" id="start-screen">
-    <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;margin-bottom:0;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Home
-    </a>
-    <div class="start-screen-inner">
-      <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="5.5" cy="6" r="2.5"/>
-          <circle cx="18.5" cy="6" r="2.5"/>
-          <circle cx="5.5" cy="18" r="2.5"/>
-          <circle cx="18.5" cy="18" r="2.5"/>
-          <path d="M7.7 7.3 16.3 16.7M16.3 7.3 7.7 16.7M8 6h8.5M8 18h8.5"/>
-        </svg>
+<main class="wrap" style="padding:0;max-width:none;">
+
+  <!-- Start screen -->
+  <div id="syn-start" style="max-width:460px;margin:0 auto;padding:70px 20px 60px;text-align:center;">
+    <img src="synapse-icon.png" alt="The Synapse" style="width:88px;height:auto;margin:0 auto 20px;display:block;">
+    <span class="section-eyebrow" style="justify-content:center;display:flex;">Daily · Word Puzzle</span>
+    <h1 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:clamp(32px,6vw,44px);font-weight:700;margin:6px 0 14px;letter-spacing:-.01em;">The Synapse</h1>
+    <p style="color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin:0 auto 26px;max-width:400px;">Find four groups of four. Each group shares something in common — some connections are obvious, some are a stretch.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button id="syn-play-btn" class="btn" style="border-radius:999px;padding:13px 30px;">Play today's puzzle →</button>
+      <button id="syn-htp-btn" class="btn ghost" style="border-radius:999px;padding:13px 22px;">How to play</button>
+    </div>
+    <div id="syn-load-error" style="display:none;margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);"></div>
+  </div>
+
+  <!-- Game screen -->
+  <div id="syn-game" style="display:none;">
+    <div class="syn-shell">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <a class="back-home" href="index.html" style="margin-bottom:0;position:static;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Home
+        </a>
+        <button id="syn-htp-btn-2" aria-label="How to play" style="width:36px;height:36px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+        </button>
       </div>
-      <div class="start-pills">
-        <span class="start-pill pill-yellow">Yellow</span>
-        <span class="start-pill pill-green">Green</span>
-        <span class="start-pill pill-blue">Blue</span>
-        <span class="start-pill pill-purple">Purple</span>
+
+      <p style="text-align:center;font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 18px;">Create four groups of four.</p>
+
+      <div class="syn-solved" id="syn-solved"></div>
+      <div class="syn-msg" id="syn-msg"></div>
+      <div class="syn-grid" id="syn-grid"></div>
+
+      <div class="syn-mistakes">
+        Mistakes remaining
+        <span id="syn-dots" style="display:inline-flex;gap:6px;"></span>
       </div>
-      <h1>Synapse</h1>
-      <p>Sixteen neuroscience terms. Four hidden groups. Find them all in four mistakes or fewer — a new puzzle every day.</p>
-      <div class="start-actions">
-        <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
-        <button class="btn" id="synapse-play-btn" style="flex:1;">Play →</button>
+
+      <div class="syn-actions">
+        <button class="btn ghost" id="syn-shuffle-btn">Shuffle</button>
+        <button class="btn ghost" id="syn-deselect-btn">Deselect All</button>
+        <button class="btn" id="syn-submit-btn" disabled>Submit</button>
       </div>
-      <div class="start-meta" id="synapse-meta"></div>
-      <div id="synapse-streak-label"></div>
-      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">In the spirit of word-grouping games like NYT Connections, reimagined around the brain. Educational use only.</p>
     </div>
   </div>
+
 </main>
+
+<!-- Result popup -->
+<div class="modal-backdrop rmodal-backdrop" id="syn-result-backdrop">
+  <div class="rmodal-card">
+    <div class="rmodal-header">
+      <span class="rmodal-title">The Synapse</span>
+      <button class="rmodal-close" id="syn-result-close">✕</button>
+    </div>
+    <div class="rmodal-hero">
+      <div class="rmodal-icon" style="background:#5C9A57;">
+        <img src="synapse-icon.png" alt="" style="width:36px;height:36px;object-fit:contain;">
+      </div>
+      <h3 id="syn-result-headline" class="rmodal-headline"></h3>
+      <p id="syn-result-sub" class="rmodal-sub"></p>
+    </div>
+    <div class="rmodal-stats">
+      <div class="rmodal-stat"><div class="rmodal-stat-val" id="syn-stat-played">0</div><div class="rmodal-stat-label">Played</div></div>
+      <div class="rmodal-stat"><div class="rmodal-stat-val" id="syn-stat-winpct">0%</div><div class="rmodal-stat-label">Win %</div></div>
+      <div class="rmodal-stat"><div class="rmodal-stat-val" id="syn-stat-streak">0</div><div class="rmodal-stat-label">Streak</div></div>
+      <div class="rmodal-stat"><div class="rmodal-stat-val" id="syn-stat-best">0</div><div class="rmodal-stat-label">Best</div></div>
+    </div>
+    <div class="rmodal-section" style="text-align:center;">
+      <button class="rmodal-cta" id="syn-share-btn">Share Result</button>
+    </div>
+    <div class="rmodal-games">
+      <div class="rmodal-games-grid">
+        <a href="daily-game.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24"><rect x="1" y="1" width="10" height="10" rx="2.5" fill="#fff"/><rect x="13" y="1" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/><rect x="1" y="13" width="10" height="10" rx="2.5" fill="#fff" opacity=".55"/><rect x="13" y="13" width="10" height="10" rx="2.5" fill="#fff"/></svg>
+          <div class="rmodal-game-title">The Daily Case</div>
+          <div class="rmodal-game-sub">Diagnose the case</div>
+        </a>
+        <a href="neuroanatomy.html" class="rmodal-game-card rmodal-game-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8"/>
+            <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8"/>
+            <path d="M12 4.5V20"/>
+            <circle cx="17.3" cy="6.3" r="1.5" fill="#fff" stroke="none"/>
+          </svg>
+          <div class="rmodal-game-title">Map the Brain</div>
+          <div class="rmodal-game-sub">Learn a region</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- How to Play slide-out panel -->
+<div class="htp-backdrop" id="htp-backdrop">
+  <div class="htp-panel" id="htp-panel">
+    <button class="htp-close" id="htp-close" aria-label="Close">✕</button>
+    <div class="htp-brand"><img src="synapse-icon.png" alt="" width="28" height="28" style="object-fit:contain;"><span>The Synapse</span></div>
+    <div class="htp-section">
+      <p class="htp-section-title">How to Play</p>
+      <p class="htp-line">Find groups of four items that share something in common.</p>
+      <p class="htp-line">Select four tiles, then press Submit.</p>
+      <p class="htp-line">Categories range from straightforward to tricky — some items could fit more than one group.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Mistakes</p>
+      <p class="htp-line">You get four mistakes before the puzzle ends. If you're one away from a correct group, we'll let you know.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Tips</p>
+      <p class="htp-line">Start with the group you're most confident about.</p>
+      <p class="htp-line">Watch out for words that seem to belong to an obvious category — they're often a trap.</p>
+    </div>
+  </div>
+</div>
+<style>
+.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop.open{display:block;opacity:1;}
+.htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
+  background:var(--paper);z-index:200;
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
+  overflow-y:auto;padding:26px 26px 40px;
+}
+.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
+.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
+.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-section{margin-bottom:24px;}
+.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+/* Page-entry wipe */
+@keyframes pageWipeIn{0%{clip-path:inset(0 0 100% 0);opacity:0;}60%{opacity:1;}100%{clip-path:inset(0 0 0% 0);opacity:1;}}
+body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
+@media(prefers-reduced-motion: reduce){body{animation:none;}}
+</style>
 
 <footer id="footer-contact">
   <div class="wrap">
@@ -165,12 +239,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-about">
         <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Games</p>
-        <a href="daily-game.html">The Daily Case</a>
-        <a href="neuroanatomy.html">Map the Brain</a>
-        <a href="synapse.html">Synapse</a>
+        <a href="daily-game.html" style="display:flex;align-items:center;gap:6px;"><img src="daily-case-icon.png" alt="" width="14" height="15" style="object-fit:contain;">The Daily Case</a>
+        <a href="neuroanatomy.html" style="display:flex;align-items:center;gap:6px;"><img src="map-brain-icon.png" alt="" width="14" height="14" style="object-fit:contain;">Map the Brain</a>
+        <a href="synapse.html" style="display:flex;align-items:center;gap:6px;"><img src="synapse-icon.png" alt="" width="14" height="14" style="object-fit:contain;">The Synapse</a>
         <a href="archive.html">Case Archive</a>
         <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
       </div>
@@ -200,7 +275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
       </a>
     </div>
-    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
+    <p class="footer-fine">© 2026 Neurole. Games about your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
   </div>
 </footer>
 
@@ -220,41 +295,443 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="terms.html" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="privacy.html" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
-
-<script src="config.js?v=136"></script>
-<script src="script.js?v=139"></script>
+<script src="config.js?v=136"></script><script src="script.js?v=136"></script>
+<script>document.getElementById('social-instagram').href=window.NEUROLE_CONFIG.SOCIAL.instagram;document.getElementById('social-email').href=window.NEUROLE_CONFIG.SOCIAL.email;document.getElementById('social-youtube').href=window.NEUROLE_CONFIG.SOCIAL.youtube;</script>
 <script>
 (function(){
-  const LAUNCH = '2026-08-03';
-  function todayET(){ return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'}); }
-  function daysBetween(a,b){
-    const [ay,am,ad]=a.split('-').map(Number), [by,bm,bd]=b.split('-').map(Number);
-    return Math.round((Date.UTC(by,bm-1,bd)-Date.UTC(ay,am-1,ad))/86400000);
+  'use strict';
+
+  const GROUP_COLORS = {
+    green:  '#A7D8A0',
+    yellow: '#F0E17E',
+    red:    '#E8A499',
+    purple: '#C9B3E8'
+  };
+  const GROUP_ORDER = ['green', 'yellow', 'red', 'purple']; // sheet's own order, easiest -> hardest
+
+  const synState = {
+    groups: {},
+    tiles: [],
+    selected: [],
+    solvedGroups: [],
+    guessHistory: [],
+    mistakes: 0,
+    maxMistakes: 4,
+    gameOver: false,
+    dateKey: ''
+  };
+  let synDisplayOrder = [];
+  let synWrongGuesses = [];
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
   }
-  const today = todayET();
-  const puzzleNum = daysBetween(LAUNCH, today) + 1;
-  document.getElementById('synapse-meta').textContent =
-    'Synapse #' + puzzleNum + ' · ' + new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
 
-  let alreadyPlayed = false;
-  try{
-    const raw = localStorage.getItem('neurole_synapse_' + today);
-    alreadyPlayed = !!raw;
-  }catch(e){}
-  const btn = document.getElementById('synapse-play-btn');
-  if(alreadyPlayed) btn.textContent = "View today's result →";
-
-  try{
-    const streak = JSON.parse(localStorage.getItem('neurole_synapse_streak'));
-    if(streak && streak.count > 0){
-      document.getElementById('synapse-streak-label').textContent = '🔥 ' + streak.count + '-day streak';
+  function shuffleArray(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
     }
-  }catch(e){}
+    return a;
+  }
 
-  btn.addEventListener('click', () => { window.location.href = 'synapse-play.html'; });
+  function getSynDateStr(d){
+    const dt = d || new Date(new Date().toLocaleString('en-US', {timeZone: 'America/New_York'}));
+    return (dt.getMonth() + 1) + '-' + dt.getDate() + '-' + dt.getFullYear();
+  }
+
+  function parseSynDateStr(s){
+    const parts = String(s).split('-').map(Number);
+    if(parts.length !== 3 || parts.some(isNaN)) return new Date(NaN);
+    return new Date(parts[2], parts[0] - 1, parts[1]);
+  }
+
+  async function loadSynapsePuzzle(){
+    const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.SYNAPSE_SHEET_CSV);
+    if(!rows || !rows.length) throw new Error('Sheet returned no rows.');
+
+    const todayStr = getSynDateStr();
+    let row = rows.find(r => (findField(r, 'Date') || '').trim() === todayStr);
+    if(!row) row = rows[rows.length - 1]; // fallback: most recent available puzzle
+
+    const groups = {};
+    GROUP_ORDER.forEach(color => {
+      const words = [1,2,3,4].map(n => (findField(row, color + n) || '').trim()).filter(Boolean);
+      const theme = (findField(row, 'Theme ' + color) || '').trim();
+      if(words.length === 4 && theme) groups[color] = { theme, words };
+    });
+
+    if(Object.keys(groups).length !== 4){
+      throw new Error('Puzzle row is missing data (found ' + Object.keys(groups).length + ' of 4 groups).');
+    }
+
+    synState.groups = groups;
+    synState.tiles = [];
+    GROUP_ORDER.forEach(color => {
+      groups[color].words.forEach(word => synState.tiles.push({ text: word, group: color }));
+    });
+    synState.dateKey = (findField(row, 'Date') || '').trim() || todayStr;
+  }
+
+  function renderGrid(){
+    const grid = document.getElementById('syn-grid');
+    grid.innerHTML = '';
+    synDisplayOrder.forEach(tileText => {
+      const btn = document.createElement('button');
+      btn.className = 'syn-tile' + (synState.selected.indexOf(tileText) > -1 ? ' selected' : '');
+      btn.textContent = tileText;
+      btn.dataset.text = tileText;
+      btn.disabled = synState.gameOver;
+      btn.addEventListener('click', function(){ onTileClick(tileText); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function onTileClick(tileText){
+    if(synState.gameOver) return;
+    const idx = synState.selected.indexOf(tileText);
+    if(idx > -1){
+      synState.selected.splice(idx, 1);
+    } else {
+      if(synState.selected.length >= 4) return;
+      synState.selected.push(tileText);
+    }
+    renderGrid();
+    updateSubmitState();
+  }
+
+  function updateSubmitState(){
+    document.getElementById('syn-submit-btn').disabled = synState.selected.length !== 4 || synState.gameOver;
+  }
+
+  function renderMistakeDots(){
+    const dotsEl = document.getElementById('syn-dots');
+    dotsEl.innerHTML = '';
+    for(let i = 0; i < synState.maxMistakes; i++){
+      const dot = document.createElement('span');
+      dot.className = 'syn-dot' + (i < synState.mistakes ? ' used' : '');
+      dotsEl.appendChild(dot);
+    }
+  }
+
+  function renderSolvedGroups(){
+    const solvedEl = document.getElementById('syn-solved');
+    solvedEl.innerHTML = '';
+    synState.solvedGroups.forEach(color => {
+      const g = synState.groups[color];
+      if(!g) return;
+      const row = document.createElement('div');
+      row.className = 'syn-solved-row';
+      row.style.background = GROUP_COLORS[color];
+      row.innerHTML = '<div class="theme">' + escapeHtml(g.theme) + '</div><div class="words">' + g.words.map(escapeHtml).join(', ') + '</div>';
+      solvedEl.appendChild(row);
+    });
+  }
+
+  function showMsg(text, ms){
+    const el = document.getElementById('syn-msg');
+    el.textContent = text;
+    if(ms){
+      setTimeout(function(){ if(el.textContent === text) el.textContent = ''; }, ms);
+    }
+  }
+
+  function onSubmit(){
+    if(synState.selected.length !== 4 || synState.gameOver) return;
+
+    const sortedSelected = synState.selected.slice().sort();
+    const alreadyGuessed = synWrongGuesses.some(function(g){
+      return g.length === 4 && g.every(function(t, i){ return t === sortedSelected[i]; });
+    });
+    if(alreadyGuessed){ showMsg('Already guessed!', 1500); return; }
+
+    const selectedTiles = synState.selected.map(function(text){
+      return synState.tiles.find(function(t){ return t.text === text; });
+    });
+    const groupsInvolved = selectedTiles.map(function(t){ return t.group; });
+    synState.guessHistory.push(groupsInvolved);
+
+    const uniqueGroups = groupsInvolved.filter(function(v, i, arr){ return arr.indexOf(v) === i; });
+
+    if(uniqueGroups.length === 1){
+      const color = uniqueGroups[0];
+      synState.solvedGroups.push(color);
+      synDisplayOrder = synDisplayOrder.filter(function(text){ return synState.selected.indexOf(text) === -1; });
+      synState.selected = [];
+      renderSolvedGroups();
+      renderGrid();
+      updateSubmitState();
+      showMsg('');
+
+      if(synState.solvedGroups.length === 4){
+        endGame(true);
+      }
+    } else {
+      synState.mistakes++;
+      renderMistakeDots();
+      synWrongGuesses.push(sortedSelected);
+
+      const counts = {};
+      groupsInvolved.forEach(function(c){ counts[c] = (counts[c] || 0) + 1; });
+      const maxCount = Math.max.apply(null, Object.keys(counts).map(function(k){ return counts[k]; }));
+
+      const gridEl = document.getElementById('syn-grid');
+      synState.selected.forEach(function(text){
+        const btn = gridEl.querySelector('[data-text="' + text.replace(/"/g,'\\"') + '"]');
+        if(btn) btn.classList.add('shake');
+      });
+      setTimeout(function(){
+        const shaking = gridEl.querySelectorAll('.shake');
+        for(let i=0;i<shaking.length;i++) shaking[i].classList.remove('shake');
+      }, 400);
+
+      if(maxCount === 3) showMsg('One away…', 1800);
+
+      const isGameOver = synState.mistakes >= synState.maxMistakes;
+      setTimeout(function(){
+        synState.selected = [];
+        renderGrid();
+        updateSubmitState();
+        if(isGameOver) endGame(false);
+      }, 450);
+    }
+  }
+
+  function endGame(won){
+    synState.gameOver = true;
+    if(!won){
+      GROUP_ORDER.forEach(function(color){
+        if(synState.solvedGroups.indexOf(color) === -1 && synState.groups[color]){
+          synState.solvedGroups.push(color);
+        }
+      });
+      synDisplayOrder = [];
+      renderSolvedGroups();
+      renderGrid();
+    }
+    updateSubmitState();
+    saveSynapseCompletion(won);
+    setTimeout(function(){ openSynapseResultPopup(won); }, won ? 500 : 900);
+  }
+
+  function saveSynapseCompletion(won){
+    try{
+      localStorage.setItem('neurole_synapse_' + synState.dateKey, JSON.stringify({ won: won, mistakes: synState.mistakes }));
+    }catch(e){}
+  }
+
+  function getSynapseStats(){
+    let played = 0, wins = 0, best = 0, curStreak = 0;
+    try{
+      const keys = Object.keys(localStorage).filter(function(k){ return k.indexOf('neurole_synapse_') === 0; });
+      const entries = keys.map(function(k){
+        const dateStr = k.replace('neurole_synapse_', '');
+        let data = null;
+        try{ data = JSON.parse(localStorage.getItem(k)); }catch(e){}
+        return { dateStr: dateStr, date: parseSynDateStr(dateStr), won: !!(data && data.won) };
+      }).filter(function(e){ return !isNaN(e.date.getTime()); });
+      entries.sort(function(a,b){ return a.date - b.date; });
+
+      played = entries.length;
+      wins = entries.filter(function(e){ return e.won; }).length;
+
+      let run = 0, prevDate = null;
+      entries.forEach(function(e){
+        if(!e.won){ run = 0; prevDate = null; return; }
+        if(prevDate){
+          const dayDiff = Math.round((e.date - prevDate) / 86400000);
+          run = (dayDiff === 1) ? run + 1 : 1;
+        } else {
+          run = 1;
+        }
+        best = Math.max(best, run);
+        prevDate = e.date;
+      });
+
+      const etNow = new Date(new Date().toLocaleString('en-US', {timeZone: 'America/New_York'}));
+      etNow.setHours(0,0,0,0);
+      const checkDate = new Date(etNow);
+      for(let i = 0; i < 3650; i++){
+        const ds = getSynDateStr(checkDate);
+        const raw = localStorage.getItem('neurole_synapse_' + ds);
+        if(!raw){
+          if(i === 0){ checkDate.setDate(checkDate.getDate() - 1); continue; }
+          break;
+        }
+        let data = null;
+        try{ data = JSON.parse(raw); }catch(e){}
+        if(!data || !data.won) break;
+        curStreak++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      }
+    }catch(e){}
+    return { played: played, wins: wins, streak: curStreak, best: best, winPct: played ? Math.round(wins/played*100) : 0 };
+  }
+
+  function openSynapseResultPopup(won){
+    const backdrop = document.getElementById('syn-result-backdrop');
+    const headline = document.getElementById('syn-result-headline');
+    const sub = document.getElementById('syn-result-sub');
+
+    if(won){
+      headline.textContent = synState.mistakes === 0 ? 'Perfect!' : 'Solved it!';
+      sub.textContent = synState.mistakes === 0 ? 'No mistakes — well done.' : (synState.mistakes + (synState.mistakes === 1 ? ' mistake.' : ' mistakes.'));
+    } else {
+      headline.textContent = 'Next time.';
+      sub.textContent = 'Here were today\'s groups.';
+    }
+
+    const stats = getSynapseStats();
+    document.getElementById('syn-stat-played').textContent = stats.played;
+    document.getElementById('syn-stat-winpct').textContent = stats.winPct + '%';
+    document.getElementById('syn-stat-streak').textContent = stats.streak;
+    document.getElementById('syn-stat-best').textContent = stats.best;
+
+    backdrop.classList.add('open');
+  }
+
+  function startGame(alreadyDone){
+    document.getElementById('syn-start').style.display = 'none';
+    document.getElementById('syn-game').style.display = 'block';
+
+    synDisplayOrder = shuffleArray(synState.tiles.map(function(t){ return t.text; }));
+    renderGrid();
+    renderMistakeDots();
+    renderSolvedGroups();
+    updateSubmitState();
+
+    if(alreadyDone){
+      synState.gameOver = true;
+      synState.mistakes = alreadyDone.mistakes || 0;
+      GROUP_ORDER.forEach(function(color){ if(synState.groups[color]) synState.solvedGroups.push(color); });
+      synDisplayOrder = [];
+      renderSolvedGroups();
+      renderGrid();
+      renderMistakeDots();
+      setTimeout(function(){ openSynapseResultPopup(alreadyDone.won); }, 300);
+    }
+  }
+
+  document.getElementById('syn-play-btn').addEventListener('click', async function(){
+    const btn = document.getElementById('syn-play-btn');
+    const errEl = document.getElementById('syn-load-error');
+    const origText = btn.textContent;
+    btn.textContent = 'Loading…';
+    btn.disabled = true;
+    errEl.style.display = 'none';
+    try{
+      await loadSynapsePuzzle();
+      let alreadyDone = null;
+      try{
+        const raw = localStorage.getItem('neurole_synapse_' + synState.dateKey);
+        if(raw) alreadyDone = JSON.parse(raw);
+      }catch(e){}
+      startGame(alreadyDone);
+    }catch(e){
+      console.warn('Neurole Synapse: could not load puzzle —', e.message);
+      errEl.textContent = 'Could not load today\'s puzzle. Please check your connection and try again.';
+      errEl.style.display = 'block';
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('syn-shuffle-btn').addEventListener('click', function(){
+    synDisplayOrder = shuffleArray(synDisplayOrder);
+    renderGrid();
+  });
+
+  document.getElementById('syn-deselect-btn').addEventListener('click', function(){
+    synState.selected = [];
+    renderGrid();
+    updateSubmitState();
+  });
+
+  document.getElementById('syn-submit-btn').addEventListener('click', onSubmit);
+
+  document.getElementById('syn-result-close').addEventListener('click', function(){
+    document.getElementById('syn-result-backdrop').classList.remove('open');
+  });
+  document.getElementById('syn-result-backdrop').addEventListener('click', function(e){
+    if(e.target === this) this.classList.remove('open');
+  });
+
+  ['syn-htp-btn', 'syn-htp-btn-2'].forEach(function(id){
+    const btn = document.getElementById(id);
+    if(btn) btn.addEventListener('click', function(){ document.getElementById('htp-backdrop').classList.add('open'); });
+  });
+  document.getElementById('htp-close').addEventListener('click', function(){
+    document.getElementById('htp-backdrop').classList.remove('open');
+  });
+  document.getElementById('htp-backdrop').addEventListener('click', function(e){
+    if(e.target === this) this.classList.remove('open');
+  });
+
+  document.getElementById('syn-share-btn').addEventListener('click', async function(){
+    const emojiMap = { green: '🟩', yellow: '🟨', red: '🟥', purple: '🟪' };
+    let shareText = 'The Synapse — ' + synState.dateKey + '\n';
+    synState.guessHistory.forEach(function(guess){
+      shareText += guess.map(function(color){ return emojiMap[color] || '⬜'; }).join('') + '\n';
+    });
+    shareText += '\nhttps://neurole.org/synapse.html';
+    const btn = document.getElementById('syn-share-btn');
+    try{
+      if(navigator.share){
+        await navigator.share({ text: shareText, url: 'https://neurole.org/synapse.html', title: 'The Synapse' });
+      } else {
+        await navigator.clipboard.writeText(shareText);
+        const orig = btn.textContent;
+        btn.textContent = 'Copied! ✓';
+        setTimeout(function(){ btn.textContent = orig; }, 2000);
+      }
+    }catch(err){}
+  });
+})();
+</script>
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+    </div>
+    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+        </div>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+      </form>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Continue';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
+  });
 })();
 </script>
 </body>

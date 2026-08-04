@@ -25,10 +25,6 @@
   --mono:'IBM Plex Mono', monospace;
 
   --max-w:1180px;
-
-  /* tactile-depth system */
-  --shadow-card:0 1px 2px rgba(20,15,30,.05);
-  --shadow-card-hover:0 16px 28px -12px rgba(58,49,82,.28);
 }
 
 *{box-sizing:border-box;}
@@ -166,11 +162,9 @@ body{padding-top:58px;}
 .mobile-nav-items li a:hover .nav-arrow,
 .mobile-nav-items li button.nav-tab-btn:hover .nav-arrow{transform:translateX(4px);}
 
-/* On phones, hide the normal desktop nav */
-@media (max-width:600px){
-  .hamburger-btn{display:flex;}
-  .nav-left{display:none !important;}
-}
+/* Hamburger nav used at all sizes — top bar stays minimal */
+.hamburger-btn{display:flex;}
+.nav-left{display:none !important;}
 
 .mobile-nav-backdrop{
   position:fixed;inset:0;
@@ -572,7 +566,7 @@ footer {
   --rm-line:rgba(255,255,255,.1);
   --rm-track:rgba(255,255,255,.08);
 }
-.rmodal-header{padding:20px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rm-line);}
+.rmodal-header{padding:20px 22px;display:flex;align-items:center;justify-content:space-between;}
 .rmodal-title{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rm-soft);}
 .rmodal-close{background:none;border:none;font-size:18px;color:var(--rm-soft);cursor:pointer;line-height:1;padding:2px;}
 .rmodal-close:hover{color:var(--rm-ink);}
@@ -880,61 +874,10 @@ body{background:#FAFAFA;}
 /* Volunteer banner border radius */
 .volunteer-banner{border-radius:16px;}
 
-/* Card hover — warmer shadow, plus a tactile lift so the two game
-   tiles read as pressable game pieces rather than flat info boxes */
-.game-card,.home-game-card{
-  box-shadow:var(--shadow-card);
-  transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .15s ease !important;
-}
+/* Card hover — warmer shadow */
 .game-card:hover,.home-game-card:hover{
   box-shadow:0 20px 50px rgba(90,67,128,.14) !important;
-  transform:translateY(-5px);
 }
-.game-card:active,.home-game-card:active{transform:translateY(-2px);}
-
-/* Buttons — a light press-down feel on click, everywhere .btn is used */
-.btn,.play-cta{transition:transform .15s ease, box-shadow .15s ease, background .2s ease, color .15s ease !important;}
-.btn:active,.play-cta:active{transform:translateY(1px) scale(.98) !important;box-shadow:none !important;}
-
-/* Icon badge — colored disc behind each game's glyph so icons read as
-   one designed icon set instead of loose images */
-.game-icon-badge{
-  width:112px;height:112px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:transform .25s cubic-bezier(.2,.8,.3,1);
-}
-.home-game-card:hover .game-icon-badge{transform:scale(1.06) rotate(-2deg);}
-.game-icon-badge--red{background:rgba(168,68,58,.1);}
-.game-icon-badge--plum{background:rgba(107,79,148,.12);}
-:root[data-theme="dark"] .game-icon-badge--red{background:rgba(229,130,118,.14);}
-:root[data-theme="dark"] .game-icon-badge--plum{background:rgba(196,175,233,.14);}
-
-/* Live "next case" countdown chip — mono, ticking, gives the Daily Case
-   card a real-time puzzle-drop feel like a live game clock */
-.next-case-chip{
-  display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.03em;
-  color:var(--signal-red);
-  background:rgba(168,68,58,.08);
-  border:1px solid rgba(168,68,58,.22);
-  border-radius:20px;padding:5px 12px;
-  font-variant-numeric:tabular-nums;
-  align-self:flex-start;
-}
-:root[data-theme="dark"] .next-case-chip{background:rgba(229,130,118,.1);border-color:rgba(229,130,118,.3);}
-.next-case-chip .dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:ny-pulse 2.2s ease-out infinite;}
-
-/* Streak flame chip — reused wherever a device has an active streak */
-.streak-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;
-  color:var(--neuro-blue-deep);background:rgba(107,79,148,.1);
-  border:1px solid rgba(107,79,148,.22);
-  padding:5px 13px;border-radius:20px;align-self:flex-start;
-}
-
-/* Count-up stat numbers — starts hidden-low then animates in via JS */
-.stat-num.is-counting{opacity:.4;}
 
 /* Inner page card grids */
 .contact-card,.donate-card,.value-card,.role-card{
@@ -968,18 +911,6 @@ h1,h2,h3,h4,
   font-family:'Cormorant Garamond','Playfair Display',Georgia,serif !important;
   font-weight:700;
   letter-spacing:-.01em;
-}
-
-/* Homepage game-card titles — big and legible, but NOT heavy/bold like the
-   global h3 rule above; these are the "game name" labels (The Daily Case,
-   Map the Brain, Synapse) and read better large + medium-weight */
-.home-game-card-body h3{
-  font-family:'Cormorant Garamond','Playfair Display',Georgia,serif !important;
-  font-weight:500 !important;
-  font-size:clamp(28px,4.2vw,34px);
-  margin:14px 0 8px;
-  letter-spacing:-.01em;
-  line-height:1.1;
 }
 
 /* Outfit for UI elements — game-like, modern */

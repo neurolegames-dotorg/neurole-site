@@ -1521,3 +1521,24 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
   letter-spacing:.1em; text-transform:uppercase; color:#B84A0A; background:#FCEBDD;
   border-radius:20px; padding:3px 9px; margin-left:8px; vertical-align:middle;
 }
+
+/* =====================================================
+   Restore the two display headings the global rule flattens
+   =====================================================
+   The `h1,h2,h3,h4,…{ font-family:… !important }` rule above is deliberate —
+   it exists because 9 rules still ask for var(--serif-display), i.e. Libre
+   Baskerville, which no page loads any more. Dropping the !important sends
+   those headings to a Georgia fallback.
+
+   The cost is that it also flattens the two headings that are *meant* to be
+   Archivo Black. Both are h3/h4 elements, and !important beats source order,
+   so their own rules (style.css:585 and index.html's inline block) lose. These
+   two put them back — they must keep !important to win against it. */
+.how-card h4{
+  font-family:'Archivo Black',var(--game-font) !important;
+  font-weight:400 !important;
+}
+.rmodal-headline{
+  font-family:'Archivo Black',var(--serif-display) !important;
+  font-weight:400 !important;
+}

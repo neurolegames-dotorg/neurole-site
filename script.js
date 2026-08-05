@@ -613,17 +613,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Interactive nav link (with Beta badge) — desktop
     const desktopNavForInteractive = document.querySelector('.nav-left');
-    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
+    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="/interactive"]')){
       const a = document.createElement('a');
-      a.href = 'interactive.html';
+      a.href = '/interactive';
       a.innerHTML = 'Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span>';
       desktopNavForInteractive.insertBefore(a, desktopNavForInteractive.lastElementChild);
     }
     // Interactive nav link — mobile
     const mobileNavForInteractive = document.querySelector('.mobile-nav-items');
-    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="interactive.html"]')){
+    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="/interactive"]')){
       const li = document.createElement('li');
-      li.innerHTML = '<a href="interactive.html">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
+      li.innerHTML = '<a href="/interactive">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
       mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
     }
 

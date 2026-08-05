@@ -1,0 +1,86 @@
+# GitHub Pages build configuration
+#
+# neurole.org is served by GitHub Pages straight off the `main` branch, which
+# publishes EVERY file in the branch verbatim. There is no build step, so a file
+# committed here is a file the public can fetch. This is the only mechanism for
+# keeping something in the repo without putting it on the web.
+#
+# Pages runs Jekyll by default (there is no `.nojekyll` file), and `exclude`
+# below is what it honours. Nothing is deleted — excluded paths stay in git and
+# come back the moment they are removed from this list.
+#
+# Verify after changing anything here: the Pages build must succeed, or the site
+# silently stops updating. Check the Actions tab for "pages build and deployment".
+
+exclude:
+  # --- Jekyll's own defaults -------------------------------------------
+  # Declaring `exclude` REPLACES the built-in list rather than adding to it,
+  # so these have to be repeated or they start being published.
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+  # --- Duplicate copies of the whole site -------------------------------
+  # A second, older copy of every page, committed by accident. It was live at
+  # neurole.org/neurole-site-main_4/ and fully crawlable — duplicate content
+  # competing with the real pages, and an older snapshot of the source.
+  - neurole-site-main_4/
+
+  # Redundant copy of the images plus the spreadsheets and zips below.
+  # Verified unreferenced: every page loads its favicons, logo and hero image
+  # from the site root, not from here.
+  - assets/
+
+  # --- Question banks ----------------------------------------------------
+  # The case and quiz banks, including answers. The live games read the
+  # published Google Sheet CSV instead, so nothing on the site fetches these —
+  # publishing them just hands players the answer key.
+  #
+  # Listed by name as well as by glob on purpose: Jekyll matches these with
+  # File.fnmatch, whose treatment of `*` around path separators is easy to get
+  # wrong. The names guarantee today's files; the glob catches new ones.
+  - Neurole_Daily_Case_Bank.xlsx
+  - Neurole_Neuroanatomy_Bank.xlsx
+  - Neurole_Neuropsychology_Bank.xlsx
+  - "*.xlsx"
+
+  # --- Source archives ---------------------------------------------------
+  - neurole_17.zip
+  - neurole_21.zip
+  - "*.zip"
+
+  # --- Dead pages --------------------------------------------------------
+  # A stub reading "Page not found" that returned HTTP 200 — a soft 404, which
+  # search engines index as a real (empty) page. 404.html now handles this
+  # properly, with the correct status code.
+  - ai-test.html
+
+  # --- Not part of the website -------------------------------------------
+  # Cloudflare Worker source; runs on Cloudflare, never fetched by a browser.
+  - ai-worker.js
+  # React port: source, not output. Serving it would expose the whole codebase
+  # and could drag node_modules along with it.
+  - neurole-react/
+  # Tooling and docs.
+  - wrangler.jsonc
+  - package.json
+  - package-lock.json
+  # Every markdown file in the root is a note or a readme for whoever is
+  # working on the repo — none is a page. Named as well as globbed, for the
+  # same File.fnmatch reason as the .xlsx entries above.
+  - README.md
+  - NOTES-brain-essay-embed.md
+  - "*.md"
+
+  # --- Other platforms' config -------------------------------------------
+  # Would otherwise be served as a plain static file from the site root.
+  # `.vercelignore` needs no entry: Jekyll always ignores dotfiles.
+  #
+  # NOTE: `.vercelignore` is the Vercel-side twin of this list. Jekyll's
+  # `exclude` does nothing on Vercel and vice versa, so a path added to one
+  # almost always belongs in the other too — keep them in sync.
+  - vercel.json

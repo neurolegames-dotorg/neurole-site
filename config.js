@@ -17,7 +17,7 @@ window.NEUROLE_CONFIG = {
 
   // --- Daily Clinical Case game -------------------------------------
   // Columns expected (header row): 
-  // date | case_id | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation
+  // Column layout (A→J): date | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation | author
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
   // --- Learn Regions (beginners section on Map the Brain) ---------
@@ -27,9 +27,34 @@ window.NEUROLE_CONFIG = {
   LEARN_REGIONS_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_LEARN_REGIONS",
 
   // --- Neuroanatomy game ---------------------------------------------
-  // Columns expected (header row):
-  // id | image_url | choice_a | choice_b | choice_c | choice_d | correct_choice | function_text
+  // The code reads columns by HEADER NAME (row 1), not by column letter —
+  // so it doesn't matter which literal column something sits in, as long
+  // as row 1 has these exact header names somewhere in it.
+  //
+  // REGION mode (image shown, guess which region is highlighted):
+  //   region | image_url | choice_a | choice_b | choice_c | choice_d |
+  //   correct_choice (K/L/M/N) | function_text ("Why", shown after answering)
+  //
+  // FUNCTION mode (same image, choices from a separate set of columns):
+  //   Function A | Function B | Function C | Function D | Correct
+  //   (containing literally "A", "B", "C", or "D") | function_text
+  //   ("Which region?", shown after answering)
+  //
+  // Both modes pull their post-answer explanation from the same
+  // function_text column — only the section label differs (Region mode
+  // says "Why", Function mode says "Which region?").
+  //
+  // category (optional) | difficulty (optional) apply to both modes.
   NEUROANATOMY_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXmmePxb13QpA9xtiTHTweL24tBzyx22ANHHSjeZkzf5ZXMrx3yx5-bpUVNYGI9RK8J6xkjx6HeS6s/pub?output=csv",
+
+  // --- The Synapse (Connections-style word grouping game) -------------
+  // One row per day. Column headers (confirmed from your sheet):
+  //   Date | green1 | green2 | green3 | green4 | yellow1 | yellow2 |
+  //   yellow3 | yellow4 | red1 | red2 | red3 | red4 | purple1 | purple2 |
+  //   purple3 | purple4 | Theme red | Theme yellow | Theme green | Theme purple
+  // Date format matches your sheet exactly: M-D-YYYY, no leading zeros
+  // (e.g. "8-4-2026" for August 4, 2026).
+  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5Za-nsdHnaneFXdg4MRGn_RCz-EcRVZ-SztPZjBM2Z8mYCX7-jHQg1vYFuV7lcOw9r7Y0fd7F3XjZ/pub?output=csv",
 
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):

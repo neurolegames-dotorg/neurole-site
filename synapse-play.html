@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDT6M74DR');
+</script>
+<meta charset="UTF-8">
+<meta name="description" content="Synapse — a daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible. Free, no account needed.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/synapse.html">
+<meta property="og:title" content="Synapse — Neurole">
+<meta property="og:description" content="Synapse — a daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible. Free, no account needed.">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Synapse — Neurole">
+<meta name="twitter:description" content="Synapse — a daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
+
+<link rel="canonical" href="https://neurole.org/synapse.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+<title>Synapse — Neurole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=144">
+<style>
+  :root{--game-font:'Outfit',sans-serif;}
+
+  .page-hero h1{font-family:'Cormorant Garamond','Playfair Display',serif !important;}
+
+  .syn-shell{max-width:600px;margin:0 auto;padding:36px 0 80px;}
+
+  .syn-meta{
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;flex-wrap:wrap;gap:8px;
+    font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
+  }
+  .syn-meta .pill{
+    background:rgba(107,79,148,.1);color:var(--neuro-blue-deep);border:1px solid rgba(107,79,148,.22);
+    padding:3px 11px;border-radius:20px;font-weight:700;letter-spacing:.04em;
+  }
+
+  .syn-mistakes{display:flex;align-items:center;gap:8px;}
+  .syn-mistakes-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+  .syn-mistake-dots{display:flex;gap:6px;}
+  .syn-mistake-dots span{width:12px;height:12px;border-radius:50%;background:var(--rule);transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .15s;}
+  .syn-mistake-dots span.used{background:var(--signal-red);transform:scale(1.1);}
+
+  .syn-instructions{
+    font-family:var(--game-font);font-size:14.5px;color:var(--ink-soft);line-height:1.6;text-align:center;
+    margin:0 0 22px;
+  }
+  .syn-instructions strong{color:var(--ink);}
+
+  #syn-solved-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+  .syn-solved-row{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    border-radius:12px;padding:14px 18px;
+    font-family:var(--game-font);font-weight:700;
+    animation:synSolvedIn .35s cubic-bezier(.2,.9,.35,1.1);
+    border:2px solid transparent;
+  }
+  .syn-solved-row .g-name{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;}
+  .syn-solved-row .g-words{font-size:15px;letter-spacing:.01em;}
+  @keyframes synSolvedIn{from{opacity:0;transform:translateY(-10px) scale(.97);}to{opacity:1;transform:none;}}
+
+  .syn-color-0{background:#F7DE7A;border-color:#D9B84A !important;color:#4A3C10;}
+  .syn-color-1{background:#A9D18E;border-color:#7FAE63 !important;color:#1F3A17;}
+  .syn-color-2{background:#9FC1E8;border-color:#6E97C4 !important;color:#122C4A;}
+  .syn-color-3{background:#C9A6DE;border-color:#A377BC !important;color:#3A1D46;}
+
+  .syn-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0 6px;
+  }
+  .syn-grid.shake{animation:synShake .4s;}
+  @keyframes synShake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}
+    60%{transform:translateX(-4px);}
+    80%{transform:translateX(4px);}
+  }
+  .syn-tile{
+    aspect-ratio:1.15/1;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:8px;word-break:break-word;
+    background:var(--paper-deep);border:2px solid var(--rule);border-radius:12px;
+    font-family:var(--game-font);font-weight:700;font-size:14.5px;letter-spacing:.01em;
+    color:var(--ink);cursor:pointer;line-height:1.25;
+    transition:transform .12s cubic-bezier(.3,1.3,.5,1),background .15s,border-color .15s,box-shadow .15s;
+    -webkit-tap-highlight-color:transparent;user-select:none;
+  }
+  .syn-tile:hover:not(:disabled){border-color:var(--neuro-blue);transform:translateY(-2px);}
+  .syn-tile.selected{background:var(--ink);color:#fff;border-color:var(--ink);transform:scale(1.04);}
+  .syn-tile:disabled{cursor:default;opacity:.9;}
+  @media(max-width:480px){
+    .syn-tile{font-size:12.5px;padding:6px;border-radius:10px;}
+    .syn-grid{gap:6px;}
+  }
+
+  .syn-controls{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+  .syn-controls button{
+    font-family:var(--game-font);font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
+    padding:13px 22px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    cursor:pointer;transition:background .15s,color .15s,transform .1s;
+  }
+  .syn-controls button:hover:not(:disabled){background:var(--ink);color:var(--paper);}
+  .syn-controls button:active:not(:disabled){transform:scale(.96);}
+  .syn-controls button:disabled{opacity:.35;cursor:default;}
+  #syn-submit{background:var(--neuro-blue-deep);color:#fff;border-color:var(--neuro-blue-deep);}
+  #syn-submit:hover:not(:disabled){background:var(--neuro-blue-bright);color:#fff;}
+
+  .syn-toast{
+    position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-8px);
+    background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:999px;
+    font-family:var(--game-font);font-weight:700;font-size:13px;white-space:nowrap;
+    opacity:0;transition:opacity .2s,transform .2s;z-index:500;pointer-events:none;
+    box-shadow:0 8px 20px rgba(0,0,0,.18);
+  }
+  .syn-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .syn-result{
+    margin-top:26px;padding:26px 28px;border-radius:14px;
+    background:var(--paper-deep);border:1.5px solid var(--rule);
+    text-align:center;
+  }
+  .syn-result h3{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:25px;margin:0 0 8px;}
+  .syn-result p{font-family:var(--game-font);font-size:14.5px;color:var(--ink-soft);margin:0 0 18px;line-height:1.6;}
+  .syn-share-grid{display:inline-flex;flex-direction:column;gap:4px;margin:0 0 20px;}
+  .syn-share-row{display:flex;gap:4px;justify-content:center;}
+  .syn-share-sq{width:22px;height:22px;border-radius:4px;}
+  .syn-result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+  .syn-streak-note{
+    text-align:center;font-family:var(--game-font);font-size:13px;font-weight:600;
+    color:var(--neuro-blue-deep);margin-top:10px;
+  }
+</style>
+</head>
+<body>
+<script>
+// This page IS the game — always show it instantly, no popup ever.
+document.documentElement.style.setProperty('--start-display','none');
+</script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <nav class="nav-left">
+      <a href="contact.html">Contact Us</a>
+      <a href="volunteer.html">Join Us</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <ul class="mobile-nav-items">
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="wrap">
+    <a class="back-home" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to home
+    </a>
+    <h1>Synapse</h1>
+    <p>Sixteen neuroscience terms, four hidden groups. Pick four you think belong together — you get four mistakes.</p>
+  </div>
+</div>
+
+<main class="wrap syn-shell">
+
+  <div class="syn-meta">
+    <span class="pill" id="syn-puzzle-num">Synapse #—</span>
+    <span id="syn-date">—</span>
+  </div>
+
+  <p class="syn-instructions">Find groups of <strong>four</strong> that share something in common. Categories get trickier as the colors go from yellow to purple.</p>
+
+  <div class="syn-meta" style="margin-bottom:14px;">
+    <span class="syn-mistakes">
+      <span class="syn-mistakes-label">Mistakes</span>
+      <span class="syn-mistake-dots" id="syn-mistake-dots"><span></span><span></span><span></span><span></span></span>
+    </span>
+    <span id="syn-groups-left">4 groups left</span>
+  </div>
+
+  <div id="syn-solved-rows"></div>
+  <div class="syn-grid" id="syn-grid"></div>
+
+  <div class="syn-controls">
+    <button id="syn-shuffle" type="button">Shuffle</button>
+    <button id="syn-deselect" type="button" disabled>Deselect all</button>
+    <button id="syn-submit" type="button" disabled>Submit</button>
+  </div>
+
+  <div class="syn-result" id="syn-result" style="display:none;">
+    <h3 id="syn-result-title"></h3>
+    <p id="syn-result-sub"></p>
+    <div class="syn-share-grid" id="syn-result-grid"></div>
+    <div class="syn-result-actions">
+      <button class="btn" id="syn-share-btn" type="button">Copy result to share →</button>
+      <a class="btn ghost" href="index.html">Back to home</a>
+    </div>
+    <p class="syn-streak-note" id="syn-streak-note" style="display:none;"></p>
+  </div>
+
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-soft);text-align:center;margin-top:26px;">Educational use only. A new Synapse drops every day at midnight ET.</p>
+
+</main>
+
+<div class="syn-toast" id="syn-toast"></div>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html">The Daily Case</a>
+        <a href="neuroanatomy.html">Map the Brain</a>
+        <a href="synapse.html">Synapse</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<script src="config.js?v=136"></script>
+<script src="script.js?v=139"></script>
+<script>
+/* =====================================================================
+   SYNAPSE — a Connections-style daily word-grouping game.
+   16 terms, 4 hidden groups of 4. Pick four tiles you think belong
+   together; a wrong guess costs one of your four mistakes. Colors run
+   yellow → green → blue → purple, easiest to trickiest, same convention
+   NYT Connections uses.
+===================================================================== */
+
+const SYNAPSE_LAUNCH_DATE_ET = '2026-08-03';
+
+function synTodayET(){ return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'}); }
+
+function synDaysBetween(a, b){
+  const [ay,am,ad] = a.split('-').map(Number), [by,bm,bd] = b.split('-').map(Number);
+  return Math.round((Date.UTC(by,bm-1,bd) - Date.UTC(ay,am-1,ad)) / 86400000);
+}
+function synPuzzleNumber(dateStr){ return synDaysBetween(SYNAPSE_LAUNCH_DATE_ET, dateStr) + 1; }
+
+const GROUP_COLORS = [
+  { emoji:'🟨', cls:'syn-color-0' },
+  { emoji:'🟩', cls:'syn-color-1' },
+  { emoji:'🟦', cls:'syn-color-2' },
+  { emoji:'🟪', cls:'syn-color-3' }
+];
+
+// Offline safety net — used only if no sheet is connected yet, or today
+// has no matching set of 16 rows. Keeps the page from ever breaking.
+const SYNAPSE_FALLBACK = {
+  groups: [
+    { name: 'CRANIAL NERVES', words: ['VAGUS','TROCHLEAR','OLFACTORY','ABDUCENS'] },
+    { name: 'PARTS OF A NEURON', words: ['AXON','DENDRITE','SOMA','MYELIN'] },
+    { name: '___ LOBE', words: ['FRONTAL','PARIETAL','TEMPORAL','OCCIPITAL'] },
+    { name: 'NEUROTRANSMITTERS', words: ['DOPAMINE','SEROTONIN','GABA','GLUTAMATE'] }
+  ]
+};
+
+function synSeed(str){
+  let h = 0;
+  for(let i=0;i<str.length;i++){ h = (h<<5) - h + str.charCodeAt(i); h |= 0; }
+  return h;
+}
+function synMulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function synShuffle(arr, seed){
+  const rand = synMulberry32(seed);
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(rand() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+let state = {
+  puzzleDate: null, puzzleNum: 0, groups: [], tiles: [], selected: [],
+  solvedOrder: [], solvedByPlayer: 0, mistakes: 0, maxMistakes: 4,
+  guessHistory: [], gameOver: false, won: false
+};
+
+function synCompletionKey(){ return 'neurole_synapse_' + state.puzzleDate; }
+function synGetSaved(){
+  try{ const raw = localStorage.getItem(synCompletionKey()); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function synSaveCompletion(){
+  try{
+    localStorage.setItem(synCompletionKey(), JSON.stringify({
+      won: state.won, mistakes: state.mistakes, guessHistory: state.guessHistory,
+      solvedOrder: state.solvedOrder, solvedByPlayer: state.solvedByPlayer
+    }));
+  }catch(e){}
+  if(state.won) synExtendStreak();
+}
+
+const SYN_STREAK_KEY = 'neurole_synapse_streak';
+function synGetStreak(){
+  try{ return JSON.parse(localStorage.getItem(SYN_STREAK_KEY)) || {count:0,lastWonDate:null}; }
+  catch(e){ return {count:0,lastWonDate:null}; }
+}
+function synExtendStreak(){
+  const s = synGetStreak();
+  const today = state.puzzleDate;
+  const yEt = new Date(new Date(today+'T12:00:00Z').getTime() - 86400000);
+  const yesterday = yEt.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+  if(s.lastWonDate === today){ /* already counted today */ }
+  else if(s.lastWonDate === yesterday){ s.count += 1; s.lastWonDate = today; }
+  else { s.count = 1; s.lastWonDate = today; }
+  try{ localStorage.setItem(SYN_STREAK_KEY, JSON.stringify(s)); }catch(e){}
+  return s;
+}
+
+async function synLoadPuzzle(){
+  const today = synTodayET();
+  state.puzzleDate = today;
+  state.puzzleNum = synPuzzleNumber(today);
+  document.getElementById('syn-puzzle-num').textContent = 'Synapse #' + state.puzzleNum;
+  document.getElementById('syn-date').textContent =
+    new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+
+  let groups = null;
+  try{
+    const url = window.NEUROLE_CONFIG.SYNAPSE_SHEET_CSV;
+    if(url && !url.startsWith('PASTE_')){
+      const res = await fetch(url + (url.includes('?') ? '&' : '?') + '_cb=' + Date.now(), {cache:'no-store'});
+      if(res.ok){
+        const csvText = await res.text();
+        const rows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
+        if(rows.length > 1){
+          const header = rows[0].map(h => String(h).trim().toLowerCase());
+          const iDate = header.indexOf('date'), iGroup = header.indexOf('group'),
+                iName = header.indexOf('group_name'), iWord = header.indexOf('word');
+          if(iDate >= 0 && iGroup >= 0 && iName >= 0 && iWord >= 0){
+            const todays = rows.slice(1).filter(r => (r[iDate]||'').trim() === today);
+            if(todays.length === 16){
+              const byGroup = {};
+              todays.forEach(r => {
+                const g = parseInt(r[iGroup], 10);
+                if(!byGroup[g]) byGroup[g] = { name: (r[iName]||'').trim(), words: [] };
+                byGroup[g].words.push((r[iWord]||'').trim().toUpperCase());
+              });
+              const order = Object.keys(byGroup).map(Number).sort((a,b) => a-b);
+              if(order.length === 4 && order.every(g => byGroup[g].words.length === 4)){
+                groups = order.map(g => byGroup[g]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }catch(err){ console.warn('Synapse: sheet error —', err.message); }
+
+  if(!groups) groups = SYNAPSE_FALLBACK.groups;
+  state.groups = groups;
+
+  const tiles = [];
+  groups.forEach((g, gi) => g.words.forEach(w => tiles.push({ word: w, groupIdx: gi, solved: false })));
+  state.tiles = synShuffle(tiles, synSeed(today));
+
+  const saved = synGetSaved();
+  if(saved){
+    state.won = saved.won;
+    state.mistakes = saved.mistakes;
+    state.guessHistory = saved.guessHistory || [];
+    state.solvedOrder = saved.solvedOrder || [0,1,2,3];
+    state.solvedByPlayer = saved.solvedByPlayer || 0;
+    state.gameOver = true;
+    state.tiles.forEach(t => { if(state.solvedOrder.includes(t.groupIdx)) t.solved = true; });
+  }
+
+  synRender();
+  if(state.gameOver) synShowResult();
+}
+
+function synRender(){
+  const grid = document.getElementById('syn-grid');
+  grid.innerHTML = '';
+  state.tiles.filter(t => !t.solved).forEach(t => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'syn-tile' + (state.selected.includes(t) ? ' selected' : '');
+    btn.textContent = t.word;
+    btn.disabled = state.gameOver;
+    btn.addEventListener('click', () => synToggleTile(t));
+    grid.appendChild(btn);
+  });
+  document.getElementById('syn-submit').disabled = state.selected.length !== 4 || state.gameOver;
+  document.getElementById('syn-deselect').disabled = state.selected.length === 0 || state.gameOver;
+  document.getElementById('syn-shuffle').disabled = state.gameOver;
+  document.getElementById('syn-groups-left').textContent =
+    (4 - state.solvedOrder.length) + ' group' + (4 - state.solvedOrder.length === 1 ? '' : 's') + ' left';
+
+  const dots = document.querySelectorAll('#syn-mistake-dots span');
+  dots.forEach((d,i) => d.classList.toggle('used', i < state.mistakes));
+
+  const wrap = document.getElementById('syn-solved-rows');
+  wrap.innerHTML = '';
+  state.solvedOrder.forEach(gi => {
+    const row = document.createElement('div');
+    row.className = 'syn-solved-row ' + GROUP_COLORS[gi].cls;
+    const g = state.groups[gi];
+    row.innerHTML = '<span class="g-name">' + g.name + '</span><span class="g-words">' + g.words.join(' · ') + '</span>';
+    wrap.appendChild(row);
+  });
+}
+
+function synToggleTile(tile){
+  if(state.gameOver) return;
+  const idx = state.selected.indexOf(tile);
+  if(idx >= 0) state.selected.splice(idx, 1);
+  else if(state.selected.length < 4) state.selected.push(tile);
+  synRender();
+}
+
+let synToastTimer;
+function synToast(msg){
+  const el = document.getElementById('syn-toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(synToastTimer);
+  synToastTimer = setTimeout(() => el.classList.remove('show'), 1400);
+}
+
+function synShake(){
+  const grid = document.getElementById('syn-grid');
+  grid.classList.add('shake');
+  setTimeout(() => grid.classList.remove('shake'), 400);
+}
+
+function synSubmit(){
+  if(state.selected.length !== 4 || state.gameOver) return;
+  const groupIdxs = state.selected.map(t => t.groupIdx);
+  const allSame = groupIdxs.every(g => g === groupIdxs[0]);
+  state.guessHistory.push(groupIdxs.slice());
+
+  if(allSame){
+    const gi = groupIdxs[0];
+    state.selected.forEach(t => t.solved = true);
+    state.solvedOrder.push(gi);
+    state.solvedByPlayer++;
+    state.selected = [];
+    synToast('Found it — ' + state.groups[gi].name);
+    if(state.solvedOrder.length === 4) synFinish(true);
+    else synRender();
+  } else {
+    state.mistakes++;
+    const counts = {};
+    groupIdxs.forEach(g => counts[g] = (counts[g]||0) + 1);
+    const oneAway = Object.values(counts).some(c => c === 3);
+    synShake();
+    state.selected = [];
+    if(state.mistakes >= state.maxMistakes) synFinish(false);
+    else {
+      synRender();
+      synToast(oneAway ? 'One away…' : 'Not quite');
+    }
+  }
+}
+
+function synFinish(won){
+  state.gameOver = true;
+  state.won = won;
+  if(!won){
+    for(let gi=0; gi<4; gi++){
+      if(!state.solvedOrder.includes(gi)){
+        state.tiles.filter(t => t.groupIdx === gi).forEach(t => t.solved = true);
+        state.solvedOrder.push(gi);
+      }
+    }
+  }
+  synSaveCompletion();
+  synRender();
+  synShowResult();
+}
+
+function synShareText(){
+  const rows = state.guessHistory.map(g => g.map(gi => GROUP_COLORS[gi].emoji).join(''));
+  const status = state.won ? state.mistakes + '/4 mistakes' : 'X — didn’t finish';
+  return 'Synapse #' + state.puzzleNum + ' — ' + status + '\n' + rows.join('\n') + '\nhttps://neurole.org/synapse.html';
+}
+
+function synShowResult(){
+  const el = document.getElementById('syn-result');
+  el.style.display = 'block';
+  document.getElementById('syn-result-title').textContent = state.won
+    ? (state.mistakes === 0 ? 'Perfect — no mistakes!' : 'Solved it!')
+    : "Today's groups";
+  document.getElementById('syn-result-sub').textContent = state.won
+    ? ('You found all four groups in ' + state.guessHistory.length + ' guess' + (state.guessHistory.length===1?'':'es') + ' (' + state.mistakes + ' mistake' + (state.mistakes===1?'':'s') + ').')
+    : ('You found ' + state.solvedByPlayer + ' of 4 on your own — here’s the rest.');
+
+  const gridEl = document.getElementById('syn-result-grid');
+  gridEl.innerHTML = '';
+  state.guessHistory.forEach(guess => {
+    const row = document.createElement('div');
+    row.className = 'syn-share-row';
+    guess.forEach(gi => {
+      const sq = document.createElement('span');
+      sq.className = 'syn-share-sq ' + GROUP_COLORS[gi].cls;
+      row.appendChild(sq);
+    });
+    gridEl.appendChild(row);
+  });
+
+  if(state.won){
+    const streak = synGetStreak();
+    if(streak.count > 1){
+      const note = document.getElementById('syn-streak-note');
+      note.style.display = 'block';
+      note.textContent = '🔥 ' + streak.count + '-day streak';
+    }
+  }
+}
+
+document.getElementById('syn-shuffle').addEventListener('click', () => {
+  const seed = Math.floor(Math.random() * 1e9);
+  state.tiles = synShuffle(state.tiles, seed);
+  synRender();
+});
+document.getElementById('syn-deselect').addEventListener('click', () => {
+  state.selected = [];
+  synRender();
+});
+document.getElementById('syn-submit').addEventListener('click', synSubmit);
+document.getElementById('syn-share-btn').addEventListener('click', () => {
+  const text = synShareText();
+  const done = () => synToast('Copied to clipboard!');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(() => synFallbackCopy(text, done));
+  } else {
+    synFallbackCopy(text, done);
+  }
+});
+function synFallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){}
+  ta.remove();
+}
+
+synLoadPuzzle();
+</script>
+</body>
+</html>

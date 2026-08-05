@@ -93,11 +93,43 @@ function initSignIn(){
   const triggers = document.querySelectorAll('[data-signin]');
   const backdrop = document.getElementById('signin-modal');
   if(!triggers.length || !backdrop) return;
+  const modalBox = backdrop.querySelector('.modal');
   const closeEls = backdrop.querySelectorAll('[data-close]');
+  const originalModalHTML = modalBox ? modalBox.innerHTML : '';
+
+  function showAccountPanel(){
+    if(!modalBox) return;
+    modalBox.innerHTML = `
+      <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:26px;">Neurole</div>
+      <p style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 4px;">Signed in as</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 24px;word-break:break-word;">${googleSignInState.email}</p>
+      <button type="button" id="signout-btn" class="btn ghost" style="width:100%;justify-content:center;">Sign Out</button>
+    `;
+    modalBox.querySelector('[data-close]').addEventListener('click', () => backdrop.classList.remove('open'));
+    modalBox.querySelector('#signout-btn').addEventListener('click', () => {
+      clearSignInState();
+      googleSignInState = { signedIn:false, name:'', email:'' };
+      updateSignInTriggers();
+      backdrop.classList.remove('open');
+      if(modalBox) modalBox.innerHTML = originalModalHTML;
+      initSignInFormHandlers();
+    });
+  }
+
+  function initSignInFormHandlers(){
+    const closeEls2 = backdrop.querySelectorAll('[data-close]');
+    closeEls2.forEach(el => el.addEventListener('click', () => backdrop.classList.remove('open')));
+  }
+
   triggers.forEach(trigger => {
     trigger.addEventListener('click', e => {
       e.preventDefault();
       backdrop.classList.add('open');
+      if(googleSignInState.signedIn){
+        showAccountPanel();
+        return;
+      }
       renderGoogleSignIn('signin-google-container', () => {
         backdrop.classList.remove('open');
         const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
@@ -239,6 +271,35 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
 
   const answer = await askNeuroleAIRaw(prompt);
   return answer || `I can't reach an AI provider right now — but here's what I know: ${function_text}`;
+}
+
+// Explains, in 2-3 sentences, what a wrong guess actually is and how it
+// differs from the real answer — used by The Daily Case after each
+// incorrect guess. Generated live rather than pre-written, since we can't
+// pre-author a factual blurb for every possible free-text guess a player
+// might type.
+async function explainWrongGuess(guess, correctAnswer){
+  const prompt = `You are a neurology tutor inside an educational diagnostic game called Neurole.
+A player is trying to diagnose a clinical case. The correct diagnosis is "${correctAnswer}", but the player just guessed "${guess}", which is incorrect.
+
+In exactly 2-3 sentences, briefly explain what "${guess}" actually is (its key features), and why it doesn't fit this case as well as the real answer would. Do not reveal the correct answer's name in your response — only describe the guessed condition. Keep it factual, plain-language, and suitable for a pre-med or nursing student. If "${guess}" isn't a real recognizable medical condition, briefly say so instead.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || null;
+}
+
+// Explains, for Map the Brain's Region mode, both why the player's chosen
+// region was wrong AND why the correct region is actually correct —
+// generated live since we don't have canned distractor explanations for
+// every possible wrong choice on every question.
+async function explainWrongRegionChoice(wrongChoice, correctRegion, correctFunctionText){
+  const prompt = `You are a neuroanatomy tutor inside an educational game called Neurole.
+A player looked at a labeled brain image and was asked to identify the highlighted region. The correct answer is "${correctRegion}" (${correctFunctionText || 'a region of the brain'}), but the player instead picked "${wrongChoice}", which is incorrect.
+
+In exactly 2-3 sentences, explain (a) briefly what/where "${wrongChoice}" actually is and why it's not the region shown here, and (b) why "${correctRegion}" is the correct answer instead. Keep it factual, plain-language, and suitable for a pre-med or nursing student.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || null;
 }
 
 // ---------- Google Sign-In (shared across all pages) ----------
@@ -420,9 +481,18 @@ function initChatFabInteraction(){
       fab.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
     });
 
-    fab.addEventListener('mouseenter', () => {
+    fab.addEventListener('mouseenter', e => {
       clearTimeout(lingerTimer);
       lingerTimer = setTimeout(() => fab.classList.add('linger'), LINGER_DELAY);
+      // Ripple/wave that expands outward from exactly where the cursor entered
+      const rect = fab.getBoundingClientRect();
+      const relX = e.clientX - rect.left, relY = e.clientY - rect.top;
+      const ripple = document.createElement('span');
+      ripple.className = 'fab-ripple';
+      ripple.style.left = relX + 'px';
+      ripple.style.top = relY + 'px';
+      fab.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
     });
 
     fab.addEventListener('mouseleave', () => {
@@ -442,7 +512,7 @@ function initScrollPurple(){
   function applyTint(){
     const scrolled = window.scrollY;
     const maxScroll = document.body.scrollHeight - window.innerHeight;
-    const progress = maxScroll <= 0 ? 0 : Math.max(0, (scrolled / maxScroll - 0.6) / 0.4);
+    const progress = maxScroll <= 0 ? 0 : Math.max(0, Math.min(1, (scrolled / maxScroll - 0.25) / 0.55));
     const dark = document.documentElement.dataset.theme === 'dark';
     const start = dark ? [17,18,23] : [248,249,250];
     const end = dark ? [36,26,61] : [229,220,245];

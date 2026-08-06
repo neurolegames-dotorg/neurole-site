@@ -26,29 +26,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://neurole.org/neuroanatomy.html">
 <meta property="og:title" content="Map the Brain — Neurole">
 <meta property="og:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
-<meta property="og:image" content="https://neurole.org//neurole-logo.png">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Map the Brain — Neurole">
 <meta name="twitter:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
-<meta name="twitter:image" content="https://neurole.org//neurole-logo.png">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="https://neurole.org/neuroanatomy.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/mtb-favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/mtb-favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/mtb-favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mtb-apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Map the Brain — Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=127">
+<link rel="stylesheet" href="style.css?v=143">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -117,22 +117,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transform:translateX(3px);
   }
   .choice-btn.correct{
-    background:rgba(92,181,124,.15),rgba(92,181,124,.08)) !important;
+    background:#E7F1EC !important;
     border-color:#5CB57C !important;color:var(--ink) !important;
   }
   .choice-btn.wrong{
-    background:rgba(168,68,58,.1),rgba(168,68,58,.05)) !important;
+    background:#F5E4E1 !important;
     border-color:var(--signal-red) !important;
   }
-  .choice-letter{
-    font-family:var(--game-font) !important;font-size:12px !important;font-weight:800;
-    width:26px !important;height:26px !important;line-height:26px !important;left:12px !important;
-    border-radius:8px !important;
-    background:var(--paper-deep) !important;
-    color:var(--ink) !important;
-  }
-  .choice-btn.correct .choice-letter{background:#5CB57C !important;color:#fff !important;}
-  .choice-btn.wrong .choice-letter{background:var(--signal-red) !important;color:#fff !important;}
 
   /* Next button */
   .next-row{margin-top:20px;}
@@ -180,7 +171,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:32px 24px 60px;
     text-align:center;
   }
-  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   /* iOS Safari auto-colours links/text blue inside certain containers — override all */
   .start-screen *{color:var(--ink);}
   .start-screen h1{color:var(--ink) !important;}
@@ -271,7 +262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .category-row{gap:5px !important;}
     .category-btn{font-size:10.5px !important;padding:7px 9px !important;}
     .start-actions-stacked .btn{width:100% !important;}
-    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .specimen img{height:200px;width:100%;object-fit:contain;}
     .choices{gap:8px !important;}
     .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
     .game-stats-bar{flex-wrap:wrap;gap:6px;padding-bottom:10px;}
@@ -330,13 +321,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .specimen img{
     width:100%;
-    max-height:240px;
+    height:240px;
     object-fit:contain;
     background:var(--paper-deep);
     display:block;
   }
   @media(max-width:480px){
-    .specimen img{max-height:180px;}
+    .specimen img{height:200px;}
     .specimen{padding:10px;}
   }
   .specimen .cap{
@@ -364,11 +355,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--ink-soft);font-family:var(--mono);font-size:11px;font-weight:600;
     display:flex;align-items:center;justify-content:center;
   }
+  .choice-btn.correct::before{background:#5CB57C !important;border-color:#5CB57C !important;color:#fff !important;}
+  .choice-btn.wrong::before{background:var(--signal-red) !important;border-color:var(--signal-red) !important;color:#fff !important;}
   .choice-btn:hover{background:var(--paper-deep);border-color:var(--neuro-blue);transform:translateX(2px);}
-  .choice-btn.correct{background:#E7F1EC;border-color:#5C8C72;}
-  .choice-btn.correct::before{background:#5C8C72;border-color:#5C8C72;color:#fff;}
-  .choice-btn.incorrect{background:#F5E4E1;border-color:var(--signal-red);}
-  .choice-btn.incorrect::before{background:var(--signal-red);border-color:var(--signal-red);color:#fff;}
   .choice-btn:disabled{cursor:default;}
 
   .next-row{display:flex;justify-content:flex-end;margin-top:18px;}
@@ -380,15 +369,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
-    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    height:52px;padding:0 24px 0 20px;border-radius:999px;
     background:var(--neuro-blue-deep);color:#fff;
     border:none;display:none;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    box-shadow:0 8px 24px rgba(122,95,175,.35), 0 2px 8px rgba(0,0,0,.12);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
   .chat-fab.show{display:flex;}
-  .chat-fab:hover{background:var(--plum);}
+  .chat-fab:hover{background:var(--plum);box-shadow:0 10px 28px rgba(122,95,175,.45), 0 2px 8px rgba(0,0,0,.14);}
 
   .learn-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
@@ -406,9 +395,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-log{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
   .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
   @media(max-width:480px){
     /* Start screen — iPhone */
     .start-screen{padding:50px 16px 40px !important;}
@@ -426,11 +415,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* Game area — iPhone */
     main.game-shell{max-width:100% !important;padding:8px 0 50px !important;}
     .specimen{padding:8px !important;border:none !important;background:transparent !important;}
-    .specimen img{max-height:200px;width:100%;object-fit:contain;}
+    .specimen img{height:200px;width:100%;object-fit:contain;}
     .cap{font-size:13px !important;}
     .choices{gap:8px !important;}
     .choice-btn{font-size:13px !important;padding:10px 10px 10px 36px !important;}
-    .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
     .game-stats-bar{padding:0 4px 10px;}
     .score-tag,.score-pill{font-size:10.5px !important;}
     .difficulty-badge{font-size:10px !important;}
@@ -499,11 +487,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .score-tag,.score-pill{font-size:10.5px !important;}
   .difficulty-badge{font-size:10px !important;}
   .specimen{border:none !important;background:transparent !important;padding:6px 0 !important;}
-  .specimen img{max-height:210px !important;width:100% !important;object-fit:contain !important;}
+  .specimen img{height:210px !important;width:100% !important;object-fit:contain !important;}
   .cap{font-size:13px !important;}
   .choices{gap:8px !important;}
   .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
-  .choice-letter{width:22px !important;height:22px !important;font-size:11px !important;line-height:22px !important;left:8px !important;}
 
   /* AI — ALWAYS bottom-sheet popup on iPhone, never side panel */
   body.ai-panel-open #game-split-container{display:block !important;}
@@ -567,21 +554,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @keyframes questionFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .specimen,.choices{animation:questionFade .3s ease;}
 
-
-  /* Fun color accents on choice letters */
-  .choice-btn:nth-child(1) .choice-letter{ background:rgba(168,68,58,.12) !important; color:#8B2635 !important; }
-  .choice-btn:nth-child(2) .choice-letter{ background:rgba(107,79,148,.12) !important; color:var(--neuro-blue-deep) !important; }
-  .choice-btn:nth-child(3) .choice-letter{ background:rgba(92,181,124,.14) !important; color:#3d8a5e !important; }
-  .choice-btn:nth-child(4) .choice-letter{ background:rgba(64,145,212,.12) !important; color:#2a6a9e !important; }
-  .choice-btn:nth-child(1):hover:not(:disabled){ border-color:rgba(168,68,58,.3) !important; }
-  .choice-btn:nth-child(2):hover:not(:disabled){ border-color:rgba(107,79,148,.3) !important; }
-  .choice-btn:nth-child(3):hover:not(:disabled){ border-color:rgba(92,181,124,.3) !important; }
-  .choice-btn:nth-child(4):hover:not(:disabled){ border-color:rgba(64,145,212,.3) !important; }
-
   /* Mobile: fix padding on choice buttons */
   @media(max-width:480px){
     .choice-btn{ padding:14px 14px 14px 56px !important; font-size:14px !important; }
-    .choice-letter{ left:14px !important; width:28px !important; height:28px !important; }
   }
 
 </style>
@@ -601,7 +576,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "inLanguage": "en"
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <script>
@@ -631,19 +606,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
-    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
-    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
-    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+    <li><a href="daily-game.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="daily-case-icon.png" alt=""></span>The Daily Case</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="neuroanatomy.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="map-brain-icon.png" alt=""></span>Map the Brain</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="synapse.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="synapse-icon.png" alt=""></span>The Synapse</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="archive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C9982F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg></span>Case Archive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="interactive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A6EA5;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></span>Interactive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#5C5C66;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.6" fill="#fff" stroke="none"/></svg></span>About</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#B8577A;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Join Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C1543F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>Donate</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="contact.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A8A82;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>Contact Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin><span class="nav-item-left"><span class="nav-item-icon" style="background:#2B2B38;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>Sign In</span> <span class="nav-arrow">›</span></button></li>
   </ul>
-</div>
-
-<div class="page-hero">
-  <div class="wrap">
-    <h1>Map the Brain</h1>
-    <p>An image appears. Pick the region from four choices. Then learn what it actually does — and ask follow-up questions.</p>
-  </div>
 </div>
 
 <main class="wrap game-shell">
@@ -652,25 +625,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;z-index:10;margin-bottom:0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Home
     </a>
+    <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+    </button>
     <div class="start-screen-inner" style="max-width:460px;padding-top:10px;">
 
       <!-- Logo + title -->
       <div class="start-logo">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
-          <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
-          <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>
-          <path d="M9 12h6M9 8h2M13 8h2M9 16h2M13 16h2"/>
-        </svg>
+        <img src="map-brain-icon.png" alt="Map the Brain" width="56" height="56" style="object-fit:contain;">
       </div>
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
       <p style="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
-
-      <!-- Stat pills -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;">
-        <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(145,118,184,.14);color:var(--neuro-blue-deep);padding:5px 13px;border-radius:20px;">🧠 45+ regions</span>
-        <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(145,118,184,.14);color:var(--neuro-blue-deep);padding:5px 13px;border-radius:20px;">🤖 AI tutor</span>
-        <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(145,118,184,.14);color:var(--neuro-blue-deep);padding:5px 13px;border-radius:20px;">✓ Free</span>
-      </div>
 
       <!-- Difficulty -->
       <div style="width:100%;text-align:left;margin-bottom:8px;">
@@ -680,6 +645,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button class="category-btn" data-difficulty="Easy">Easy</button>
           <button class="category-btn" data-difficulty="Medium">Medium</button>
           <button class="category-btn" data-difficulty="Hard">Hard</button>
+        </div>
+      </div>
+
+      <!-- Question type -->
+      <div style="width:100%;text-align:left;margin:14px 0 8px;">
+        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
+        <div class="category-row" id="question-type-row">
+          <button class="category-btn active" data-qtype="region">Name the Region</button>
+          <button class="category-btn" data-qtype="function">Name from Function</button>
+          <button class="category-btn" data-qtype="mixed">Mixed</button>
         </div>
       </div>
 
@@ -741,6 +716,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
+      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin:22px 0 0;line-height:1.6;max-width:320px;">For education only. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
     </div>
   </div>
 
@@ -763,9 +739,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                  decoding="async" fetchpriority="high"
                  onerror="console.error('Neurole: image failed ->', this.src);"
                  onload="console.log('Neurole: image loaded ->', this.src);">
-            <p class="cap">Which region is highlighted?</p>
+            <p class="cap" id="specimen-cap">Which region is highlighted?</p>
           </div>
           <div class="choices" id="choices"></div>
+          <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:8px;">
+            <p id="wrong-explain-label" style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why</p>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink);"><strong id="wrong-explain-region"></strong> <span id="wrong-explain-text"></span></p>
+          </div>
           <div class="next-row">
             <button class="btn ghost" id="next-btn" style="display:none;">Next region →</button>
           </div>
@@ -778,6 +758,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <h4 id="learn-title">Region</h4>
               <button class="close" id="learn-close" style="position:static;">✕</button>
             </div>
+            <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated — may be inaccurate.</p>
             <div class="learn-body">
               <p id="learn-function">—</p>
               <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
@@ -805,12 +786,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="rmodal-hero">
-      <div class="rmodal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-          <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
-        </svg>
+      <div class="rmodal-icon" style="background:#fff;">
+        <img src="map-brain-icon.png" alt="Map the Brain" width="40" height="40" style="object-fit:contain;">
       </div>
       <h3 id="neuro-result-headline" class="rmodal-headline"></h3>
       <p id="neuro-result-stats" class="rmodal-sub"></p>
@@ -853,13 +830,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="rmodal-section-label">Play Today's Games</p>
       <div class="rmodal-games-grid">
         <a href="daily-game.html" class="rmodal-game-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
-          </svg>
+          <img src="daily-case-icon.png" alt="" width="22" height="24" style="object-fit:contain;margin-bottom:10px;">
           <div class="rmodal-game-title">The Daily Case</div>
           <div class="rmodal-game-sub">Diagnose the case</div>
         </a>
-        <a href="archive.html" class="rmodal-game-card">
+        <a href="archive.html" class="rmodal-game-card rmodal-game-neutral">
           <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
           </svg>
@@ -877,18 +852,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="ai-mobile-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:20px;">
   <div id="ai-mobile-panel" style="background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.25);">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);">
-      <h4 id="ai-mobile-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0;">Region</h4>
-      <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+      <div>
+        <p style="font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#75747A;margin:0 0 3px;">Correct Answer</p>
+        <h4 id="ai-mobile-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0;color:#16171A;">Region</h4>
+      </div>
+      <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:#75747A;">✕</button>
     </div>
+    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:#75747A;opacity:.8;padding:8px 18px 0;margin:0;">AI-generated — may be inaccurate.</p>
     <div style="flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch;">
-      <p id="ai-mobile-function" style="color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
+      <p id="ai-mobile-function" style="color:#4A4A52;font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
       <div style="border-top:1px solid var(--rule);padding-top:12px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 0 10px;">Ask the AI</p>
+        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#75747A;margin:0 0 10px;">Ask the AI</p>
         <div id="ai-mobile-chat" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
       </div>
     </div>
     <form id="ai-mobile-form" style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--rule);">
-      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Outfit',sans-serif;">
+      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Outfit',sans-serif;background:#fff;color:#16171A;">
       <button class="btn" type="submit" style="height:38px;padding:0 14px;font-size:13px;border-radius:8px;">Ask</button>
     </form>
   </div>
@@ -903,6 +882,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer id="footer-contact">
   <div class="wrap">
+    <!-- About + columns -->
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Games</p>
+        <a href="daily-game.html" style="display:flex;align-items:center;gap:6px;"><img src="daily-case-icon.png" alt="" width="14" height="15" style="object-fit:contain;">The Daily Case</a>
+        <a href="neuroanatomy.html" style="display:flex;align-items:center;gap:6px;"><img src="map-brain-icon.png" alt="" width="14" height="14" style="object-fit:contain;">Map the Brain</a>
+        <a href="synapse.html" style="display:flex;align-items:center;gap:6px;"><img src="synapse-icon.png" alt="" width="14" height="14" style="object-fit:contain;">The Synapse</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Get Involved</p>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
+        <a href="mailto:neurolegames@gmail.com">Contact Us</a>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Learn More</p>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+
     <!-- Footer nav links -->
     <div class="social-row">
       <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
@@ -915,13 +928,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
       </a>
     </div>
-    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
-    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
-      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Contact Us</a>
-      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">About</a>
-      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Donate</a>
-      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;line-height:1.2;">Subscribe</a>
-    </div>
+    <p class="footer-fine">© 2026 Neurole. Games about your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
   </div>
 </footer>
 
@@ -946,8 +953,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<script src="config.js?v=130"></script>
-<script src="script.js?v=130"></script>
+<script src="config.js?v=136"></script>
+<script src="script.js?v=136"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -985,7 +992,9 @@ let current = null;
 let answered = false;
 let correctCount = 0;
 let roundResults = [];
+let regionExplainToken = 0;
 let selectedCategory = 'Random';
+let selectedQuestionType = 'region';
 let selectedDifficulty = 'all';
 let bankLoading = false;
 let bankReady = false;
@@ -1096,6 +1105,14 @@ document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
   });
 });
 
+document.querySelectorAll('.category-btn[data-qtype]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.category-btn[data-qtype]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedQuestionType = btn.dataset.qtype;
+  });
+});
+
 async function startRound(countOption){
   // Wait for bank to load if it hasn't yet
   if(!bankReady){
@@ -1129,13 +1146,26 @@ async function startRound(countOption){
     ? bank.length
     : Math.min(parseInt(countOption, 10), bank.length);
 
-  qBank = shuffle(bank).slice(0, total);
+  // For function-based questions we need rows that actually have a
+  // function_text to quiz on — fall back to the full bank if too few do.
+  let modeBank = bank;
+  if(selectedQuestionType !== 'region'){
+    const withFunction = bank.filter(row => (findField(row,'function_text') || '').trim());
+    if(withFunction.length >= Math.min(4, total)) modeBank = withFunction;
+  }
+
+  qBank = shuffle(modeBank).slice(0, total).map(q => {
+    const qMode = selectedQuestionType === 'mixed'
+      ? (Math.random() < 0.5 ? 'region' : 'function')
+      : selectedQuestionType;
+    return Object.assign({}, q, { qMode });
+  });
   qIndex = 0;
   correctCount = 0;
   roundResults = [];
 
   // Save game state so refresh restores the game, not the start screen
-  const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption };
+  const savedState = { difficulty: selectedDifficulty, category: selectedCategory, count: countOption, questionType: selectedQuestionType };
   try{ sessionStorage.setItem('neurole_game_session', JSON.stringify(savedState)); }catch(e){}
   history.replaceState(null, '', '#playing');
 
@@ -1201,7 +1231,10 @@ function showQuestion(){
   const imgUrl = getQuestionImageUrl(current);
   const specimenEl = document.getElementById('specimen');
   const imgEl = document.getElementById('specimen-img');
+  const capEl = document.getElementById('specimen-cap');
 
+  if(capEl) capEl.textContent = 'Which region is highlighted?';
+  imgEl.style.display = '';
   // If this image isn't cached yet, show a loading state instead of a slow pop-in
   const cached = preloadedImageCache[imgUrl];
   const isReady = cached && cached._resolved;
@@ -1234,14 +1267,55 @@ function showQuestion(){
   document.getElementById('next-btn').style.display = 'none';
   document.getElementById('learn-fab').classList.remove('show');
   document.getElementById('ai-col').style.display='none'; document.body.classList.remove('ai-panel-open');
+  const wrongExplainReset = document.getElementById('wrong-explain');
+  if(wrongExplainReset) wrongExplainReset.style.display = 'none';
+  regionExplainToken++;
 
-  // Build the 4 choices as {text, isCorrect} objects, then shuffle their
-  // display order so the correct answer isn't always in the same slot.
-  const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
-  const rawChoices = ['a','b','c','d'].map(letter => ({
-    text: findField(current, 'choice_' + letter),
-    isCorrect: letter.toUpperCase() === correctLetter
-  }));
+  // Build the 4 choices as {text, isCorrect} objects.
+  // Function mode reads from columns headed "Function A", "Function B",
+  // "Function C", "Function D", with the right one named in the "Correct"
+  // column (containing literally "A", "B", "C", or "D").
+  // Region mode reads from choice_a-d / correct_choice as before.
+  const isFunctionMode = current.qMode === 'function';
+  let rawChoices;
+  if(isFunctionMode){
+    // Try a few reasonable header-name variants for the correct-answer
+    // column, in case it isn't spelled exactly "Correct" in the sheet.
+    let rawCorrect = findField(current,'Correct') || findField(current,'Correct Choice')
+      || findField(current,'Correct Answer') || findField(current,'correct_choice') || '';
+    let correctLetter = rawCorrect.trim().toUpperCase().replace(/[^A-D]/g, '');
+    // Last resort: scan every column in this row for one whose value is
+    // literally just "A", "B", "C", or "D" on its own (ignoring the
+    // Function A-D columns themselves, whose values are full sentences).
+    if(!correctLetter){
+      for(const key in current){
+        if(/^function/i.test(key)) continue;
+        const val = String(current[key] || '').trim().toUpperCase();
+        if(val === 'A' || val === 'B' || val === 'C' || val === 'D'){
+          correctLetter = val;
+          console.warn('Neurole: Function mode — found correct-answer letter "' + val + '" in column "' + key + '" (not "Correct" as expected). Consider renaming that header to "Correct" to avoid relying on this fallback.');
+          break;
+        }
+      }
+    }
+    if(!correctLetter) console.warn('Neurole: Function mode — no correct-answer letter found anywhere in this row. Row data:', current);
+    rawChoices = ['A','B','C','D'].map(letter => ({
+      text: findField(current, 'Function ' + letter) || '',
+      isCorrect: letter === correctLetter
+    }));
+  } else {
+    // correct_choice most likely contains a plain "A"/"B"/"C"/"D" matching
+    // choice_a-d directly. Also accept "K"/"L"/"M"/"N" (the sheet's own
+    // column letters) as a fallback, in case that convention is used
+    // instead — either way the right answer gets matched correctly.
+    const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
+    const plainLetterMap = { a:'A', b:'B', c:'C', d:'D' };
+    const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
+    rawChoices = ['a','b','c','d'].map(letter => ({
+      text: findField(current, 'choice_' + letter) || '',
+      isCorrect: plainLetterMap[letter] === correctLetter || columnLetterMap[letter] === correctLetter
+    }));
+  }
   const shuffledChoices = shuffle(rawChoices);
 
   const choices = document.getElementById('choices');
@@ -1292,6 +1366,38 @@ function selectChoice(btn){
   document.getElementById('learn-function').textContent = findField(current,'function_text');
   document.getElementById('chat-log').innerHTML = '';
   document.getElementById('learn-fab').classList.add('show');
+
+  const wrongExplain = document.getElementById('wrong-explain');
+  const wrongExplainLabel = document.getElementById('wrong-explain-label');
+  if(wrongExplain){
+    const explanationText = findField(current,'function_text') || '';
+    if(current.qMode === 'function'){
+      if(wrongExplainLabel) wrongExplainLabel.textContent = 'Which region?';
+      document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+      document.getElementById('wrong-explain-text').textContent = explanationText;
+      wrongExplain.style.display = 'block';
+    } else {
+      if(wrongExplainLabel) wrongExplainLabel.textContent = 'Why';
+      if(gotItRight){
+        document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+        document.getElementById('wrong-explain-text').textContent = explanationText;
+        wrongExplain.style.display = 'block';
+      } else {
+        // Live AI explanation covering both why your pick was wrong and
+        // why the correct region is right — no canned data exists for
+        // every possible wrong choice, so this is generated on the spot.
+        document.getElementById('wrong-explain-region').textContent = correctText + ' —';
+        document.getElementById('wrong-explain-text').textContent = 'Thinking…';
+        wrongExplain.style.display = 'block';
+        const myToken = ++regionExplainToken;
+        const wrongChoiceText = btn.textContent;
+        explainWrongRegionChoice(wrongChoiceText, correctText, explanationText).then(result => {
+          if(myToken !== regionExplainToken) return; // a newer question has since loaded
+          document.getElementById('wrong-explain-text').textContent = result || explanationText || '';
+        });
+      }
+    }
+  }
 }
 
 function recordMTBPlay(){
@@ -1443,7 +1549,7 @@ document.getElementById('ai-mobile-form').addEventListener('submit', async e => 
   u.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:8px;align-self:flex-end;max-width:85%;";
   u.textContent=q; chat.appendChild(u); input.value='';
   const a = document.createElement('div');
-  a.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);padding:6px 0;";
+  a.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;color:#4A4A52;padding:6px 0;";
   a.textContent='…'; chat.appendChild(a);
   const title = document.getElementById('ai-mobile-title').textContent;
   const func  = document.getElementById('ai-mobile-function').textContent;
@@ -1582,11 +1688,14 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
   const params = new URLSearchParams(location.search);
   selectedCategory = params.get('category') || 'Random';
   selectedDifficulty = params.get('difficulty') || 'all';
+  selectedQuestionType = params.get('questionType') || 'region';
   const count = params.get('count') || '10';
   document.querySelectorAll('.category-btn[data-difficulty]').forEach(b=>
     b.classList.toggle('active', b.dataset.difficulty===selectedDifficulty));
   document.querySelectorAll('.category-btn[data-category]').forEach(b=>
     b.classList.toggle('active', b.dataset.category===selectedCategory));
+  document.querySelectorAll('.category-btn[data-qtype]').forEach(b=>
+    b.classList.toggle('active', b.dataset.qtype===selectedQuestionType));
   let tries = 0;
   while(!bankReady && tries++ < 40) await new Promise(r=>setTimeout(r,250));
   startRound(count);
@@ -1594,6 +1703,60 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 
 </script>
 <!-- Subscribe modal -->
+<!-- How to Play slide-out panel -->
+<div class="htp-backdrop" id="htp-backdrop">
+  <div class="htp-panel" id="htp-panel">
+    <button class="htp-close" id="htp-close" aria-label="Close">✕</button>
+    <div class="htp-brand"><img src="map-brain-icon.png" alt="" width="28" height="28" style="object-fit:contain;"><span>Map the Brain</span></div>
+    <div class="htp-section">
+      <p class="htp-section-title">How to Play</p>
+      <p class="htp-line">An image appears with one region highlighted.</p>
+      <p class="htp-line">Pick the correct region from four choices.</p>
+      <p class="htp-line">Get it right, then ask the built-in tutor what that region actually does — and what happens when it's damaged.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Modes</p>
+      <p class="htp-line"><strong>Region</strong> — identify the highlighted region.</p>
+      <p class="htp-line"><strong>Function</strong> — same image, but you're scored on what it does.</p>
+    </div>
+    <div class="htp-section">
+      <p class="htp-section-title">Tips</p>
+      <p class="htp-line">Start with "Easy" difficulty if you're new to neuroanatomy.</p>
+      <p class="htp-line">Every wrong answer gets explained — read it before moving on.</p>
+    </div>
+  </div>
+</div>
+<style>
+.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop.open{display:block;opacity:1;}
+.htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
+  background:var(--paper);z-index:200;
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
+  overflow-y:auto;padding:26px 26px 40px;
+}
+.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
+.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
+.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-section{margin-bottom:24px;}
+.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById('how-to-play-btn');
+  var backdrop = document.getElementById('htp-backdrop');
+  var close = document.getElementById('htp-close');
+  if(!btn || !backdrop) return;
+  btn.addEventListener('click', function(){ backdrop.classList.add('open'); });
+  close.addEventListener('click', function(){ backdrop.classList.remove('open'); });
+  backdrop.addEventListener('click', function(e){ if(e.target === backdrop) backdrop.classList.remove('open'); });
+})();
+</script>
+
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">

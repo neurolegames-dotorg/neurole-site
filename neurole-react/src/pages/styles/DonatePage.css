@@ -1,3 +1,4 @@
+
 .donate-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:780px;}
 @media(max-width:580px){.donate-grid{grid-template-columns:1fr;}}
 .neurole-donate-card{
@@ -15,9 +16,4 @@
 .alz-card{border-left:5px solid #0057A8;}
 .alz-card h3{color:#0057A8;}
 .alz-card .btn{background:#0057A8 !important;}
-/* These two were inline style="background:… !important" on the original buttons.
-   React's style prop strips !important, so the dark-mode .btn rule would override
-   them — restore via id-scoped rules (id beats the dark .btn rule). */
-#neurole-donate-btn{background:#8B2635 !important;}
-#hfc-donate-btn{background:#E8474C !important;}
 @media(max-width:480px){.donate-card .btn{width:100%;justify-content:center;}}

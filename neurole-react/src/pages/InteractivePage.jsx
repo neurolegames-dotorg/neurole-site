@@ -1,5 +1,6 @@
 import pageStyle from './styles/InteractivePage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -32,6 +33,11 @@ const STAGES = [
 
 export default function InteractivePage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Interactive (Beta) — Neurole",
+    description: "Neurole is a free educational neuroscience games platform built for students, clinicians, and curious minds worldwide.",
+    canonical: "/interactive",
+  });
   const [stage, setStage] = useState(0)
   const scrollerRef = useRef(null)
 

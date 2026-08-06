@@ -1,12 +1,14 @@
 import pageStyle from './styles/DailyGamePlayPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useChatFab } from '../hooks/useChatFab';
+import Portal from '../components/Portal';
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { NEURO_DISORDERS, FALLBACK_CASES } from '../games-data'
 import {
   parseCSV, getDayIndex, dateStrForDayIndex,
   checkAnswer, findClosestKnownDisorder,
-  startCountdown, getDisorderCategory, askNeuroleAIRaw,
+  startCountdown, getDisorderCategory, askNeuroleAIRaw, explainWrongGuess,
   getSavedDailyCompletionForIndex, saveDailyCompletionForIndex, getDailyStats,
   submitGlobalDailyResult, fetchGlobalDailyDistribution,
   renderGoogleSignIn
@@ -27,7 +29,7 @@ export default function DailyGamePlayPage() {
   const isArchive = dayIndex !== todayIndex
 
   const [gameState, setGameState] = useState({
-    symptoms: [], answer: '', synonyms: [], explanation: '',
+    symptoms: [], answer: '', synonyms: [], explanation: '', author: '',
     shown: 1, attemptsUsed: 0, guesses: [], solved: false, alreadyCompletedToday: false
   })
   const [inputValue, setInputValue] = useState('')
@@ -49,9 +51,14 @@ export default function DailyGamePlayPage() {
   const [shakeForm, setShakeForm] = useState(false)
   const [noCase, setNoCase] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [resultTab, setResultTab] = useState('dist')
+  // Live-generated note on what the last wrong guess actually is.
+  const [guessExplain, setGuessExplain] = useState(null)
 
   const gameStateRef = useRef(gameState)
   gameStateRef.current = gameState
+  const guessExplainTokenRef = useRef(0)
+  const fabRef = useChatFab()
 
   const loadCase = useCallback(async () => {
     try {
@@ -78,7 +85,7 @@ export default function DailyGamePlayPage() {
 
     let chosen = null
     let sheetReached = false
-    let symptoms = [], answer = '', synonyms = [], explanation = ''
+    let symptoms = [], answer = '', synonyms = [], explanation = '', author = ''
 
     try {
       let csvText = null
@@ -119,6 +126,8 @@ export default function DailyGamePlayPage() {
           answer = (row[6] || '').trim()
           synonyms = (row[7] || '').split(/[;,]/).map(s => s.trim().toLowerCase()).filter(Boolean)
           explanation = (row[8] || '').trim()
+          // col 9 = author, added to the sheet layout upstream
+          author = (row[9] || '').trim()
           if (symptoms.length > 0 && answer) chosen = true
         }
       }
@@ -148,23 +157,24 @@ export default function DailyGamePlayPage() {
 
     const saved = getSavedDailyCompletionForIndex(dayIndex)
     let newState = {
-      symptoms, answer, synonyms, explanation,
+      symptoms, answer, synonyms, explanation, author,
       shown: 1, attemptsUsed: 0, guesses: [], solved: false, alreadyCompletedToday: false
     }
 
     if (saved) {
       newState.answer = saved.answer
       newState.explanation = saved.explanation
+      newState.author = saved.author || author
       newState.attemptsUsed = saved.attemptsUsed
       newState.solved = saved.won
       newState.shown = symptoms.length
       newState.alreadyCompletedToday = true
-      if (saved.won) {
-        setWon(true)
-        setResultModalOpen(true)
-        if (!isArchive) {
-          submitGlobalDailyResult(dateStrForDayIndex(dayIndex), saved.attemptsUsed)
-        }
+      // Coming back to a finished case (back button, reload, revisit) lands
+      // straight on the result popup — win or lose, matching the static site.
+      setWon(saved.won)
+      setResultModalOpen(true)
+      if (saved.won && !isArchive) {
+        submitGlobalDailyResult(dateStrForDayIndex(dayIndex), saved.attemptsUsed)
       }
     }
 
@@ -205,7 +215,7 @@ export default function DailyGamePlayPage() {
   const showResult = useCallback((w, gs) => {
     const state = gs || gameStateRef.current
     setWon(w)
-    saveDailyCompletionForIndex(dayIndex, w, state.attemptsUsed, state.answer, state.explanation)
+    saveDailyCompletionForIndex(dayIndex, w, state.attemptsUsed, state.answer, state.explanation, state.author)
     setResultModalOpen(true)
     // Archive replays are personal practice — they must not skew the global
     // counters for a day that has already closed.
@@ -233,6 +243,7 @@ export default function DailyGamePlayPage() {
       setGameState(newState)
       gameStateRef.current = newState
       setClosestNote('')
+      setGuessExplain(null)
       showResult(true, newState)
     } else {
       const newAttempts = gs.attemptsUsed + 1
@@ -253,6 +264,17 @@ export default function DailyGamePlayPage() {
 
       const closest = findClosestKnownDisorder(guess, gs.answer, NEURO_DISORDERS)
       setClosestNote(closest ? `Read as: "${closest}" — not quite right.` : '')
+
+      // Live note on what the guess actually is. Token-guarded so a slow reply
+      // for an earlier guess can't overwrite the note for a newer one.
+      const myToken = ++guessExplainTokenRef.current
+      setGuessExplain({ pending: true, text: '' })
+      explainWrongGuess(guess, gs.answer).then(text => {
+        if (myToken !== guessExplainTokenRef.current) return
+        setGuessExplain(text ? { pending: false, text } : null)
+      }).catch(() => {
+        if (myToken === guessExplainTokenRef.current) setGuessExplain(null)
+      })
 
       if (newAttempts >= 5) {
         showResult(false, newState)
@@ -374,14 +396,13 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
         const el = document.getElementById('result-google-container')
         if (el) el.innerHTML = `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`
       })
-      if (won) {
-        const dateKey = dateStrForDayIndex(dayIndex)
-        fetchGlobalDailyDistribution(dateKey).then(global => {
-          if (global) {
-            setGlobalDist(global)
-          }
-        })
-      }
+      // Fetched win or lose — the Compare tab is just as relevant after a
+      // loss, and the personal distribution is already on screen either way,
+      // so this never delays the popup appearing.
+      const dateKey = dateStrForDayIndex(dayIndex)
+      fetchGlobalDailyDistribution(dateKey).then(global => {
+        if (global && global.total) setGlobalDist(global)
+      }).catch(() => {})
       return () => clearInterval(id)
     }
   }, [resultModalOpen, won, dayIndex])
@@ -389,6 +410,23 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
   const [globalDist, setGlobalDist] = useState(null)
   const distData = globalDist || dailyStats.distribution
   const distLabel = globalDist ? `Guess Distribution — All Players (${globalDist.total.toLocaleString()})` : 'Guess Distribution — Your History'
+
+  // Compare tab — how this play stacks up against everyone else today.
+  let compareLine = ''
+  let globalWinRate = null
+  if (globalDist && globalDist.total) {
+    const solved = globalDist.d.reduce((a, b) => a + b, 0)
+    globalWinRate = Math.round((solved / globalDist.total) * 100) + '%'
+    const used = gs.attemptsUsed || 0
+    if (won) {
+      const worse = globalDist.d.slice(used).reduce((a, b) => a + b, 0) + (globalDist.fail || 0)
+      const pct = Math.round((worse / globalDist.total) * 100)
+      compareLine = `You solved it in ${used} ${used === 1 ? 'try' : 'tries'} — faster than ${pct}% of today's players.`
+    } else {
+      const pct = Math.round((solved / globalDist.total) * 100)
+      compareLine = `${pct}% of today's players solved it — you'll get the next one.`
+    }
+  }
 
   const renderDistribution = (dist, label) => {
     if (!dist) return null
@@ -451,6 +489,9 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
                 <span id="case-date">{caseDate}</span>
                 {isArchive && (
                   <span id="archive-badge" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', border: '1px solid var(--rule)', color: 'var(--ink-soft)', padding: '2px 9px', borderRadius: 20 }}>From the archive</span>
+                )}
+                {gs.author && (
+                  <span id="case-author-line" style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '.03em', textTransform: 'none' }}>By {gs.author}</span>
                 )}
               </div>
               <div className="attempts-dots" id="attempts-dots" style={{ display: 'flex', gap: 7 }}>
@@ -518,6 +559,14 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
                 </button>
               </form>
               {closestNote && <div className="closest-note" style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)', margin: '-8px 0 18px' }}>{closestNote}</div>}
+              {guessExplain && !gs.solved && (
+                <div id="guess-explain" style={{ marginTop: 12, marginBottom: 18, padding: '14px 16px', background: 'var(--paper-deep)', border: '1.5px solid var(--rule)', borderLeft: '4px solid #8B2635', borderRadius: 8 }}>
+                  <p style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', margin: '0 0 6px' }}>Why that&rsquo;s not it</p>
+                  <p id="guess-explain-text" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'var(--ink)' }}>
+                    {guessExplain.pending ? 'Thinking…' : guessExplain.text}
+                  </p>
+                </div>
+              )}
               <div className="past-guesses" id="past-guesses" style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
                 {pastGuesses.map((g, i) => {
                   const cat = getDisorderCategory(g)
@@ -552,6 +601,9 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
         )}
       </div>
 
+      {/* Everything below is position:fixed and must escape <main>, which
+          carries a transform for the first 250ms of every page — see Portal. */}
+      <Portal>
       {wrongFlash && (
         <div style={{
           position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
@@ -565,8 +617,11 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
         </div>
       )}
 
-      <button className="chat-fab" id="case-chat-fab" aria-label="Explain this case" onClick={() => setChatOpen(true)}
-        style={{ position: 'fixed', bottom: 26, right: 26, height: 50, padding: '0 22px 0 18px', borderRadius: 30, background: 'var(--neuro-blue-bright)', color: '#fff', border: 'none', display: loaded && !noCase ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 8px 22px rgba(0,0,0,.18)', fontFamily: 'var(--mono)', fontSize: 12.5, letterSpacing: '.06em', textTransform: 'uppercase', zIndex: 60 }}>
+      {/* Everything but visibility comes from .chat-fab in the page stylesheet —
+          inline styles here would defeat the restyle and the ripple's
+          position:relative parent. */}
+      <button ref={fabRef} className="chat-fab" id="case-chat-fab" aria-label="Explain this case" onClick={() => setChatOpen(true)}
+        style={{ display: loaded && !noCase ? 'flex' : 'none' }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
         </svg>
@@ -600,91 +655,130 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
         </div>
       </div>
 
+      {/* Layout comes entirely from style.css's .rmodal-* rules. The inline
+          styles this block used to carry pinned the pre-redesign look and
+          silently overrode the full-bleed card, Archivo Black type and
+          coloured game cards the client shipped. Don't reintroduce them. */}
       <div className={`modal-backdrop rmodal-backdrop${resultModalOpen ? ' open' : ''}`} id="result-modal"
-        style={{ position: 'fixed', inset: 0, background: 'rgba(28,27,25,.5)', display: resultModalOpen ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 20 }}
+        style={{ display: resultModalOpen ? 'flex' : 'none' }}
         onClick={(e) => { if (e.target.id === 'result-modal') setResultModalOpen(false) }}>
-        <div className="rmodal-card" style={{ background: '#fff', maxWidth: 480, width: '100%', borderRadius: 3, overflow: 'hidden', boxShadow: '0 2px 40px rgba(0,0,0,.22)' }}>
-          <div className="rmodal-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', borderBottom: '1px solid var(--rule)' }}>
-            <span className="rmodal-title" style={{ fontFamily: 'var(--serif-display)', fontSize: 18, fontWeight: 700 }}>The Daily Case</span>
-            <button className="rmodal-close" aria-label="Close" onClick={() => setResultModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--ink-soft)' }}>✕</button>
+        <div className="rmodal-card">
+
+          <div className="rmodal-header">
+            <span className="rmodal-title">The Daily Case</span>
+            <button className="rmodal-close" aria-label="Close" onClick={() => setResultModalOpen(false)}>✕</button>
           </div>
 
-          <div className="rmodal-hero" style={{ textAlign: 'center', padding: '24px 20px 12px' }}>
-            <div className="rmodal-icon" style={{ marginBottom: 10 }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 40, height: 40 }}>
-                <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12" />
-              </svg>
+          <div className="rmodal-hero">
+            <div className="rmodal-icon" style={{ background: '#fff' }}>
+              <img src="/daily-case-icon.png" alt="" width="40" height="43" style={{ objectFit: 'contain' }} />
             </div>
-            <h3 className="rmodal-headline" style={{ fontFamily: 'var(--serif-display)', fontSize: 26, margin: '8px 0 4px' }}>{won ? 'Diagnosed.' : 'Not this time.'}</h3>
-            <p className="rmodal-sub" style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-soft)', margin: 0 }}>
+            <h3 className="rmodal-headline">{won ? 'Diagnosed.' : 'Not this time.'}</h3>
+            <p className="rmodal-sub">
               {won ? `${gs.answer} — ${gs.attemptsUsed} ${gs.attemptsUsed === 1 ? 'try' : 'tries'}` : `The diagnosis was: ${gs.answer}`}
             </p>
           </div>
 
-          <div className="rmodal-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid var(--rule)' }}>
+          <div className="rmodal-stats">
             {[
               { id: 'stat-played', val: dailyStats.played, label: 'Played' },
               { id: 'stat-win', val: dailyStats.winPct + '%', label: 'Win %' },
               { id: 'stat-streak', val: dailyStats.currentStreak, label: 'Streak' },
               { id: 'stat-maxstreak', val: dailyStats.bestStreak, label: 'Best' }
             ].map(s => (
-              <div key={s.id} id={s.id} className="rmodal-stat" style={{ textAlign: 'center', padding: '16px 4px', borderRight: '1px solid var(--rule)' }}>
-                <div className="rmodal-stat-val" style={{ fontFamily: 'var(--serif-display)', fontSize: 26, fontWeight: 700, color: 'var(--neuro-blue-deep)', lineHeight: 1 }}>{s.val}</div>
-                <div className="rmodal-stat-label" style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 4 }}>{s.label}</div>
+              <div key={s.id} id={s.id} className="rmodal-stat">
+                <div className="rmodal-stat-val">{s.val}</div>
+                <div className="rmodal-stat-label">{s.label}</div>
               </div>
             ))}
           </div>
 
-          <div className="rmodal-section" style={{ padding: '16px 20px' }}>
-            <div id="result-grid" className="rmodal-grid" style={{ textAlign: 'center', fontSize: 24, letterSpacing: 4, marginBottom: 12 }}>
-              {Array.from({ length: 5 }).map((_, i) => {
-                const used = gs.attemptsUsed || 0
-                if (i < used - (won ? 1 : 0)) return '🟥'
-                else if (i === used - 1 && won) return '🟩'
-                else return '⬜'
-              }).join('')}
+          <div className="rmodal-section">
+            <div className="rmodal-tabs">
+              <button type="button" className={'rmodal-tab-btn' + (resultTab === 'dist' ? ' active' : '')}
+                onClick={() => setResultTab('dist')}>Distribution</button>
+              <button type="button" className={'rmodal-tab-btn' + (resultTab === 'compare' ? ' active' : '')}
+                onClick={() => setResultTab('compare')}>Compare</button>
             </div>
-            {renderDistribution(distData, distLabel)}
+
+            {resultTab === 'dist' ? (
+              <div id="result-tab-dist">
+                <div id="result-grid" className="rmodal-grid">
+                  {Array.from({ length: 5 }).map((_, i) => {
+                    const used = gs.attemptsUsed || 0
+                    if (i < used - (won ? 1 : 0)) return '🟥'
+                    else if (i === used - 1 && won) return '🟩'
+                    else return '⬜'
+                  }).join('')}
+                </div>
+                {renderDistribution(distData, distLabel)}
+              </div>
+            ) : (
+              <div id="result-tab-compare">
+                <p id="result-compare-line" style={{ fontFamily: 'var(--serif-body)', fontSize: 15, color: 'var(--rm-ink)', textAlign: 'center', margin: '8px 0 18px', lineHeight: 1.6 }}>
+                  {compareLine || 'Comparing with today’s players…'}
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, textAlign: 'center' }}>
+                  <div>
+                    <div className="rmodal-stat-val" style={{ fontSize: 20 }}>{globalDist ? globalDist.total.toLocaleString() : '—'}</div>
+                    <div className="rmodal-stat-label">Players Today</div>
+                  </div>
+                  <div>
+                    <div className="rmodal-stat-val" style={{ fontSize: 20 }}>{globalWinRate ?? '—'}</div>
+                    <div className="rmodal-stat-label">Solved It</div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="rmodal-section" style={{ padding: '0 20px 16px', textAlign: 'center' }}>
-            <p className="rmodal-countdown" style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)', marginBottom: 12 }}>
+          {(gs.explanation || gs.author) && (
+            <div className="rmodal-section" id="result-explanation-section">
+              <p className="rmodal-section-label">Why</p>
+              {gs.explanation && (
+                <p id="result-explanation-text" style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--rm-ink)' }}>{gs.explanation}</p>
+              )}
+              {gs.author && (
+                <p id="result-author-line" style={{ margin: '10px 0 0', fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--rm-soft)' }}>By {gs.author}</p>
+              )}
+            </div>
+          )}
+
+          <div className="rmodal-section">
+            <p id="next-case-countdown" className="rmodal-countdown">
               {isArchive
                 ? <Link to="/archive" style={{ color: 'inherit' }}>← Back to the archive</Link>
                 : countdownText}
             </p>
-            <button type="button" id="share-btn" className="rmodal-cta" onClick={handleShare}
-              style={{ fontFamily: 'var(--mono)', fontSize: 12.5, letterSpacing: '.06em', textTransform: 'uppercase', padding: '11px 20px', border: '1.5px solid var(--ink)', background: 'transparent', color: 'var(--ink)', cursor: 'pointer', borderRadius: 8 }}>Share ↗</button>
-            <div id="result-google-container" style={{ marginTop: 12 }}></div>
+            <button type="button" id="share-btn" className="rmodal-cta" onClick={handleShare}>Share ↗</button>
+            <div id="result-google-container"></div>
           </div>
 
-          <div className="rmodal-games" style={{ padding: '16px 20px 20px', borderTop: '1px solid var(--rule)' }}>
-            <p className="rmodal-section-label" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 12 }}>Play Today's Games</p>
-            <div className="rmodal-games-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <Link to="/neuroanatomy" className="rmodal-game-card" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 8, border: '1px solid var(--rule)', textDecoration: 'none', color: 'inherit' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ width: 28, height: 28, flexShrink: 0 }}>
-                  <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
-                  <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
-                  <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+          <div className="rmodal-games">
+            <p className="rmodal-section-label">Play Today's Games</p>
+            <div className="rmodal-games-grid">
+              <Link to="/neuroanatomy" className="rmodal-game-card rmodal-game-purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8" />
+                  <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8" />
+                  <path d="M12 4.5V20" />
+                  <circle cx="17.3" cy="6.3" r="1.5" fill="#fff" stroke="none" />
                 </svg>
-                <div>
-                  <div className="rmodal-game-title" style={{ fontFamily: 'var(--serif-display)', fontSize: 14, fontWeight: 600 }}>Map the Brain</div>
-                  <div className="rmodal-game-sub" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--ink-soft)' }}>Identify regions</div>
-                </div>
+                <div className="rmodal-game-title">Map the Brain</div>
+                <div className="rmodal-game-sub">Identify regions</div>
               </Link>
-              <Link to="/archive" className="rmodal-game-card" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 8, border: '1px solid var(--rule)', textDecoration: 'none', color: 'inherit' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ width: 28, height: 28, flexShrink: 0 }}>
+              <Link to="/archive" className="rmodal-game-card rmodal-game-neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="5" y="4" width="14" height="17" rx="2" /><path d="M9 2.5h6v3H9z" /><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4" />
                 </svg>
-                <div>
-                  <div className="rmodal-game-title" style={{ fontFamily: 'var(--serif-display)', fontSize: 14, fontWeight: 600 }}>Case Archive</div>
-                  <div className="rmodal-game-sub" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--ink-soft)' }}>Past cases</div>
-                </div>
+                <div className="rmodal-game-title">Case Archive</div>
+                <div className="rmodal-game-sub">Past cases</div>
               </Link>
             </div>
           </div>
         </div>
       </div>
+      </Portal>
     </main>
   )
 }

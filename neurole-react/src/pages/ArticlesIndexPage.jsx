@@ -1,11 +1,17 @@
 import pageStyle from './styles/ArticlePage.css?raw'
 import { usePageStyle } from '../hooks/usePageStyle'
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { listArticles } from '../lib/articles'
 
 export default function ArticlesIndexPage() {
   usePageStyle(pageStyle)
+  useDocumentHead({
+    title: "Articles — Neurole",
+    description: "Long-form writing on how the brain works, with interactive 3D figures you can open on any structure mentioned in the text.",
+    canonical: "/articles",
+  });
   const articles = listArticles()
 
   useEffect(() => {

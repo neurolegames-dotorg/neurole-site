@@ -1,3 +1,4 @@
+
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;margin-bottom:40px;}
 @media(max-width:600px){.contact-grid{grid-template-columns:1fr;}}
 .contact-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;}

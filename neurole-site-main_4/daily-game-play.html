@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W7HJ5CWC');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TDT6M74DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TDT6M74DR');
+</script>
+<meta charset="UTF-8">
+<meta name="description" content="A new neurological patient case every day. Read the symptoms, guess the diagnosis in 5 tries. Free daily brain game by Neurole.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Neurole">
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://neurole.org/daily-game.html">
+<meta property="og:title" content="The Daily Case — Neurole">
+<meta property="og:description" content="A new neurological patient case every day. Read the symptoms, guess the diagnosis in 5 tries. Free daily brain game by Neurole.">
+<meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:site_name" content="Neurole">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Daily Case — Neurole">
+<meta name="twitter:description" content="A new neurological patient case every day. Read the symptoms, guess the diagnosis in 5 tries. Free daily brain game by Neurole.">
+<meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://neurole.org/daily-game.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+<title>The Daily Case — Neurole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=127">
+<style>
+
+  /* --- Fun game typography & visuals --- */
+  :root{--game-font:'Outfit',sans-serif;}
+
+  /* Start screen */
+  .start-screen h1{
+    font-family:var(--game-font) !important;font-weight:800 !important;letter-spacing:-.02em !important;
+  }
+  .start-screen p{font-family:var(--game-font) !important;}
+  .start-actions .btn{font-family:var(--game-font) !important;font-weight:700 !important;border-radius:12px !important;}
+  #streak-label{font-family:var(--game-font) !important;font-weight:600 !important;}
+  .start-meta{font-family:var(--game-font) !important;}
+
+  /* Case card */
+  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:18px !important;}
+  .symptom-log li{font-family:var(--game-font) !important;font-size:15.5px !important;font-weight:500 !important;border-radius:10px !important;}
+  .symptom-log li.locked{font-family:var(--game-font) !important;}
+
+  /* Guess row */
+  .guess-row input{font-family:var(--game-font) !important;font-size:16px !important;border-radius:10px 0 0 10px !important;}
+  .guess-row .btn{border-radius:0 10px 10px 0 !important;}
+
+  /* Past guesses */
+  .past-guesses span{font-family:var(--game-font) !important;font-weight:600 !important;border-radius:8px !important;}
+
+  /* Wrong flash */
+  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
+
+  .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
+
+  .case-card{
+    background:#fff;border:1px solid var(--rule);padding:44px;
+  }
+
+  /* Mobile: remove the box and show content edge-to-edge so
+     the purple gradient shows on the sides naturally */
+  .start-screen{
+    position:fixed;inset:0;z-index:9999;
+    background:#FAFAFA;
+    width:100%;height:100%;
+    display:var(--start-display,flex);flex-direction:column;align-items:center;
+    justify-content:center;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
+    text-align:center;
+  }
+  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+  .start-screen h1{
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:clamp(34px,8vw,46px);font-weight:700;margin:0 0 10px;letter-spacing:-.02em;
+  }
+  .start-screen p{
+    color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:300px;line-height:1.6;
+    font-family:'Outfit',sans-serif;
+  }
+  .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
+  .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;}
+  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
+  /* Accent pill bar above title */
+  .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
+  .start-pill{
+    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:4px 12px;border-radius:20px;
+  }
+  .pill-red{background:rgba(168,68,58,.1);color:#8B2635;}
+  .pill-purple{background:rgba(107,79,148,.1);color:var(--neuro-blue-deep);}
+  .pill-green{background:rgba(92,181,124,.12);color:#3d8a5e;}
+
+  /* iPhone fix — vertically centred */
+  @media(max-width:480px){
+    .start-screen{justify-content:center;padding:50px 22px 40px;}
+    .start-screen h1{font-size:32px !important;}
+    .start-screen p{font-size:14px !important;margin-bottom:20px !important;}
+    .start-actions{flex-direction:row !important;gap:10px !important;}
+    .start-actions .btn{font-size:12px !important;padding:12px 0 !important;}
+  }
+
+  /* iPhone — start screen compact */
+  @media(max-width:480px){
+    .start-screen{padding:50px 18px 36px;justify-content:flex-start;}
+    .start-screen-inner{max-width:100%;}
+    .start-screen h1{font-size:26px !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:13.5px !important;margin-bottom:18px !important;}
+    .start-logo{margin-bottom:12px !important;}
+    .start-logo svg{width:44px !important;height:44px !important;}
+    #streak-label{font-size:12px !important;margin-top:4px;}
+    .start-actions{gap:10px !important;margin-bottom:16px !important;width:100%;}
+    .start-actions .btn{flex:1;justify-content:center;padding:12px 8px !important;font-size:12px !important;}
+    .start-meta{font-size:11px !important;}
+    /* Case card — frameless on phone */
+    .case-shell{padding:10px 0 50px !important;}
+    .case-card{background:transparent !important;border:none !important;box-shadow:none !important;padding:0 2px !important;}
+    .symptom-log li{font-size:14.5px !important;padding:10px 12px !important;}
+    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
+    .guess-row{gap:8px !important;}
+    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box;}
+    .guess-row .btn{height:46px !important;padding:0 14px !important;}
+    .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
+    .modal-actions{flex-direction:column !important;gap:10px !important;}
+    .modal-actions .btn{width:100% !important;justify-content:center !important;}
+  }
+  .case-card{
+    background:#fff;border:1px solid var(--rule);padding:44px;
+  }
+  .case-meta{
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;
+    font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
+  }
+  .attempts-dots{display:flex;gap:7px;}
+  .attempts-dots span{width:10px;height:10px;border-radius:50%;background:var(--rule);}
+  .attempts-dots span.used{background:var(--signal-red);}
+
+  .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .symptom-log li{
+    border:1px solid var(--rule);
+    border-left:5px solid var(--neuro-blue);
+    background:var(--paper-deep);
+    padding:18px 20px;font-size:17.5px;line-height:1.55;
+    border-radius:2px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  .symptom-log li.revealed{animation:fadeIn .4s ease;}
+  .symptom-log li.locked{
+    border-left-color:var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:18px 20px;
+    opacity:.55;
+  }
+  .symptom-log .hint-num{
+    font-family:var(--mono);font-size:12px;color:var(--neuro-blue-deep);
+    font-weight:600;flex-shrink:0;min-width:30px;
+  }
+  .symptom-log li.locked .hint-num{color:var(--ink-soft);}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
+  .guess-row input{
+    flex:1;font-family:var(--serif-body);font-size:16px;padding:14px 16px;
+    border:1.5px solid var(--ink-soft);background:#fff;
+    height:52px;box-sizing:border-box;
+  }
+  .guess-row .btn{
+    font-size:18px;padding:0 20px;
+    height:52px;box-sizing:border-box;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+
+  .autocomplete-list{
+    position:absolute;top:100%;left:0;right:84px;
+    background:#fff;border:1.5px solid var(--ink-soft);border-top:none;
+    max-height:240px;overflow-y:auto;z-index:40;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    display:none;
+  }
+  .autocomplete-list.open{display:block;}
+  .autocomplete-list div{
+    padding:11px 16px;font-family:var(--serif-body);font-size:15.5px;cursor:pointer;
+    border-bottom:1px solid var(--paper-deep);
+  }
+  .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
+
+  .past-guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+  .wrong-guess-card{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(168,68,58,.06);
+    border:1.5px solid rgba(168,68,58,.25);
+    border-radius:10px;
+    padding:11px 16px;
+  }
+  .wrong-guess-name{
+    font-family:var(--game-font,'Outfit',sans-serif);font-size:17px;font-weight:700;
+    color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
+    flex:1;
+  }
+  .wrong-guess-cat{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(168,68,58,.75);background:rgba(168,68,58,.1);
+    padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+  }
+  @media(max-width:480px){
+    .wrong-guess-name{font-size:15px !important;}
+    .wrong-guess-cat{font-size:9.5px !important;}
+    .wrong-guess-card{padding:10px 12px !important;}
+  }
+  .closest-note{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
+  }
+  .result-banner{
+    padding:22px 24px;margin-top:10px;border-left:5px solid #5C8C72;background:var(--paper-deep);
+  }
+  .result-banner.fail{border-left-color:var(--signal-red);}
+  .result-banner h4{margin:0 0 8px;font-family:var(--serif-display);font-size:23px;}
+  .result-banner p{font-size:16px;line-height:1.6;}
+
+  .chat-fab{
+    position:fixed;bottom:26px;right:26px;
+    height:50px;padding:0 22px 0 18px;border-radius:30px;
+    background:var(--neuro-blue-bright);color:#fff;
+    border:none;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    z-index:60;
+  }
+  .chat-fab:hover{background:var(--neuro-blue-deep);}
+  .chat-backdrop{
+    position:fixed;inset:0;background:rgba(28,27,25,.5);
+    display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
+  }
+  .chat-backdrop.open{display:flex;}
+  .chat-panel{
+    width:440px;max-width:100%;max-height:80vh;
+    background:var(--paper);border:2px solid var(--ink);
+    display:flex;flex-direction:column;
+  }
+  .chat-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);}
+  .chat-head h4{margin:0;font-family:var(--serif-display);font-size:19px;}
+  .chat-body{padding:18px 20px;overflow-y:auto;flex:1;}
+  .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
+  .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
+  .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
+  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
+  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  @media(max-width:480px){
+    /* Start screen — iPhone */
+    .start-screen{padding:0 16px !important;overflow-y:auto;}
+    .start-screen-inner{max-width:100% !important;padding:50px 0 40px !important;}
+    .start-screen h1{font-size:clamp(22px,6.5vw,30px) !important;margin-bottom:8px !important;}
+    .start-screen p{font-size:13px !important;margin-bottom:14px !important;}
+    .start-logo{margin-bottom:10px !important;}
+    .start-logo svg{width:40px !important;height:40px !important;}
+    #streak-label{font-size:12px !important;}
+    .start-actions{gap:8px !important;flex-direction:row;width:100%;}
+    .start-actions .btn{flex:1 !important;justify-content:center !important;padding:11px 8px !important;font-size:11px !important;}
+    .start-meta{font-size:11px !important;margin-top:4px !important;}
+
+    /* Case card — frameless on iPhone */
+    .case-shell{max-width:100% !important;padding:8px 0 50px !important;}
+    .case-card{
+      background:transparent !important;
+      border:none !important;box-shadow:none !important;
+      padding:0 4px !important;
+    }
+    .case-card > h2{font-size:17px !important;}
+    .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
+    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
+    .guess-row{gap:7px !important;}
+    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box !important;}
+    .guess-row .btn{height:46px !important;padding:0 14px !important;min-width:46px;}
+    .guess-row .btn svg{width:18px !important;height:18px !important;}
+    .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
+    .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
+
+    /* Modals — iPhone */
+    .modal{padding:18px 16px !important;}
+    .result-headline h3{font-size:20px !important;}
+    .result-stats{font-size:13px !important;}
+    .modal-actions{flex-direction:column !important;gap:10px !important;}
+    .modal-actions .btn{width:100% !important;justify-content:center !important;}
+  }
+
+/* ============================================
+   DAILY CASE — IPHONE RESPONSIVE (480px)
+   ============================================ */
+@media(max-width:480px){
+
+  /* Masthead — hamburger only */
+  .nav-left{display:none !important;}
+  .hamburger-btn{display:flex !important;}
+
+  /* Start screen — fills phone viewport, scrollable */
+  .start-screen{
+    padding:56px 20px 40px !important;
+    justify-content:flex-start !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+  .start-screen-inner{max-width:100% !important;}
+  .start-screen h1{font-size:28px !important;margin:0 0 8px !important;}
+  .start-screen p{font-size:14px !important;margin:0 0 18px !important;max-width:100% !important;}
+  .start-logo{margin-bottom:14px !important;}
+  .start-logo svg{width:46px !important;height:46px !important;}
+  #streak-label{font-size:12px !important;}
+  .start-actions{
+    display:flex !important;flex-direction:row !important;
+    gap:10px !important;margin-bottom:16px !important;width:100% !important;
+  }
+  .start-actions .btn{
+    flex:1 !important;justify-content:center !important;
+    padding:12px 8px !important;font-size:12px !important;
+  }
+  .start-meta{font-size:11px !important;}
+
+  /* Page hero — room for notch */
+  .page-hero{padding:76px 0 20px !important;}
+  .page-hero h1{font-size:30px !important;}
+  .page-hero p{font-size:14px !important;}
+  .back-home{font-size:11px !important;}
+
+  /* Game content — no card box on phone */
+  .case-shell{padding:10px 0 50px !important;max-width:100% !important;}
+  .case-card{
+    background:transparent !important;border:none !important;
+    box-shadow:none !important;padding:0 4px !important;
+  }
+
+  /* Symptom list */
+  .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
+  .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
+
+  /* Guess input + button */
+  .guess-row{gap:8px !important;}
+  .guess-row input{
+    font-size:15px !important;padding:12px !important;
+    height:48px !important;box-sizing:border-box !important;
+  }
+  .guess-row .btn{height:48px !important;padding:0 14px !important;}
+  .guess-row .btn svg{width:18px !important;height:18px !important;}
+
+  /* Past guesses */
+  .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
+
+  /* Autocomplete */
+  .autocomplete-list{max-height:160px !important;}
+  .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
+
+  /* Result modal */
+  .modal{padding:18px 16px !important;margin:0 12px !important;width:calc(100% - 24px) !important;}
+  .result-headline h3{font-size:20px !important;}
+  .result-stats{font-size:13px !important;}
+  .modal-actions{flex-direction:column !important;gap:10px !important;}
+  .modal-actions .btn{width:100% !important;justify-content:center !important;}
+}
+
+
+  /* Attempt dots */
+  .attempt-dot{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--paper-deep);border:2px solid var(--rule);
+    display:inline-block;transition:all .3s;
+  }
+  .attempt-dot.used{background:var(--signal-red);border-color:var(--signal-red);}
+  .attempt-dot.correct{background:#5CB57C;border-color:#5CB57C;transform:scale(1.3);}
+
+  /* Correct answer celebration */
+  @keyframes correctPop{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+  .case-card.correct-flash{animation:correctPop .5s ease;}
+
+  /* Wrong answer shake */
+  @keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .guess-row.shake{animation:wrongShake .4s ease;}
+
+  /* Symptom reveal flash */
+  @keyframes revealSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .symptom-log li.new-reveal{animation:revealSlide .4s ease;}
+
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "The Daily Case",
+  "description": "A daily neurology diagnosis game. Read symptoms, guess the neurological condition in five tries.",
+  "url": "https://neurole.org/daily-game.html",
+  "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
+  "educationalUse": "Practice",
+  "learningResourceType": "Game",
+  "teaches": "Neurology and clinical diagnosis",
+  "isAccessibleForFree": true,
+  "inLanguage": "en"
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<script>
+// This page IS the game — always show it instantly, no popup ever.
+document.documentElement.style.setProperty('--start-display','none');
+document.documentElement.style.setProperty('--game-content-display','block');
+</script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <nav class="nav-left">
+      <a href="contact.html">Contact Us</a>
+      <a href="volunteer.html">Join Us</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <button class="linklike" data-signin>Sign In</button>
+    </nav>
+    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
+  <ul class="mobile-nav-items">
+    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="wrap">
+    <a class="back-home" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to home
+    </a>
+    <h1>The Daily Case</h1>
+    <p>A new patient, every day. Read the chart, type your diagnosis. You get five attempts — each wrong guess reveals one more symptom.</p>
+  </div>
+</div>
+
+<main class="wrap case-shell">
+
+  <div class="start-screen" id="start-screen">
+    <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;margin-bottom:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Home
+    </a>
+    <div class="start-screen-inner">
+      <div class="start-logo">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+        </svg>
+      </div>
+      <h1>The Daily Case</h1>
+      <p>A new patient every day. Read the symptoms and name the diagnosis — 5 tries, then the answer is revealed.</p>
+      <div class="start-pills">
+        <span class="start-pill pill-red">🩺 Daily reset</span>
+        <span class="start-pill pill-gold">🧠 Neurology</span>
+        <span class="start-pill pill-green">✓ Free</span>
+      </div>
+      <div class="start-actions">
+        <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
+        <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
+      </div>
+      <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:6px;min-height:22px;"></div>
+      <div class="start-meta" id="start-meta" style="margin-top:4px;"></div>
+      <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
+    </div>
+  </div>
+
+  <div id="game-content" style="display:var(--game-content-display,none);">
+    <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:6px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
+    <div class="case-card">
+    <!-- Attempt dots -->
+    <!-- Attempt dots are shown in the header, not here -->
+      <div class="case-meta">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="case-number" style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
+          <span id="case-date">—</span>
+        </div>
+        <div class="attempts-dots" id="attempts-dots">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <ul class="symptom-log" id="symptom-log"></ul>
+
+      <div id="guess-area">
+        <form class="guess-row" id="guess-form">
+          <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
+          <div class="autocomplete-list" id="autocomplete-list"></div>
+          <button class="btn" type="submit" aria-label="Submit diagnosis" title="Submit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </form>
+        <div class="closest-note" id="closest-note"></div>
+        <div class="past-guesses" id="past-guesses"></div>
+      </div>
+
+      <div id="result-area"></div>
+    </div>
+
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
+      Educational use only — not medical advice.
+    </p>
+  </div>
+</main>
+
+<button class="chat-fab" id="case-chat-fab" aria-label="Explain this case">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+  </svg>
+  Explain
+</button>
+
+<div class="chat-backdrop" id="case-chat-backdrop">
+  <div class="chat-panel">
+    <div class="chat-head">
+      <h4>Ask about this case</h4>
+      <button class="close" id="case-chat-close" style="position:static;">✕</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-log" id="case-chat-log"></div>
+    </div>
+    <form class="chat-ask-row" id="case-chat-form">
+      <input type="text" id="case-chat-input" placeholder="e.g. why does this fit the symptoms?">
+      <button class="btn" type="submit">Ask</button>
+    </form>
+  </div>
+</div>
+
+<footer id="footer-contact">
+  <div class="wrap">
+    <!-- Footer nav links -->
+    <div class="social-row">
+      <a href="#" id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="social-email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="#" id="social-youtube" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain.</p>
+    <div style="border-top:1px solid rgba(0,0,0,.08);padding-top:14px;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 0;">
+      <a href="mailto:neurolegames@gmail.com" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Contact Us</a>
+      <a href="about.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">About</a>
+      <a href="donate.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;border-right:1px solid rgba(0,0,0,.15);line-height:1.2;">Donate</a>
+      <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;padding:0 10px;line-height:1.2;">Subscribe</a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="signin-modal">
+  <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
+    <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div class="field" style="margin-bottom:12px;text-align:left;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+    </div>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div id="signin-google-container" style="margin-bottom:10px;"></div>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop rmodal-backdrop" id="result-modal">
+  <div class="rmodal-card">
+
+    <div class="rmodal-header">
+      <span class="rmodal-title">The Daily Case</span>
+      <button id="result-modal-close" class="rmodal-close" aria-label="Close">✕</button>
+    </div>
+
+    <div class="rmodal-hero">
+      <div class="rmodal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8B2635" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="2,12 5,12 7,5 9,19 11,9 13,15 15,12 22,12"/>
+        </svg>
+      </div>
+      <h3 id="result-headline-text" class="rmodal-headline"></h3>
+      <p id="result-stats-text" class="rmodal-sub"></p>
+    </div>
+
+    <div class="rmodal-stats">
+      <div id="stat-played" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Played</div>
+      </div>
+      <div id="stat-win" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Win %</div>
+      </div>
+      <div id="stat-streak" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Streak</div>
+      </div>
+      <div id="stat-maxstreak" class="rmodal-stat">
+        <div class="rmodal-stat-val"></div>
+        <div class="rmodal-stat-label">Best</div>
+      </div>
+    </div>
+
+    <div class="rmodal-section">
+      <div id="result-grid" class="rmodal-grid"></div>
+      <p id="result-distribution-label" class="rmodal-section-label" style="margin-top:16px;">Guess Distribution</p>
+      <div id="result-distribution"></div>
+      <p id="result-compare-line" style="font-family:var(--mono);font-size:11.5px;color:var(--rm-soft);text-align:center;margin:12px 0 0;"></p>
+
+    </div>
+
+    <div class="rmodal-section" id="result-explanation-section" style="display:none;">
+      <p class="rmodal-section-label">Why</p>
+      <p id="result-explanation-text" style="margin:0;font-size:14px;line-height:1.65;color:var(--rm-ink);"></p>
+    </div>
+
+    <div class="rmodal-section">
+      <p id="next-case-countdown" class="rmodal-countdown"></p>
+      <button type="button" id="share-btn" class="rmodal-cta">Share ↗</button>
+      <div id="result-google-container"></div>
+    </div>
+
+    <div class="rmodal-games">
+      <p class="rmodal-section-label">Play Today's Games</p>
+      <div class="rmodal-games-grid">
+        <a href="neuroanatomy.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6B4F94" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+            <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+          </svg>
+          <div class="rmodal-game-title">Map the Brain</div>
+          <div class="rmodal-game-sub">Identify regions</div>
+        </a>
+        <a href="archive.html" class="rmodal-game-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--rm-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
+          </svg>
+          <div class="rmodal-game-title">Case Archive</div>
+          <div class="rmodal-game-sub">Past cases</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js?v=130"></script>
+<script src="script.js?v=130"></script>
+<script>
+document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
+document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
+document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
+
+/* ---------------------------------------------------------------
+   FALLBACK CASE BANK
+   Used only if no Google Sheet is connected yet, or today's date
+   has no matching row. Replace/manage real cases via Google Sheet —
+   see config.js. Conditions drawn from the NIH/NINDS index of
+   neurological disorders.
+---------------------------------------------------------------- */
+const FALLBACK_CASES = [
+  {
+    answer: "Parkinson's disease",
+    accepted_synonyms: "parkinsons;parkinson disease;pd",
+    symptoms: [
+      "A 67-year-old presents with a resting tremor in the right hand.",
+      "Family notes the patient's handwriting has become smaller over the past year.",
+      "On exam, there is cogwheel rigidity in the right wrist.",
+      "The patient walks with a stooped posture and shortened, shuffling steps.",
+      "There is a marked reduction in facial expression (hypomimia)."
+    ],
+    explanation: "Parkinson's disease is a progressive neurodegenerative disorder caused by loss of dopaminergic neurons in the substantia nigra, classically producing resting tremor, rigidity, bradykinesia, and postural instability."
+  },
+  {
+    answer: "Multiple sclerosis",
+    accepted_synonyms: "ms",
+    symptoms: [
+      "A 29-year-old woman reports blurry vision and eye pain in her left eye that developed over two days.",
+      "She also describes an electric shock sensation down her spine when she bends her neck forward.",
+      "MRI history reveals a prior episode of leg weakness three years ago that fully resolved.",
+      "On exam there is a relative afferent pupillary defect in the left eye.",
+      "She lives in the northern United States and has low vitamin D."
+    ],
+    explanation: "Multiple sclerosis is an autoimmune, demyelinating disease of the CNS. This vignette describes optic neuritis plus Lhermitte's sign, with a past relapsing course — consistent with MS."
+  },
+  {
+    answer: "Myasthenia gravis",
+    accepted_synonyms: "mg",
+    symptoms: [
+      "A 45-year-old woman notices her eyelids droop more by the end of the day.",
+      "She has double vision that worsens with prolonged reading.",
+      "Chewing tough food becomes difficult toward the end of a meal.",
+      "Symptoms improve noticeably after a short rest.",
+      "An ice pack test on the eyelid improves the ptosis."
+    ],
+    explanation: "Myasthenia gravis is caused by autoantibodies against acetylcholine receptors at the neuromuscular junction, producing fatigable weakness — classically ptosis and diplopia that worsen with sustained use and improve with rest."
+  }
+];
+
+/* ---------------------------------------------------------------
+   AUTOCOMPLETE DICTIONARY
+   A broad list of neurological disorders (NIH/NINDS index) the
+   player can pick from while typing. Add to this list any time —
+   it doesn't need to match your Daily Case sheet exactly.
+---------------------------------------------------------------- */
+const NEURO_DISORDERS = [
+  "Parkinson's disease","Multiple sclerosis","Myasthenia gravis","Amyotrophic lateral sclerosis",
+  "Alzheimer's disease","Epilepsy","Guillain-Barré syndrome","Huntington's disease","Migraine",
+  "Bell's palsy","Ischemic stroke","Subarachnoid hemorrhage","Bacterial meningitis","Essential tremor",
+  "Trigeminal neuralgia","Narcolepsy","Restless legs syndrome","Carpal tunnel syndrome","Cluster headache",
+  "Normal pressure hydrocephalus","Frontotemporal dementia","Lewy body dementia","Vascular dementia",
+  "Tourette syndrome","Cerebral palsy","Down syndrome","Autism spectrum disorder","Spina bifida",
+  "Tuberous sclerosis complex","Neurofibromatosis type 1","Charcot-Marie-Tooth disease",
+  "Duchenne muscular dystrophy","Cervical spondylotic myelopathy","Transverse myelitis",
+  "Spinal muscular atrophy","Wilson's disease","Creutzfeldt-Jakob disease","Progressive supranuclear palsy",
+  "Multiple system atrophy","Friedreich's ataxia","Cavernous sinus thrombosis","Postherpetic neuralgia",
+  "Acoustic neuroma","Glioblastoma","Chiari malformation","Idiopathic intracranial hypertension",
+  "Temporal arteritis","Cervical dystonia","Cerebral aneurysm","Diabetic peripheral neuropathy",
+  "Vestibular neuritis","Brown-Séquard syndrome","Pituitary adenoma","Stiff person syndrome",
+  "Wernicke encephalopathy","Functional neurological disorder"
+];
+
+function levenshtein(a, b){
+  const m = a.length, n = b.length;
+  const dp = Array.from({length:m+1}, (_, i) => [i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j] = j;
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+
+// Typo-tolerant match: allows small spelling mistakes scaled to word length
+// (roughly 1 typo per 5 letters, minimum 1, capped at 3).
+function fuzzyMatches(guess, target){
+  const g = normalize(guess), t = normalize(target);
+  if(!g || !t) return false;
+  if(g === t) return true;
+  const threshold = Math.min(3, Math.max(1, Math.round(t.length * 0.18)));
+  return levenshtein(g, t) <= threshold;
+}
+
+// Day index based on days since launch — row 1 = day 0, row 2 = day 1 etc.
+const LAUNCH_DATE_ET = '2026-07-10';
+
+function todayStr(){
+  return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+}
+
+function getDayIndex(){
+  const [ty,tm,td] = todayStr().split('-').map(Number);
+  const [ly,lm,ld] = LAUNCH_DATE_ET.split('-').map(Number);
+  return Math.floor((Date.UTC(ty,tm-1,td)-Date.UTC(ly,lm-1,ld))/(864e5));
+}
+
+// Archive support: ?day=N loads a specific past case instead of today's.
+// Falls back to today's index if the param is missing, invalid, or in the future.
+function getPlayIndex(){
+  const raw = new URLSearchParams(location.search).get('day');
+  if(raw === null) return getDayIndex();
+  const n = parseInt(raw, 10);
+  if(isNaN(n)) return getDayIndex();
+  return Math.max(0, Math.min(n, getDayIndex()));
+}
+function isArchivePlay(){
+  return getPlayIndex() !== getDayIndex();
+}
+
+function startCountdown(elId){
+  function tick(){
+    const etNow = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const midnight = new Date(etNow); midnight.setDate(midnight.getDate()+1); midnight.setHours(0,0,0,0);
+    const diff = midnight - etNow;
+    const h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    const el = document.getElementById(elId);
+    if(el) el.textContent = `Next case in ${h}h ${m}m ${s}s`;
+  }
+  tick(); setInterval(tick,1000);
+}
+
+
+let state = { symptoms: [], answer: '', synonyms: [], explanation: '', shown: 1, attemptsUsed: 0, guesses: [], solved:false };
+
+async function loadCase(){
+  // Clear playing session if it's a new day
+  try{
+    const etToday = new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    const lastDay = sessionStorage.getItem('neurole_last_play_date');
+    if(lastDay && lastDay !== etToday){
+      sessionStorage.removeItem('neurole_daily_playing');
+      sessionStorage.removeItem('neurole_csv_cache');
+      sessionStorage.removeItem('neurole_csv_time');
+      history.replaceState(null,'',location.pathname);
+    }
+    sessionStorage.setItem('neurole_last_play_date', etToday);
+  }catch(e){}
+  const playIdx = getPlayIndex();
+  const archiveMode = isArchivePlay();
+  const headerDate = archiveMode
+    ? new Date(dateStrForDayIndex(playIdx) + 'T12:00:00')
+    : new Date();
+  document.getElementById('case-date').textContent =
+    headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}) + (archiveMode ? ' · Archive' : '');
+  const caseNum = playIdx + 1;
+  const caseNumEl = document.getElementById('case-number');
+  if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
+  let chosen = null;
+  try{
+    // Load CSV raw — read by column position
+    // Layout: A=caseID(skip), B=date(skip), C=symp1, D=symp2, E=symp3, F=symp4, G=symp5, H=answer, I=synonyms, J=explanation
+    let csvText = null;
+    try{
+      const age = Date.now() - (parseInt(sessionStorage.getItem('neurole_csv_time')||'0'));
+      if(age < 1800000) csvText = sessionStorage.getItem('neurole_csv_cache');
+    }catch(e){}
+    if(!csvText){
+      const sheetUrl = window.NEUROLE_CONFIG.DAILY_CASE_SHEET_CSV + '&_cb=' + Date.now();
+      const res = await fetch(sheetUrl, {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      csvText = await res.text();
+      try{
+        sessionStorage.setItem('neurole_csv_cache', csvText);
+        sessionStorage.setItem('neurole_csv_time', String(Date.now()));
+      }catch(e){}
+    }
+    let allRows = parseCSV(csvText).filter(r => r.some(c => c.trim()));
+
+    // Skip header row if first row doesn't have a date in col 1 or a number in col 0
+    const col0 = (allRows[0]?.[0]||'').trim();
+    const col1 = (allRows[0]?.[1]||'').trim();
+    const isDataRow = /^\d+$/.test(col0) || /^\d{4}-/.test(col0) || /^\d{4}-/.test(col1);
+    if(!isDataRow && allRows.length > 1){
+      console.log('Neurole: skipping header row');
+      allRows = allRows.slice(1);
+    }
+
+    const idx = playIdx;
+    console.log('Neurole: rows:', allRows.length, '| dayIdx:', idx);
+    console.log('Neurole: row[0] =', allRows[0]?.slice(0,5));
+
+    if(idx >= 0 && idx < allRows.length){
+      const row = allRows[idx];
+      // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation
+      state.symptoms    = [1,2,3,4,5].map(i => (row[i]||'').trim()).filter(Boolean);
+      state.answer      = (row[6]||'').trim();
+      state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
+      state.explanation = (row[8]||'').trim();
+      console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
+      if(state.symptoms.length > 0 && state.answer) chosen = true;
+    } else {
+      console.warn('Neurole: no row for dayIdx', idx, '| rows:', allRows.length);
+    }
+  }catch(err){ console.error("Neurole: sheet error —", err.message); }
+
+  if(!chosen || !state.answer){
+    document.getElementById('game-content').style.display='block';
+    document.getElementById('start-screen').style.display='none';
+    const area = document.getElementById('result-area');
+    if(area) area.innerHTML = `
+      <div style="text-align:center;padding:48px 20px;max-width:400px;margin:0 auto;">
+        <div style="font-size:48px;margin-bottom:14px;">🧠</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin:0 0 10px;">No case today</h3>
+        <p style="font-family:'Outfit',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 6px;">Today's case hasn't been added yet.</p>
+        <p id="no-case-countdown" style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 24px;"></p>
+        <a class="btn" href="neuroanatomy.html" style="display:inline-flex;">Try Map the Brain →</a>
+      </div>`;
+    startCountdown('no-case-countdown');
+    return;
+  }
+  state.shown = 1;
+  renderSymptoms();
+
+  const saved = getSavedDailyCompletion();
+  state.alreadyCompletedToday = !!saved;
+  if(saved){
+    // Already played today on this device — prepare the locked result view,
+    // but don't show it yet; the start screen's "View Result" button reveals it.
+    state.answer = saved.answer;
+    state.explanation = saved.explanation;
+    state.attemptsUsed = saved.attemptsUsed;
+    state.solved = saved.won;
+    state.shown = state.symptoms.length;
+    renderSymptoms();
+    document.getElementById('guess-area').style.display = 'none';
+    const area = document.getElementById('result-area');
+    const banner = document.createElement('div');
+    banner.className = 'result-banner' + (saved.won ? '' : ' fail');
+    banner.innerHTML = saved.won
+      ? `<h4>Correct — it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
+      : `<h4>The diagnosis was ${saved.answer}.</h4><p>${saved.explanation}</p>`;
+    area.appendChild(banner);
+    // Coming back to a finished case (back button, reload, revisit) should
+    // land straight on the result popup, not just the inline banner.
+    openResultPopup(saved.won);
+  }
+
+  updateStartScreen();
+}
+
+function updateStartScreen(){
+  const playBtn = document.getElementById('start-play-btn');
+  const meta = document.getElementById('start-meta');
+  const streakLabel = document.getElementById('streak-label');
+  if(state.alreadyCompletedToday){
+    playBtn.textContent = 'View Result';
+  } else {
+    playBtn.textContent = 'Play';
+  }
+  const dateLabel = new Date().toLocaleDateString(undefined, {month:'long', day:'numeric', year:'numeric'});
+  meta.innerHTML = dateLabel;
+  // Always show streak
+  const streak = getStreak();
+  if(streak.count >= 3){
+    streakLabel.innerHTML = `🔥 ${streak.count}-day streak`;
+    streakLabel.style.color = '#B84A0A';
+  } else if(streak.count >= 1){
+    streakLabel.innerHTML = `${streak.count}-day streak`;
+    streakLabel.style.color = 'var(--ink-soft)';
+  } else {
+    streakLabel.innerHTML = 'No streak yet — play today to start one!';
+    streakLabel.style.color = 'var(--ink-soft)';
+  }
+}
+
+function renderSymptoms(){
+  const log = document.getElementById('symptom-log');
+  log.innerHTML = '';
+  const total = state.symptoms.length || 5;
+  for(let i=0;i<total;i++){
+    const li = document.createElement('li');
+    if(i < state.shown){
+      li.className = 'revealed';
+      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>${state.symptoms[i]}</span>`;
+    } else {
+      li.className = 'locked';
+      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked — make a guess to reveal this hint</span>`;
+    }
+    log.appendChild(li);
+  }
+  const dots = document.querySelectorAll('#attempts-dots span');
+  dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
+}
+
+function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); }
+
+function checkAnswer(guess){
+  if(!guess.trim()) return false;
+  if(fuzzyMatches(guess, state.answer)) return true;
+  return state.synonyms.some(syn => fuzzyMatches(guess, syn));
+}
+
+// If the guess is reasonably close to a DIFFERENT known disorder (not the
+// answer), let the player know what we think they meant, without penalizing
+// the spelling itself.
+function findClosestKnownDisorder(guess){
+  const g = normalize(guess);
+  if(!g) return null;
+  let best = null, bestDist = Infinity;
+  NEURO_DISORDERS.forEach(name => {
+    const dist = levenshtein(g, normalize(name));
+    if(dist < bestDist){ bestDist = dist; best = name; }
+  });
+  const threshold = Math.min(3, Math.max(1, Math.round(best ? normalize(best).length * 0.18 : 1)));
+  return (best && bestDist <= threshold && !fuzzyMatches(guess, state.answer)) ? best : null;
+}
+
+document.getElementById('guess-form').addEventListener('submit', e => {
+  e.preventDefault();
+  if(state.solved) return;
+  const input = document.getElementById('guess-input');
+  const guess = input.value;
+  if(!guess.trim()) return;
+  closeAutocomplete();
+
+  const note = document.getElementById('closest-note');
+
+  if(checkAnswer(guess)){
+    state.solved = true;
+    note.textContent = '';
+    showResult(true);
+  } else {
+    state.attemptsUsed++;
+    state.guesses.push(guess);
+    renderPastGuesses();
+
+    // Update attempt dots
+    updateAttemptDots();
+
+    // Shake the guess row
+    const guessRow = document.getElementById('guess-form');
+    if(guessRow){ guessRow.classList.add('shake'); setTimeout(()=>guessRow.classList.remove('shake'),450); }
+
+    // Flash the wrong answer prominently
+    showWrongFlash(guess);
+
+    const closest = findClosestKnownDisorder(guess);
+    note.textContent = closest ? `Read as: "${closest}" — not quite right.` : '';
+
+    if(state.attemptsUsed >= 5){
+      showResult(false);
+    } else {
+      state.shown = Math.min(state.shown + 1, state.symptoms.length);
+      renderSymptoms();
+    }
+  }
+  input.value = '';
+});
+
+function updateAttemptDots(won){
+  for(let i=1;i<=5;i++){
+    const dot = document.getElementById('dot-'+i);
+    if(!dot) continue;
+    dot.classList.remove('used','correct');
+    if(i <= state.attemptsUsed){
+      dot.classList.add(won && i===state.attemptsUsed ? 'correct' : 'used');
+    }
+  }
+}
+
+function showWrongFlash(wrongGuess){
+  let el = document.getElementById('wrong-flash');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'wrong-flash';
+    el.style.cssText = `
+      position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      background:#fff;
+      border:2.5px solid #8B2635;
+      border-radius:12px;
+      opacity:0;pointer-events:none;
+      transition:opacity .18s;z-index:500;
+      text-align:center;
+      min-width:220px;max-width:82vw;
+      padding:18px 28px 14px;
+      box-shadow:0 8px 30px rgba(0,0,0,.16);
+    `;
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `
+    <div style="font-family:'Libre Baskerville',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
+    <div style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#8B2635;margin-top:6px;opacity:.7;">Incorrect</div>
+  `;
+  el.style.opacity = '1';
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => { el.style.opacity = '0'; }, 1600);
+}
+
+/* ---------- autocomplete dropdown ---------- */
+const guessInput = document.getElementById('guess-input');
+const autoList = document.getElementById('autocomplete-list');
+let activeIndex = -1;
+
+function closeAutocomplete(){
+  autoList.classList.remove('open');
+  autoList.innerHTML = '';
+  activeIndex = -1;
+}
+
+function openAutocomplete(matches){
+  if(!matches.length){ closeAutocomplete(); return; }
+  autoList.innerHTML = matches.slice(0,8).map(name =>
+    `<div role="option">${name}</div>`
+  ).join('');
+  autoList.classList.add('open');
+  activeIndex = -1;
+  Array.from(autoList.children).forEach(div => {
+    div.addEventListener('mousedown', e => {
+      e.preventDefault();
+      guessInput.value = div.textContent;
+      closeAutocomplete();
+      guessInput.focus();
+    });
+  });
+}
+
+guessInput.addEventListener('input', () => {
+  const val = guessInput.value.trim().toLowerCase();
+  if(!val){ closeAutocomplete(); return; }
+  const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(val));
+  openAutocomplete(matches);
+});
+
+guessInput.addEventListener('keydown', e => {
+  const items = Array.from(autoList.children);
+  if(!items.length) return;
+  if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    activeIndex = Math.min(activeIndex + 1, items.length - 1);
+  } else if(e.key === 'ArrowUp'){
+    e.preventDefault();
+    activeIndex = Math.max(activeIndex - 1, 0);
+  } else if(e.key === 'Enter' && activeIndex >= 0){
+    e.preventDefault();
+    guessInput.value = items[activeIndex].textContent;
+    closeAutocomplete();
+    return;
+  } else if(e.key === 'Escape'){
+    closeAutocomplete();
+    return;
+  } else {
+    return;
+  }
+  items.forEach((it,i) => it.classList.toggle('active', i === activeIndex));
+});
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.guess-row')) closeAutocomplete();
+});
+
+// Brief neuro category labels for common wrong-guess patterns
+function getDisorderCategory(guess){
+  const g = guess.toLowerCase();
+  const cats = [
+    {label:'Neurodegenerative', words:['alzheimer','parkinson','huntington','als','dementia','lewy','msa','psp','ftd','prion','creutzfeldt']},
+    {label:'Cerebrovascular', words:['stroke','tia','aneurysm','subarachnoid','hemorrhage','ischemia','infarct','lacunar','carotid']},
+    {label:'Demyelinating', words:['multiple sclerosis','ms','guillain','nmo','adem','devic']},
+    {label:'Movement disorder', words:['dystonia','tremor','chorea','tic','tourette','ataxia','cerebellar']},
+    {label:'Epilepsy', words:['epilepsy','seizure','absence','tonic','clonic','status']},
+    {label:'Headache disorder', words:['migraine','cluster','tension','trigeminal']},
+    {label:'Peripheral nerve', words:['neuropathy','neuritis','myopathy','myasthenia','lambert','radiculopathy','carpal','brachial']},
+    {label:'Infection / Inflammation', words:['meningitis','encephalitis','abscess','vasculitis','sarcoid','autoimmune']},
+    {label:'Psychiatric', words:['schizophrenia','bipolar','depression','anxiety','ocd','psychosis']},
+    {label:'Tumour', words:['glioma','glioblastoma','meningioma','metastasis','lymphoma','tumour','tumor']},
+    {label:'Metabolic', words:['wilson','wernicke','hepatic','uremic','hypoxic','metabolic']},
+    {label:'Sleep disorder', words:['narcolepsy','sleep apnoea','insomnia','rem','parasom']},
+    {label:'Genetic / Developmental', words:['tuberous','neurofibromatosis','rett','fragile','tay','gaucher','niemann']},
+  ];
+  for(const cat of cats){
+    if(cat.words.some(w => g.includes(w))) return cat.label;
+  }
+  return 'Neurological condition';
+}
+
+function renderPastGuesses(){
+  const wrap = document.getElementById('past-guesses');
+  wrap.innerHTML = '';
+  state.guesses.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'wrong-guess-card';
+    const cat = getDisorderCategory(g);
+    card.innerHTML = `
+      <span class="wrong-guess-name">${g}</span>
+      <span class="wrong-guess-cat">${cat}</span>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function showResult(won){
+  document.getElementById('guess-area').style.display = 'none';
+  closeAutocomplete();
+  const area = document.getElementById('result-area');
+  const banner = document.createElement('div');
+  banner.className = 'result-banner' + (won ? '' : ' fail');
+  banner.innerHTML = won
+    ? `<h4>Correct — it's ${state.answer}.</h4><p>${state.explanation}</p>`
+    : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p>`;
+  area.appendChild(banner);
+  state.shown = state.symptoms.length;
+  renderSymptoms();
+
+  // Update dots — last dot goes green on win
+  if(won){
+    state.attemptsUsed = Math.max(state.attemptsUsed, 1);
+    updateAttemptDots(true);
+    // Flash the card green briefly
+    const card = document.querySelector('.case-card');
+    if(card){ card.classList.add('correct-flash'); setTimeout(()=>card.classList.remove('correct-flash'),600); }
+  } else {
+    updateAttemptDots(false);
+  }
+
+  saveDailyCompletion(won);
+  openResultPopup(won);
+}
+
+// ---------- One play per device per day ----------
+function dailyStorageKey(){
+  return 'neurole_daily_' + dateStrForDayIndex(getPlayIndex());
+}
+
+function saveDailyCompletion(won){
+  try{
+    localStorage.setItem(dailyStorageKey(), JSON.stringify({
+      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation
+    }));
+  }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage —", err.message); }
+}
+
+function getSavedDailyCompletion(){
+  try{
+    const raw = localStorage.getItem(dailyStorageKey());
+    return raw ? JSON.parse(raw) : null;
+  }catch(err){ return null; }
+}
+
+// ---------- Stats & streak (derived from per-day completion records) ----------
+function dateStrForDayIndex(idx){
+  const [ly,lm,ld] = LAUNCH_DATE_ET.split('-').map(Number);
+  return new Date(Date.UTC(ly, lm-1, ld + idx)).toISOString().slice(0,10);
+}
+
+function getDailyStats(){
+  const currentIdx = Math.max(0, getDayIndex());
+  let played=0, wins=0, distribution=[0,0,0,0,0];
+  let bestStreak=0, runStreak=0, streakBeforeToday=0;
+  for(let i=0;i<=currentIdx;i++){
+    if(i===currentIdx) streakBeforeToday = runStreak;
+    let rec=null;
+    try{
+      const raw = localStorage.getItem('neurole_daily_' + dateStrForDayIndex(i));
+      rec = raw ? JSON.parse(raw) : null;
+    }catch(e){}
+    if(rec){
+      played++;
+      if(rec.won){
+        wins++;
+        runStreak++;
+        const a = rec.attemptsUsed;
+        if(a>=1 && a<=5) distribution[a-1]++;
+      } else {
+        runStreak = 0;
+      }
+      if(runStreak > bestStreak) bestStreak = runStreak;
+    } else {
+      runStreak = 0;
+    }
+  }
+  let todayPlayed = false;
+  try{ todayPlayed = !!localStorage.getItem('neurole_daily_' + dateStrForDayIndex(currentIdx)); }catch(e){}
+  // If today hasn't been played yet, the streak from yesterday is still "alive" — don't zero it out early.
+  const currentStreak = todayPlayed ? runStreak : streakBeforeToday;
+  return {
+    played, wins,
+    winPct: played ? Math.round((wins/played)*100) : 0,
+    currentStreak, bestStreak, distribution
+  };
+}
+
+function getStreak(){
+  return { count: getDailyStats().currentStreak };
+}
+
+function openResultPopup(won){
+  const headline = document.getElementById('result-headline-text');
+  const stats = document.getElementById('result-stats-text');
+  const grid = document.getElementById('result-grid');
+
+  headline.textContent = won ? 'Diagnosed.' : 'Not this time.';
+  stats.textContent = won
+    ? `${state.answer} — ${state.attemptsUsed} ${state.attemptsUsed===1?'try':'tries'}`
+    : `The diagnosis was: ${state.answer}`;
+
+  const explSection = document.getElementById('result-explanation-section');
+  const explText = document.getElementById('result-explanation-text');
+  if(explSection && explText){
+    if(state.explanation && state.explanation.trim()){
+      explText.textContent = state.explanation;
+      explSection.style.display = 'block';
+    } else {
+      explSection.style.display = 'none';
+    }
+  }
+
+  // Emoji grid
+  const total=5, used=state.attemptsUsed||0;
+  let g='';
+  for(let i=0;i<total;i++){
+    if(i<used-(won?1:0)) g+='🟥';
+    else if(i===used-1&&won) g+='🟩';
+    else g+='⬜';
+  }
+  if(grid){ grid.textContent=g; }
+
+  const dailyStats = getDailyStats();
+  const setStat = (id, val) => {
+    const el = document.querySelector('#'+id+' .rmodal-stat-val');
+    if(el) el.textContent = val;
+  };
+  setStat('stat-played', dailyStats.played);
+  setStat('stat-win', dailyStats.winPct + '%');
+  setStat('stat-streak', dailyStats.currentStreak);
+  setStat('stat-maxstreak', dailyStats.bestStreak);
+
+  // Show personal distribution immediately so the popup never waits on a
+  // network call to appear — global numbers (if configured) swap in once
+  // they arrive, without delaying the popup itself.
+  const labelEl = document.getElementById('result-distribution-label');
+  const distEl = document.getElementById('result-distribution');
+  function renderDistribution(dist, label){
+    if(!distEl) return;
+    if(labelEl) labelEl.textContent = label;
+    const maxCount = Math.max(1, ...dist);
+    distEl.innerHTML = dist.map((count, i) => {
+      const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
+      const isThisGame = won && used === i+1;
+      return `
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <span style="width:12px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--rm-soft);">${i+1}</span>
+          <div style="flex:1;background:var(--rm-track);border-radius:4px;overflow:hidden;height:18px;">
+            <div style="width:${pct}%;min-width:${count?'22px':'0'};background:${isThisGame?'#8B2635':'var(--rm-soft)'};height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;box-sizing:border-box;">
+              ${count ? `<span style="font-family:var(--mono);font-size:10.5px;font-weight:700;color:#fff;">${count}</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+  renderDistribution(dailyStats.distribution, 'Guess Distribution — Your History');
+
+  const countdownEl = document.getElementById('next-case-countdown');
+  if(isArchivePlay()){
+    if(countdownEl) countdownEl.innerHTML = '<a href="archive.html" style="color:var(--rm-soft);text-decoration:underline;">← Back to Archive</a>';
+  } else {
+    startCountdown('next-case-countdown');
+  }
+  document.getElementById('result-modal').classList.add('open');
+  renderGoogleSignIn('result-google-container', () => {
+    document.getElementById('result-google-container').innerHTML =
+      `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`;
+  });
+
+  // Contribute this result and swap in the global distribution once it's
+  // back — fire-and-forget, doesn't block anything above.
+  const dateKey = dateStrForDayIndex(getPlayIndex());
+  submitGlobalDailyResult(dateKey, won ? used : null);
+  fetchGlobalDailyDistribution(dateKey).then(global => {
+    if(!global || !global.total) return;
+    renderDistribution(global.d, `Guess Distribution — All Players (${global.total.toLocaleString()})`);
+    const compareEl = document.getElementById('result-compare-line');
+    if(!compareEl) return;
+    if(won){
+      const worse = global.d.slice(used).reduce((a,b) => a+b, 0) + global.fail;
+      const pct = Math.round((worse / global.total) * 100);
+      compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'} — faster than ${pct}% of today's players.`;
+    } else {
+      const solved = global.d.reduce((a,b) => a+b, 0);
+      const pct = Math.round((solved / global.total) * 100);
+      compareEl.textContent = `${pct}% of today's players solved it — you'll get the next one.`;
+    }
+  });
+}
+
+document.getElementById('result-modal-close').addEventListener('click', () => {
+  document.getElementById('result-modal').classList.remove('open');
+});
+document.getElementById('result-modal').addEventListener('click', (e) => {
+  if(e.target.id === 'result-modal') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('share-btn').addEventListener('click', async () => {
+  // Build Wordle-style grid: each attempt = colored square
+  const total = 5;
+  const used = state.attemptsUsed || 0;
+  const won = state.solved;
+
+  let grid = '';
+  for(let i = 0; i < total; i++){
+    if(i < used - (won ? 1 : 0))      grid += '🟥'; // wrong guess
+    else if(i === used - 1 && won)     grid += '🟩'; // correct
+    else                               grid += '⬜'; // unused
+  }
+
+  const tries = won
+    ? `${used}/${total}`
+    : `X/${total}`;
+
+  const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
+
+  const shareText = won
+    ? `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used===1?'try':'tries'}. Can you beat that?\nneurole.org/daily-game.html`
+    : `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`;
+
+  const shareBtn = document.getElementById('share-btn');
+  try{
+    if(navigator.share){
+      await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' });
+    } else {
+      await navigator.clipboard.writeText(shareText);
+      const orig = shareBtn.textContent;
+      shareBtn.textContent = 'Copied! ✓';
+      setTimeout(() => shareBtn.textContent = orig, 2000);
+    }
+  }catch(err){}
+});
+
+// start-play-btn is unreachable on this page (start screen is never shown here),
+// left as a no-op safety fallback in case it's ever revealed.
+document.getElementById('start-play-btn').addEventListener('click', () => {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('game-content').style.display = 'block';
+});
+
+loadCase();
+
+/* ---------- AI chat modal ---------- */
+document.getElementById('case-chat-fab').addEventListener('click', () => {
+  document.getElementById('case-chat-backdrop').classList.add('open');
+});
+document.getElementById('case-chat-close').addEventListener('click', () => {
+  document.getElementById('case-chat-backdrop').classList.remove('open');
+});
+document.getElementById('case-chat-backdrop').addEventListener('click', (e) => {
+  if(e.target.id === 'case-chat-backdrop') e.currentTarget.classList.remove('open');
+});
+
+document.getElementById('case-chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('case-chat-input');
+  const question = input.value.trim();
+  if(!question) return;
+  const log = document.getElementById('case-chat-log');
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = question;
+  log.appendChild(userMsg);
+  input.value = '';
+
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'chat-msg ai';
+  aiMsg.textContent = 'Thinking…';
+  log.appendChild(aiMsg);
+  log.scrollTop = log.scrollHeight;
+
+  const gameFinished = state.solved || state.attemptsUsed >= 5;
+  const shownSymptoms = state.symptoms.slice(0, state.shown).map((s,i) => `${i+1}. ${s}`).join('\n');
+
+  let prompt;
+  if(gameFinished){
+    prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
+The player just finished a diagnostic case. The correct diagnosis was: "${state.answer}".
+Explanation given to the player: "${state.explanation}"
+The player's follow-up question is: "${question}"
+
+The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`;
+  } else {
+    prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
+A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${state.attemptsUsed} of 5 guesses so far.
+Symptoms revealed to them so far:
+${shownSymptoms}
+
+The player's question is: "${question}"
+
+CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
+- Help them think through the symptoms they've already seen
+- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
+- Encourage them to consider patterns, without naming or strongly implying the answer
+- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
+Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
+  }
+
+  aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now — try again in a moment.";
+});
+</script>
+<!-- Subscribe modal -->
+<div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sub-card">
+    <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+    </div>
+    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+      <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
+        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="type" value="daily_subscriber">
+        <div class="field">
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+        </div>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+      </form>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('sub-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=f.querySelector('.sub-submit');
+    btn.textContent='Subscribing…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){f.style.display='none';document.getElementById('sub-success-msg').style.display='block';}
+      else{btn.textContent='Continue';btn.disabled=false;}
+    }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>

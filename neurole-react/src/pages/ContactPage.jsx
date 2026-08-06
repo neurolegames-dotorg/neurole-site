@@ -1,5 +1,6 @@
 import pageStyle from './styles/ContactPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -9,6 +10,11 @@ import { Link } from 'react-router-dom'
 
 export default function ContactPage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Contact Us — Neurole",
+    description: "Get in touch with the Neurole team. Questions, feedback, error reports, press inquiries, or collaboration ideas — we read everything.",
+    canonical: "/contact",
+  });
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')

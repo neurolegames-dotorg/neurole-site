@@ -14,6 +14,10 @@ import NeuroanatomyPage from './pages/NeuroanatomyPage';
 import NeuroanatomyPlayPage from './pages/NeuroanatomyPlayPage';
 import ArticlesIndexPage from './pages/ArticlesIndexPage';
 import ArticlePage from './pages/ArticlePage';
+import SynapsePage from './pages/SynapsePage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -31,8 +35,12 @@ function App() {
         <Route path="/daily-game-play" element={<DailyGamePlayPage />} />
         <Route path="/neuroanatomy" element={<NeuroanatomyPage />} />
         <Route path="/neuroanatomy-play" element={<NeuroanatomyPlayPage />} />
+        <Route path="/synapse" element={<SynapsePage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/articles" element={<ArticlesIndexPage />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

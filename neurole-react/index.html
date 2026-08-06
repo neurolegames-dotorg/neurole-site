@@ -13,12 +13,29 @@
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <!-- One request instead of two. Archivo Black is used by the redesigned
+         home game cards, stat numbers and result modal. -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
     <script src="/theme-init.js"></script>
     <meta name="color-scheme" content="light dark" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <title>Neurole — Free Daily Neuroscience Games</title>
+
+    <!-- Defaults. Each page overrides title/description/canonical/og via the
+         useDocumentHead hook; these are what a crawler sees before React runs
+         and what the SPA falls back to. -->
+    <title>Free Neuroscience Games — Daily Diagnosis Puzzle &amp; Brain Anatomy Quiz | Neurole</title>
+    <meta name="description" content="A Wordle-style daily medical diagnosis puzzle and a free brain anatomy quiz — built for pre-med, nursing, and medical students, clinicians, and anyone curious how the brain works. New case every day, no account needed." />
+    <link rel="canonical" href="https://neurole.org/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Neurole" />
+    <meta property="og:url" content="https://neurole.org/" />
+    <meta property="og:title" content="Free Neuroscience Games — Daily Diagnosis Puzzle &amp; Brain Anatomy Quiz | Neurole" />
+    <meta property="og:description" content="A Wordle-style daily medical diagnosis puzzle and a free brain anatomy quiz — built for pre-med, nursing, and medical students, clinicians, and anyone curious how the brain works. New case every day, no account needed." />
+    <meta property="og:image" content="https://neurole.org/neurole-logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free Neuroscience Games — Daily Diagnosis Puzzle &amp; Brain Anatomy Quiz | Neurole" />
+    <meta name="twitter:description" content="A Wordle-style daily medical diagnosis puzzle and a free brain anatomy quiz — built for pre-med, nursing, and medical students, clinicians, and anyone curious how the brain works. New case every day, no account needed." />
+    <meta name="twitter:image" content="https://neurole.org/neurole-logo.png" />
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7HJ5CWC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

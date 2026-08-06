@@ -1,0 +1,55 @@
+# Vercel deployment ignore list — the counterpart to `exclude:` in _config.yml.
+#
+# Jekyll's exclude list is a GitHub Pages mechanism and does NOTHING on Vercel:
+# Vercel uploads and serves whatever is in the deployed directory. This file is
+# what keeps a path in the repo without putting it on the web here. Anything
+# added to one list almost always belongs in the other too — keep them in sync.
+#
+# Nothing is deleted; removing a line republishes the path.
+
+# --- Duplicate copies of the whole site --------------------------------
+# A second, older copy of every page, committed by accident.
+neurole-site-main_4/
+# Redundant copy of the images plus the spreadsheets and zips below. Verified
+# unreferenced: every page loads its assets from the site root, not from here.
+assets/
+
+# --- Question banks ----------------------------------------------------
+# Case and quiz banks, answers included. The live games read the published
+# Google Sheet CSV, so nothing on the site fetches these.
+*.xlsx
+
+# --- Source archives ---------------------------------------------------
+*.zip
+
+# --- Dead pages --------------------------------------------------------
+# Stub that returned HTTP 200 with "Page not found" — a soft 404. 404.html
+# replaces it and Vercel serves that automatically with a real 404 status.
+ai-test.html
+
+# --- Not part of the website -------------------------------------------
+# Cloudflare Worker source; runs on Cloudflare, never fetched by a browser.
+ai-worker.js
+# React port: source, not build output. Deployed as its own Vercel project.
+neurole-react/
+# Tooling and docs.
+wrangler.jsonc
+package.json
+package-lock.json
+# Every markdown file in the root is a note or a readme for whoever is working
+# on the repo — none is a page. Named by pattern so a new one does not silently
+# become a URL. (Article content lives in neurole-react/, already excluded.)
+*.md
+
+# --- Other platforms' config -------------------------------------------
+# Both would otherwise be served as plain static files from the site root.
+# CNAME is a GitHub Pages convention; on Vercel the domain is set in project
+# settings, so it is meaningless here — but harmless to keep in the repo.
+_config.yml
+CNAME
+
+# --- Dotfiles ----------------------------------------------------------
+# Jekyll ignores these automatically; Vercel does not, so they need naming
+# here or they end up served from the site root.
+.gitignore
+.vercelignore

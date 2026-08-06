@@ -22,10 +22,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="author" content="Neurole">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://neurole.org/synapse.html">
+<meta property="og:url" content="https://neurole.org/synapse">
 <meta property="og:title" content="Synapse — Neurole">
 <meta property="og:description" content="Synapse — a daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible. Free, no account needed.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Neurole logo">
 <meta property="og:site_name" content="Neurole">
 
 <meta name="twitter:card" content="summary">
@@ -33,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:description" content="Synapse — a daily neuroscience word-grouping game. Sort 16 terms into 4 hidden groups in as few mistakes as possible.">
 <meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
-<link rel="canonical" href="https://neurole.org/synapse.html">
+<link rel="canonical" href="https://neurole.org/synapse">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
@@ -41,10 +44,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Synapse — Neurole</title>
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Cormorant+Garamond:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=144">
 <style>
   :root{--game-font:'Outfit',sans-serif;}
@@ -171,12 +174,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+    <div class="brand"><a href="/"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
     <nav class="nav-left">
-      <a href="contact.html">Contact Us</a>
-      <a href="volunteer.html">Join Us</a>
-      <a href="donate.html">Donate</a>
-      <a href="about.html">About</a>
+      <a href="/contact">Contact Us</a>
+      <a href="/volunteer">Join Us</a>
+      <a href="/donate">Donate</a>
+      <a href="/about">About</a>
       <button class="linklike" data-signin>Sign In</button>
     </nav>
     <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -187,17 +190,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
-    <li><a href="contact.html">Contact Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="volunteer.html">Join Us <span class="nav-arrow">›</span></a></li>
-    <li><a href="donate.html">Donate <span class="nav-arrow">›</span></a></li>
-    <li><a href="about.html">About <span class="nav-arrow">›</span></a></li>
+    <li><a href="/contact">Contact Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="/volunteer">Join Us <span class="nav-arrow">›</span></a></li>
+    <li><a href="/donate">Donate <span class="nav-arrow">›</span></a></li>
+    <li><a href="/about">About <span class="nav-arrow">›</span></a></li>
     <li><button class="nav-tab-btn" data-signin>Sign In <span class="nav-arrow">›</span></button></li>
   </ul>
 </div>
 
 <div class="page-hero">
   <div class="wrap">
-    <a class="back-home" href="index.html">
+    <a class="back-home" href="/">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       Back to home
     </a>
@@ -238,7 +241,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="syn-share-grid" id="syn-result-grid"></div>
     <div class="syn-result-actions">
       <button class="btn" id="syn-share-btn" type="button">Copy result to share →</button>
-      <a class="btn ghost" href="index.html">Back to home</a>
+      <a class="btn ghost" href="/">Back to home</a>
     </div>
     <p class="syn-streak-note" id="syn-streak-note" style="display:none;"></p>
   </div>
@@ -258,25 +261,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Games</p>
-        <a href="daily-game.html">The Daily Case</a>
-        <a href="neuroanatomy.html">Map the Brain</a>
-        <a href="synapse.html">Synapse</a>
-        <a href="archive.html">Case Archive</a>
-        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+        <a href="/daily-game">The Daily Case</a>
+        <a href="/neuroanatomy">Map the Brain</a>
+        <a href="/synapse">Synapse</a>
+        <a href="/archive">Case Archive</a>
+        <a href="/interactive">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Get Involved</p>
-        <a href="volunteer.html">Join Us</a>
-        <a href="volunteer.html#create-a-case">Create a Case</a>
-        <a href="donate.html">Donate</a>
+        <a href="/volunteer">Join Us</a>
+        <a href="/volunteer#create-a-case">Create a Case</a>
+        <a href="/donate">Donate</a>
         <a href="mailto:neurolegames@gmail.com">Contact Us</a>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Learn More</p>
-        <a href="about.html">About Neurole</a>
-        <a href="volunteer.html">Volunteer</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
+        <a href="/about">About Neurole</a>
+        <a href="/volunteer">Volunteer</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
       </div>
     </div>
     <div class="social-row">
@@ -290,7 +293,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
       </a>
     </div>
-    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
+    <p class="footer-fine">© 2026 Neurole. Games for your brain. · <a href="/privacy" style="color:inherit;">Privacy</a> · <a href="/terms" style="color:inherit;">Terms</a></p>
   </div>
 </footer>
 
@@ -579,7 +582,7 @@ function synFinish(won){
 function synShareText(){
   const rows = state.guessHistory.map(g => g.map(gi => GROUP_COLORS[gi].emoji).join(''));
   const status = state.won ? state.mistakes + '/4 mistakes' : 'X — didn’t finish';
-  return 'Synapse #' + state.puzzleNum + ' — ' + status + '\n' + rows.join('\n') + '\nhttps://neurole.org/synapse.html';
+  return 'Synapse #' + state.puzzleNum + ' — ' + status + '\n' + rows.join('\n') + '\nhttps://neurole.org/synapse';
 }
 
 function synShowResult(){

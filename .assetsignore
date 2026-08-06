@@ -1,0 +1,43 @@
+# Cloudflare Workers Static Assets ignore list — the third counterpart to
+# `exclude:` in _config.yml (GitHub Pages) and .vercelignore (Vercel).
+#
+# wrangler.jsonc sets `assets.directory: "."`, so WITHOUT this file every file
+# in the repo root is uploaded and served by the Worker — including the question
+# banks. Each of the three platforms honours only its own list and ignores the
+# other two, so a path added to one almost always belongs in all three.
+#
+# Nothing is deleted; removing a line republishes the path.
+
+# --- Duplicate copies of the whole site --------------------------------
+neurole-site-main_4/
+assets/
+
+# --- Question banks ----------------------------------------------------
+# Case and quiz banks, answers included. The live games read the published
+# Google Sheet CSV, so nothing on the site fetches these.
+*.xlsx
+
+# --- Source archives ---------------------------------------------------
+*.zip
+
+# --- Dead pages --------------------------------------------------------
+ai-test.html
+
+# --- Not part of the website -------------------------------------------
+# Worker source itself; it runs as the Worker, it is not an asset to serve.
+ai-worker.js
+# React port: source, not build output. Deployed as its own project.
+neurole-react/
+# Tooling and docs.
+wrangler.jsonc
+package.json
+package-lock.json
+*.md
+
+# --- Other platforms' config -------------------------------------------
+_config.yml
+CNAME
+vercel.json
+.vercelignore
+.gitignore
+.assetsignore

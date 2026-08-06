@@ -1,6 +1,7 @@
 import pageStyle from './styles/ArticlePage.css?raw'
 import { usePageStyle } from '../hooks/usePageStyle'
-import { useEffect, useState } from 'react'
+import { useDocumentHead } from '../hooks/useDocumentHead'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getArticle } from '../lib/articles'
 import { parseInline } from '../lib/articleFormat'
@@ -12,16 +13,14 @@ export default function ArticlePage() {
   const article = getArticle(slug)
   const [figure, setFigure] = useState(null)
 
-  // The app has no per-route <title> anywhere else; articles at least set
-  // their own, since they are the pages most likely to be linked and shared.
-  // Runs before the missing-article early return so hook order stays stable
-  // across both branches.
-  useEffect(() => {
-    if (!article) return
-    const previous = document.title
-    document.title = `${article.title} — Neurole`
-    return () => { document.title = previous }
-  }, [article])
+  // Articles are the pages most likely to be linked and shared, so the dek
+  // doubles as the description and og:description. Called before the missing
+  // article early-return so hook order stays stable across both branches.
+  useDocumentHead({
+    title: article ? `${article.title} — Neurole` : 'Article not found — Neurole',
+    description: article?.dek || undefined,
+    canonical: `/articles/${slug}`,
+  })
 
   if (!article) {
     return (

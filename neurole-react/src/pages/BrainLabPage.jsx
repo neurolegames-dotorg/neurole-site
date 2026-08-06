@@ -1,5 +1,6 @@
 import pageStyle from './styles/BrainLabPage.css?raw'
 import { usePageStyle } from '../hooks/usePageStyle'
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 // Lazy wrapper, not the viewer itself — a static import here would pull
@@ -39,6 +40,11 @@ const STAGES = [
 
 export default function BrainLabPage() {
   usePageStyle(pageStyle)
+  useDocumentHead({
+    title: "Brain Lab — Interactive 3D Brain | Neurole",
+    description: "Explore a 3D model of the human brain and watch Alzheimer's disease progress stage by stage. Part of Neurole's interactive teaching tools.",
+    canonical: "/interactive/brain-lab",
+  });
   const [stage, setStage] = useState(0)
   const [viewMode, setViewMode] = useState('surface')
   const viewerRef = useRef(null)

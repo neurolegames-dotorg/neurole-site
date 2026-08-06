@@ -1,5 +1,6 @@
 import pageStyle from './styles/DailyGamePage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { NEURO_DISORDERS, FALLBACK_CASES } from '../games-data'
@@ -13,6 +14,11 @@ import {
 
 export default function DailyGamePage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Daily Medical Diagnosis Game — The Daily Case | Neurole",
+    description: "A Wordle-style daily diagnosis puzzle for medical and nursing students. Read a new clinical case each day and guess the neurological diagnosis in 5 tries. Free, no account needed.",
+    canonical: "/daily-game",
+  });
   const navigate = useNavigate()
   const [playing, setPlaying] = useState(false)
   const [gameState, setGameState] = useState({

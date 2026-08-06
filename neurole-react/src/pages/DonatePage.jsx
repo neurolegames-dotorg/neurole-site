@@ -1,5 +1,6 @@
 import pageStyle from './styles/DonatePage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { Link } from 'react-router-dom'
 
 /* SEO: description="Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support Alzheimer's research through our partner link." */
@@ -8,6 +9,11 @@ import { Link } from 'react-router-dom'
 
 export default function DonatePage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Donate — Support Free Neuroscience Education | Neurole",
+    description: "Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support Alzheimer's research through our partner link.",
+    canonical: "/donate",
+  });
   return (
     <>
       <div className="page-hero"><div className="wrap">

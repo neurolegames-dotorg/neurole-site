@@ -1,3 +1,4 @@
+
 .about-values{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
 @media(max-width:560px){.about-values{grid-template-columns:1fr;}}
 .value-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:22px 20px;}

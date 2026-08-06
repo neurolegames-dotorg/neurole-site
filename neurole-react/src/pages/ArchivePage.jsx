@@ -1,5 +1,6 @@
 import pageStyle from './styles/ArchivePage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -30,6 +31,11 @@ function parseCSV(text) {
 
 export default function ArchivePage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Medical Case Puzzle Archive — Past Daily Cases | Neurole",
+    description: "Every past Daily Case, browsable and replayable. Practice neurological diagnosis puzzles from previous days at your own pace.",
+    canonical: "/archive",
+  });
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)

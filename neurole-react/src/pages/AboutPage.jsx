@@ -1,5 +1,6 @@
 import pageStyle from './styles/AboutPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { Link } from 'react-router-dom'
 
 /* SEO: description="Neurole is a free educational neuroscience games platform built for students, clinicians, and curious minds worldwide." */
@@ -8,6 +9,11 @@ import { Link } from 'react-router-dom'
 
 export default function AboutPage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "About Neurole — Free Neuroscience Education Platform",
+    description: "Neurole is a free, volunteer-built neuroscience education platform — daily diagnosis puzzles and neuroanatomy quizzes for pre-med, nursing, and medical students, and clinicians worldwide.",
+    canonical: "/about",
+  });
   return (
     <>
       <div className="page-hero"><div className="wrap">

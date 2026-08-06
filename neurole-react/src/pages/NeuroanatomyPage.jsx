@@ -1,5 +1,6 @@
 import pageStyle from './styles/NeuroanatomyPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { FALLBACK_QUESTIONS, BUILT_IN_REGIONS } from '../games-data'
@@ -12,6 +13,11 @@ const CHOICE_KEYS = ['a', 'b', 'c', 'd']
 
 export default function NeuroanatomyPage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Free Neuroanatomy Quiz — Learn Brain Regions | Map the Brain",
+    description: "A free neuroanatomy quiz covering 45+ brain regions — sulci, gyri, cortex, and neuropsychology. Identify regions from real images or quiz in reverse by function, with a built-in tutor to explain each one.",
+    canonical: "/neuroanatomy",
+  });
   const navigate = useNavigate()
   const [playing, setPlaying] = useState(false)
 

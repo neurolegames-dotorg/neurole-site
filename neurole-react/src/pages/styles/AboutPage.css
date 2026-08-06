@@ -1,3 +1,4 @@
+
 .about-values{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
 @media(max-width:560px){.about-values{grid-template-columns:1fr;}}
 .value-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:22px 20px;}
@@ -8,3 +9,12 @@
 @media(max-width:480px){.about-cta-row .btn{width:100%;justify-content:center;}}
 .seo-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .seo-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;background:#fff;border:1.5px solid var(--rule);border-radius:20px;padding:5px 13px;color:var(--ink-soft);}
+details summary::-webkit-details-marker{display:none;}
+details summary{position:relative;padding-right:44px !important;list-style:none;}
+details summary::after{
+  content:'+';
+  position:absolute;right:20px;top:18px;
+  font-family:var(--mono);font-size:18px;color:var(--ink-soft);
+}
+details[open] summary::after{content:'−';}
+details summary:hover{background:var(--paper-deep);}

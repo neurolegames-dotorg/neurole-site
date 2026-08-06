@@ -1,3 +1,4 @@
+
 .role-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -57,6 +58,17 @@
   max-width:520px;
 }
 .interest-form-wrap h3{font-family:var(--serif-display);margin-top:0;}
+
+/* Volunteer/Case tabs */
+.volunteer-tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1.5px solid var(--rule);}
+.volunteer-tab-btn{
+  font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:none;border:none;padding:0 2px 12px;margin-right:20px;cursor:pointer;
+  color:var(--ink-soft);border-bottom:2px solid transparent;margin-bottom:-1.5px;
+  transition:color .15s;
+}
+.volunteer-tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);}
+.volunteer-tab-btn:hover{color:var(--ink);}
 
 /* Role select chips */
 .role-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}

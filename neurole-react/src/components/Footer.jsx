@@ -1,10 +1,58 @@
 import { Link } from 'react-router-dom';
 import NEUROLE_CONFIG from '../config';
+import { listArticles } from '../lib/articles';
 
+// Mirrors the .footer-grid markup the client shipped to the static site.
+// The Articles entry follows the same rule as the nav: it appears only once
+// at least one article exists, so an empty articles/ folder never leaves a
+// dead link in the footer.
 export default function Footer({ onSubscribe }) {
+  const hasArticles = listArticles().length > 0;
+
   return (
     <footer id="footer-contact">
       <div className="wrap">
+        <div className="footer-grid">
+          <div className="footer-about">
+            <p className="footer-about-name">Neurole</p>
+            <p className="footer-about-blurb">
+              A free daily neuroscience game for students, clinicians, and anyone
+              curious how the brain works.
+            </p>
+            <button type="button" className="footer-about-cta" onClick={onSubscribe}>
+              Get the daily reminder →
+            </button>
+          </div>
+
+          <div className="footer-col">
+            <p className="footer-col-title">Games</p>
+            <Link to="/daily-game">The Daily Case</Link>
+            <Link to="/neuroanatomy">Map the Brain</Link>
+            <Link to="/synapse">Synapse</Link>
+            <Link to="/archive">Case Archive</Link>
+            <Link to="/interactive">
+              Interactive <span className="beta-pill" style={{ marginLeft: 4 }}>Beta</span>
+            </Link>
+          </div>
+
+          <div className="footer-col">
+            <p className="footer-col-title">Get Involved</p>
+            <Link to="/volunteer">Join Us</Link>
+            <Link to="/volunteer#create-a-case">Create a Case</Link>
+            <Link to="/donate">Donate</Link>
+            <Link to="/contact">Contact Us</Link>
+          </div>
+
+          <div className="footer-col">
+            <p className="footer-col-title">Learn More</p>
+            <Link to="/about">About Neurole</Link>
+            {hasArticles && <Link to="/articles">Articles</Link>}
+            <Link to="/volunteer">Volunteer</Link>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms of Service</Link>
+          </div>
+        </div>
+
         <div className="social-row">
           <a href={NEUROLE_CONFIG.SOCIAL.instagram} id="social-instagram" aria-label="Instagram" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -26,13 +74,11 @@ export default function Footer({ onSubscribe }) {
             </svg>
           </a>
         </div>
-        <p className="footer-fine">© 2026 Neurole. Games for your brain.</p>
-        <div style={{ borderTop: '1px solid rgba(0,0,0,.08)', paddingTop: 14, marginTop: 14, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '4px 0' }}>
-          <Link to="/contact" style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'var(--ink-soft)', textDecoration: 'none', padding: '0 10px', borderRight: '1px solid rgba(0,0,0,.15)', lineHeight: 1.2 }}>Contact Us</Link>
-          <Link to="/about" style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'var(--ink-soft)', textDecoration: 'none', padding: '0 10px', borderRight: '1px solid rgba(0,0,0,.15)', lineHeight: 1.2 }}>About</Link>
-          <Link to="/donate" style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'var(--ink-soft)', textDecoration: 'none', padding: '0 10px', borderRight: '1px solid rgba(0,0,0,.15)', lineHeight: 1.2 }}>Donate</Link>
-          <button onClick={onSubscribe} style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'var(--ink-soft)', textDecoration: 'none', padding: '0 10px', lineHeight: 1.2, background: 'none', border: 'none', cursor: 'pointer' }}>Subscribe</button>
-        </div>
+        <p className="footer-fine">
+          © 2026 Neurole. Games for your brain. ·{' '}
+          <Link to="/privacy" style={{ color: 'inherit' }}>Privacy</Link> ·{' '}
+          <Link to="/terms" style={{ color: 'inherit' }}>Terms</Link>
+        </p>
       </div>
     </footer>
   );

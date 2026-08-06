@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import SignInModal from './SignInModal';
 import SubscribeModal from './SubscribeModal';
+import ScrollToTop from './ScrollToTop';
 
 export default function Layout() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function Layout() {
 
   return (
     <>
+      <ScrollToTop />
       {!isGamePlay && <Header onSignIn={openSignIn} />}
       <Outlet context={{ openSignIn, openSubscribe }} />
       {!isGamePlay && <Footer onSubscribe={openSubscribe} />}

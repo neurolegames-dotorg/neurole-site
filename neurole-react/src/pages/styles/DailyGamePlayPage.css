@@ -1,4 +1,6 @@
-/* --- Fun game typography & visuals --- */
+
+
+  /* --- Fun game typography & visuals --- */
   :root{--game-font:'Outfit',sans-serif;}
 
   /* Start screen */
@@ -44,7 +46,7 @@
     padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
     text-align:center;
   }
-  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
   .start-screen h1{
     font-family:'Cormorant Garamond','Playfair Display',serif;
@@ -201,14 +203,14 @@
 
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
-    height:50px;padding:0 22px 0 18px;border-radius:30px;
-    background:var(--neuro-blue-bright);color:#fff;
+    height:52px;padding:0 24px 0 20px;border-radius:999px;
+    background:var(--neuro-blue-deep);color:#fff;
     border:none;display:flex;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    box-shadow:0 8px 24px rgba(122,95,175,.35), 0 2px 8px rgba(0,0,0,.12);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
-  .chat-fab:hover{background:var(--neuro-blue-deep);}
+  .chat-fab:hover{background:var(--plum);box-shadow:0 10px 28px rgba(122,95,175,.45), 0 2px 8px rgba(0,0,0,.14);}
   .chat-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
     display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
@@ -225,9 +227,9 @@
   .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
   .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
   .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
+  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
   @media(max-width:480px){
     /* Start screen — iPhone */
     .start-screen{padding:0 16px !important;overflow-y:auto;}
@@ -360,3 +362,23 @@
   /* Symptom reveal flash */
   @keyframes revealSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
   .symptom-log li.new-reveal{animation:revealSlide .4s ease;}
+
+
+
+.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop.open{display:block;opacity:1;}
+.htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
+  background:var(--paper);z-index:200;
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
+  overflow-y:auto;padding:26px 26px 40px;
+}
+.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
+.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
+.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-section{margin-bottom:24px;}
+.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}

@@ -11,3 +11,32 @@
    root to --paper so the canvas matches neurole.org in both themes. The :root
    selector outranks the html rule, so import order doesn't matter. */
 :root { background: var(--paper); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Rules that exist as inline style="" attributes on the static site.
+
+   src/style.css is a verbatim copy of the client's style.css and is
+   re-synced wholesale whenever they ship changes, so anything added there
+   is lost on the next sync. Classes the React components need but the
+   static markup carries inline live here instead.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Footer "about" column — inline on index.html's .footer-about block. */
+.footer-about-name{
+  font-family:'Cormorant Garamond','Playfair Display',serif;
+  font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);
+}
+.footer-about-blurb{
+  color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;
+}
+.footer-about-cta{
+  font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);
+  text-decoration:underline;background:none;border:none;padding:0;cursor:pointer;
+}
+@media(max-width:640px){
+  .footer-about-blurb{max-width:none;}
+}
+
+/* The Archivo Black heading overrides that used to live here have moved into
+   style.css itself, so the static site gets them too — see the block after the
+   h1-h4 rule there. Nothing to duplicate here any more. */

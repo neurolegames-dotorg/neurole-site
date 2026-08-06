@@ -1,4 +1,5 @@
-/* Prevent white flash on tap in iOS */
+
+  /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
   .category-btn:active, .round-choice:active{
     opacity:.85;
@@ -128,7 +129,7 @@
     padding:32px 24px 60px;
     text-align:center;
   }
-  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;}
+  .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   /* iOS Safari auto-colours links/text blue inside certain containers — override all */
   .start-screen *{color:var(--ink);}
   .start-screen h1{color:var(--ink) !important;}
@@ -531,3 +532,32 @@
     .choice-btn{ padding:14px 14px 14px 56px !important; font-size:14px !important; }
     .choice-letter{ left:14px !important; width:28px !important; height:28px !important; }
   }
+
+
+
+.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop.open{display:block;opacity:1;}
+.htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
+  background:var(--paper);z-index:200;
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
+  overflow-y:auto;padding:26px 26px 40px;
+}
+.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
+.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
+.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-section{margin-bottom:24px;}
+.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+
+/* Page-entry wipe: fades in top-to-bottom on load (e.g. arriving from the homepage) */
+@keyframes pageWipeIn{
+  0%{clip-path:inset(0 0 100% 0);opacity:0;}
+  60%{opacity:1;}
+  100%{clip-path:inset(0 0 0% 0);opacity:1;}
+}
+body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
+@media(prefers-reduced-motion: reduce){body{animation:none;}}

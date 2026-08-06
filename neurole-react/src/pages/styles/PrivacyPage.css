@@ -1,0 +1,15 @@
+
+.legal-body h2{font-family:var(--serif-display);font-size:21px;margin:36px 0 12px;letter-spacing:-.01em;}
+.legal-body h2:first-of-type{margin-top:8px;}
+.legal-body p, .legal-body li{color:var(--ink-soft);font-size:14.5px;line-height:1.75;}
+.legal-body ul{margin:10px 0;padding-left:22px;}
+.legal-body li{margin-bottom:6px;}
+.legal-updated{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.03em;}
+.nutrition-label{border:1.5px solid var(--ink);border-radius:10px;overflow:hidden;margin:18px 0 28px;background:var(--paper);}
+.nutrition-label-head{background:var(--ink);color:var(--paper);padding:14px 18px;}
+.nutrition-label-head strong{font-family:var(--serif-display);font-size:17px;display:block;}
+.nutrition-label-head span{font-family:var(--mono);font-size:11px;opacity:.75;}
+.nutrition-row{display:grid;grid-template-columns:1fr 1.6fr;gap:12px;padding:12px 18px;border-top:1px solid var(--rule);}
+.nutrition-row dt{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);}
+.nutrition-row dd{margin:0;font-size:13.5px;color:var(--ink);line-height:1.6;}
+@media(max-width:560px){.nutrition-row{grid-template-columns:1fr;}}

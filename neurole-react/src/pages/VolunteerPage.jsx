@@ -1,5 +1,6 @@
 import pageStyle from './styles/VolunteerPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -19,6 +20,11 @@ const ROLES = [
 
 export default function VolunteerPage() {
   usePageStyle(pageStyle);
+  useDocumentHead({
+    title: "Join the Team — Neurole",
+    description: "Volunteer with Neurole — write clinical cases, curate brain images, build features, or grow our community. Free, CV-worthy, real impact.",
+    canonical: "/volunteer",
+  });
   const [selectedRoles, setSelectedRoles] = useState([])
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
@@ -118,7 +124,7 @@ export default function VolunteerPage() {
 
         <div className="synapse-rule"><span className="node"></span><span className="node"></span><span className="node"></span></div>
 
-        <div className="interest-form-wrap">
+        <div className="interest-form-wrap" id="create-a-case">
           {sent ? (
             <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, textAlign: 'center', padding: '28px 0 16px', color: 'var(--ink)' }}>
               Thanks for reaching out! 🧠<br /><span style={{ fontFamily: "'Outfit',sans-serif", fontSize: 15, color: 'var(--ink-soft)' }}>We'll be in touch at your email soon.</span>

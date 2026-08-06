@@ -23,13 +23,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://neurole.org/neuroanatomy">
+<meta property="og:url" content="https://neurole.org/neuroanatomy.html">
 <meta property="og:title" content="Map the Brain — Neurole">
 <meta property="og:description" content="A free neuroanatomy quiz covering 45+ brain regions — sulci, gyri, cortex, and neuropsychology. Identify regions from real images or quiz in reverse by function, with a built-in tutor to explain each one.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
-<meta property="og:image:width" content="1080">
-<meta property="og:image:height" content="1080">
-<meta property="og:image:alt" content="Neurole logo">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
@@ -39,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
 <!-- Canonical URL -->
-<link rel="canonical" href="https://neurole.org/neuroanatomy">
+<link rel="canonical" href="https://neurole.org/neuroanatomy.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/mtb-favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/mtb-favicon-16x16.png" sizes="16x16">
@@ -47,11 +44,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="/mtb-apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>Free Neuroanatomy Quiz — Learn Brain Regions | Map the Brain</title>
-<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=143">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css?v=145">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -595,7 +592,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "@type": "Quiz",
   "name": "Map the Brain — Neuroanatomy Quiz",
   "description": "Identify brain regions from real anatomical images. Learn neuroanatomy through an AI-assisted quiz game.",
-  "url": "https://neurole.org/neuroanatomy",
+  "url": "https://neurole.org/neuroanatomy.html",
   "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
   "educationalUse": "Practice",
   "learningResourceType": "Quiz",
@@ -604,6 +601,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "inLanguage": "en"
 }
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <script>
@@ -617,33 +615,29 @@ if(location.hash==='#playing'){
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header class="masthead">
-  <div class="masthead-inner">
-    <div class="brand"><a href="/"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
-    <nav class="nav-left">
-      <a href="/contact">Contact Us</a>
-      <a href="/volunteer">Join Us</a>
-      <a href="/donate">Donate</a>
-      <a href="/about">About</a>
-      <button class="linklike" data-signin>Sign In</button>
-    </nav>
-    <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
-</header>
+<header class="masthead"><div class="masthead-inner">
+  <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div class="brand"><a href="index.html"><img src="/neurole-logo.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
+  <div style="flex:1;"></div>
+  <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+  </button>
+</div></header>
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
   <div class="mobile-nav-brand"><img src="/neurole-logo.png" alt="Neurole" style="height:44px;width:auto;display:block;margin:0;"></div>
   <ul class="mobile-nav-items">
-    <li><a href="/daily-game"><span class="nav-item-left"><span class="nav-item-icon"><img src="daily-case-icon.png" alt=""></span>The Daily Case</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/neuroanatomy"><span class="nav-item-left"><span class="nav-item-icon"><img src="map-brain-icon.png" alt=""></span>Map the Brain</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/synapse"><span class="nav-item-left"><span class="nav-item-icon"><img src="synapse-icon.png" alt=""></span>The Synapse</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/archive"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C9982F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg></span>Case Archive</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/interactive"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A6EA5;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></span>Interactive</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/about"><span class="nav-item-left"><span class="nav-item-icon" style="background:#5C5C66;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.6" fill="#fff" stroke="none"/></svg></span>About</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/volunteer"><span class="nav-item-left"><span class="nav-item-icon" style="background:#B8577A;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Join Us</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/donate"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C1543F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>Donate</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="/contact"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A8A82;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>Contact Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="daily-game.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="daily-case-icon.png" alt=""></span>The Daily Case</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="neuroanatomy.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="map-brain-icon.png" alt=""></span>Map the Brain</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="synapse.html"><span class="nav-item-left"><span class="nav-item-icon"><img src="synapse-icon.png" alt=""></span>The Synapse</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="archive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C9982F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg></span>Case Archive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="interactive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A6EA5;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></span>Interactive</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="about.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#5C5C66;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.6" fill="#fff" stroke="none"/></svg></span>About</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="volunteer.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#B8577A;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Join Us</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="donate.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C1543F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>Donate</span> <span class="nav-arrow">›</span></a></li>
+    <li><a href="contact.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A8A82;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>Contact Us</span> <span class="nav-arrow">›</span></a></li>
     <li><button class="nav-tab-btn" data-signin><span class="nav-item-left"><span class="nav-item-icon" style="background:#2B2B38;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>Sign In</span> <span class="nav-arrow">›</span></button></li>
   </ul>
 </div>
@@ -651,7 +645,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main class="wrap game-shell">
 
   <div class="start-screen" id="round-setup">
-    <a class="back-home" href="/" style="position:absolute;top:18px;left:20px;z-index:10;margin-bottom:0;">
+    <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;z-index:10;margin-bottom:0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Home
     </a>
     <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
@@ -745,7 +739,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin:22px 0 0;line-height:1.6;max-width:320px;">For education only. Explanations may be AI-generated. <a href="/terms" style="color:inherit;">Learn more</a></p>
+      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin:22px 0 0;line-height:1.6;max-width:320px;">For education only. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
     </div>
   </div>
 
@@ -833,7 +827,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="padding:22px 28px 26px;background:#fff;">
       <div id="neuro-google-container" style="margin-bottom:14px;"></div>
       <button class="btn" id="new-round-btn" style="width:100%;justify-content:center;border-radius:8px;background:var(--neuro-blue-deep);font-size:13px;padding:14px;letter-spacing:.03em;margin-bottom:8px;">Play another round</button>
-      <a href="/daily-game" style="display:flex;align-items:center;justify-content:center;padding:11px;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.02em;border:1.5px solid #e0e0e0;border-radius:8px;text-decoration:none;color:var(--ink);margin-bottom:8px;">Try The Daily Case</a>
+      <a href="daily-game.html" style="display:flex;align-items:center;justify-content:center;padding:11px;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.02em;border:1.5px solid #e0e0e0;border-radius:8px;text-decoration:none;color:var(--ink);margin-bottom:8px;">Try The Daily Case</a>
       <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Outfit',sans-serif;font-size:11.5px;color:var(--ink-soft);cursor:pointer;padding:6px;text-align:center;letter-spacing:.03em;">Dismiss</button>
     </div>
   </div>
@@ -879,27 +873,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="footer-col">
         <p class="footer-col-title">Games</p>
-        <a href="/daily-game" style="display:flex;align-items:center;gap:6px;"><img src="daily-case-icon.png" alt="" width="14" height="15" style="object-fit:contain;">The Daily Case</a>
-        <a href="/neuroanatomy" style="display:flex;align-items:center;gap:6px;"><img src="map-brain-icon.png" alt="" width="14" height="14" style="object-fit:contain;">Map the Brain</a>
-        <a href="/synapse" style="display:flex;align-items:center;gap:6px;"><img src="synapse-icon.png" alt="" width="14" height="14" style="object-fit:contain;">The Synapse</a>
-        <a href="/archive">Case Archive</a>
-        <a href="/interactive">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
+        <a href="daily-game.html" style="display:flex;align-items:center;gap:6px;"><img src="daily-case-icon.png" alt="" width="14" height="15" style="object-fit:contain;">The Daily Case</a>
+        <a href="neuroanatomy.html" style="display:flex;align-items:center;gap:6px;"><img src="map-brain-icon.png" alt="" width="14" height="14" style="object-fit:contain;">Map the Brain</a>
+        <a href="synapse.html" style="display:flex;align-items:center;gap:6px;"><img src="synapse-icon.png" alt="" width="14" height="14" style="object-fit:contain;">The Synapse</a>
+        <a href="archive.html">Case Archive</a>
+        <a href="interactive.html">Interactive <span class="beta-pill" style="margin-left:4px;">Beta</span></a>
       </div>
 
       <div class="footer-col">
         <p class="footer-col-title">Get Involved</p>
-        <a href="/volunteer">Join Us</a>
-        <a href="/volunteer#create-a-case">Create a Case</a>
-        <a href="/donate">Donate</a>
+        <a href="volunteer.html">Join Us</a>
+        <a href="volunteer.html#create-a-case">Create a Case</a>
+        <a href="donate.html">Donate</a>
         <a href="mailto:neurolegames@gmail.com">Contact Us</a>
       </div>
 
       <div class="footer-col">
         <p class="footer-col-title">Learn More</p>
-        <a href="/about">About Neurole</a>
-        <a href="/volunteer">Volunteer</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
+        <a href="about.html">About Neurole</a>
+        <a href="volunteer.html">Volunteer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
       </div>
     </div>
 
@@ -915,7 +909,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
       </a>
     </div>
-    <p class="footer-fine">© 2026 Neurole. Games about your brain. · <a href="/privacy" style="color:inherit;">Privacy</a> · <a href="/terms" style="color:inherit;">Terms</a></p>
+    <p class="footer-fine">© 2026 Neurole. Games about your brain. · <a href="privacy.html" style="color:inherit;">Privacy</a> · <a href="terms.html" style="color:inherit;">Terms</a></p>
   </div>
 </footer>
 
@@ -941,7 +935,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="config.js?v=136"></script>
-<script src="script.js?v=136"></script>
+<script src="script.js?v=137"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1154,7 +1148,7 @@ document.querySelectorAll('.round-choice').forEach(btn => {
       questionType: selectedQuestionType,
       count: btn.dataset.count
     });
-    window.location.href = '/neuroanatomy-play?' + params.toString();
+    window.location.href = 'neuroanatomy-play.html?' + params.toString();
   });
 });
 
@@ -1486,7 +1480,7 @@ setupAccordion('learn-toggle', 'learn-tab-body', () => {
 setupAccordion('neuropsych-toggle', 'neuropsych-tab-body', null);
 
 document.getElementById('start-neuropsych-btn').addEventListener('click', () => {
-  window.location.href = '/neuroanatomy-play?' + new URLSearchParams({
+  window.location.href = 'neuroanatomy-play.html?' + new URLSearchParams({
     category: 'Neuropsychology', difficulty: 'all', count: '10'
   }).toString();
 });
@@ -1497,7 +1491,7 @@ function activateSplitScreen(on){
 }
 
 document.getElementById('start-beginner-btn').addEventListener('click', () => {
-  window.location.href = '/neuroanatomy-play?' + new URLSearchParams({
+  window.location.href = 'neuroanatomy-play.html?' + new URLSearchParams({
     category: 'Cortex', difficulty: 'Easy', count: '10'
   }).toString();
 });

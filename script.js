@@ -89,6 +89,17 @@ function initMobileNav(){
   });
 }
 
+function initThemeToggle(){
+  const btn = document.getElementById('theme-toggle-btn');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try{ localStorage.setItem('neurole_theme', next); }catch(e){}
+  });
+}
+
 function initSignIn(){
   const triggers = document.querySelectorAll('[data-signin]');
   const backdrop = document.getElementById('signin-modal');
@@ -558,6 +569,7 @@ function initScrollHeader(){
 document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
   initMobileNav();
+  initThemeToggle();
   initScrollHeader();
   initScrollPurple();
   updateSignInTriggers();
@@ -613,17 +625,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Interactive nav link (with Beta badge) — desktop
     const desktopNavForInteractive = document.querySelector('.nav-left');
-    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="/interactive"]')){
+    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
       const a = document.createElement('a');
-      a.href = '/interactive';
+      a.href = 'interactive.html';
       a.innerHTML = 'Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span>';
       desktopNavForInteractive.insertBefore(a, desktopNavForInteractive.lastElementChild);
     }
     // Interactive nav link — mobile
     const mobileNavForInteractive = document.querySelector('.mobile-nav-items');
-    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="/interactive"]')){
+    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="interactive.html"]')){
       const li = document.createElement('li');
-      li.innerHTML = '<a href="/interactive">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
+      li.innerHTML = '<a href="interactive.html">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
       mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
     }
 

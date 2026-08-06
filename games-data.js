@@ -22,14 +22,14 @@ const GAMES_DATA = [
     id: "daily-case",
     title: "The Daily Case",
     icon: "stethoscope",
-    url: "/daily-game",
+    url: "daily-game.html",
     type: "daily"
   },
   {
     id: "neuroanatomy",
     title: "Map the Brain",
     icon: "brain",
-    url: "/neuroanatomy",
+    url: "neuroanatomy.html",
     type: "normal"
   }
 ];

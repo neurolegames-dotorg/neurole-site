@@ -46,9 +46,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Map the Brain, Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=148">
+<link rel="stylesheet" href="style.css?v=149">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   /* --- Fun game typography & visuals --- */
-  :root{--game-font:'Outfit',sans-serif;}
+  :root{--game-font:'Inter',sans-serif;}
 
   /* Score bar, vivid pill style */
   .game-stats-bar{
@@ -630,12 +630,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="start-logo">
         <img src="map-brain-icon.png" alt="Map the Brain" width="56" height="56" style="object-fit:contain;">
       </div>
-      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
+      <h1 style="font-family:'Sora',sans-serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
+      <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
 
       <!-- Difficulty -->
       <div style="width:100%;text-align:left;margin-bottom:8px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Difficulty</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Difficulty</p>
         <div class="category-row" id="difficulty-row">
           <button class="category-btn active" data-difficulty="all">All</button>
           <button class="category-btn" data-difficulty="Easy">Easy</button>
@@ -646,7 +646,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Question type -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
         <div class="category-row" id="question-type-row">
           <button class="category-btn active" data-qtype="region">Name the Region</button>
           <button class="category-btn" data-qtype="function">Name from Function</button>
@@ -656,7 +656,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Area -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
         <div class="category-row" id="category-row">
           <button class="category-btn active" data-category="Random">Random Mix</button>
           <button class="category-btn" data-category="Sulci">Sulci</button>
@@ -668,7 +668,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Round length, big game-style buttons -->
       <div style="width:100%;margin-top:20px;display:flex;flex-direction:column;gap:10px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 4px;">Choose round length</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 4px;">Choose round length</p>
         <button class="btn round-choice" data-count="10" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Quick Round, 10 Questions</button>
         <button class="btn round-choice" data-count="25" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Standard, 25 Questions</button>
         <button class="btn round-choice ghost" data-count="all" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Full Quiz, All Questions</button>
@@ -838,7 +838,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="rmodal-game-sub">Past cases</div>
         </a>
       </div>
-      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Outfit',sans-serif;font-size:11.5px;color:var(--rm-soft);cursor:pointer;padding:12px 6px 0;text-align:center;letter-spacing:.03em;">Dismiss</button>
+      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--rm-soft);cursor:pointer;padding:12px 6px 0;text-align:center;letter-spacing:.03em;">Dismiss</button>
     </div>
 
   </div>
@@ -850,7 +850,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);">
       <div>
         <p style="font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#75747A;margin:0 0 3px;">Correct Answer</p>
-        <h4 id="ai-mobile-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0;color:#16171A;">Region</h4>
+        <h4 id="ai-mobile-title" style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin:0;color:#16171A;">Region</h4>
       </div>
       <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:#75747A;">✕</button>
     </div>
@@ -858,12 +858,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch;">
       <p id="ai-mobile-function" style="color:#4A4A52;font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
       <div style="border-top:1px solid var(--rule);padding-top:12px;">
-        <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#75747A;margin:0 0 10px;">Ask the AI</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#75747A;margin:0 0 10px;">Ask the AI</p>
         <div id="ai-mobile-chat" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
       </div>
     </div>
     <form id="ai-mobile-form" style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--rule);">
-      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Outfit',sans-serif;background:#fff;color:#16171A;">
+      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Inter',sans-serif;background:#fff;color:#16171A;">
       <button class="btn" type="submit" style="height:38px;padding:0 14px;font-size:13px;border-radius:8px;">Ask</button>
     </form>
   </div>
@@ -881,9 +881,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -931,20 +931,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Inter',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
     <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 </div>
@@ -1542,10 +1542,10 @@ document.getElementById('ai-mobile-form').addEventListener('submit', async e => 
   const q = input.value.trim(); if(!q) return;
   const chat = document.getElementById('ai-mobile-chat');
   const u = document.createElement('div');
-  u.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:8px;align-self:flex-end;max-width:85%;";
+  u.style.cssText="font-family:'Inter',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:8px;align-self:flex-end;max-width:85%;";
   u.textContent=q; chat.appendChild(u); input.value='';
   const a = document.createElement('div');
-  a.style.cssText="font-family:'Outfit',sans-serif;font-size:14px;color:#4A4A52;padding:6px 0;";
+  a.style.cssText="font-family:'Inter',sans-serif;font-size:14px;color:#4A4A52;padding:6px 0;";
   a.textContent='…'; chat.appendChild(a);
   const title = document.getElementById('ai-mobile-title').textContent;
   const func  = document.getElementById('ai-mobile-function').textContent;
@@ -1735,10 +1735,10 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 .htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
 .htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
 .htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-brand span{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
-.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+.htp-line{font-family:'Inter',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
 @media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
 </style>
 <script>
@@ -1756,24 +1756,24 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
         </div>
         <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

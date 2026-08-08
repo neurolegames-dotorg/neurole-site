@@ -44,48 +44,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=148">
+<link rel="stylesheet" href="style.css?v=149">
 <style>
 /* ── Synapse hero ── */
-.hero-synapse{padding:40px 0 8px;overflow:hidden;}
+.hero-synapse{padding:0;overflow:hidden;}
 .synapse-stage{
-  position:relative;max-width:900px;margin:0 auto;
-  height:clamp(220px,32vw,320px);
+  position:relative;
+  width:100vw;margin-left:calc(-50vw + 50%);
+  height:clamp(280px,38vw,420px);
+  background:var(--paper-deep);
 }
-.synapse-neuron{position:absolute;top:0;width:56%;height:100%;}
+.synapse-neuron{position:absolute;top:0;width:52%;height:100%;}
 .synapse-neuron-left{left:0;}
 .synapse-neuron-right{right:0;}
 .synapse-gap{
-  position:absolute;top:0;bottom:0;left:38%;right:38%;
+  position:absolute;top:0;bottom:0;left:34%;right:34%;
   overflow:visible;
 }
 .neurotransmitter{
   position:absolute;top:50%;left:0;
-  width:10px;height:10px;border-radius:50%;
+  width:11px;height:11px;border-radius:50%;
   transform:translate(-50%,-50%);
   opacity:0;
   animation:synapseFire 2.6s linear forwards;
 }
+.neurotransmitter.is-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:#fff !important;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+.neurotransmitter.is-icon img{width:70%;height:70%;object-fit:contain;}
 @keyframes synapseFire{
   0%{left:0%;opacity:0;transform:translate(-50%,-50%) scale(.5);}
   10%{opacity:1;transform:translate(-50%,-50%) scale(1);}
   85%{opacity:1;}
   100%{left:100%;opacity:0;transform:translate(-50%,-50%) scale(.6);}
 }
-.hero-headline-new{text-align:center;padding:10px 24px 12px;}
-.hero-headline-new h1{
-  font-family:var(--serif-display);font-weight:700;
-  font-size:clamp(44px,9vw,76px);margin:0 0 6px;letter-spacing:-.01em;color:var(--ink);
+.hero-headline-overlay{
+  position:absolute;left:0;bottom:0;
+  padding:0 0 32px 40px;
+  text-align:left;z-index:3;
 }
-.hero-headline-new p{
-  font-family:var(--serif-body);font-size:clamp(15px,2.2vw,18px);color:var(--ink-soft);margin:0;
+.hero-headline-overlay h1{
+  font-family:var(--serif-display);font-weight:800;
+  font-size:clamp(30px,5vw,52px);margin:0 0 4px;letter-spacing:-.02em;color:var(--ink);
+  line-height:1;
+}
+.hero-headline-overlay p{
+  font-family:var(--serif-display);font-weight:700;
+  font-size:clamp(15px,2vw,19px);color:var(--neuro-blue-deep);margin:0;letter-spacing:-.01em;
 }
 :root[data-theme="dark"] .synapse-neuron path{fill:#8B6DB8 !important;}
 @media(max-width:480px){
-  .synapse-stage{height:clamp(170px,50vw,230px);}
-  .hero-synapse{padding:26px 0 4px;}
+  .synapse-stage{height:clamp(230px,58vw,300px);}
+  .hero-headline-overlay{padding:0 0 22px 20px;}
+  .neurotransmitter.is-icon{width:26px;height:26px;}
 }
 @media(prefers-reduced-motion: reduce){
   .neurotransmitter{animation-duration:4s;}
@@ -108,7 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 
 <style>
-:root{--game-font:'Outfit',sans-serif;}
+:root{--game-font:'Inter',sans-serif;}
 
 /* ── Hero ── */
 .hero-text h1{letter-spacing:-.01em;font-family:'Times New Roman',serif;font-weight:700;}
@@ -140,7 +156,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color:var(--ink-soft);margin-bottom:14px;
 }
 .games-spotlight h2{
-  font-family:'Cormorant Garamond',serif;font-weight:700;
+  font-family:'Sora',sans-serif;font-weight:700;
   font-size:clamp(28px,4.5vw,42px);margin:0 0 10px;line-height:1.15;
   letter-spacing:-.01em;
 }
@@ -237,7 +253,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .stat-cell:last-child{border-bottom:none;}
 }
 .stat-num{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,48px);font-weight:400;
+  font-family:'Sora',sans-serif;font-size:clamp(34px,5vw,48px);font-weight:400;
   color:var(--ink);line-height:1;margin-bottom:8px;letter-spacing:-.01em;
 }
 .stat-label{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
@@ -247,7 +263,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
   padding:36px 0;margin-bottom:52px;
 }
-.seo-section h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em;}
+.seo-section h2{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em;}
 .seo-section p{font-size:14.5px;color:var(--ink-soft);line-height:1.75;margin:0 0 12px;max-width:680px;}
 .seo-section p:last-child{margin:0;}
 .seo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
@@ -265,7 +281,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   flex-wrap:wrap;
 }
 .volunteer-banner-text h4{
-  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;
+  font-family:'Sora',sans-serif;font-size:20px;font-weight:700;
   color:var(--ink);margin:0 0 6px;
 }
 .volunteer-banner-text p{font-family:var(--game-font);color:var(--ink-soft);font-size:14px;margin:0;}
@@ -329,23 +345,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero-synapse">
   <div class="synapse-stage" id="synapse-stage" role="img" aria-label="Two neurons passing signals across a synapse">
 
-    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 400 300" preserveAspectRatio="none" fill="none">
-      <path d="M0,60 C90,55 150,70 200,110 C230,134 235,160 232,180 C229,205 205,215 190,235 C170,262 150,278 110,282 C60,286 20,275 0,255 Z" fill="#6B4F94"/>
+    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 500 400" preserveAspectRatio="none" fill="none">
+      <path d="M-20,50 C180,20 320,70 400,160 C430,195 428,225 395,250 C340,290 240,320 100,335 C20,343 -20,330 -20,300 Z" fill="#6B4F94"/>
     </svg>
 
-    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 400 300" preserveAspectRatio="none" fill="none">
-      <path d="M400,50 C310,46 245,68 195,112 C165,138 160,162 165,182 C170,206 195,214 212,232 C235,257 258,272 300,278 C350,283 385,270 400,248 Z" fill="#6B4F94"/>
+    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 500 400" preserveAspectRatio="none" fill="none">
+      <path d="M520,50 C320,20 180,70 100,160 C70,195 72,225 105,250 C160,290 260,320 400,335 C480,343 520,330 520,300 Z" fill="#6B4F94"/>
     </svg>
 
     <div class="synapse-gap" id="synapse-gap"></div>
 
-  </div>
+    <div class="hero-headline-overlay">
+      <h1>Neurole.org</h1>
+      <p>Games about your brain</p>
+    </div>
 
-  <div class="hero-headline-new">
-    <h1>Neurole</h1>
-    <p>Games about your brain</p>
   </div>
 </section>
+
 
 <main>
 
@@ -377,7 +394,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="home-game-card-bottom">
             <p>A new diagnosis every morning.</p>
-            <div id="home-streak-display" style="display:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;"></div>
+            <div id="home-streak-display" style="display:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;"></div>
             <span class="play-cta">Play today's case →</span>
           </div>
         </a>
@@ -455,7 +472,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#5C4480" stroke-width="1.6"><path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/><path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/></svg>
       </div>
       <div>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:0 0 4px;color:var(--ink);">Watch Alzheimer's progress</h3>
+        <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:23px;margin:0 0 4px;color:var(--ink);">Watch Alzheimer's progress</h3>
         <p style="color:var(--ink-soft);font-size:14.5px;margin:0;">An early look at our interactive teaching tools →</p>
       </div>
     </a>
@@ -465,7 +482,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap" style="margin-top:48px;">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--paper);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:10px;padding:26px 28px;">
       <div>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;margin:0 0 6px;color:var(--ink);">Help build Neurole</h3>
+        <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:22px;margin:0 0 6px;color:var(--ink);">Help build Neurole</h3>
         <p style="color:var(--ink-soft);font-size:14px;margin:0;max-width:460px;line-height:1.6;">Clinicians, students, designers, and developers work on Neurole as volunteers. If you'd like to help, we'd like to hear from you.</p>
       </div>
       <a class="btn" href="volunteer.html" style="border-radius:999px;flex-shrink:0;padding:12px 26px;">Join Us →</a>
@@ -475,7 +492,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- What is Neurole -->
   <section style="background:#4A3970;margin-top:48px;">
     <div class="wrap" style="padding-top:40px;padding-bottom:40px;">
-      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;line-height:1.7;color:#fff;margin:0;">
+      <p style="font-family:'Sora',sans-serif;font-size:22px;line-height:1.7;color:#fff;margin:0;">
         Neurole is a free educational platform aimed at teaching others about the human brain through games. With games in neurology and neuroanatomy, our team of students and professionals work towards creating games about your brain.
       </p>
     </div>
@@ -489,9 +506,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -539,20 +556,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Inter',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
     <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="terms.html" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="privacy.html" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="terms.html" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="privacy.html" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 
@@ -560,24 +577,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="games-data.js?v=125"></script>
 <script src="script.js?v=137"></script>
 <script>
-  // Continuously spawn neurotransmitter dots crossing the synapse gap
+  // Continuously spawn neurotransmitter dots and game icons crossing the synapse gap
   (function(){
     const gap = document.getElementById('synapse-gap');
     if(!gap) return;
     const colors = ['#8B2635','#6B4F94','#3F7A3A','#C9982F','#3A6EA5','#B8577A'];
+    const icons = ['daily-case-icon.png','map-brain-icon.png','synapse-icon.png'];
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let spawnCount = 0;
 
     function spawn(){
-      const dot = document.createElement('span');
-      dot.className = 'neurotransmitter';
-      dot.style.background = colors[Math.floor(Math.random() * colors.length)];
-      dot.style.top = (30 + Math.random() * 40) + '%';
-      const size = 7 + Math.random() * 6;
-      dot.style.width = size + 'px';
-      dot.style.height = size + 'px';
-      dot.style.animationDuration = (2.1 + Math.random() * 1.2) + 's';
-      gap.appendChild(dot);
-      dot.addEventListener('animationend', function(){ dot.remove(); });
+      spawnCount++;
+      const isIcon = spawnCount % 5 === 0; // roughly one icon per five dots
+      const el = document.createElement('span');
+      el.className = 'neurotransmitter' + (isIcon ? ' is-icon' : '');
+      el.style.top = (28 + Math.random() * 44) + '%';
+      if(isIcon){
+        const img = document.createElement('img');
+        img.src = icons[Math.floor(Math.random() * icons.length)];
+        img.alt = '';
+        el.appendChild(img);
+        el.style.animationDuration = (2.6 + Math.random() * 1) + 's';
+      } else {
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        const size = 7 + Math.random() * 6;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.animationDuration = (2.1 + Math.random() * 1.2) + 's';
+      }
+      gap.appendChild(el);
+      el.addEventListener('animationend', function(){ el.remove(); });
     }
 
     // Only animate while the hero is actually visible, to avoid wasted work
@@ -645,24 +674,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
         </div>
         <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

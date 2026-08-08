@@ -46,13 +46,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>The Daily Case, A Neuroscience Wordle | Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=148">
+<link rel="stylesheet" href="style.css?v=149">
 <style>
 
   /* --- Fun game typography & visuals --- */
-  :root{--game-font:'Outfit',sans-serif;}
+  :root{--game-font:'Inter',sans-serif;}
 
   /* Start screen */
   .start-screen h1{
@@ -100,20 +100,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
   .start-screen h1{
-    font-family:'Cormorant Garamond',serif;
+    font-family:'Sora',sans-serif;
     font-size:clamp(34px,8vw,46px);font-weight:700;margin:0 0 10px;letter-spacing:-.02em;
   }
   .start-screen p{
     color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:300px;line-height:1.6;
-    font-family:'Outfit',sans-serif;
+    font-family:'Inter',sans-serif;
   }
   .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
   .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;}
-  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
+  .start-meta{font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
   /* Accent pill bar above title */
   .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
   .start-pill{
-    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
     text-transform:uppercase;padding:4px 12px;border-radius:20px;
   }
   .pill-red{background:transparent;color:var(--ink-soft);}
@@ -228,7 +228,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:11px 16px;
   }
   .wrong-guess-name{
-    font-family:var(--game-font,'Outfit',sans-serif);font-size:17px;font-weight:700;
+    font-family:var(--game-font,'Inter',sans-serif);font-size:17px;font-weight:700;
     color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
     flex:1;
   }
@@ -499,8 +499,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="start-meta" id="start-meta"></div>
       <div id="case-num-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:8px;letter-spacing:.03em;"></div>
       <div id="case-author-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.03em;"></div>
-      <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;"></div>
-      <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
+      <div id="streak-label" style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;"></div>
+      <a href="archive.html" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
       <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">For education only, not medical advice. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
     </div>
   </div>
@@ -512,7 +512,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Attempt dots are shown in the header, not here -->
       <div class="case-meta">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span id="case-number" style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
+          <span id="case-number" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
           <span id="case-date">Loading...</span>
         </div>
         <div class="attempts-dots" id="attempts-dots">
@@ -572,9 +572,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -622,20 +622,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Inter',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
     <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 
@@ -929,9 +929,9 @@ async function loadCase(){
     if(area) area.innerHTML = `
       <div style="text-align:center;padding:48px 20px;max-width:400px;margin:0 auto;">
         <div style="font-size:48px;margin-bottom:14px;">🧠</div>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin:0 0 10px;">No case today</h3>
-        <p style="font-family:'Outfit',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 6px;">Today's case hasn't been added yet.</p>
-        <p id="no-case-countdown" style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 24px;"></p>
+        <h3 style="font-family:'Sora',sans-serif;font-size:28px;margin:0 0 10px;">No case today</h3>
+        <p style="font-family:'Inter',sans-serif;color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 0 6px;">Today's case hasn't been added yet.</p>
+        <p id="no-case-countdown" style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 24px;"></p>
         <a class="btn" href="neuroanatomy.html" style="display:inline-flex;">Try Map the Brain →</a>
       </div>`;
     startCountdown('no-case-countdown');
@@ -1618,10 +1618,10 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 .htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
 .htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
 .htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-brand span{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
-.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+.htp-line{font-family:'Inter',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
 @media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
 </style>
 <script>
@@ -1639,24 +1639,24 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
         </div>
         <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

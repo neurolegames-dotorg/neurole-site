@@ -6,26 +6,27 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<meta name="description" content="The Synapse — a daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.">
+<meta name="description" content="The Synapse, a daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neurole.org/synapse.html">
-<meta property="og:title" content="The Synapse — Neurole">
+<meta property="og:title" content="The Synapse, Neurole">
 <meta property="og:description" content="A daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 <link rel="canonical" href="https://neurole.org/synapse.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>The Synapse — A Daily Word-Connection Puzzle | Neurole</title>
+<title>The Synapse, A Daily Word-Connection Puzzle | Neurole</title>
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=146">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=148">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Game",
   "name": "The Synapse",
-  "description": "A daily word-connection puzzle about the brain — find the four hidden groups of four.",
+  "description": "A daily word-connection puzzle about the brain, find the four hidden groups of four.",
   "url": "https://neurole.org/synapse.html",
   "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
   "educationalUse": "Practice",
@@ -122,8 +123,8 @@
   <div id="syn-start" class="syn-start-screen" style="max-width:460px;margin:0 auto;padding:70px 20px 60px;text-align:center;">
     <img src="synapse-icon.png" alt="The Synapse" style="width:88px;height:auto;margin:0 auto 20px;display:block;">
     <span class="section-eyebrow" style="justify-content:center;display:flex;">Daily · Word Puzzle</span>
-    <h1 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:clamp(32px,6vw,44px);font-weight:700;margin:6px 0 14px;letter-spacing:-.01em;">The Synapse</h1>
-    <p style="color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin:0 auto 26px;max-width:400px;">Find four groups of four. Each group shares something in common — some connections are obvious, some are a stretch.</p>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,44px);font-weight:700;margin:6px 0 14px;letter-spacing:-.01em;">The Synapse</h1>
+    <p style="color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin:0 auto 26px;max-width:400px;">Find four groups of four. Each group shares something in common, some connections are obvious, some are a stretch.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
       <button id="syn-play-btn" class="btn" style="border-radius:999px;padding:13px 30px;">Play today's puzzle →</button>
       <button id="syn-htp-btn" class="btn ghost" style="border-radius:999px;padding:13px 22px;">How to play</button>
@@ -218,7 +219,7 @@
       <p class="htp-section-title">How to Play</p>
       <p class="htp-line">Find groups of four items that share something in common.</p>
       <p class="htp-line">Select four tiles, then press Submit.</p>
-      <p class="htp-line">Categories range from straightforward to tricky — some items could fit more than one group.</p>
+      <p class="htp-line">Categories range from straightforward to tricky, some items could fit more than one group.</p>
     </div>
     <div class="htp-section">
       <p class="htp-section-title">Mistakes</p>
@@ -227,7 +228,7 @@
     <div class="htp-section">
       <p class="htp-section-title">Tips</p>
       <p class="htp-line">Start with the group you're most confident about.</p>
-      <p class="htp-line">Watch out for words that seem to belong to an obvious category — they're often a trap.</p>
+      <p class="htp-line">Watch out for words that seem to belong to an obvious category, they're often a trap.</p>
     </div>
   </div>
 </div>
@@ -244,7 +245,7 @@
 .htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
 .htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
 .htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-brand span{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
 .htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
@@ -259,7 +260,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
         <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
@@ -396,7 +397,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
     });
 
     if(Object.keys(groups).length !== 4){
-      console.warn('Neurole Synapse: row data was —', row);
+      console.warn('Neurole Synapse: row data was', row);
       throw new Error('Puzzle row is missing data (found ' + Object.keys(groups).length + ' of 4 groups).');
     }
 
@@ -611,7 +612,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
 
     if(won){
       headline.textContent = synState.mistakes === 0 ? 'Perfect!' : 'Solved it!';
-      sub.textContent = synState.mistakes === 0 ? 'No mistakes — well done.' : (synState.mistakes + (synState.mistakes === 1 ? ' mistake.' : ' mistakes.'));
+      sub.textContent = synState.mistakes === 0 ? 'No mistakes, well done.' : (synState.mistakes + (synState.mistakes === 1 ? ' mistake.' : ' mistakes.'));
     } else {
       headline.textContent = 'Next time.';
       sub.textContent = 'Here were today\'s groups.';
@@ -631,7 +632,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
     document.getElementById('syn-game').style.display = 'block';
 
     if(synState.isStale){
-      showMsg('Showing puzzle from ' + synState.dateKey + ' — no puzzle found for today yet.');
+      showMsg('Showing puzzle from ' + synState.dateKey + ', no puzzle found for today yet.');
     }
 
     synDisplayOrder = shuffleArray(synState.tiles.map(function(t){ return t.text; }));
@@ -668,7 +669,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
       }catch(e){}
       startGame(alreadyDone);
     }catch(e){
-      console.warn('Neurole Synapse: could not load puzzle —', e.message);
+      console.warn('Neurole Synapse: could not load puzzle', e.message);
       errEl.textContent = 'Could not load today\'s puzzle. Please check your connection and try again.';
       errEl.style.display = 'block';
       btn.textContent = origText;
@@ -709,7 +710,7 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
 
   document.getElementById('syn-share-btn').addEventListener('click', async function(){
     const emojiMap = { green: '🟩', yellow: '🟨', red: '🟥', purple: '🟪' };
-    let shareText = 'The Synapse — ' + synState.dateKey + '\n';
+    let shareText = 'The Synapse, ' + synState.dateKey + '\n';
     synState.guessHistory.forEach(function(guess){
       shareText += guess.map(function(color){ return emojiMap[color] || '⬜'; }).join('') + '\n';
     });
@@ -733,11 +734,11 @@ body{animation:pageWipeIn .6s cubic-bezier(.22,.7,.32,1) both;}
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
       <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
       <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
-        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
           <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>

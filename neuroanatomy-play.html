@@ -24,14 +24,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neurole.org/neuroanatomy.html">
-<meta property="og:title" content="Map the Brain — Neurole">
+<meta property="og:title" content="Map the Brain, Neurole">
 <meta property="og:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Map the Brain — Neurole">
+<meta name="twitter:title" content="Map the Brain, Neurole">
 <meta name="twitter:description" content="Identify highlighted brain regions from real images. 45+ regions, multiple difficulty levels, and an AI tutor to explain what each region does.">
 <meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
@@ -43,12 +43,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="shortcut icon" href="/mtb-favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/mtb-apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>Map the Brain — Neurole</title>
+<title>Map the Brain, Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=146">
+<link rel="stylesheet" href="style.css?v=148">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -63,7 +63,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* --- Fun game typography & visuals --- */
   :root{--game-font:'Outfit',sans-serif;}
 
-  /* Score bar — vivid pill style */
+  /* Score bar, vivid pill style */
   .game-stats-bar{
     display:flex;align-items:center;justify-content:space-between;
     padding:12px 0 16px;gap:10px;
@@ -102,7 +102,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--ink-soft);margin:8px 0 16px;
   }
 
-  /* Choice buttons — fun card style */
+  /* Choice buttons, fun card style */
   .choice-btn{
     font-family:var(--game-font) !important;font-size:16px !important;font-weight:500;
     border:2px solid var(--rule) !important;border-radius:12px !important;
@@ -132,7 +132,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:12px 28px !important;border-radius:12px !important;
   }
 
-  /* Start screen — game personality */
+  /* Start screen, game personality */
   .start-screen h1{
     font-family:var(--game-font) !important;
     font-weight:800 !important;
@@ -172,7 +172,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     text-align:center;
   }
   .start-screen-inner{max-width:480px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
-  /* iOS Safari auto-colours links/text blue inside certain containers — override all */
+  /* iOS Safari auto-colours links/text blue inside certain containers, override all */
   .start-screen *{color:var(--ink);}
   .start-screen h1{color:var(--ink) !important;}
   .start-screen p{color:var(--ink-soft) !important;}
@@ -204,7 +204,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     user-select:none;
   }
   .category-btn:hover{border-color:var(--neuro-blue);}
-  /* Active/press state — no white flash */
+  /* Active/press state, no white flash */
   .category-btn:not(.active):active{
     background:var(--paper-deep) !important;
     transform:scale(.96);
@@ -249,7 +249,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .specimen::before{display:none;}
     .game-shell{padding:8px 12px 80px;}
   }
-  /* iPhone — everything fits the screen */
+  /* iPhone, everything fits the screen */
   @media(max-width:480px){
     .game-shell{padding:8px 10px 60px;max-width:100%;}
     .start-screen{padding:50px 16px 40px;}
@@ -308,7 +308,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-logo{width:56px;height:56px;margin-bottom:16px;}
   }
 
-  /* Mobile-friendly specimen image — shorter on small screens */
+  /* Mobile-friendly specimen image, shorter on small screens */
   .specimen{
     background:#fff;
     border:1px solid var(--rule);
@@ -335,7 +335,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-top:8px;letter-spacing:.08em;text-transform:uppercase;
   }
 
-  /* Answer choices — more compact on phone */
+  /* Answer choices, more compact on phone */
   .choices{display:grid;grid-template-columns:1fr;gap:9px;}
   .choice-btn{
     text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:#fff;
@@ -399,7 +399,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
   .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
   @media(max-width:480px){
-    /* Start screen — iPhone */
+    /* Start screen, iPhone */
     .start-screen{padding:50px 16px 40px !important;}
     .start-screen h1{font-size:24px !important;margin-bottom:8px !important;}
     .start-screen p{font-size:13px !important;margin-bottom:12px !important;}
@@ -412,7 +412,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .learn-tab-toggle{font-size:11px !important;padding:10px 12px !important;}
     .synapse-rule{margin:14px 0 !important;}
 
-    /* Game area — iPhone */
+    /* Game area, iPhone */
     main.game-shell{max-width:100% !important;padding:8px 0 50px !important;}
     .specimen{padding:8px !important;border:none !important;background:transparent !important;}
     .specimen img{height:200px;width:100%;object-fit:contain;}
@@ -423,7 +423,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .score-tag,.score-pill{font-size:10.5px !important;}
     .difficulty-badge{font-size:10px !important;}
 
-    /* AI — always bottom-sheet popup on iPhone */
+    /* AI, always bottom-sheet popup on iPhone */
     body.ai-panel-open #game-split-container{display:block !important;}
     body.ai-panel-open main.game-shell{max-width:100% !important;}
     body.ai-panel-open .learn-backdrop{
@@ -448,15 +448,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
 /* ============================================
-   MAP THE BRAIN — IPHONE RESPONSIVE (480px)
+   MAP THE BRAIN, IPHONE RESPONSIVE (480px)
    ============================================ */
 @media(max-width:480px){
 
-  /* Masthead — hamburger only */
+  /* Masthead, hamburger only */
   .nav-left{display:none !important;}
   .hamburger-btn{display:flex !important;}
 
-  /* Start screen — fills phone, scrollable */
+  /* Start screen, fills phone, scrollable */
   .start-screen{
     padding:52px 16px 40px !important;
     justify-content:flex-start !important;
@@ -492,7 +492,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .choices{gap:8px !important;}
   .choice-btn{font-size:13.5px !important;padding:11px 10px 11px 38px !important;}
 
-  /* AI — ALWAYS bottom-sheet popup on iPhone, never side panel */
+  /* AI, ALWAYS bottom-sheet popup on iPhone, never side panel */
   body.ai-panel-open #game-split-container{display:block !important;}
   body.ai-panel-open main.game-shell{max-width:100% !important;}
   body.ai-panel-open .learn-backdrop{
@@ -565,7 +565,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 {
   "@context": "https://schema.org",
   "@type": "Quiz",
-  "name": "Map the Brain — Neuroanatomy Quiz",
+  "name": "Map the Brain, Neuroanatomy Quiz",
   "description": "Identify brain regions from real anatomical images. Learn neuroanatomy through an AI-assisted quiz game.",
   "url": "https://neurole.org/neuroanatomy.html",
   "provider": {"@type": "Organization", "name": "Neurole", "url": "https://neurole.org"},
@@ -576,11 +576,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "inLanguage": "en"
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <script>
-// This page IS the game — always hide the setup screen instantly, no flicker.
+// This page IS the game, always hide the setup screen instantly, no flicker.
 document.documentElement.style.setProperty('--start-display','none');
 </script>
 <!-- Google Tag Manager (noscript) -->
@@ -666,12 +666,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <!-- Round length — big game-style buttons -->
+      <!-- Round length, big game-style buttons -->
       <div style="width:100%;margin-top:20px;display:flex;flex-direction:column;gap:10px;">
         <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 4px;">Choose round length</p>
-        <button class="btn round-choice" data-count="10" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Quick Round — 10 Questions</button>
-        <button class="btn round-choice" data-count="25" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Standard — 25 Questions</button>
-        <button class="btn round-choice ghost" data-count="all" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Full Quiz — All Questions</button>
+        <button class="btn round-choice" data-count="10" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Quick Round, 10 Questions</button>
+        <button class="btn round-choice" data-count="25" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Standard, 25 Questions</button>
+        <button class="btn round-choice ghost" data-count="all" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Full Quiz, All Questions</button>
       </div>
 
       <div class="synapse-rule" style="width:100%;margin:22px 0 16px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
@@ -692,7 +692,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <button class="learn-tab-toggle" id="neuropsych-toggle" aria-expanded="false">
-          🔬 Neuropsychology — regions important for psychology
+          🔬 Neuropsychology, regions important for psychology
           <span class="learn-tab-arrow">▾</span>
         </button>
         <div class="learn-tab-body" id="neuropsych-tab-body" style="display:none;">
@@ -724,7 +724,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="score-tag" id="score-tag">Question 1 of 10</span>
           <span class="score-pill" id="score-pill">Score: 0/0</span>
         </div>
-        <span class="difficulty-badge" id="difficulty-badge" style="display:none;">—</span>
+        <span class="difficulty-badge" id="difficulty-badge" style="display:none;">...</span>
       </div>
 
       <!-- Two-column row: question left, AI right (desktop only) -->
@@ -747,16 +747,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <!-- AI panel lives here — sticky beside the question -->
+        <!-- AI panel lives here, sticky beside the question -->
         <div class="game-col-right" id="ai-col" style="display:none;">
           <div class="learn-panel-inline" id="learn-panel">
             <div class="learn-head">
               <h4 id="learn-title">Region</h4>
               <button class="close" id="learn-close" style="position:static;">✕</button>
             </div>
-            <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated — may be inaccurate.</p>
+            <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated, may be inaccurate.</p>
             <div class="learn-body">
-              <p id="learn-function">—</p>
+              <p id="learn-function">...</p>
               <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
               <p class="score-tag">Ask a question</p>
               <div class="chat-log" id="chat-log"></div>
@@ -854,7 +854,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:#75747A;">✕</button>
     </div>
-    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:#75747A;opacity:.8;padding:8px 18px 0;margin:0;">AI-generated — may be inaccurate.</p>
+    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:#75747A;opacity:.8;padding:8px 18px 0;margin:0;">AI-generated, may be inaccurate.</p>
     <div style="flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch;">
       <p id="ai-mobile-function" style="color:#4A4A52;font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
       <div style="border-top:1px solid var(--rule);padding-top:12px;">
@@ -881,7 +881,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
         <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
@@ -956,7 +956,7 @@ document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
 document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.youtube;
 
-/* Fallback question bank — replace/manage via Google Sheet (config.js) */
+/* Fallback question bank, replace/manage via Google Sheet (config.js) */
 const FALLBACK_QUESTIONS = [
   {
     image_url: "/neuron-hero.webp",
@@ -1000,12 +1000,12 @@ function checkMidnightReset(){
   const etToday = new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'});
   const stored = sessionStorage.getItem('neurole_neuro_date');
   if(stored && stored !== etToday){
-    // New day — clear the saved game session so they start fresh
+    // New day, clear the saved game session so they start fresh
     sessionStorage.removeItem('neurole_game_session');
     sessionStorage.removeItem('neurole_neuro_date');
     sessionStorage.removeItem('neurole_neuro_csv_cache');
     sessionStorage.removeItem('neurole_neuro_csv_time');
-    console.log('Neurole: midnight reset — new day in ET');
+    console.log('Neurole: midnight reset, new day in ET');
   }
   sessionStorage.setItem('neurole_neuro_date', etToday);
 }
@@ -1046,10 +1046,10 @@ async function loadBank(){
       console.log('Neurole: loaded', fullBank.length, 'questions | sample image:', fullBank[0]?.imageurl || fullBank[0]?.image || 'check headers above');
     } else {
       fullBank = FALLBACK_QUESTIONS;
-      console.warn("Neurole: sheet had 0 rows — using fallback questions.");
+      console.warn("Neurole: sheet had 0 rows, using fallback questions.");
     }
   }catch(err){
-    console.error("Neurole: couldn't load sheet —", err.message);
+    console.error("Neurole: couldn't load sheet", err.message);
     fullBank = FALLBACK_QUESTIONS;
   }
   bankReady = true;
@@ -1059,7 +1059,7 @@ async function loadBank(){
 }
 
 // Returns the question bank filtered to the currently selected category.
-// "Random" means no filtering — mix of everything in the sheet.
+// "Random" means no filtering, mix of everything in the sheet.
 function getFilteredBank(){
   let bank = fullBank;
   if(selectedCategory !== 'Random'){
@@ -1128,7 +1128,7 @@ async function startRound(countOption){
     const msg = document.getElementById('bank-error-msg') || document.createElement('p');
     msg.id = 'bank-error-msg';
     msg.style.cssText = 'font-family:var(--mono);font-size:12px;color:var(--signal-red);margin-top:8px;';
-    msg.textContent = `No "${selectedCategory}" questions found — try "Random Mix" or a different difficulty.`;
+    msg.textContent = `No "${selectedCategory}" questions found, try "Random Mix" or a different difficulty.`;
     const actionsEl = document.querySelector('.start-actions-stacked');
     if(actionsEl && !document.getElementById('bank-error-msg')) actionsEl.after(msg);
     return;
@@ -1143,7 +1143,7 @@ async function startRound(countOption){
     : Math.min(parseInt(countOption, 10), bank.length);
 
   // For function-based questions we need rows that actually have a
-  // function_text to quiz on — fall back to the full bank if too few do.
+  // function_text to quiz on, fall back to the full bank if too few do.
   let modeBank = bank;
   if(selectedQuestionType !== 'region'){
     const withFunction = bank.filter(row => (findField(row,'function_text') || '').trim());
@@ -1289,12 +1289,12 @@ function showQuestion(){
         const val = String(current[key] || '').trim().toUpperCase();
         if(val === 'A' || val === 'B' || val === 'C' || val === 'D'){
           correctLetter = val;
-          console.warn('Neurole: Function mode — found correct-answer letter "' + val + '" in column "' + key + '" (not "Correct" as expected). Consider renaming that header to "Correct" to avoid relying on this fallback.');
+          console.warn('Neurole: Function mode, found correct-answer letter "' + val + '" in column "' + key + '" (not "Correct" as expected). Consider renaming that header to "Correct" to avoid relying on this fallback.');
           break;
         }
       }
     }
-    if(!correctLetter) console.warn('Neurole: Function mode — no correct-answer letter found anywhere in this row. Row data:', current);
+    if(!correctLetter) console.warn('Neurole: Function mode, no correct-answer letter found anywhere in this row. Row data:', current);
     rawChoices = ['A','B','C','D'].map(letter => ({
       text: findField(current, 'Function ' + letter) || '',
       isCorrect: letter === correctLetter
@@ -1303,7 +1303,7 @@ function showQuestion(){
     // correct_choice most likely contains a plain "A"/"B"/"C"/"D" matching
     // choice_a-d directly. Also accept "K"/"L"/"M"/"N" (the sheet's own
     // column letters) as a fallback, in case that convention is used
-    // instead — either way the right answer gets matched correctly.
+    // instead, either way the right answer gets matched correctly.
     const columnLetterMap = { a:'K', b:'L', c:'M', d:'N' };
     const plainLetterMap = { a:'A', b:'B', c:'C', d:'D' };
     const correctLetter = (findField(current,'correct_choice') || '').trim().toUpperCase();
@@ -1369,20 +1369,20 @@ function selectChoice(btn){
     const explanationText = findField(current,'function_text') || '';
     if(current.qMode === 'function'){
       if(wrongExplainLabel) wrongExplainLabel.textContent = 'Which region?';
-      document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+      document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ':') : (correctText + '.');
       document.getElementById('wrong-explain-text').textContent = explanationText;
       wrongExplain.style.display = 'block';
     } else {
       if(wrongExplainLabel) wrongExplainLabel.textContent = 'Why';
       if(gotItRight){
-        document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ' —') : (correctText + '.');
+        document.getElementById('wrong-explain-region').textContent = explanationText ? (correctText + ':') : (correctText + '.');
         document.getElementById('wrong-explain-text').textContent = explanationText;
         wrongExplain.style.display = 'block';
       } else {
         // Live AI explanation covering both why your pick was wrong and
-        // why the correct region is right — no canned data exists for
+        // why the correct region is right, no canned data exists for
         // every possible wrong choice, so this is generated on the spot.
-        document.getElementById('wrong-explain-region').textContent = correctText + ' —';
+        document.getElementById('wrong-explain-region').textContent = correctText + '';
         document.getElementById('wrong-explain-text').textContent = 'Thinking…';
         wrongExplain.style.display = 'block';
         const myToken = ++regionExplainToken;
@@ -1411,7 +1411,7 @@ function recordMTBPlay(){
     if(raw) streak = JSON.parse(raw);
   }catch(e){}
   if(streak.lastPlayedDate === todayKey){
-    // already played today — no change
+    // already played today, no change
   } else if(streak.lastPlayedDate === yesterdayKey){
     streak.count += 1;
     streak.lastPlayedDate = todayKey;
@@ -1438,9 +1438,9 @@ document.getElementById('next-btn').addEventListener('click', () => {
       headline.textContent = pct===100 ? 'Perfect round.' : pct>=80 ? 'Well mapped.' : pct>=50 ? 'Round complete.' : 'Keep practicing.';
     }
     document.getElementById('neuro-result-stats').textContent =
-      `${correctCount}/${total} correct — ${pct}%`;
+      `${correctCount}/${total} correct, ${pct}%`;
 
-    // Round results grid — one square per question, same visual language as the Daily Case
+    // Round results grid, one square per question, same visual language as the Daily Case
     const gridEl = document.getElementById('neuro-result-grid');
     if(gridEl) gridEl.textContent = roundResults.map(r => r ? '🟩' : '🟥').join('');
 
@@ -1459,7 +1459,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
     const bestBanner = document.getElementById('neuro-best-banner');
     if(bestBanner) bestBanner.style.display = isNewBest ? 'block' : 'none';
 
-    // Overall stats — rounds played + running average score, stored client-side
+    // Overall stats, rounds played + running average score, stored client-side
     let roundsPlayed = 1, avgPct = pct;
     try{
       const raw = localStorage.getItem('neurole_neuro_stats');
@@ -1485,7 +1485,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
     document.getElementById('neuro-result-modal').classList.add('open');
     renderGoogleSignIn('neuro-google-container', () => {
       document.getElementById('neuro-google-container').innerHTML =
-        `<p class="rmodal-signed">✓ Signed in as ${googleSignInState.email} — progress saved!</p>`;
+        `<p class="rmodal-signed">✓ Signed in as ${googleSignInState.email}, progress saved!</p>`;
     });
     return;
   }
@@ -1515,7 +1515,7 @@ function openAIPanel(){
   document.getElementById('ai-mobile-title').textContent = title;
   document.getElementById('ai-mobile-function').textContent = func;
   document.getElementById('ai-mobile-chat').innerHTML = '';
-  // Always use centered popup — no side panel
+  // Always use centered popup, no side panel
   const bd = document.getElementById('ai-mobile-backdrop');
   bd.style.display = 'flex';
   document.body.classList.add('ai-panel-open');
@@ -1587,11 +1587,11 @@ loadBank();
 const BUILT_IN_REGIONS = [
   {region:'Frontal Lobe', function_text:'Controls decision-making, planning, personality, and voluntary movement. Home to Broca\'s area for speech production.'},
   {region:'Temporal Lobe', function_text:'Processes sound and language. Contains the hippocampus (memory) and amygdala (emotion).'},
-  {region:'Parietal Lobe', function_text:'Integrates sensory information — touch, temperature, pain, and spatial awareness.'},
+  {region:'Parietal Lobe', function_text:'Integrates sensory information, touch, temperature, pain, and spatial awareness.'},
   {region:'Occipital Lobe', function_text:'Primary visual processing center. Interprets what your eyes see into recognizable images.'},
   {region:'Cerebellum', function_text:'Coordinates voluntary movement, balance, and motor learning. Essential for smooth, precise actions.'},
   {region:'Hippocampus', function_text:'Critical for forming new memories and spatial navigation. One of the first areas affected in Alzheimer\'s.'},
-  {region:'Amygdala', function_text:'Processes emotional responses — especially fear and threat detection. Key to emotional memory formation.'},
+  {region:'Amygdala', function_text:'Processes emotional responses, especially fear and threat detection. Key to emotional memory formation.'},
   {region:'Corpus Callosum', function_text:'A thick band of nerve fibers connecting the left and right hemispheres, enabling communication between them.'},
   {region:'Thalamus', function_text:'A relay station for almost all sensory signals, routing them to the correct cortical areas.'},
   {region:'Hypothalamus', function_text:'Regulates hunger, thirst, sleep, body temperature, and the release of hormones via the pituitary gland.'},
@@ -1617,7 +1617,7 @@ async function loadLearnRegions(){
       } else { learnRegions = BUILT_IN_REGIONS; }
     } else { learnRegions = BUILT_IN_REGIONS; }
   }catch(err){
-    console.error('Neurole: learn regions sheet error —', err.message);
+    console.error('Neurole: learn regions sheet error', err.message);
     learnRegions = BUILT_IN_REGIONS;
   }
 
@@ -1657,9 +1657,9 @@ document.getElementById('start-neuropsych-btn').addEventListener('click', () => 
   startRound('10');
 });
 
-// Beginner mode is now identical to normal mode — same AI fab
+// Beginner mode is now identical to normal mode, same AI fab
 function activateSplitScreen(on){
-  // Nothing extra needed — learn-fab already shown after each question
+  // Nothing extra needed, learn-fab already shown after each question
 }
 
 document.getElementById('start-beginner-btn').addEventListener('click', () => {
@@ -1677,7 +1677,7 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
   startRound('10');
 });
 
-// This page IS the game — read the round config straight from the URL so a
+// This page IS the game, read the round config straight from the URL so a
 // refresh always lands back in the same round type (no hash/session tricks needed).
 (async function initFromQuery(){
   document.getElementById('round-setup').style.display = 'none';
@@ -1708,17 +1708,17 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
       <p class="htp-section-title">How to Play</p>
       <p class="htp-line">An image appears with one region highlighted.</p>
       <p class="htp-line">Pick the correct region from four choices.</p>
-      <p class="htp-line">Get it right, then ask the built-in tutor what that region actually does — and what happens when it's damaged.</p>
+      <p class="htp-line">Get it right, then ask the built-in tutor what that region actually does, and what happens when it's damaged.</p>
     </div>
     <div class="htp-section">
       <p class="htp-section-title">Modes</p>
-      <p class="htp-line"><strong>Region</strong> — identify the highlighted region.</p>
-      <p class="htp-line"><strong>Function</strong> — same image, but you're scored on what it does.</p>
+      <p class="htp-line"><strong>Region</strong>, identify the highlighted region.</p>
+      <p class="htp-line"><strong>Function</strong>, same image, but you're scored on what it does.</p>
     </div>
     <div class="htp-section">
       <p class="htp-section-title">Tips</p>
       <p class="htp-line">Start with "Easy" difficulty if you're new to neuroanatomy.</p>
-      <p class="htp-line">Every wrong answer gets explained — read it before moving on.</p>
+      <p class="htp-line">Every wrong answer gets explained, read it before moving on.</p>
     </div>
   </div>
 </div>
@@ -1735,7 +1735,7 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 .htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
 .htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
 .htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-brand span{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
 .htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
@@ -1758,11 +1758,11 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
       <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
       <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
-        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
           <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>

@@ -24,14 +24,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://neurole.org/daily-game.html">
-<meta property="og:title" content="The Daily Case — Neurole">
+<meta property="og:title" content="The Daily Case, Neurole">
 <meta property="og:description" content="A new neurological patient case every day. Read the symptoms, guess the diagnosis in 5 tries. Free daily brain game by Neurole.">
 <meta property="og:image" content="https://neurole.org/neurole-logo.png">
 <meta property="og:site_name" content="Neurole">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The Daily Case — Neurole">
+<meta name="twitter:title" content="The Daily Case, Neurole">
 <meta name="twitter:description" content="A new neurological patient case every day. Read the symptoms, guess the diagnosis in 5 tries. Free daily brain game by Neurole.">
 <meta name="twitter:image" content="https://neurole.org/neurole-logo.png">
 
@@ -43,12 +43,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-<title>The Daily Case — Neurole</title>
+<title>The Daily Case, Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=146">
+<link rel="stylesheet" href="style.css?v=148">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -100,7 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
   .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
   .start-screen h1{
-    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-family:'Cormorant Garamond',serif;
     font-size:clamp(34px,8vw,46px);font-weight:700;margin:0 0 10px;letter-spacing:-.02em;
   }
   .start-screen p{
@@ -120,7 +120,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pill-purple{background:rgba(107,79,148,.1);color:var(--neuro-blue-deep);}
   .pill-green{background:rgba(92,181,124,.12);color:#3d8a5e;}
 
-  /* iPhone fix — vertically centred */
+  /* iPhone fix, vertically centred */
   @media(max-width:480px){
     .start-screen{justify-content:center;padding:50px 22px 40px;}
     .start-screen h1{font-size:32px !important;}
@@ -129,7 +129,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-actions .btn{font-size:12px !important;padding:12px 0 !important;}
   }
 
-  /* iPhone — start screen compact */
+  /* iPhone, start screen compact */
   @media(max-width:480px){
     .start-screen{padding:50px 18px 36px;justify-content:flex-start;}
     .start-screen-inner{max-width:100%;}
@@ -141,7 +141,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-actions{gap:10px !important;margin-bottom:16px !important;width:100%;}
     .start-actions .btn{flex:1;justify-content:center;padding:12px 8px !important;font-size:12px !important;}
     .start-meta{font-size:11px !important;}
-    /* Case card — frameless on phone */
+    /* Case card, frameless on phone */
     .case-shell{padding:10px 0 50px !important;}
     .case-card{background:transparent !important;border:none !important;box-shadow:none !important;padding:0 2px !important;}
     .symptom-log li{font-size:14.5px !important;padding:10px 12px !important;}
@@ -282,7 +282,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
   .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
   @media(max-width:480px){
-    /* Start screen — iPhone */
+    /* Start screen, iPhone */
     .start-screen{padding:0 16px !important;overflow-y:auto;}
     .start-screen-inner{max-width:100% !important;padding:50px 0 40px !important;}
     .start-screen h1{font-size:clamp(22px,6.5vw,30px) !important;margin-bottom:8px !important;}
@@ -294,7 +294,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-actions .btn{flex:1 !important;justify-content:center !important;padding:11px 8px !important;font-size:11px !important;}
     .start-meta{font-size:11px !important;margin-top:4px !important;}
 
-    /* Case card — frameless on iPhone */
+    /* Case card, frameless on iPhone */
     .case-shell{max-width:100% !important;padding:8px 0 50px !important;}
     .case-card{
       background:transparent !important;
@@ -311,7 +311,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
     .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
 
-    /* Modals — iPhone */
+    /* Modals, iPhone */
     .modal{padding:18px 16px !important;}
     .result-headline h3{font-size:20px !important;}
     .result-stats{font-size:13px !important;}
@@ -320,15 +320,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
 /* ============================================
-   DAILY CASE — IPHONE RESPONSIVE (480px)
+   DAILY CASE, IPHONE RESPONSIVE (480px)
    ============================================ */
 @media(max-width:480px){
 
-  /* Masthead — hamburger only */
+  /* Masthead, hamburger only */
   .nav-left{display:none !important;}
   .hamburger-btn{display:flex !important;}
 
-  /* Start screen — fills phone viewport, scrollable */
+  /* Start screen, fills phone viewport, scrollable */
   .start-screen{
     padding:56px 20px 40px !important;
     justify-content:flex-start !important;
@@ -351,13 +351,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .start-meta{font-size:11px !important;}
 
-  /* Page hero — room for notch */
+  /* Page hero, room for notch */
   .page-hero{padding:76px 0 20px !important;}
   .page-hero h1{font-size:30px !important;}
   .page-hero p{font-size:14px !important;}
   .back-home{font-size:11px !important;}
 
-  /* Game content — no card box on phone */
+  /* Game content, no card box on phone */
   .case-shell{padding:10px 0 50px !important;max-width:100% !important;}
   .case-card{
     background:transparent !important;border:none !important;
@@ -431,11 +431,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "inLanguage": "en"
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <script>
-// This page IS the game — always show it instantly, no popup ever.
+// This page IS the game, always show it instantly, no popup ever.
 document.documentElement.style.setProperty('--start-display','none');
 document.documentElement.style.setProperty('--game-content-display','block');
 </script>
@@ -486,7 +486,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="daily-case-icon.png" alt="The Daily Case" width="56" height="60" style="object-fit:contain;">
       </div>
       <h1>The Daily Case</h1>
-      <p>A new patient every day. Read the symptoms and name the diagnosis — 5 tries, then the answer is revealed.</p>
+      <p>A new patient every day. Read the symptoms and name the diagnosis, 5 tries, then the answer is revealed.</p>
       <div class="start-actions">
         <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
         <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
@@ -496,7 +496,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="case-author-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.03em;"></div>
       <div id="streak-label" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;"></div>
       <a href="archive.html" style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
-      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">For education only — not medical advice. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
+      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">For education only, not medical advice. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
     </div>
   </div>
 
@@ -508,7 +508,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="case-meta">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <span id="case-number" style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
-          <span id="case-date">—</span>
+          <span id="case-date">Loading...</span>
         </div>
         <div class="attempts-dots" id="attempts-dots">
           <span></span><span></span><span></span><span></span><span></span>
@@ -537,7 +537,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
-      Educational use only — not medical advice.
+      Educational use only, not medical advice.
     </p>
   </div>
 </main>
@@ -555,7 +555,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h4>Ask about this case</h4>
       <button class="close" id="case-chat-close" style="position:static;">✕</button>
     </div>
-    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated — may be inaccurate. Not medical advice.</p>
+    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated, may be inaccurate. Not medical advice.</p>
     <div class="chat-body">
       <div class="chat-log" id="case-chat-log"></div>
     </div>
@@ -571,7 +571,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
         <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
@@ -736,7 +736,7 @@ document.getElementById('social-youtube').href = window.NEUROLE_CONFIG.SOCIAL.yo
 /* ---------------------------------------------------------------
    FALLBACK CASE BANK
    Used only if no Google Sheet is connected yet, or today's date
-   has no matching row. Replace/manage real cases via Google Sheet —
+   has no matching row. Replace/manage real cases via Google Sheet.
    see config.js. Conditions drawn from the NIH/NINDS index of
    neurological disorders.
 ---------------------------------------------------------------- */
@@ -763,7 +763,7 @@ const FALLBACK_CASES = [
       "On exam there is a relative afferent pupillary defect in the left eye.",
       "She lives in the northern United States and has low vitamin D."
     ],
-    explanation: "Multiple sclerosis is an autoimmune, demyelinating disease of the CNS. This vignette describes optic neuritis plus Lhermitte's sign, with a past relapsing course — consistent with MS."
+    explanation: "Multiple sclerosis is an autoimmune, demyelinating disease of the CNS. This vignette describes optic neuritis plus Lhermitte's sign, with a past relapsing course, consistent with MS."
   },
   {
     answer: "Myasthenia gravis",
@@ -775,14 +775,14 @@ const FALLBACK_CASES = [
       "Symptoms improve noticeably after a short rest.",
       "An ice pack test on the eyelid improves the ptosis."
     ],
-    explanation: "Myasthenia gravis is caused by autoantibodies against acetylcholine receptors at the neuromuscular junction, producing fatigable weakness — classically ptosis and diplopia that worsen with sustained use and improve with rest."
+    explanation: "Myasthenia gravis is caused by autoantibodies against acetylcholine receptors at the neuromuscular junction, producing fatigable weakness, classically ptosis and diplopia that worsen with sustained use and improve with rest."
   }
 ];
 
 /* ---------------------------------------------------------------
    AUTOCOMPLETE DICTIONARY
    A broad list of neurological disorders (NIH/NINDS index) the
-   player can pick from while typing. Add to this list any time —
+   player can pick from while typing. Add to this list any time.
    it doesn't need to match your Daily Case sheet exactly.
 ---------------------------------------------------------------- */
 const NEURO_DISORDERS = [
@@ -826,7 +826,7 @@ function fuzzyMatches(guess, target){
   return levenshtein(g, t) <= threshold;
 }
 
-// Day index based on days since launch — row 1 = day 0, row 2 = day 1 etc.
+// Day index based on days since launch, row 1 = day 0, row 2 = day 1 etc.
 const LAUNCH_DATE_ET = '2026-07-10';
 
 function todayStr(){
@@ -893,7 +893,7 @@ async function loadCase(){
   if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
   let chosen = null;
   try{
-    // Load CSV raw — read by column position
+    // Load CSV raw, read by column position
     // Layout: A=caseID(skip), B=date(skip), C=symp1, D=symp2, E=symp3, F=symp4, G=symp5, H=answer, I=synonyms, J=explanation
     let csvText = null;
     try{
@@ -938,7 +938,7 @@ async function loadCase(){
     } else {
       console.warn('Neurole: no row for dayIdx', idx, '| rows:', allRows.length);
     }
-  }catch(err){ console.error("Neurole: sheet error —", err.message); }
+  }catch(err){ console.error("Neurole: sheet error", err.message); }
 
   if(!chosen || !state.answer){
     document.getElementById('game-content').style.display='block';
@@ -961,7 +961,7 @@ async function loadCase(){
   const saved = getSavedDailyCompletion();
   state.alreadyCompletedToday = !!saved;
   if(saved){
-    // Already played today on this device — prepare the locked result view,
+    // Already played today on this device, prepare the locked result view,
     // but don't show it yet; the start screen's "View Result" button reveals it.
     state.answer = saved.answer;
     state.explanation = saved.explanation;
@@ -975,7 +975,7 @@ async function loadCase(){
     const banner = document.createElement('div');
     banner.className = 'result-banner' + (saved.won ? '' : ' fail');
     banner.innerHTML = saved.won
-      ? `<h4>Correct — it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
+      ? `<h4>Correct, it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
       : `<h4>The diagnosis was ${saved.answer}.</h4><p>${saved.explanation}</p>`;
     area.appendChild(banner);
     // Coming back to a finished case (back button, reload, revisit) should
@@ -1016,7 +1016,7 @@ function updateStartScreen(){
     streakLabel.innerHTML = `${streak.count}-day streak`;
     streakLabel.style.color = 'var(--ink-soft)';
   } else {
-    streakLabel.innerHTML = 'No streak yet — play today to start one!';
+    streakLabel.innerHTML = 'No streak yet, play today to start one!';
     streakLabel.style.color = 'var(--ink-soft)';
   }
 }
@@ -1032,7 +1032,7 @@ function renderSymptoms(){
       li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>${state.symptoms[i]}</span>`;
     } else {
       li.className = 'locked';
-      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked — make a guess to reveal this hint</span>`;
+      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked, make a guess to reveal this hint</span>`;
     }
     log.appendChild(li);
   }
@@ -1095,7 +1095,7 @@ document.getElementById('guess-form').addEventListener('submit', e => {
     showWrongFlash(guess);
 
     const closest = findClosestKnownDisorder(guess);
-    note.textContent = closest ? `Read as: "${closest}" — not quite right.` : '';
+    note.textContent = closest ? `Read as: "${closest}", not quite right.` : '';
 
     showGuessExplanation(guess);
 
@@ -1120,7 +1120,7 @@ async function showGuessExplanation(guess){
   box.style.display = 'block';
   textEl.textContent = 'Thinking…';
   const explanation = await explainWrongGuess(guess, state.answer);
-  if(myToken !== guessExplainToken) return; // a newer guess has since been made — drop this stale result
+  if(myToken !== guessExplainToken) return; // a newer guess has since been made, drop this stale result
   if(explanation){
     textEl.textContent = explanation;
   } else {
@@ -1275,13 +1275,13 @@ function showResult(won){
   const banner = document.createElement('div');
   banner.className = 'result-banner' + (won ? '' : ' fail');
   banner.innerHTML = won
-    ? `<h4>Correct — it's ${state.answer}.</h4><p>${state.explanation}</p>`
+    ? `<h4>Correct, it's ${state.answer}.</h4><p>${state.explanation}</p>`
     : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p>`;
   area.appendChild(banner);
   state.shown = state.symptoms.length;
   renderSymptoms();
 
-  // Update dots — last dot goes green on win
+  // Update dots, last dot goes green on win
   if(won){
     state.attemptsUsed = Math.max(state.attemptsUsed, 1);
     updateAttemptDots(true);
@@ -1306,7 +1306,7 @@ function saveDailyCompletion(won){
     localStorage.setItem(dailyStorageKey(), JSON.stringify({
       won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author
     }));
-  }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage —", err.message); }
+  }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage", err.message); }
 }
 
 function getSavedDailyCompletion(){
@@ -1350,7 +1350,7 @@ function getDailyStats(){
   }
   let todayPlayed = false;
   try{ todayPlayed = !!localStorage.getItem('neurole_daily_' + dateStrForDayIndex(currentIdx)); }catch(e){}
-  // If today hasn't been played yet, the streak from yesterday is still "alive" — don't zero it out early.
+  // If today hasn't been played yet, the streak from yesterday is still "alive", don't zero it out early.
   const currentStreak = todayPlayed ? runStreak : streakBeforeToday;
   return {
     played, wins,
@@ -1370,7 +1370,7 @@ function openResultPopup(won){
 
   headline.textContent = won ? 'Diagnosed.' : 'Not this time.';
   stats.textContent = won
-    ? `${state.answer} — ${state.attemptsUsed} ${state.attemptsUsed===1?'try':'tries'}`
+    ? `${state.answer}, ${state.attemptsUsed} ${state.attemptsUsed===1?'try':'tries'}`
     : `The diagnosis was: ${state.answer}`;
 
   const explSection = document.getElementById('result-explanation-section');
@@ -1415,7 +1415,7 @@ function openResultPopup(won){
   setStat('stat-maxstreak', dailyStats.bestStreak);
 
   // Show personal distribution immediately so the popup never waits on a
-  // network call to appear — global numbers (if configured) swap in once
+  // network call to appear, global numbers (if configured) swap in once
   // they arrive, without delaying the popup itself.
   const labelEl = document.getElementById('result-distribution-label');
   const distEl = document.getElementById('result-distribution');
@@ -1437,7 +1437,7 @@ function openResultPopup(won){
         </div>`;
     }).join('');
   }
-  renderDistribution(dailyStats.distribution, 'Guess Distribution — Your History');
+  renderDistribution(dailyStats.distribution, 'Guess Distribution, Your History');
 
   const countdownEl = document.getElementById('next-case-countdown');
   if(isArchivePlay()){
@@ -1448,26 +1448,26 @@ function openResultPopup(won){
   document.getElementById('result-modal').classList.add('open');
   renderGoogleSignIn('result-google-container', () => {
     document.getElementById('result-google-container').innerHTML =
-      `<p class="rmodal-signed">✓ Signed in — streak saved!</p>`;
+      `<p class="rmodal-signed">✓ Signed in, streak saved!</p>`;
   });
 
   // Contribute this result and swap in the global distribution once it's
-  // back — fire-and-forget, doesn't block anything above.
+  // back, fire-and-forget, doesn't block anything above.
   const dateKey = dateStrForDayIndex(getPlayIndex());
   submitGlobalDailyResult(dateKey, won ? used : null);
   fetchGlobalDailyDistribution(dateKey).then(global => {
     if(!global || !global.total) return;
-    renderDistribution(global.d, `Guess Distribution — All Players (${global.total.toLocaleString()})`);
+    renderDistribution(global.d, `Guess Distribution, All Players (${global.total.toLocaleString()})`);
     const compareEl = document.getElementById('result-compare-line');
     const solved = global.d.reduce((a,b) => a+b, 0);
     if(compareEl){
       if(won){
         const worse = global.d.slice(used).reduce((a,b) => a+b, 0) + global.fail;
         const pct = Math.round((worse / global.total) * 100);
-        compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'} — faster than ${pct}% of today's players.`;
+        compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'}, faster than ${pct}% of today's players.`;
       } else {
         const pct = Math.round((solved / global.total) * 100);
-        compareEl.textContent = `${pct}% of today's players solved it — you'll get the next one.`;
+        compareEl.textContent = `${pct}% of today's players solved it, you'll get the next one.`;
       }
     }
     const totalEl = document.getElementById('compare-total-players');
@@ -1517,13 +1517,13 @@ document.getElementById('share-btn').addEventListener('click', async () => {
   const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
 
   const shareText = won
-    ? `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used===1?'try':'tries'}. Can you beat that?\nneurole.org/daily-game.html`
-    : `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`;
+    ? `Neurole Daily Case, ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used===1?'try':'tries'}. Can you beat that?\nneurole.org/daily-game.html`
+    : `Neurole Daily Case, ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`;
 
   const shareBtn = document.getElementById('share-btn');
   try{
     if(navigator.share){
-      await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' });
+      await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole, The Daily Case' });
     } else {
       await navigator.clipboard.writeText(shareText);
       const orig = shareBtn.textContent;
@@ -1599,7 +1599,7 @@ CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the speci
 Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
   }
 
-  aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now — try again in a moment.";
+  aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now, try again in a moment.";
 });
 </script>
 <!-- Subscribe modal -->
@@ -1612,12 +1612,12 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
       <p class="htp-section-title">How to Play</p>
       <p class="htp-line">A new patient case appears every morning.</p>
       <p class="htp-line">Read the symptoms and type your diagnosis.</p>
-      <p class="htp-line">You get five tries — each wrong guess reveals one more symptom to help narrow it down.</p>
+      <p class="htp-line">You get five tries, each wrong guess reveals one more symptom to help narrow it down.</p>
     </div>
     <div class="htp-section">
       <p class="htp-section-title">Tips</p>
       <p class="htp-line">Use the AI tutor after a wrong guess to understand why it wasn't the answer.</p>
-      <p class="htp-line">Come back daily — a new case drops every midnight ET, and streaks track how consistent you are.</p>
+      <p class="htp-line">Come back daily, a new case drops every midnight ET, and streaks track how consistent you are.</p>
     </div>
   </div>
 </div>
@@ -1634,7 +1634,7 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 .htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
 .htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
 .htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.htp-brand span{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
 .htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
@@ -1657,11 +1657,11 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
       <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
       <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
-        <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
+        <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
           <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>

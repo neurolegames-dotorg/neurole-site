@@ -133,12 +133,23 @@ function HomePage() {
                 <div className="home-game-card-body">
                   <div className="game-card-icon-wrap">
                     <div className="game-icon-badge game-icon-badge--blue">
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3E6485" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="6" cy="7" r="2.3" />
-                        <circle cx="18" cy="7" r="2.3" />
-                        <circle cx="6" cy="17" r="2.3" />
-                        <circle cx="18" cy="17" r="2.3" />
-                        <path d="M8 8.2 16 15.8M16 8.2 8 15.8M8.3 7h7.4M8.3 17h7.4" />
+                      <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <rect x="8" y="8" width="48" height="48" rx="16" fill="url(#synapseBadgeGradient)" />
+                        <path d="M20 22c5-8 16-10 24-6" stroke="#0F3D5A" strokeWidth="3" strokeLinecap="round" />
+                        <path d="M20 41c5 8 16 10 24 6" stroke="#0F3D5A" strokeWidth="3" strokeLinecap="round" />
+                        <path d="M23 23c2 8 2 12 4 15" stroke="#6AA7C6" strokeWidth="3" strokeLinecap="round" />
+                        <path d="M40 25c-2 8-2 12-4 15" stroke="#6AA7C6" strokeWidth="3" strokeLinecap="round" />
+                        <circle cx="18" cy="22" r="4.3" fill="#2E5B7A" />
+                        <circle cx="46" cy="22" r="4.3" fill="#2E5B7A" />
+                        <circle cx="18" cy="42" r="4.3" fill="#4B7A99" />
+                        <circle cx="46" cy="42" r="4.3" fill="#4B7A99" />
+                        <circle cx="32" cy="32" r="5" fill="#F7FCFF" stroke="#6AA7C6" strokeWidth="2.2" />
+                        <defs>
+                          <linearGradient id="synapseBadgeGradient" x1="8" x2="56" y1="8" y2="56" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#F7FCFF" />
+                            <stop offset="1" stopColor="#DFF3FF" />
+                          </linearGradient>
+                        </defs>
                       </svg>
                     </div>
                   </div>

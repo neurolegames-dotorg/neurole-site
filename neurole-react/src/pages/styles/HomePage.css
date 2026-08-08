@@ -66,10 +66,22 @@
   display:flex;flex-direction:column;align-items:center;
 }
 .game-card-icon-wrap{
-  width:64px;height:64px;border-radius:16px;
-  background:rgba(255,255,255,.92);
+  width:76px;height:76px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(247,250,255,.92));
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.12);
+  margin-bottom:14px;box-shadow:0 8px 20px rgba(0,0,0,.12);
+  padding:6px;
+}
+.game-icon-badge{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  border-radius:14px;padding:6px;
+}
+.game-icon-badge svg{
+  width:54px;height:54px;display:block;
+}
+.game-icon-badge--blue{
+  background:linear-gradient(135deg,#f6fcff 0%,#dff3ff 48%,#b8dff3 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 10px 24px rgba(62,100,133,.16);
 }
 .game-card-badge{
   font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;

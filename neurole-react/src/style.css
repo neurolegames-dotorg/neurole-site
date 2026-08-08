@@ -234,36 +234,58 @@ body{padding-top:58px;}
 .hero-img-wrap{
   position:relative;
   width:100%;
-  height:300px;
-  height:clamp(220px, 26vw, 360px);
+  min-height:clamp(260px, 28vw, 380px);
   overflow:hidden;
   margin:0;
-  background-color:var(--paper);
+  background-color:#090b12;
+}
+.hero-img-wrap::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255,255,255,0.18), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(91,149,212,0.16), transparent 20%),
+    radial-gradient(circle at 50% 78%, rgba(141,98,212,0.14), transparent 28%);
+  pointer-events:none;
+}
+.hero-img-wrap::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(9,11,18,0) 0%, rgba(9,11,18,0.16) 30%, rgba(9,11,18,0.72) 78%, var(--paper) 100%);
+  mix-blend-mode:soft-light;
+  pointer-events:none;
 }
 .hero-bg-image{
   position:absolute;inset:0;
   background-image:url('/neuron-hero.webp');
   background-size:cover;
-  background-position:50% 58%;
-  filter:hue-rotate(55deg) saturate(1.15);
+  background-position:50% 42%;
+  filter:contrast(1.05) saturate(1.2) brightness(0.98);
+  transform:scale(1.02);
+  transition:transform .4s ease, filter .4s ease;
+}
+.hero-img-wrap:hover .hero-bg-image{
+  transform:scale(1.06);
 }
 
 .hero-fade{
   position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(241,242,244,0) 0%, rgba(241,242,244,0.18) 42%, rgba(241,242,244,0.95) 76%, var(--paper) 100%);
+  background:linear-gradient(180deg, rgba(241,242,244,0) 0%, rgba(241,242,244,0.16) 42%, rgba(241,242,244,0.85) 72%, var(--paper) 100%);
 }
 .hero-text{
-  position:absolute;left:0;right:0;bottom:0;
+  position:absolute;left:0;right:0;bottom:16px;
   text-align:center;
-  padding-bottom:26px;
+  padding:0 18px;
+  z-index:2;
 }
 .hero-text h1{
   font-family:'Playfair Display', 'Times New Roman', serif;
   font-weight:800;
-  font-size:clamp(48px,9vw,108px);
+  font-size:clamp(48px,9vw,98px);
   margin:0;
-  color:var(--ink);
+  color:#11131b;
   letter-spacing:.01em;
+  text-shadow:0 18px 42px rgba(17,23,34,.15);
 }
 .hero-text p{
   font-family:var(--mono);
@@ -271,7 +293,8 @@ body{padding-top:58px;}
   letter-spacing:.18em;
   font-size:13px;
   color:var(--neuro-blue-deep);
-  margin:6px 0 0;
+  margin:8px 0 0;
+  text-shadow:0 1px 1px rgba(255,255,255,.24);
 }
 
 /* ---------- synapse divider (signature element) ---------- */

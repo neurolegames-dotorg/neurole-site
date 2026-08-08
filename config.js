@@ -1,5 +1,5 @@
 /* =====================================================================
-   NEUROLE — CONFIG
+   NEUROLE, CONFIG
    Fill these in with your own published Google Sheet CSV links.
 
    HOW TO CONNECT A GOOGLE SHEET:
@@ -27,7 +27,7 @@ window.NEUROLE_CONFIG = {
   LEARN_REGIONS_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_LEARN_REGIONS",
 
   // --- Neuroanatomy game ---------------------------------------------
-  // The code reads columns by HEADER NAME (row 1), not by column letter —
+  // The code reads columns by HEADER NAME (row 1), not by column letter.
   // so it doesn't matter which literal column something sits in, as long
   // as row 1 has these exact header names somewhere in it.
   //
@@ -41,7 +41,7 @@ window.NEUROLE_CONFIG = {
   //   ("Which region?", shown after answering)
   //
   // Both modes pull their post-answer explanation from the same
-  // function_text column — only the section label differs (Region mode
+  // function_text column, only the section label differs (Region mode
   // says "Why", Function mode says "Which region?").
   //
   // category (optional) | difficulty (optional) apply to both modes.
@@ -64,7 +64,7 @@ window.NEUROLE_CONFIG = {
   // --- Google Sign-In ---------------------------------------------------
   // Powers the "Sign In" button (homepage) and the "save your streak"
   // sign-in inside both games' end-of-game popups. This uses Google's
-  // real, official Sign-In — not a custom form — so players sign in
+  // real, official Sign-In, not a custom form, so players sign in
   // with their actual Google account.
   //
   // SETUP (free, ~5 minutes):
@@ -82,17 +82,17 @@ window.NEUROLE_CONFIG = {
   GOOGLE_CLIENT_ID: "583762713343-9qaunbi2idfuf9fdtdirhiehvprm9jp2.apps.googleusercontent.com",
 
   // --- "Ask a question" AI helper on both games ------------------------
-  // TWO WAYS TO MAKE THIS ACTUALLY WORK — pick one:
+  // TWO WAYS TO MAKE THIS ACTUALLY WORK, pick one:
   //
-  // OPTION A (easiest — recommended to start):
+  // OPTION A (easiest, recommended to start):
   //   Get a free Gemini API key at https://aistudio.google.com/apikey
   //   Paste it below as GEMINI_API_KEY.
-  //   IMPORTANT — restrict the key so it can't be stolen/misused:
+  //   IMPORTANT, restrict the key so it can't be stolen/misused:
   //     Go to https://console.cloud.google.com/apis/credentials
   //     -> click your key -> under "Application restrictions" choose
   //     "Websites" -> add your site's domain (e.g. yoursite.netlify.app).
   //     This makes the key only work when called FROM your site.
-  //   That's it — no backend needed. The games will call Gemini
+  //   That's it, no backend needed. The games will call Gemini
   //   directly from the browser.
   //
   // OPTION B (more secure, more setup):
@@ -101,7 +101,7 @@ window.NEUROLE_CONFIG = {
   //   Your key never touches the browser at all with this option.
   //   If both GEMINI_API_KEY and AI_ENDPOINT_URL are filled in, the
   //   games will use GEMINI_API_KEY (Option A) first.
-  // OPTION A0 — Groq. Genuinely free, NO credit card required at all.
+  // OPTION A0, Groq. Genuinely free, NO credit card required at all.
   // Runs an open-source model (Llama) instead of GPT/Gemini, but works
   // great for this kind of explanatory Q&A.
   // 1. Go to https://console.groq.com/keys
@@ -112,7 +112,7 @@ window.NEUROLE_CONFIG = {
 
   GEMINI_API_KEY: "AQ.Ab8RN6JKGTLt-Z9PoFLc2OFMXTfmyt61IRA6HDd8pfe06b4FOQ",
 
-  // OPTION A2 — OpenAI, as a fallback if Gemini's account policy keeps
+  // OPTION A2, OpenAI, as a fallback if Gemini's account policy keeps
   // blocking you. Get a key at https://platform.openai.com/api-keys
   // (requires adding billing info, even for small usage).
   //
@@ -134,14 +134,14 @@ window.NEUROLE_CONFIG = {
   },
 
   // --- Global Guess Distribution (Daily Case) ---------------------------
-  // Powers the "Guess Distribution — All Players" bars in the end-of-game
+  // Powers the "Guess Distribution, All Players" bars in the end-of-game
   // popup, showing how everyone who played today's case did, not just you.
   // Uses Firebase Firestore, which is free for this kind of light usage
-  // and needs no server of your own — the browser talks to it directly.
+  // and needs no server of your own, the browser talks to it directly.
   //
   // SETUP (free, ~10 minutes):
   //   1. Go to https://console.firebase.google.com and create a project
-  //      (any name — e.g. "neurole").
+  //      (any name, e.g. "neurole").
   //   2. In the left sidebar: Build -> Firestore Database -> Create database.
   //      Choose "Start in production mode", pick any region, click Enable.
   //   3. Go to Firestore -> Rules tab and replace the rules with:
@@ -158,17 +158,17 @@ window.NEUROLE_CONFIG = {
   //        }
   //
   //      This lets anyone read the daily totals (needed to show the bars)
-  //      and only ever increment the five known counters — it can't be
+  //      and only ever increment the five known counters, it can't be
   //      used to write arbitrary data. Click "Publish".
   //   4. Back in Project Overview, click the "</>" (web app) icon to
-  //      register a web app. Skip Firebase Hosting — you don't need it.
+  //      register a web app. Skip Firebase Hosting, you don't need it.
   //   5. It'll show you a firebaseConfig object. Copy those values into
-  //      FIREBASE_CONFIG below. (These values are meant to be public —
+  //      FIREBASE_CONFIG below. (These values are meant to be public.
   //      unlike API keys elsewhere in this file, they're not secret;
   //      the Firestore Rules above are what actually control access.)
   //
   // Until this is filled in, the popup automatically falls back to
-  // showing your own personal guess history instead — nothing breaks.
+  // showing your own personal guess history instead, nothing breaks.
   FIREBASE_CONFIG: {
     apiKey: "AIzaSyAdbHOuaT5tucKUL_8oUs1dRQc_VJCPGWw",
     authDomain: "neurole-3abac.firebaseapp.com",

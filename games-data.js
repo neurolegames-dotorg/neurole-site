@@ -1,5 +1,5 @@
 /* =====================================================================
-   NEUROLE — GAMES DATA
+   NEUROLE, GAMES DATA
    Edit this array to add, remove, or update games shown on the homepage.
    - type: 'daily'  -> shown in the "Daily Game" section, one per date
    - type: 'normal' -> shown in the "All Games" grid, always visible
@@ -9,9 +9,9 @@
 ===================================================================== */
 
 /* =====================================================================
-   NEUROLE — GAMES DATA
+   NEUROLE, GAMES DATA
    Edit this array to add, remove, or update games shown on the homepage.
-   - type: 'daily'  -> shown in the "Daily Game" section (just one entry —
+   - type: 'daily'  -> shown in the "Daily Game" section (just one entry:
      the actual day-to-day case content comes from your Google Sheet,
      read live inside daily-game.html, NOT from this file)
    - type: 'normal' -> shown in the "All Games" grid, always visible
@@ -36,12 +36,12 @@ const GAMES_DATA = [
 
 /* ---------- icon library ---------- */
 const GAME_ICONS = {
-  // Medical/clinical cross icon — Daily Case
+  // Medical/clinical cross icon, Daily Case
   stethoscope: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5C4480" stroke-width="1.6">
       <rect x="3" y="3" width="18" height="18" rx="3"/>
       <path d="M12 7v10M7 12h10"/>
     </svg>`,
-  // Stethoscope / neuron icon — Map the Brain
+  // Stethoscope / neuron icon, Map the Brain
   brain: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#7E5FA6" stroke-width="1.6">
       <path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"/>
       <path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3"/>

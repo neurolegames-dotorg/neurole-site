@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=149">
+<link rel="stylesheet" href="style.css?v=151">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
@@ -56,22 +56,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   height:clamp(280px,38vw,420px);
   background:var(--paper-deep);
 }
-.synapse-neuron{position:absolute;top:0;width:52%;height:100%;}
+.synapse-neuron{position:absolute;top:0;width:38%;height:100%;z-index:2;}
 .synapse-neuron-left{left:0;}
-.synapse-neuron-right{right:0;}
+.synapse-neuron-right{right:0;width:46%;}
 .synapse-gap{
-  position:absolute;top:0;bottom:0;left:34%;right:34%;
-  overflow:visible;
+  position:absolute;top:0;bottom:0;left:38%;right:46%;
+  overflow:visible;z-index:1;
 }
 .neurotransmitter{
   position:absolute;top:50%;left:0;
-  width:11px;height:11px;border-radius:50%;
+  width:22px;height:22px;border-radius:50%;
   transform:translate(-50%,-50%);
   opacity:0;
   animation:synapseFire 2.6s linear forwards;
+  box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
 .neurotransmitter.is-icon{
-  width:34px;height:34px;border-radius:9px;
+  width:46px;height:46px;border-radius:12px;
   background:#fff !important;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 14px rgba(0,0,0,.18);
@@ -80,8 +81,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @keyframes synapseFire{
   0%{left:0%;opacity:0;transform:translate(-50%,-50%) scale(.5);}
   10%{opacity:1;transform:translate(-50%,-50%) scale(1);}
-  85%{opacity:1;}
-  100%{left:100%;opacity:0;transform:translate(-50%,-50%) scale(.6);}
+  78%{opacity:1;}
+  96%{left:96%;opacity:0;transform:translate(-50%,-50%) scale(.6);}
+  100%{left:96%;opacity:0;}
 }
 .hero-headline-overlay{
   position:absolute;left:0;bottom:0;
@@ -97,7 +99,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   font-family:var(--serif-display);font-weight:700;
   font-size:clamp(15px,2vw,19px);color:var(--neuro-blue-deep);margin:0;letter-spacing:-.01em;
 }
-:root[data-theme="dark"] .synapse-neuron path{fill:#8B6DB8 !important;}
+:root[data-theme="dark"] .synapse-neuron path{fill:#C4AFF0 !important;stroke:#0D0A12 !important;}
 @media(max-width:480px){
   .synapse-stage{height:clamp(230px,58vw,300px);}
   .hero-headline-overlay{padding:0 0 22px 20px;}
@@ -345,12 +347,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero-synapse">
   <div class="synapse-stage" id="synapse-stage" role="img" aria-label="Two neurons passing signals across a synapse">
 
-    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 500 400" preserveAspectRatio="none" fill="none">
-      <path d="M-20,50 C180,20 320,70 400,160 C430,195 428,225 395,250 C340,290 240,320 100,335 C20,343 -20,330 -20,300 Z" fill="#6B4F94"/>
+    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 640 400" preserveAspectRatio="xMinYMid meet" fill="none">
+      <path d="M-50,130 L280,130 C350,125 400,95 455,50 C520,0 585,25 615,90 C645,150 645,180 645,200 C645,220 645,250 615,310 C585,375 520,400 455,350 C400,305 350,275 280,270 L-50,270 Z" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round"/>
     </svg>
 
-    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 500 400" preserveAspectRatio="none" fill="none">
-      <path d="M520,50 C320,20 180,70 100,160 C70,195 72,225 105,250 C160,290 260,320 400,335 C480,343 520,330 520,300 Z" fill="#6B4F94"/>
+    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 640 400" preserveAspectRatio="xMaxYMid meet" fill="none">
+      <path d="M690,130 L360,130 C290,125 240,95 185,50 C120,0 55,25 25,90 C-5,150 -5,180 -5,200 C-5,220 -5,250 25,310 C55,375 120,400 185,350 C240,305 290,275 360,270 L690,270 Z" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round"/>
     </svg>
 
     <div class="synapse-gap" id="synapse-gap"></div>
@@ -378,9 +380,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Games spotlight -->
   <section class="games-spotlight">
     <div class="wrap" style="text-align:center;">
-      <span class="eyebrow-pill">Free to play, no sign-up</span>
-      <h2 style="font-weight:700;">Two games. A new case every day.</h2>
-      <p class="sub">Making neuroscience something you actually want to play.</p>
+      <h2 style="font-weight:700;">Games</h2>
 
       <div class="home-games-grid">
 
@@ -581,7 +581,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   (function(){
     const gap = document.getElementById('synapse-gap');
     if(!gap) return;
-    const colors = ['#8B2635','#6B4F94','#3F7A3A','#C9982F','#3A6EA5','#B8577A'];
+    const colors = ['#F2707D','#9B7FD4','#5FC79E','#F5B94C','#5FA8E8','#F088B6'];
     const icons = ['daily-case-icon.png','map-brain-icon.png','synapse-icon.png'];
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let spawnCount = 0;

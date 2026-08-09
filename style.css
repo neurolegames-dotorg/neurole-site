@@ -58,8 +58,8 @@ button{font-family:inherit;cursor:pointer;}
 body{padding-top:58px;}
 .masthead-inner{
   display:flex;align-items:center;justify-content:flex-start;
-  padding:14px 28px 14px 8px;max-width:var(--max-w);margin:0 auto;
-  flex-wrap:wrap; gap:10px;
+  padding:14px 20px 14px 0;width:100%;margin:0;
+  flex-wrap:wrap; gap:8px;
   position:relative;
 }
 .nav-left{display:flex;gap:22px;flex-wrap:wrap;align-items:center;}
@@ -133,7 +133,7 @@ body{padding-top:58px;}
 
 /* Close button inside the overlay */
 .mobile-nav-close{
-  position:absolute;top:14px;left:8px;
+  position:absolute;top:14px;left:0px;
   background:none;border:none;
   font-size:26px;color:var(--ink-soft);
   cursor:pointer;width:44px;height:44px;
@@ -365,8 +365,8 @@ h2.section-title{
 /* ---------- footer ---------- */
 footer{
   border-top:1px solid var(--rule);
-  margin-top:0;
-  padding:44px 0 max(30px, env(safe-area-inset-bottom, 30px));
+  margin-top:56px;
+  padding:56px 0 max(48px, env(safe-area-inset-bottom, 48px));
   background:var(--paper-deep);
 }
 /* Make the overscroll area below the footer (iPhone home bar area)
@@ -1340,6 +1340,10 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] body{
   background:var(--paper) !important;
   color:var(--ink) !important;
+}
+:root[data-theme="dark"] .brand img,
+:root[data-theme="dark"] .mobile-nav-brand img{
+  filter:invert(1) brightness(1.15);
 }
 
 :root[data-theme="dark"] .game-card,

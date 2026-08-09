@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=159">
+<link rel="stylesheet" href="style.css?v=162">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
@@ -56,7 +56,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   height:clamp(320px,42vw,460px);
   background:var(--paper-deep);
 }
-.synapse-neuron{position:absolute;top:2%;height:84%;z-index:2;transform-origin:center;animation:neuronBreathe 4.5s ease-in-out 2s infinite;}
+.synapse-neuron{position:absolute;top:0%;height:90%;z-index:2;transform-origin:center;animation:neuronBreathe 4.5s ease-in-out 2s infinite;}
 .synapse-neuron-right{animation-delay:2.3s;}
 @keyframes neuronBreathe{
   0%,100%{transform:scale(1);}
@@ -65,7 +65,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(prefers-reduced-motion: reduce){
   .synapse-neuron{animation:none;}
 }
-.synapse-neuron-left{left:0;aspect-ratio:500/300;}
+.synapse-neuron-left{left:0;aspect-ratio:520/300;}
 .synapse-neuron-right{right:0;aspect-ratio:450/300;}
 .synapse-gap{
   position:absolute;top:0;bottom:0;left:50%;right:43%;
@@ -123,7 +123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(max-width:480px){
   .synapse-stage{height:clamp(230px,58vw,300px);}
   .synapse-neuron{height:52%;top:22%;}
-  .synapse-gap{left:54%;right:44%;}
+  .synapse-gap{left:52%;right:47%;}
   .hero-headline-overlay{padding:0 0 22px 20px;}
   .neurotransmitter.is-icon{width:24px;height:24px;border-radius:7px;}
 }
@@ -366,11 +366,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero-synapse">
   <div class="synapse-stage" id="synapse-stage" role="img" aria-label="Two neurons passing signals across a synapse">
 
-    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 500 300" preserveAspectRatio="xMinYMid meet" fill="none">
-      <path d="M-20,120 L265,120 C288,119 305,112 318,96 C328,66 350,48 380,48 C392,35 412,32 428,44 C450,54 464,78 460,106 C472,124 472,176 460,194 C464,222 450,246 428,256 C412,268 392,265 380,252 C350,252 328,234 318,204 C305,188 288,181 265,180 L-20,180 Z" class="neuron-body" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
-      <path d="M375,95 C387,82 405,82 415,94" stroke="#8B6DC7" stroke-width="5" stroke-linecap="round" fill="none"/>
-      <circle cx="418" cy="150" r="8" fill="#8B6DC7"/>
-      <circle cx="392" cy="195" r="5" fill="#8B6DC7"/>
+    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 520 300" preserveAspectRatio="xMinYMid meet" fill="none">
+      <path d="M-20,120 L285,120 C308,119 325,112 338,96 C348,66 370,48 400,48 C412,35 432,32 448,44 C470,54 484,78 480,106 C492,124 492,176 480,194 C484,222 470,246 448,256 C432,268 412,265 400,252 C370,252 348,234 338,204 C325,188 308,181 285,180 L-20,180 Z" class="neuron-body" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M395,95 C407,82 425,82 435,94" stroke="#8B6DC7" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="438" cy="150" r="8" fill="#8B6DC7"/>
+      <circle cx="412" cy="195" r="5" fill="#8B6DC7"/>
     </svg>
 
     <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 450 300" preserveAspectRatio="xMaxYMid meet" fill="none" style="transform:scaleX(-1);">
@@ -600,9 +600,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="games-data.js?v=125"></script>
 <script src="script.js?v=137"></script>
 <script>
-  // Neurotransmitters move only as the page is scrolled - no independent timer.
-  // A fixed set of dots/icons is created once; each has a "phase" offset, and
-  // scrolling advances all of them together along the gap, wrapping around.
+  // Neurotransmitters move constantly, driven by elapsed time (not scroll).
+  // A fixed set of dots/icons is created once; each has a "phase" offset that
+  // continuously advances, wrapping around, for an always-flowing effect.
   (function(){
     const gap = document.getElementById('synapse-gap');
     if(!gap) return;
@@ -632,10 +632,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       particles.push({ el: el, phase: i / COUNT });
     }
 
-    function render(){
-      const scrollFrac = reduceMotion ? 0 : (window.scrollY / 900); // speed of travel per pixel scrolled
+    function render(timeFrac){
       particles.forEach(function(p){
-        let pos = (p.phase + scrollFrac) % 1;
+        let pos = (p.phase + timeFrac) % 1;
         if(pos < 0) pos += 1;
         p.el.style.left = (pos * 100) + '%';
         // Fade in/out near the two ends so particles don't pop abruptly
@@ -646,14 +645,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     }
 
-    let ticking = false;
-    window.addEventListener('scroll', function(){
-      if(!ticking){
-        requestAnimationFrame(function(){ render(); ticking = false; });
-        ticking = true;
+    if(reduceMotion){
+      render(0);
+    } else {
+      // Only animate while the hero is actually visible, to avoid wasted work
+      let visible = true;
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; });
+        io.observe(gap);
       }
-    }, { passive: true });
-    render();
+      const CYCLE_MS = 9000; // time for a particle to cross the full gap
+      let startTime = null;
+      function loop(ts){
+        if(startTime === null) startTime = ts;
+        if(visible){
+          const timeFrac = ((ts - startTime) % CYCLE_MS) / CYCLE_MS;
+          render(timeFrac);
+        }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
   })();
 </script>
 <script>

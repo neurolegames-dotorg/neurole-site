@@ -58,7 +58,7 @@ button{font-family:inherit;cursor:pointer;}
 body{padding-top:58px;}
 .masthead-inner{
   display:flex;align-items:center;justify-content:flex-start;
-  padding:14px 28px 14px 14px;max-width:var(--max-w);margin:0 auto;
+  padding:14px 28px 14px 8px;max-width:var(--max-w);margin:0 auto;
   flex-wrap:wrap; gap:10px;
   position:relative;
 }
@@ -133,7 +133,7 @@ body{padding-top:58px;}
 
 /* Close button inside the overlay */
 .mobile-nav-close{
-  position:absolute;top:14px;left:14px;
+  position:absolute;top:14px;left:8px;
   background:none;border:none;
   font-size:26px;color:var(--ink-soft);
   cursor:pointer;width:44px;height:44px;
@@ -781,7 +781,7 @@ footer {
    ===================================================== */
 
 /* Smoother page background — very subtle warm tint */
-body{background:#FAFAFA;}
+/* (removed redundant hardcoded body background - theme-variable-based rule above handles this) */
 
 /* Masthead — slightly warmer border */
 .masthead{border-bottom:1px solid rgba(90,67,128,.12);}
@@ -1338,7 +1338,7 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] .start-screen,
 :root[data-theme="dark"] footer{background:var(--paper) !important;color:var(--ink) !important;}
 :root[data-theme="dark"] body{
-  background:var(--paper);
+  background:var(--paper) !important;
   color:var(--ink) !important;
 }
 

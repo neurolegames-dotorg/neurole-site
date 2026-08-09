@@ -46,45 +46,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=151">
+<link rel="stylesheet" href="style.css?v=158">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
 .synapse-stage{
   position:relative;
   width:100vw;margin-left:calc(-50vw + 50%);
-  height:clamp(280px,38vw,420px);
+  height:clamp(320px,42vw,460px);
   background:var(--paper-deep);
 }
-.synapse-neuron{position:absolute;top:0;width:38%;height:100%;z-index:2;}
-.synapse-neuron-left{left:0;}
-.synapse-neuron-right{right:0;width:46%;}
+.synapse-neuron{position:absolute;top:2%;height:84%;z-index:2;}
+.synapse-neuron-left{left:0;aspect-ratio:500/300;}
+.synapse-neuron-right{right:0;aspect-ratio:450/300;}
 .synapse-gap{
-  position:absolute;top:0;bottom:0;left:38%;right:46%;
+  position:absolute;top:0;bottom:0;left:50%;right:43%;
   overflow:visible;z-index:1;
 }
 .neurotransmitter{
   position:absolute;top:50%;left:0;
-  width:22px;height:22px;border-radius:50%;
+  width:24px;height:24px;border-radius:50%;
   transform:translate(-50%,-50%);
-  opacity:0;
-  animation:synapseFire 2.6s linear forwards;
+  opacity:1;
+  transition:left .05s linear;
   box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
 .neurotransmitter.is-icon{
-  width:46px;height:46px;border-radius:12px;
+  width:52px;height:52px;border-radius:13px;
   background:#fff !important;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 14px rgba(0,0,0,.18);
 }
 .neurotransmitter.is-icon img{width:70%;height:70%;object-fit:contain;}
-@keyframes synapseFire{
-  0%{left:0%;opacity:0;transform:translate(-50%,-50%) scale(.5);}
-  10%{opacity:1;transform:translate(-50%,-50%) scale(1);}
-  78%{opacity:1;}
-  96%{left:96%;opacity:0;transform:translate(-50%,-50%) scale(.6);}
-  100%{left:96%;opacity:0;}
-}
 .hero-headline-overlay{
   position:absolute;left:0;bottom:0;
   padding:0 0 32px 40px;
@@ -99,14 +92,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   font-family:var(--serif-display);font-weight:700;
   font-size:clamp(15px,2vw,19px);color:var(--neuro-blue-deep);margin:0;letter-spacing:-.01em;
 }
-:root[data-theme="dark"] .synapse-neuron path{fill:#C4AFF0 !important;stroke:#0D0A12 !important;}
+:root[data-theme="dark"] .synapse-neuron .neuron-body{fill:#C4AFF0 !important;stroke:#0D0A12 !important;}
+:root[data-theme="dark"] .synapse-neuron path:not(.neuron-body){stroke:#7A5FAF !important;}
+:root[data-theme="dark"] .synapse-neuron circle{fill:#7A5FAF !important;}
 @media(max-width:480px){
   .synapse-stage{height:clamp(230px,58vw,300px);}
+  .synapse-neuron{height:52%;top:22%;}
+  .synapse-gap{left:54%;right:44%;}
   .hero-headline-overlay{padding:0 0 22px 20px;}
-  .neurotransmitter.is-icon{width:26px;height:26px;}
-}
-@media(prefers-reduced-motion: reduce){
-  .neurotransmitter{animation-duration:4s;}
+  .neurotransmitter.is-icon{width:24px;height:24px;border-radius:7px;}
 }
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -347,12 +341,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero-synapse">
   <div class="synapse-stage" id="synapse-stage" role="img" aria-label="Two neurons passing signals across a synapse">
 
-    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 640 400" preserveAspectRatio="xMinYMid meet" fill="none">
-      <path d="M-50,130 L280,130 C350,125 400,95 455,50 C520,0 585,25 615,90 C645,150 645,180 645,200 C645,220 645,250 615,310 C585,375 520,400 455,350 C400,305 350,275 280,270 L-50,270 Z" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round"/>
+    <svg class="synapse-neuron synapse-neuron-left" viewBox="0 0 500 300" preserveAspectRatio="xMinYMid meet" fill="none">
+      <path d="M-20,120 L265,120 C288,119 305,112 318,96 C328,66 350,48 380,48 C392,35 412,32 428,44 C450,54 464,78 460,106 C472,124 472,176 460,194 C464,222 450,246 428,256 C412,268 392,265 380,252 C350,252 328,234 318,204 C305,188 288,181 265,180 L-20,180 Z" class="neuron-body" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M375,95 C387,82 405,82 415,94" stroke="#8B6DC7" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="418" cy="150" r="8" fill="#8B6DC7"/>
+      <circle cx="392" cy="195" r="5" fill="#8B6DC7"/>
     </svg>
 
-    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 640 400" preserveAspectRatio="xMaxYMid meet" fill="none">
-      <path d="M690,130 L360,130 C290,125 240,95 185,50 C120,0 55,25 25,90 C-5,150 -5,180 -5,200 C-5,220 -5,250 25,310 C55,375 120,400 185,350 C240,305 290,275 360,270 L690,270 Z" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round"/>
+    <svg class="synapse-neuron synapse-neuron-right" viewBox="0 0 450 300" preserveAspectRatio="xMaxYMid meet" fill="none" style="transform:scaleX(-1);">
+      <path d="M-20,120 L225,120 C248,119 265,112 278,96 C288,66 310,48 340,48 C352,35 372,32 388,44 C410,54 424,78 420,106 C432,124 432,176 420,194 C424,222 410,246 388,256 C372,268 352,265 340,252 C310,252 288,234 278,204 C265,188 248,181 225,180 L-20,180 Z" class="neuron-body" fill="#B29AE8" stroke="#1A1425" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M335,95 C347,82 365,82 375,94" stroke="#8B6DC7" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="378" cy="150" r="8" fill="#8B6DC7"/>
+      <circle cx="352" cy="195" r="5" fill="#8B6DC7"/>
     </svg>
 
     <div class="synapse-gap" id="synapse-gap"></div>
@@ -577,54 +577,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="games-data.js?v=125"></script>
 <script src="script.js?v=137"></script>
 <script>
-  // Continuously spawn neurotransmitter dots and game icons crossing the synapse gap
+  // Neurotransmitters move only as the page is scrolled - no independent timer.
+  // A fixed set of dots/icons is created once; each has a "phase" offset, and
+  // scrolling advances all of them together along the gap, wrapping around.
   (function(){
     const gap = document.getElementById('synapse-gap');
     if(!gap) return;
     const colors = ['#F2707D','#9B7FD4','#5FC79E','#F5B94C','#5FA8E8','#F088B6'];
     const icons = ['daily-case-icon.png','map-brain-icon.png','synapse-icon.png'];
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let spawnCount = 0;
 
-    function spawn(){
-      spawnCount++;
-      const isIcon = spawnCount % 5 === 0; // roughly one icon per five dots
+    const particles = [];
+    const COUNT = 9;
+    for(let i = 0; i < COUNT; i++){
+      const isIcon = i % 3 === 2; // every third particle is a game icon
       const el = document.createElement('span');
       el.className = 'neurotransmitter' + (isIcon ? ' is-icon' : '');
-      el.style.top = (28 + Math.random() * 44) + '%';
+      el.style.top = (34 + (i * 41) % 34) + '%';
       if(isIcon){
         const img = document.createElement('img');
-        img.src = icons[Math.floor(Math.random() * icons.length)];
+        img.src = icons[Math.floor(i / 3) % icons.length];
         img.alt = '';
         el.appendChild(img);
-        el.style.animationDuration = (2.6 + Math.random() * 1) + 's';
       } else {
-        el.style.background = colors[Math.floor(Math.random() * colors.length)];
-        const size = 7 + Math.random() * 6;
+        el.style.background = colors[i % colors.length];
+        const size = 9 + (i % 4) * 3;
         el.style.width = size + 'px';
         el.style.height = size + 'px';
-        el.style.animationDuration = (2.1 + Math.random() * 1.2) + 's';
       }
       gap.appendChild(el);
-      el.addEventListener('animationend', function(){ el.remove(); });
+      particles.push({ el: el, phase: i / COUNT });
     }
 
-    // Only animate while the hero is actually visible, to avoid wasted work
-    // once the user has scrolled well past it.
-    let visible = true;
-    if('IntersectionObserver' in window){
-      const io = new IntersectionObserver(entries => {
-        visible = entries[0].isIntersecting;
+    function render(){
+      const scrollFrac = reduceMotion ? 0 : (window.scrollY / 900); // speed of travel per pixel scrolled
+      particles.forEach(function(p){
+        let pos = (p.phase + scrollFrac) % 1;
+        if(pos < 0) pos += 1;
+        p.el.style.left = (pos * 100) + '%';
+        // Fade in/out near the two ends so particles don't pop abruptly
+        let opacity = 1;
+        if(pos < 0.08) opacity = pos / 0.08;
+        else if(pos > 0.92) opacity = (1 - pos) / 0.08;
+        p.el.style.opacity = String(Math.max(0, Math.min(1, opacity)));
       });
-      io.observe(gap);
     }
 
-    let spawnTimer = null;
-    function loop(){
-      if(visible) spawn();
-      spawnTimer = setTimeout(loop, reduceMotion ? 900 : (350 + Math.random() * 300));
-    }
-    loop();
+    let ticking = false;
+    window.addEventListener('scroll', function(){
+      if(!ticking){
+        requestAnimationFrame(function(){ render(); ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+    render();
   })();
 </script>
 <script>

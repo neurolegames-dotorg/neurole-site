@@ -133,7 +133,7 @@ body{padding-top:58px;}
 
 /* Close button inside the overlay */
 .mobile-nav-close{
-  position:absolute;top:18px;left:20px;
+  position:absolute;top:14px;left:14px;
   background:none;border:none;
   font-size:26px;color:var(--ink-soft);
   cursor:pointer;width:44px;height:44px;

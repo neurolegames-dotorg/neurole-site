@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=158">
+<link rel="stylesheet" href="style.css?v=159">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
@@ -56,7 +56,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   height:clamp(320px,42vw,460px);
   background:var(--paper-deep);
 }
-.synapse-neuron{position:absolute;top:2%;height:84%;z-index:2;}
+.synapse-neuron{position:absolute;top:2%;height:84%;z-index:2;transform-origin:center;animation:neuronBreathe 4.5s ease-in-out 2s infinite;}
+.synapse-neuron-right{animation-delay:2.3s;}
+@keyframes neuronBreathe{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.025);}
+}
+@media(prefers-reduced-motion: reduce){
+  .synapse-neuron{animation:none;}
+}
 .synapse-neuron-left{left:0;aspect-ratio:500/300;}
 .synapse-neuron-right{right:0;aspect-ratio:450/300;}
 .synapse-gap{
@@ -82,6 +90,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   position:absolute;left:0;bottom:0;
   padding:0 0 32px 40px;
   text-align:left;z-index:3;
+  opacity:0;
+  animation:heroTextIn .7s ease .55s forwards;
 }
 .hero-headline-overlay h1{
   font-family:var(--serif-display);font-weight:800;
@@ -91,6 +101,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .hero-headline-overlay p{
   font-family:var(--serif-display);font-weight:700;
   font-size:clamp(15px,2vw,19px);color:var(--neuro-blue-deep);margin:0;letter-spacing:-.01em;
+}
+@keyframes heroTextIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+#page-main{
+  opacity:0;
+  animation:mainFadeIn .8s ease 1.25s forwards;
+}
+@keyframes mainFadeIn{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media(prefers-reduced-motion: reduce){
+  .hero-headline-overlay,#page-main{animation:none !important;opacity:1 !important;transform:none !important;}
 }
 :root[data-theme="dark"] .synapse-neuron .neuron-body{fill:#C4AFF0 !important;stroke:#0D0A12 !important;}
 :root[data-theme="dark"] .synapse-neuron path:not(.neuron-body){stroke:#7A5FAF !important;}
@@ -366,7 +391,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 
-<main>
+<main id="page-main">
+
+  <!-- What is Neurole -->
+  <div class="wrap" style="padding-top:36px;padding-bottom:28px;border-bottom:1px solid var(--rule);">
+    <p style="font-family:'Sora',sans-serif;font-size:19px;line-height:1.7;color:var(--ink);margin:0;max-width:760px;">
+      Neurole is a free educational platform aimed at teaching others about the human brain through games. With games in neurology and neuroanatomy, our team of students and professionals work towards creating games about your brain.
+    </p>
+  </div>
 
   <!-- Fun Fact -->
   <div class="wrap" style="margin-top:48px;">
@@ -488,15 +520,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="btn" href="volunteer.html" style="border-radius:999px;flex-shrink:0;padding:12px 26px;">Join Us →</a>
     </div>
   </div>
-
-  <!-- What is Neurole -->
-  <section style="background:#4A3970;margin-top:48px;">
-    <div class="wrap" style="padding-top:40px;padding-bottom:40px;">
-      <p style="font-family:'Sora',sans-serif;font-size:22px;line-height:1.7;color:#fff;margin:0;">
-        Neurole is a free educational platform aimed at teaching others about the human brain through games. With games in neurology and neuroanatomy, our team of students and professionals work towards creating games about your brain.
-      </p>
-    </div>
-  </section>
 
 
 </main>

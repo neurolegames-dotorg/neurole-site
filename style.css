@@ -6,8 +6,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
-  --paper:#F8F9FA;
-  --paper-deep:#EDEEF1;
+  --paper:#FCFCFD;
+  --paper-deep:#F4F5F7;
   --ink:#1C1E21;
   --ink-soft:#52565C;
   --rule:#D6D9DC;
@@ -20,7 +20,7 @@
   --gold:#B68A3A;
   --paper-rgb:248,249,250;
 
-  --serif-display:'Sora', sans-serif;
+  --serif-display:'Libre Franklin', sans-serif;
   --serif-body:'Inter', 'Helvetica Neue', Arial, sans-serif;
   --mono:'Inter', 'Helvetica Neue', Arial, sans-serif;
 
@@ -104,7 +104,7 @@ body{padding-top:58px;}
   background:var(--paper);
   display:flex;flex-direction:column;
   opacity:0;
-  transform:translateX(-24px);
+  transform:translateX(-100%);
   pointer-events:none;
   transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
   overflow-y:auto;
@@ -879,7 +879,7 @@ h1,h2,h3,h4,
 .brand-wordmark,
 .learn-panel .learn-title,
 .modal h3{
-  font-family:'Sora',Georgia,serif !important;
+  font-family:var(--serif-display) !important;
   font-weight:700;
   letter-spacing:-.01em;
 }
@@ -910,7 +910,7 @@ h1,h2,h3,h4,
 
 /* Hero section text */
 .hero-text h1{
-  font-family:'Sora',sans-serif !important;
+  font-family:'Libre Franklin',sans-serif !important;
   font-size:clamp(52px,9vw,88px) !important;
   font-weight:700 !important;
 }
@@ -1174,7 +1174,7 @@ main{ animation:questionIn .25s ease; }
   text-align:center;
 }
 #reminder-signup-modal .sub-top h3{
-  font-family:'Sora',sans-serif;
+  font-family:'Libre Franklin',sans-serif;
   font-size:30px;font-weight:700;color:#fff;
   margin:0 0 8px;
 }
@@ -1252,7 +1252,7 @@ main{ animation:questionIn .25s ease; }
   text-align:center;
 }
 #signin-modal .modal h3{
-  font-family:'Sora',sans-serif !important;
+  font-family:'Libre Franklin',sans-serif !important;
   font-size:26px !important;
   font-weight:700 !important;
   letter-spacing:-.01em;
@@ -1474,7 +1474,7 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 
 .alz-caption{ max-width:360px; margin-top:14px; }
 .alz-stage-label{ font-family:var(--game-font,'Inter',sans-serif); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--neuro-blue-deep); margin-bottom:6px; }
-.alz-caption h3{ font-family:'Sora',sans-serif; font-size:22px; margin:0 0 6px; }
+.alz-caption h3{ font-family:'Libre Franklin',sans-serif; font-size:22px; margin:0 0 6px; }
 .alz-caption p{ font-family:var(--game-font,'Inter',sans-serif); font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.6; }
 .alz-dots{ display:flex; gap:8px; margin-top:20px; }
 .alz-dot{ width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,.15); transition:background .3s ease; }

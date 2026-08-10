@@ -9,9 +9,9 @@
 <link rel="manifest" href="/site.webmanifest">
 <title>Medical Case Puzzle Archive, Past Daily Cases | Neurole</title>
 <meta name="description" content="Every past Daily Case, browsable and replayable. Practice neurological diagnosis puzzles from previous days at your own pace.">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=167">
+<link rel="stylesheet" href="style.css?v=168">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 .archive-grid{
@@ -42,7 +42,7 @@
   border-color:var(--neuro-blue);
 }
 .case-num-badge{
-  font-family:'Sora',sans-serif;
+  font-family:'Libre Franklin',sans-serif;
   font-size:26px;
   font-weight:700;
   color:var(--ink);
@@ -122,7 +122,7 @@
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
         <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
@@ -172,7 +172,7 @@
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
-    <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:22px;">Neurole</div>
+    <div style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:700;margin-bottom:22px;">Neurole</div>
     <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
       <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;">Email address</label>
@@ -186,7 +186,7 @@
 <div class="modal-backdrop" id="reminder-signup-modal" style="display:none;" onclick="if(event.target.id==='reminder-signup-modal')this.classList.remove('open')">
   <div class="modal" style="max-width:420px;text-align:center;padding:40px 32px;">
     <button onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
-    <h3 style="font-family:'Sora',sans-serif;font-size:26px;margin:0 0 8px;">Get daily reminders 🧠</h3>
+    <h3 style="font-family:'Libre Franklin',sans-serif;font-size:26px;margin:0 0 8px;">Get daily reminders 🧠</h3>
     <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;">One email at 9 AM ET when today's case drops.</p>
     <form id="subscribe-footer-form" action="https://formspree.io/f/maqgkjlr" method="POST">
       <input type="hidden" name="type" value="Subscribe - daily reminder">
@@ -262,7 +262,7 @@ loadArchive();
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
       <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
-      <h3 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <h3 style="font-family:'Libre Franklin',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
       <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">

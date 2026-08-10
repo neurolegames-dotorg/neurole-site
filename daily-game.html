@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=165">
+<link rel="stylesheet" href="style.css?v=167">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -1605,7 +1605,8 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
   </div>
 </div>
 <style>
-.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop{position:fixed;inset:0;background:transparent;pointer-events:none;z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop .htp-panel{pointer-events:auto;}
 .htp-backdrop.open{display:block;opacity:1;}
 .htp-panel{
   position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;

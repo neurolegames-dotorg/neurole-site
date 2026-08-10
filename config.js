@@ -60,7 +60,7 @@ window.NEUROLE_CONFIG = {
   //   purple3 | purple4 | Theme red | Theme yellow | Theme green | Theme purple
   // Date format matches your sheet exactly: M-D-YYYY, no leading zeros
   // (e.g. "8-4-2026" for August 4, 2026).
-  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5Za-nsdHnaneFXdg4MRGn_RCz-EcRVZ-SztPZjBM2Z8mYCX7-jHQg1vYFuV7lcOw9r7Y0fd7F3XjZ/pub?output=csv",
+  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5Za-nsdHnaneFXdg4MRGn_RCz-EcRVZ-SztPZjBM2Z8mYCX7-jHQg1vYFuV7lcOw9r7Y0fd7F3XjZ/pub?gid=0&single=true&output=csv",
 
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):

@@ -18,6 +18,12 @@ window.NEUROLE_CONFIG = {
   // --- Daily Clinical Case game -------------------------------------
   // Columns expected (header row): 
   // Column layout (A→J): date | symptom_1 | symptom_2 | symptom_3 | symptom_4 | symptom_5 | answer | accepted_synonyms | explanation | author
+  // Optional columns (K→P) power the "Ask about the case" feature - the
+  // player can click up to 5 of these 6 categories to reveal case-specific
+  // info before guessing. Leave a cell blank to disable that category for
+  // that day's case (its button will be grayed out).
+  //   K = vitals, L = physical exam, M = past medical history,
+  //   N = medications, O = labs & imaging, P = social/family history
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
   // --- Learn Regions (beginners section on Map the Brain) ---------

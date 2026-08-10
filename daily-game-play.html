@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=163">
+<link rel="stylesheet" href="style.css?v=165">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -191,6 +191,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .symptom-log li.locked .hint-num{color:var(--ink-soft);}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .ask-btn{
+    font-family:var(--game-font);font-size:13px;font-weight:600;
+    padding:9px 16px;border-radius:999px;
+    border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);
+    cursor:pointer;transition:background .15s,border-color .15s;
+  }
+  .ask-btn:hover:not(:disabled){border-color:var(--neuro-blue-deep);}
+  .ask-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .ask-btn.asked{background:var(--neuro-blue-deep);border-color:var(--neuro-blue-deep);color:#fff;}
+  #ask-answers li{
+    border:1px solid var(--rule);border-left:4px solid var(--neuro-blue-deep);
+    background:var(--paper-deep);border-radius:6px;padding:12px 16px;
+    animation:fadeIn .35s ease;
+  }
+  #ask-answers li .ask-q-label{
+    display:block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--neuro-blue-deep);margin-bottom:4px;
+  }
+  #ask-answers li .ask-q-text{font-family:var(--game-font);font-size:14.5px;line-height:1.55;color:var(--ink);}
 
   .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
   .guess-row input{
@@ -516,6 +536,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <ul class="symptom-log" id="symptom-log"></ul>
+
+      <div id="ask-panel" style="margin-bottom:26px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <p style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0;">Ask about the case</p>
+          <p id="ask-counter" style="font-family:var(--game-font);font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:0;">5 questions left</p>
+        </div>
+        <div id="ask-buttons" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <button type="button" class="ask-btn" data-key="vitals">Vitals</button>
+          <button type="button" class="ask-btn" data-key="exam">Physical Exam</button>
+          <button type="button" class="ask-btn" data-key="history">Past Medical History</button>
+          <button type="button" class="ask-btn" data-key="meds">Medications</button>
+          <button type="button" class="ask-btn" data-key="labs">Labs &amp; Imaging</button>
+          <button type="button" class="ask-btn" data-key="social">Social / Family History</button>
+        </div>
+        <ul id="ask-answers" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;"></ul>
+      </div>
 
       <div id="guess-area">
         <form class="guess-row" id="guess-form">
@@ -928,11 +964,20 @@ async function loadCase(){
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
       // col 0=date(skip), col 1-5=symptoms, col 6=answer, col 7=synonyms, col 8=explanation, col 9=author
+      // col 10-15=optional "ask a question" answers: vitals, exam, history, meds, labs, social
       state.symptoms    = [1,2,3,4,5].map(i => (row[i]||'').trim()).filter(Boolean);
       state.answer      = (row[6]||'').trim();
       state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
       state.explanation = (row[8]||'').trim();
       state.author      = (row[9]||'').trim();
+      state.questionAnswers = {
+        vitals:   (row[10]||'').trim(),
+        exam:     (row[11]||'').trim(),
+        history:  (row[12]||'').trim(),
+        meds:     (row[13]||'').trim(),
+        labs:     (row[14]||'').trim(),
+        social:   (row[15]||'').trim()
+      };
       console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
       if(state.symptoms.length > 0 && state.answer) chosen = true;
     } else {
@@ -957,6 +1002,7 @@ async function loadCase(){
   }
   state.shown = 1;
   renderSymptoms();
+  initAskPanel();
 
   const saved = getSavedDailyCompletion();
   state.alreadyCompletedToday = !!saved;
@@ -1038,6 +1084,65 @@ function renderSymptoms(){
   }
   const dots = document.querySelectorAll('#attempts-dots span');
   dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
+}
+
+const ASK_LABELS = {
+  vitals: 'Vitals',
+  exam: 'Physical Exam',
+  history: 'Past Medical History',
+  meds: 'Medications',
+  labs: 'Labs & Imaging',
+  social: 'Social / Family History'
+};
+const MAX_QUESTIONS = 5;
+
+function initAskPanel(){
+  const panel = document.getElementById('ask-panel');
+  if(!panel) return;
+  const qa = state.questionAnswers || {};
+  const buttons = Array.from(panel.querySelectorAll('.ask-btn'));
+  let asked = 0;
+
+  function updateCounter(){
+    const remaining = Math.max(0, MAX_QUESTIONS - asked);
+    const counterEl = document.getElementById('ask-counter');
+    counterEl.textContent = remaining === 0
+      ? 'No questions left'
+      : remaining + (remaining === 1 ? ' question left' : ' questions left');
+    if(remaining === 0){
+      buttons.forEach(b => { if(!b.classList.contains('asked')) b.disabled = true; });
+    }
+  }
+
+  // Hide/disable buttons for categories this case didn't provide an answer for
+  buttons.forEach(btn => {
+    const key = btn.dataset.key;
+    if(!qa[key]){
+      btn.disabled = true;
+      btn.title = 'Not available for this case';
+    }
+  });
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.key;
+      if(btn.disabled || btn.classList.contains('asked')) return;
+      if(asked >= MAX_QUESTIONS) return;
+
+      asked++;
+      btn.classList.add('asked');
+      btn.disabled = true;
+
+      const answersList = document.getElementById('ask-answers');
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="ask-q-label">${ASK_LABELS[key]}</span><span class="ask-q-text">${qa[key]}</span>`;
+      answersList.appendChild(li);
+
+      updateCounter();
+    });
+  });
+
+  updateCounter();
 }
 
 function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); }

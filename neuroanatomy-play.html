@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=163">
+<link rel="stylesheet" href="style.css?v=165">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -1027,7 +1027,9 @@ async function loadBank(){
     if(!csvTxt){
       const sheetUrl = window.NEUROLE_CONFIG.NEUROANATOMY_SHEET_CSV + '&_cb=' + Date.now();
       const res2 = await fetch(sheetUrl, {cache:'no-store'});
+      if(!res2.ok) throw new Error('Sheet fetch failed: HTTP ' + res2.status + ' - check that the sheet is published to web (File > Share > Publish to web) and the URL in config.js is correct.');
       csvTxt = await res2.text();
+      if(!csvTxt || csvTxt.trim().length === 0) throw new Error('Sheet returned an empty response.');
       try{
         sessionStorage.setItem('neurole_neuro_csv_cache', csvTxt);
         sessionStorage.setItem('neurole_neuro_csv_time', String(Date.now()));

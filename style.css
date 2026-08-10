@@ -1393,7 +1393,6 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 :root[data-theme="dark"] #ai-mobile-panel{background:#1A1B21 !important;color:var(--ink) !important;border-color:var(--rule) !important;}
 :root[data-theme="dark"] #neuro-result-modal h3{color:var(--ink) !important;}
 :root[data-theme="dark"] .btn:not(.ghost),
-:root[data-theme="dark"] .play-cta,
 :root[data-theme="dark"] .score-tag,
 :root[data-theme="dark"] .category-btn.active{
   background:#8062B8 !important;color:#fff !important;-webkit-text-fill-color:#fff !important;

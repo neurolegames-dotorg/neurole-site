@@ -66,20 +66,34 @@ function initMobileNav(){
   const closeBtn = document.getElementById('mobile-nav-close');
   if(!btn || !overlay) return;
 
+  // Set here rather than in every page's markup — the drawer is duplicated
+  // across a dozen static HTML files.
+  btn.setAttribute('aria-controls', 'mobile-nav-overlay');
+  btn.setAttribute('aria-expanded', 'false');
+
   function openNav(){
     overlay.classList.add('open');
     if(backdrop) backdrop.classList.add('open');
     btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
   function closeNav(){
     overlay.classList.remove('open');
     if(backdrop) backdrop.classList.remove('open');
     btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
-  btn.addEventListener('click', openNav);
+  // The button is the only affordance visible once the drawer is open on wide
+  // screens, so it has to toggle rather than only open.
+  btn.addEventListener('click', () => {
+    if(overlay.classList.contains('open')) closeNav(); else openNav();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeNav();
+  });
   if(closeBtn) closeBtn.addEventListener('click', closeNav);
   if(backdrop) backdrop.addEventListener('click', closeNav);
   overlay.querySelectorAll('a, button').forEach(el => {

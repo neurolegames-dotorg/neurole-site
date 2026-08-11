@@ -67,6 +67,8 @@ export default function Header({ onSignIn }) {
           <button
             className={`hamburger-btn${mobileOpen ? ' is-open' : ''}`}
             aria-label="Menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav-overlay"
             onClick={mobileOpen ? closeMobile : openMobile}
           >
             <span></span><span></span><span></span>
@@ -82,6 +84,7 @@ export default function Header({ onSignIn }) {
 
       <div
         ref={overlayRef}
+        id="mobile-nav-overlay"
         className={`mobile-nav-overlay${mobileOpen ? ' open' : ''}`}
       >
         <button className="mobile-nav-close" aria-label="Close menu" onClick={closeMobile}>✕</button>

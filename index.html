@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=169">
+<link rel="stylesheet" href="style.css?v=170">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
@@ -245,6 +245,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 .play-cta.secondary:hover{filter:brightness(0.97);}
 
+:root[data-theme="dark"] .home-game-card{background:#1B1C22;border-color:#2C2D35;}
+:root[data-theme="dark"] .home-game-card-top{background:#1B1C22;}
+:root[data-theme="dark"] .home-game-card-bottom{background:#1B1C22 !important;}
+:root[data-theme="dark"] .game-card-badge{color:#8f8f9c !important;}
+:root[data-theme="dark"] .home-game-card-top h3{color:#F2F0F6 !important;}
+:root[data-theme="dark"] .home-game-card-bottom p{color:#a8a8b5 !important;}
+:root[data-theme="dark"] .game-card-icon-wrap{background:rgba(255,255,255,.92);border-color:#33343d;}
+:root[data-theme="dark"] .home-game-card:hover .home-game-card-top{background:var(--game-accent);}
+:root[data-theme="dark"] .home-game-card:hover .game-card-badge{color:rgba(255,255,255,.85) !important;}
+:root[data-theme="dark"] .home-game-card:hover .home-game-card-top h3{color:#fff !important;}
+:root[data-theme="dark"] .home-game-card:hover .game-card-icon-wrap{border-color:transparent;}
+
 
 /* ── Stats ── */
 .stats-section{
@@ -409,7 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="home-games-grid">
 
-        <div class="home-game-card" style="--game-accent:#D9736C;--game-accent-deep:#9E3F38;--game-accent-tint:#FBEAE8;">
+        <div class="home-game-card" style="--game-accent:#F2685D;--game-accent-deep:#B23A30;--game-accent-tint:#FCE4E1;">
           <a class="home-game-card-top" href="daily-game.html">
             <div class="game-card-icon-wrap">
               <img src="daily-case-icon.png" alt="The Daily Case" width="42" height="46" style="object-fit:contain;">
@@ -427,7 +439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="home-game-card" style="--game-accent:#5B8FC7;--game-accent-deep:#2F5C8A;--game-accent-tint:#E8F0FA;">
+        <div class="home-game-card" style="--game-accent:#4A9AE8;--game-accent-deep:#1F5D96;--game-accent-tint:#E1EEFC;">
           <a class="home-game-card-top" href="neuroanatomy.html">
             <div class="game-card-icon-wrap">
               <img src="map-brain-icon.png" alt="Map the Brain" width="42" height="42" style="object-fit:contain;">
@@ -444,7 +456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="home-game-card" style="--game-accent:#9B7FD4;--game-accent-deep:#5B3F94;--game-accent-tint:#F0EBFA;">
+        <div class="home-game-card" style="--game-accent:#A579E8;--game-accent-deep:#6935A8;--game-accent-tint:#EFE3FC;">
           <a class="home-game-card-top" href="synapse.html">
             <div class="game-card-icon-wrap">
               <img src="synapse-icon.png" alt="The Synapse" width="42" height="42" style="object-fit:contain;">

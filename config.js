@@ -88,49 +88,21 @@ window.NEUROLE_CONFIG = {
   GOOGLE_CLIENT_ID: "583762713343-9qaunbi2idfuf9fdtdirhiehvprm9jp2.apps.googleusercontent.com",
 
   // --- "Ask a question" AI helper on both games ------------------------
-  // TWO WAYS TO MAKE THIS ACTUALLY WORK, pick one:
+  // The browser cannot keep a secret. Every option that pastes a provider key
+  // into this file publishes that key to every visitor, and domain restriction
+  // is not a substitute: it is enforced by an Origin/Referer header the caller
+  // controls, so it deters casual copying and nothing more. Groq and OpenAI
+  // keys cannot be domain-restricted at all.
   //
-  // OPTION A (easiest, recommended to start):
-  //   Get a free Gemini API key at https://aistudio.google.com/apikey
-  //   Paste it below as GEMINI_API_KEY.
-  //   IMPORTANT, restrict the key so it can't be stolen/misused:
-  //     Go to https://console.cloud.google.com/apis/credentials
-  //     -> click your key -> under "Application restrictions" choose
-  //     "Websites" -> add your site's domain (e.g. yoursite.netlify.app).
-  //     This makes the key only work when called FROM your site.
-  //   That's it, no backend needed. The games will call Gemini
-  //   directly from the browser.
-  //
-  // OPTION B (more secure, more setup):
-  //   Deploy ai-worker.js (included in this folder) to Cloudflare
-  //   Workers, and paste the resulting URL into AI_ENDPOINT_URL below.
-  //   Your key never touches the browser at all with this option.
-  //   If both GEMINI_API_KEY and AI_ENDPOINT_URL are filled in, the
-  //   games will use GEMINI_API_KEY (Option A) first.
-  // OPTION A0, Groq. Genuinely free, NO credit card required at all.
-  // Runs an open-source model (Llama) instead of GPT/Gemini, but works
-  // great for this kind of explanatory Q&A.
-  // 1. Go to https://console.groq.com/keys
-  // 2. Sign up (just an email/Google login, no payment info asked)
-  // 3. Click "Create API Key", copy it, paste it below
-  // If this is filled in, it's tried FIRST, before Gemini/OpenAI.
-  GROQ_API_KEY: "",
+  // So there is one supported arrangement, not several: deploy ai-worker.js to
+  // Cloudflare Workers, store the provider key in the Worker's environment as a
+  // Secret, and point AI_ENDPOINT_URL at the Worker. The key then never reaches
+  // the browser. GROQ_API_KEY, GEMINI_API_KEY and OPENAI_API_KEY have been
+  // removed from this file, and the client has no direct-to-provider code path
+  // left, so re-adding one of those fields will not do anything.
 
-  GEMINI_API_KEY: "AQ.Ab8RN6JKGTLt-Z9PoFLc2OFMXTfmyt61IRA6HDd8pfe06b4FOQ",
-
-  // ⚠️ DO NOT PUT PROVIDER API KEYS IN THIS FILE.
-  //
-  // config.js is served to every visitor. Anything in it is readable in
-  // view-source, in DevTools, and in the request itself — there is no way to
-  // hide a key in browser code, and obfuscating or splitting it only defeats
-  // automated scanners, not a person. OpenAI and Groq keys in particular
-  // cannot be restricted by domain, so a leaked one can be used by anyone to
-  // spend the account's balance.
-  //
-  // The only safe arrangement is the one below: deploy ai-worker.js, store the
-  // provider key in the Worker's environment (`wrangler secret put ...`), and
-  // point AI_ENDPOINT_URL at the Worker. The browser then only ever talks to
-  // the Worker, and the key never leaves the server.
+  // Deployed Cloudflare Worker URL. Until this is set, askNeuroleAIRaw()
+  // returns null and the "Explain" tutor shows its canned fallback.
   AI_ENDPOINT_URL: "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE",
 
   // --- Social links -----------------------------------------------------

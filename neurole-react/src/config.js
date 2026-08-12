@@ -8,12 +8,16 @@
    It both exports the object (ES import) and assigns window.NEUROLE_CONFIG,
    because the game pages read the global at call time.
 
-   ⚠️ TEMPORARY: GROQ_API_KEY below ships to the browser in the JS bundle and
-   is readable by anyone who visits the site. Moving it to a .env file will
-   NOT fix that on its own — Vite inlines any VITE_* var into the client
-   bundle just the same. The only real fix is to proxy AI calls through the
-   server-side Cloudflare Worker (see ai-worker.js) and set AI_ENDPOINT_URL,
-   so the key never leaves the server. Rotate this key when that's done.
+   ⚠️ NO PROVIDER API KEYS IN THIS FILE. Everything here is bundled into the
+   client JS and served to every visitor, so a key placed here is not a secret
+   but a published credential. Moving it to a .env file does NOT help — Vite
+   inlines any VITE_* var into the bundle just the same. AI calls go through
+   the Cloudflare Worker in ai-worker.js via AI_ENDPOINT_URL, which is the only
+   arrangement where the key never leaves the server.
+
+   The Firebase block near the bottom is the one exception, and only because
+   Firebase web config values are public identifiers by design — Firestore
+   security rules, not secrecy, are what gate access there.
    ===================================================================== */
 
 const NEUROLE_CONFIG = {
@@ -26,18 +30,16 @@ const NEUROLE_CONFIG = {
   // red1..4, purple1..4, and a "Theme <colour>" per group.
   SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5Za-nsdHnaneFXdg4MRGn_RCz-EcRVZ-SztPZjBM2Z8mYCX7-jHQg1vYFuV7lcOw9r7Y0fd7F3XjZ/pub?output=csv",
 
-  // --- AI (Groq is the only provider the site actually calls) ----------
+  // --- AI ---------------------------------------------------------------
   // Used by askNeuroleAIRaw() for the "Explain" tutor on both games.
   //
-  // Deliberately EMPTY, matching the root static site's config.js. Anything
-  // in this file is bundled into the public JS and served to every visitor,
-  // so a key here is not a secret — it is a published credential. Route the
-  // call through the Cloudflare Worker in ai-worker.js instead and set
-  // AI_ENDPOINT_URL below; the Worker holds the key server-side.
+  // There is no GROQ_API_KEY field here any more, and adding one back will not
+  // do anything: askNeuroleAIRaw() has no direct-to-provider path left. The
+  // Worker is the only route, which is the only way the key stays server-side.
   //
-  // With both left empty, askNeuroleAIRaw() returns null and the "Explain"
-  // tutor falls back to its canned explanation.
-  GROQ_API_KEY: "",
+  // Left empty, askNeuroleAIRaw() returns null and the "Explain" tutor falls
+  // back to its canned explanation.
+  //
   // Deployed Cloudflare Worker URL. When set, askNeuroleAIRaw() routes
   // through it and no key is needed in the browser.
   AI_ENDPOINT_URL: "",

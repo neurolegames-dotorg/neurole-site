@@ -11,8 +11,11 @@
    4. Deploy → copy the worker URL (e.g. https://neurole-ai.yourname.workers.dev)
    5. In your GitHub repo, open config.js and set:
         AI_ENDPOINT_URL: "https://neurole-ai.yourname.workers.dev"
-   6. Also set GROQ_API_KEY to "DEPLOYED_VIA_WORKER" in config.js
-      so the frontend knows not to call Groq directly
+   6. Nothing else. config.js has no provider-key fields any more and the
+      client has no direct-to-provider code path, so AI_ENDPOINT_URL is the
+      only switch.
+   7. Add any new site origin to ALLOWED_ORIGINS below, or the browser will
+      be refused with a 403.
    ===================================================================== */
 
 // Only these origins may call the worker. Without an allowlist the CORS "*"

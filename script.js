@@ -251,37 +251,35 @@ async function loadFunFact(){
 
 
 // ---------- Shared AI ask helper (used by both games) ----------
-// Tries a direct Gemini call first (if a key is configured), then
-// falls back to a custom backend endpoint if one is set, then finally
-// a plain explanatory fallback if neither is configured/working.
+// Routes through the server-side Worker in ai-worker.js, which holds the
+// provider key in its environment. Set AI_ENDPOINT_URL in config.js to the
+// deployed Worker URL.
+//
+// This used to call api.groq.com directly with a key assembled at runtime from
+// two string halves. That hides nothing: the key is still in the served file,
+// still visible in view-source and in the request's Authorization header, and
+// anyone reading it can spend the account's quota. Splitting it only defeats
+// automated secret scanners, not a person with DevTools open. There is no way
+// to call a provider API safely from the browser — the request has to be made
+// by something the visitor cannot read, which is what the Worker is for.
 async function askNeuroleAIRaw(prompt){
-  // Key split to avoid static secret scanning, assembled at runtime only
-  const p1='gsk_PRTnVg2SnS0fCB8qD0gK';
-  const p2='WGdyb3FYGQrdhrIHqFGZ6xpiw9em2Yp3';
-  const key = p1+p2;
-  const models = ['llama-3.1-8b-instant','llama-3.3-70b-versatile','gemma2-9b-it'];
-  for(const model of models){
-    try{
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-        body:JSON.stringify({
-          model,
-          messages:[
-            {role:'system',content:'You are a friendly neuroscience tutor in an educational game. Answer in 3-4 clear sentences for a student.'},
-            {role:'user',content:prompt}
-          ],
-          max_tokens:400,
-          temperature:0.7
-        })
-      });
-      const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content?.trim();
-      if(res.ok && answer) return answer;
-      console.warn('Groq',model,'status',res.status,data?.error?.message||'');
-      if(res.status===401) break;
-    }catch(e){ console.warn('Groq network error:',e.message); }
+  const cfg = window.NEUROLE_CONFIG || {};
+  const endpoint = (cfg.AI_ENDPOINT_URL || '').trim();
+  if(!endpoint || endpoint.startsWith('PASTE_')){
+    console.warn('Neurole: AI_ENDPOINT_URL is not configured — deploy ai-worker.js and set it in config.js.');
+    return null;
   }
+  try{
+    const res = await fetch(endpoint,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    const answer = (data && (data.answer || (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content)) || '').trim();
+    if(res.ok && answer) return answer;
+    console.warn('Neurole AI worker status', res.status, (data && data.error) || '');
+  }catch(e){ console.warn('Neurole AI worker error:', e.message); }
   return null;
 }
 
@@ -580,11 +578,92 @@ function initScrollHeader(){
   });
 }
 
+// ---------- Scroll reveal ----------
+// Sections and cards fade and rise as they enter the viewport. The hidden state
+// itself lives in CSS under html.reveal-ready, which theme-init.js sets in
+// <head>; this function only decides when each element becomes visible.
+// Page-level blocks only. Nothing here may live inside a modal: a modal is
+// display:none until opened, so the observer never fires for it and the card
+// would open at opacity 0. That is why .sub-card is not on this list.
+const REVEAL_SELECTOR = [
+  '.factbox', '.home-game-card', '.game-card', '.stats-section',
+  '.how-card', '.case-card', '.role-card', '.donate-card', '.contact-card',
+  '.value-card', '.archive-card'
+].join(',');
+
+function initScrollReveal(){
+  const root = document.documentElement;
+  // theme-init.js only sets this when reduced motion is off and
+  // IntersectionObserver exists, so its absence means "do nothing".
+  if(!root.classList.contains('reveal-ready')) return;
+  // Claim the reveal so theme-init.js's failsafe timer stands down.
+  root.classList.add('reveal-running');
+
+  const DURATION = 550;
+  const STEP = 70;
+  const MAX_STEPS = 4;
+
+  // Cards in the same row should arrive as a group rather than one long queue,
+  // so the stagger is indexed within each parent and capped.
+  const indexInParent = new Map();
+  const perParent = new Map();
+  const bound = new WeakSet();
+
+  const reveal = (el) => {
+    const delay = Math.min(indexInParent.get(el) || 0, MAX_STEPS) * STEP;
+    el.style.transitionDelay = delay + 'ms';
+    el.classList.add('is-revealed');
+    // Once it has landed, .reveal-done switches every reveal rule off for this
+    // card. It is already at opacity 1 / translate none by then, so nothing
+    // moves — but the card gets its own transition and hover lift back.
+    window.setTimeout(() => {
+      el.style.transitionDelay = '';
+      el.classList.add('reveal-done');
+    }, DURATION + delay + 60);
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      reveal(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+  const observe = (el) => {
+    if(bound.has(el)) return;
+    bound.add(el);
+    const n = perParent.get(el.parentNode) || 0;
+    indexInParent.set(el, n);
+    perParent.set(el.parentNode, n + 1);
+    io.observe(el);
+  };
+
+  const scan = (node) => {
+    if(!node || node.nodeType !== 1) return;
+    if(node.matches && node.matches(REVEAL_SELECTOR)) observe(node);
+    if(node.querySelectorAll) node.querySelectorAll(REVEAL_SELECTOR).forEach(observe);
+  };
+
+  scan(document.body);
+
+  // Cards built after load — the archive grid is rendered from a Google Sheet
+  // once the fetch returns — would otherwise be hidden by the CSS and never
+  // observed, leaving them permanently invisible. Only added nodes are
+  // inspected, so this stays cheap on pages that mutate a lot.
+  if('MutationObserver' in window){
+    new MutationObserver(records => {
+      records.forEach(rec => rec.addedNodes.forEach(scan));
+    }).observe(document.body, { childList:true, subtree:true });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
   initMobileNav();
   initThemeToggle();
   initScrollHeader();
+  initScrollReveal();
   initScrollPurple();
   updateSignInTriggers();
   loadFunFact();

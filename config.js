@@ -118,18 +118,19 @@ window.NEUROLE_CONFIG = {
 
   GEMINI_API_KEY: "AQ.Ab8RN6JKGTLt-Z9PoFLc2OFMXTfmyt61IRA6HDd8pfe06b4FOQ",
 
-  // OPTION A2, OpenAI, as a fallback if Gemini's account policy keeps
-  // blocking you. Get a key at https://platform.openai.com/api-keys
-  // (requires adding billing info, even for small usage).
+  // ⚠️ DO NOT PUT PROVIDER API KEYS IN THIS FILE.
   //
-  // ⚠️ IMPORTANT SECURITY NOTE: unlike Google API keys, OpenAI keys
-  // CANNOT be restricted to only work from your domain. Anyone who
-  // views your page source can see this key and use it to rack up
-  // charges on your account. This is fine for quick testing, but for
-  // a real public launch, switch to ai-worker.js (Option B below)
-  // instead, which keeps the OpenAI key server-side and hidden.
-  OPENAI_API_KEY: "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",
-
+  // config.js is served to every visitor. Anything in it is readable in
+  // view-source, in DevTools, and in the request itself — there is no way to
+  // hide a key in browser code, and obfuscating or splitting it only defeats
+  // automated scanners, not a person. OpenAI and Groq keys in particular
+  // cannot be restricted by domain, so a leaked one can be used by anyone to
+  // spend the account's balance.
+  //
+  // The only safe arrangement is the one below: deploy ai-worker.js, store the
+  // provider key in the Worker's environment (`wrangler secret put ...`), and
+  // point AI_ENDPOINT_URL at the Worker. The browser then only ever talks to
+  // the Worker, and the key never leaves the server.
   AI_ENDPOINT_URL: "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE",
 
   // --- Social links -----------------------------------------------------

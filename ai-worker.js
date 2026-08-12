@@ -15,24 +15,50 @@
       so the frontend knows not to call Groq directly
    ===================================================================== */
 
+// Only these origins may call the worker. Without an allowlist the CORS "*"
+// below turns this into an open LLM proxy: anyone could POST prompts all day
+// and spend the account's Groq/OpenAI quota. Add any preview/staging origin
+// here if you deploy one.
+const ALLOWED_ORIGINS = [
+  "https://neurole.org",
+  "https://www.neurole.org",
+  "http://localhost:5173",
+  "http://localhost:8080",
+];
+
+// Hard cap on prompt size — the tutor answers short questions, so anything
+// larger is either abuse or a mistake, and it bounds token spend per request.
+const MAX_PROMPT_CHARS = 2000;
+
 export default {
   async fetch(request, env) {
+    const origin = request.headers.get("Origin") || "";
+    const allowed = ALLOWED_ORIGINS.includes(origin);
     const cors = {
-      "Access-Control-Allow-Origin": "*",
+      // Reflect the origin only when it is on the allowlist; otherwise send a
+      // value the browser will reject, so a page on another origin can't read
+      // the response.
+      "Access-Control-Allow-Origin": allowed ? origin : "null",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      "Vary": "Origin",
     };
 
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
     if (request.method !== "POST") return new Response("POST only", { status: 405, headers: cors });
+    // Reject cross-origin callers outright. A same-origin fetch from the site
+    // sends its Origin header, so the real games still pass.
+    if (origin && !allowed) return new Response("Forbidden origin", { status: 403, headers: cors });
 
     const json = (obj) => new Response(JSON.stringify(obj), {
       headers: { ...cors, "Content-Type": "application/json" }
     });
 
     try {
-      const { prompt } = await request.json();
+      const body = await request.json().catch(() => ({}));
+      const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
       if (!prompt) return json({ answer: "No prompt received." });
+      if (prompt.length > MAX_PROMPT_CHARS) return json({ answer: "That question is too long — please shorten it." });
 
       // Try Groq models in order
       const models = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'];

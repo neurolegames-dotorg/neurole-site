@@ -124,13 +124,18 @@ function initSignIn(){
 
   function showAccountPanel(){
     if(!modalBox) return;
+    // The email is set from a Google ID token that is decoded client-side and
+    // never signature-verified here, and it is also restored from localStorage —
+    // so it must NOT be interpolated into innerHTML. Build the static chrome
+    // once, then set the address with textContent so any HTML in it is inert.
     modalBox.innerHTML = `
       <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
       <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:26px;">Neurole</div>
       <p style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 4px;">Signed in as</p>
-      <p style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 24px;word-break:break-word;">${googleSignInState.email}</p>
+      <p id="account-email" style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 24px;word-break:break-word;"></p>
       <button type="button" id="signout-btn" class="btn ghost" style="width:100%;justify-content:center;">Sign Out</button>
     `;
+    modalBox.querySelector('#account-email').textContent = googleSignInState.email || '';
     modalBox.querySelector('[data-close]').addEventListener('click', () => backdrop.classList.remove('open'));
     modalBox.querySelector('#signout-btn').addEventListener('click', () => {
       clearSignInState();
@@ -201,7 +206,11 @@ async function loadFunFact(){
     if(textEl) textEl.textContent = fact;
     if(link){
       link.textContent = source || 'Read the study';
-      if(url){ link.href = url; link.target = '_blank'; link.rel = 'noopener'; }
+      // Only ever accept http(s) links from the sheet. A `javascript:` or
+      // `data:` value in the source_url column would otherwise become a
+      // clickable script-execution or phishing link.
+      const safeUrl = /^https?:\/\//i.test(String(url || '').trim()) ? url.trim() : '';
+      if(safeUrl){ link.href = safeUrl; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
       else { link.removeAttribute('href'); }
     }
   }

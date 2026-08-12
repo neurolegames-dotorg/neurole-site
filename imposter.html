@@ -38,8 +38,62 @@
 </script>
 <style>
 .imp-shell{max-width:520px;margin:0 auto;padding:24px 20px 60px;}
+.imp-popup-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--paper);
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+
+/* Category selection cards */
+.imp-cat-card{
+  border:1.5px solid var(--rule);border-radius:10px;margin-bottom:12px;overflow:hidden;
+  transition:border-color .15s ease;
+}
+.imp-cat-card.selected{border-color:#6935A8;border-width:2px;}
+.imp-cat-header{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;background:var(--paper);border:none;cursor:pointer;text-align:left;
+  box-sizing:border-box;
+}
+.imp-cat-header-left{display:flex;align-items:center;gap:12px;}
+.imp-cat-icon{
+  width:34px;height:34px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.imp-cat-title{display:block;font-family:'Libre Franklin',sans-serif;font-size:15.5px;font-weight:700;color:var(--ink);}
+.imp-cat-sub{display:block;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:1px;}
+.imp-cat-check{
+  width:22px;height:22px;border-radius:50%;border:1.5px solid var(--rule);flex-shrink:0;
+  position:relative;
+}
+.imp-cat-card.selected .imp-cat-check{background:#6935A8;border-color:#6935A8;}
+.imp-cat-card.selected .imp-cat-check::after{
+  content:'';position:absolute;left:50%;top:50%;width:5px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;
+  transform:translate(-50%,-60%) rotate(45deg);
+}
+.imp-cat-body{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 16px;}
+.imp-cat-card.selected .imp-cat-body{max-height:260px;padding:0 16px 16px;}
+#imp-start-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* How to play panel (shared site pattern, no dark backdrop) */
+.imp-htp-backdrop{position:fixed;inset:0;background:transparent;pointer-events:none;z-index:10001;display:none;opacity:0;transition:opacity .3s ease;}
+.imp-htp-backdrop.open{display:block;opacity:1;}
+.imp-htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(380px,90vw);background:var(--paper);
+  z-index:200;padding:26px 24px;overflow-y:auto;box-shadow:0 0 40px rgba(0,0,0,.18);
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .3s ease, transform .3s cubic-bezier(.22,.9,.32,1);
+}
+.imp-htp-backdrop.open .imp-htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.imp-htp-panel h3{font-family:'Libre Franklin',sans-serif;font-size:19px;font-weight:700;margin:0 0 18px;display:flex;align-items:center;gap:10px;}
+.imp-htp-panel h4{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 8px;}
+.imp-htp-panel p{font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
 .imp-screen{display:none;}
 .imp-screen.active{display:block;}
+.imp-screen.imp-popup-screen.active{display:flex;}
 
 /* Setup */
 .imp-field{margin-bottom:20px;text-align:left;}
@@ -148,37 +202,102 @@
 <main class="wrap" style="padding:0;max-width:none;">
   <div class="imp-shell">
 
-    <!-- ============ SETUP SCREEN ============ -->
-    <div id="imp-setup" class="imp-screen active" style="text-align:center;padding-top:40px;">
+    <!-- ============ LANDING POPUP ============ -->
+    <div id="imp-landing" class="imp-screen active imp-popup-screen">
+     <div style="max-width:420px;width:100%;padding:20px;text-align:center;box-sizing:border-box;">
       <div style="width:64px;height:64px;border-radius:12px;background:#6935A8;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/><path d="M2 2l20 20"/></svg>
       </div>
       <span class="section-eyebrow" style="justify-content:center;display:flex;">Party · Word Game</span>
       <h1 style="font-family:'Libre Franklin',sans-serif;font-size:clamp(30px,6vw,40px);font-weight:700;margin:6px 0 12px;letter-spacing:-.01em;">Imposter</h1>
-      <p style="color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 auto 32px;max-width:400px;">Everyone gets the same secret word, except one imposter. Take turns giving one-word clues, then vote who's faking it.</p>
+      <p style="color:var(--ink-soft);font-size:15px;line-height:1.7;margin:0 auto 32px;max-width:380px;">Everyone gets the same secret word, except one imposter. Take turns giving one-word clues, then vote who's faking it.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button id="imp-play-btn" class="btn" style="border-radius:999px;padding:13px 30px;">Play →</button>
+        <button id="imp-htp-btn" class="btn ghost" style="border-radius:999px;padding:13px 22px;">How to play</button>
+      </div>
+     </div>
+    </div>
 
-      <div class="imp-field">
+    <!-- ============ CATEGORY SELECTION SCREEN ============ -->
+    <div id="imp-setup" class="imp-screen" style="padding-top:36px;">
+      <a class="back-home" href="#" id="imp-back-to-landing" style="margin-bottom:22px;position:static;display:inline-flex;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back
+      </a>
+      <h2 style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:700;margin:0 0 4px;">Choose a word list</h2>
+      <p style="color:var(--ink-soft);font-size:13.5px;margin:0 0 22px;">Tap a category to select it.</p>
+
+      <div id="imp-category-stack">
+        <!-- Custom -->
+        <div class="imp-cat-card" data-key="custom">
+          <button type="button" class="imp-cat-header">
+            <span class="imp-cat-header-left">
+              <span class="imp-cat-icon" style="background:#6935A8;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </span>
+              <span>
+                <span class="imp-cat-title">Custom</span>
+                <span class="imp-cat-sub" id="imp-custom-sub">Write your own words</span>
+              </span>
+            </span>
+            <span class="imp-cat-check"></span>
+          </button>
+          <div class="imp-cat-body">
+            <textarea id="imp-custom-input" placeholder="Type words separated by commas or one per line — e.g. Hippocampus, Amygdala, Cerebellum, Synapse"></textarea>
+            <p class="imp-custom-hint">Need at least 4 words. We'll pick one at random each round.</p>
+          </div>
+        </div>
+
+        <!-- Neuroscience -->
+        <div class="imp-cat-card" data-key="neuroscience">
+          <button type="button" class="imp-cat-header">
+            <span class="imp-cat-header-left">
+              <span class="imp-cat-icon" style="background:#5B3F94;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2a4 4 0 0 0-4 4c-1.5.5-2.5 2-2.5 3.5 0 1 .4 1.9 1 2.5-.6.6-1 1.5-1 2.5 0 1.8 1.3 3.3 3 3.5.3 1.5 1.6 2.5 3.5 2.5a3 3 0 0 0 3-3V6a4 4 0 0 0-3-4Z"/><path d="M14.5 2a4 4 0 0 1 4 4c1.5.5 2.5 2 2.5 3.5 0 1-.4 1.9-1 2.5.6.6 1 1.5 1 2.5 0 1.8-1.3 3.3-3 3.5-.3 1.5-1.6 2.5-3.5 2.5a3 3 0 0 1-3-3V6a4 4 0 0 1 3-4Z"/></svg>
+              </span>
+              <span>
+                <span class="imp-cat-title">Neuroscience</span>
+                <span class="imp-cat-sub">Anatomy, concepts &amp; conditions</span>
+              </span>
+            </span>
+            <span class="imp-cat-check"></span>
+          </button>
+          <div class="imp-cat-body">
+            <div class="imp-word-preview" id="imp-preview-neuroscience"></div>
+          </div>
+        </div>
+
+        <!-- AP Biology -->
+        <div class="imp-cat-card" data-key="apbio">
+          <button type="button" class="imp-cat-header">
+            <span class="imp-cat-header-left">
+              <span class="imp-cat-icon" style="background:#2F8A5C;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 2 1 3.5 2.5 4.5L9 13l-1.5 1.5A5 5 0 0 0 12 22a5 5 0 0 0 4.5-7.5L15 13l1.5-1.5C18 10.5 19 9 19 7a5 5 0 0 0-5-5Z"/></svg>
+              </span>
+              <span>
+                <span class="imp-cat-title">AP Biology</span>
+                <span class="imp-cat-sub" id="imp-apbio-sub">Cells, genetics &amp; more</span>
+              </span>
+            </span>
+            <span class="imp-cat-check"></span>
+          </button>
+          <div class="imp-cat-body">
+            <div class="imp-word-preview" id="imp-preview-apbio"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="imp-setup-error" class="imp-error"></div>
+
+      <div class="imp-field" style="margin-top:24px;">
         <label>Number of players</label>
-        <div class="imp-stepper" style="justify-content:center;">
+        <div class="imp-stepper">
           <button type="button" id="imp-player-minus" aria-label="Fewer players">−</button>
           <span class="imp-count" id="imp-player-count">4</span>
           <button type="button" id="imp-player-plus" aria-label="More players">+</button>
         </div>
       </div>
 
-      <div class="imp-field">
-        <label>Word list</label>
-        <div class="imp-tabs" id="imp-category-tabs" style="justify-content:center;"></div>
-        <div id="imp-preview-box" class="imp-word-preview"></div>
-        <div id="imp-custom-box" class="imp-custom-box" style="display:none;margin-top:10px;">
-          <textarea id="imp-custom-input" placeholder="Type words separated by commas or one per line — e.g. Hippocampus, Amygdala, Cerebellum, Synapse"></textarea>
-          <p class="imp-custom-hint">Need at least 4 words. We'll pick one at random each round.</p>
-        </div>
-      </div>
-
-      <div id="imp-setup-error" class="imp-error"></div>
-
-      <button id="imp-start-btn" class="btn" style="border-radius:999px;padding:14px 36px;width:100%;justify-content:center;box-sizing:border-box;">Start game →</button>
+      <button id="imp-start-btn" class="btn" style="border-radius:999px;padding:14px 36px;width:100%;justify-content:center;box-sizing:border-box;" disabled>Start game →</button>
     </div>
 
     <!-- ============ PASS & REVEAL SCREEN ============ -->
@@ -222,6 +341,21 @@
 
   </div>
 </main>
+
+<div class="imp-htp-backdrop" id="imp-htp-backdrop">
+  <div class="imp-htp-panel">
+    <button id="imp-htp-close" aria-label="Close" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+    <h3>🕵️ How to play Imposter</h3>
+    <h4>Setup</h4>
+    <p>Pick how many people are playing and choose a word list. One player will secretly be the imposter.</p>
+    <h4>Reveal</h4>
+    <p>Pass the device around. Each player privately taps to see the secret word, except the imposter, who sees "You're the Imposter" instead.</p>
+    <h4>Clue round</h4>
+    <p>Going around the group out loud, each player says one word related to the secret word. No repeats. The imposter has to bluff without knowing the word.</p>
+    <h4>Vote</h4>
+    <p>After a round (or two), discuss and vote out loud on who you think the imposter is. Tap "Reveal the imposter" to confirm.</p>
+  </div>
+</div>
 
 <footer id="footer-contact">
   <div class="wrap">
@@ -294,34 +428,64 @@
 <script src="config.js?v=136"></script><script src="script.js?v=137"></script>
 <script>
 (function(){
-  // ---------- Word banks ----------
-  const WORD_BANKS = {
-    anatomy: {
-      label: 'Brain Anatomy',
-      words: ['Hippocampus','Amygdala','Cerebellum','Thalamus','Hypothalamus','Corpus Callosum','Frontal Lobe','Occipital Lobe','Temporal Lobe','Parietal Lobe','Brainstem','Medulla Oblongata','Basal Ganglia','Pituitary Gland','Broca\'s Area','Wernicke\'s Area']
+  // ---------- Word sources ----------
+  // Each source can be a static local list (words: [...]) today, or later
+  // swapped for a sheetUrl that gets fetched the same way the other Neurole
+  // games pull from Google Sheets (see fetchSheetAsObjects in script.js).
+  const WORD_SOURCES = {
+    custom: { label: 'Custom', words: [] },
+    neuroscience: {
+      label: 'Neuroscience',
+      sheetUrl: null, // e.g. window.NEUROLE_CONFIG.IMPOSTER_NEURO_SHEET_CSV once connected
+      words: ['Hippocampus','Amygdala','Cerebellum','Thalamus','Hypothalamus','Corpus Callosum','Frontal Lobe','Occipital Lobe','Temporal Lobe','Parietal Lobe','Brainstem','Basal Ganglia','Broca\'s Area','Wernicke\'s Area','Synapse','Neuron','Neurotransmitter','Action Potential','Myelin Sheath','Dendrite','Axon','Dopamine','Serotonin','Alzheimer\'s Disease','Parkinson\'s Disease','Epilepsy','Stroke','Migraine','Concussion','Aphasia']
     },
-    concepts: {
-      label: 'Neuro Concepts',
-      words: ['Synapse','Neuron','Neurotransmitter','Action Potential','Myelin Sheath','Dendrite','Axon','Glial Cell','Neuroplasticity','Reflex Arc','Dopamine','Serotonin','Cerebrospinal Fluid','Long-Term Potentiation']
-    },
-    conditions: {
-      label: 'Conditions',
-      words: ['Alzheimer\'s Disease','Parkinson\'s Disease','Epilepsy','Stroke','Migraine','Multiple Sclerosis','Concussion','Aphasia','Narcolepsy','Tinnitus','Vertigo','Neuropathy']
-    },
-    custom: { label: 'Custom', words: [] }
+    apbio: {
+      label: 'AP Biology',
+      sheetUrl: null, // e.g. window.NEUROLE_CONFIG.IMPOSTER_APBIO_SHEET_CSV once connected
+      words: ['Mitochondria','Photosynthesis','Osmosis','Enzyme','Chromosome','Meiosis','Mitosis','Ribosome','ATP','DNA Replication','Natural Selection','Homeostasis','Cellular Respiration','Chlorophyll','Gene Expression','Punnett Square','Allele','Ecosystem','Phospholipid Bilayer','Transcription']
+    }
   };
-  const CATEGORY_ORDER = ['anatomy','concepts','conditions','custom'];
 
   let state = {
     playerCount: 4,
-    category: 'anatomy',
+    category: null,
     players: [],
     secretWord: '',
     imposterIndex: -1,
     currentReveal: 0
   };
 
-  // ---------- Setup screen ----------
+  function goToScreen(id){
+    document.querySelectorAll('.imp-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'instant'});
+  }
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  // ---------- Landing popup ----------
+  document.getElementById('imp-play-btn').addEventListener('click', () => {
+    goToScreen('imp-setup');
+  });
+  document.getElementById('imp-back-to-landing').addEventListener('click', (e) => {
+    e.preventDefault();
+    goToScreen('imp-landing');
+  });
+
+  // ---------- How to play panel ----------
+  (function(){
+    const btn = document.getElementById('imp-htp-btn');
+    const backdrop = document.getElementById('imp-htp-backdrop');
+    const close = document.getElementById('imp-htp-close');
+    if(!btn || !backdrop) return;
+    btn.addEventListener('click', () => backdrop.classList.add('open'));
+    close.addEventListener('click', () => backdrop.classList.remove('open'));
+  })();
+
+  // ---------- Player count ----------
   const playerCountEl = document.getElementById('imp-player-count');
   const minusBtn = document.getElementById('imp-player-minus');
   const plusBtn = document.getElementById('imp-player-plus');
@@ -336,53 +500,58 @@
   plusBtn.addEventListener('click', () => { if(state.playerCount < MAX_PLAYERS){ state.playerCount++; renderPlayerCount(); } });
   renderPlayerCount();
 
-  const tabsEl = document.getElementById('imp-category-tabs');
-  const previewBox = document.getElementById('imp-preview-box');
-  const customBox = document.getElementById('imp-custom-box');
+  // ---------- Category selection ----------
   const customInput = document.getElementById('imp-custom-input');
+  const startBtn = document.getElementById('imp-start-btn');
+  const errorEl = document.getElementById('imp-setup-error');
 
   try{
     const saved = localStorage.getItem('neurole_imposter_custom_words');
     if(saved) customInput.value = saved;
   }catch(e){}
 
-  CATEGORY_ORDER.forEach(key => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'imp-tab' + (key === state.category ? ' active' : '');
-    btn.textContent = WORD_BANKS[key].label;
-    btn.dataset.key = key;
-    btn.addEventListener('click', () => {
-      state.category = key;
-      tabsEl.querySelectorAll('.imp-tab').forEach(t => t.classList.toggle('active', t.dataset.key === key));
-      renderPreview();
+  document.getElementById('imp-preview-neuroscience').textContent = WORD_SOURCES.neuroscience.words.join(' · ');
+  document.getElementById('imp-preview-apbio').textContent = WORD_SOURCES.apbio.words.join(' · ');
+
+  const catCards = Array.from(document.querySelectorAll('.imp-cat-card'));
+  catCards.forEach(card => {
+    const header = card.querySelector('.imp-cat-header');
+    header.addEventListener('click', () => {
+      const key = card.dataset.key;
+      const wasSelected = card.classList.contains('selected');
+      catCards.forEach(c => c.classList.remove('selected'));
+      if(!wasSelected){
+        card.classList.add('selected');
+        state.category = key;
+      } else {
+        state.category = null;
+      }
+      errorEl.style.display = 'none';
+      updateStartButton();
     });
-    tabsEl.appendChild(btn);
   });
 
-  function renderPreview(){
-    if(state.category === 'custom'){
-      previewBox.style.display = 'none';
-      customBox.style.display = 'block';
-    } else {
-      previewBox.style.display = 'block';
-      customBox.style.display = 'none';
-      previewBox.textContent = WORD_BANKS[state.category].words.join(' · ');
-    }
+  customInput.addEventListener('input', updateStartButton);
+
+  function updateStartButton(){
+    startBtn.disabled = !state.category;
   }
-  renderPreview();
 
   function getActiveWordList(){
+    if(!state.category) return [];
     if(state.category === 'custom'){
       return customInput.value.split(/[,\n]/).map(w => w.trim()).filter(Boolean);
     }
-    return WORD_BANKS[state.category].words;
+    return WORD_SOURCES[state.category].words;
   }
 
-  document.getElementById('imp-start-btn').addEventListener('click', () => {
-    const errorEl = document.getElementById('imp-setup-error');
+  startBtn.addEventListener('click', () => {
     errorEl.style.display = 'none';
-
+    if(!state.category){
+      errorEl.textContent = 'Pick a word list first.';
+      errorEl.style.display = 'block';
+      return;
+    }
     const words = getActiveWordList();
     if(words.length < 4){
       errorEl.textContent = state.category === 'custom'
@@ -395,7 +564,6 @@
       try{ localStorage.setItem('neurole_imposter_custom_words', customInput.value); }catch(e){}
     }
 
-    // Pick a random secret word and a random imposter
     state.secretWord = words[Math.floor(Math.random() * words.length)];
     state.players = Array.from({length: state.playerCount}, (_, i) => 'Player ' + (i + 1));
     state.imposterIndex = Math.floor(Math.random() * state.playerCount);
@@ -469,18 +637,6 @@
     renderRevealStep();
   });
   document.getElementById('imp-new-game-btn').addEventListener('click', () => { goToScreen('imp-setup'); });
-
-  // ---------- Helpers ----------
-  function goToScreen(id){
-    document.querySelectorAll('.imp-screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo({top: 0, behavior: 'instant'});
-  }
-  function escapeHtml(s){
-    const d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
 })();
 </script>
 </body>

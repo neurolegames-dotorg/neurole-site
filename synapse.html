@@ -48,6 +48,13 @@
 .syn-solved-row .theme{font-family:'Inter',sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
 .syn-solved-row .words{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;}
 .syn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;}
+.syn-start-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--paper);
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
 @media(max-width:480px){
   .syn-grid{gap:6px;}
   .syn-start-screen{
@@ -121,7 +128,8 @@
 <main class="wrap" style="padding:0;max-width:none;">
 
   <!-- Start screen -->
-  <div id="syn-start" class="syn-start-screen" style="max-width:460px;margin:0 auto;padding:70px 20px 60px;text-align:center;">
+  <div id="syn-start" class="syn-start-screen">
+   <div style="max-width:460px;width:100%;padding:20px;text-align:center;box-sizing:border-box;">
     <img src="synapse-icon.png" alt="The Synapse" style="width:88px;height:auto;margin:0 auto 20px;display:block;">
     <span class="section-eyebrow" style="justify-content:center;display:flex;">Daily · Word Puzzle</span>
     <h1 style="font-family:'Libre Franklin',sans-serif;font-size:clamp(32px,6vw,44px);font-weight:700;margin:6px 0 14px;letter-spacing:-.01em;">The Synapse</h1>
@@ -131,6 +139,7 @@
       <button id="syn-htp-btn" class="btn ghost" style="border-radius:999px;padding:13px 22px;">How to play</button>
     </div>
     <div id="syn-load-error" style="display:none;margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);"></div>
+   </div>
   </div>
 
   <!-- Game screen -->

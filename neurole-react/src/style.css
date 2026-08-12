@@ -319,6 +319,33 @@ body{padding-top:58px;}
   transform:scale(1.06);
 }
 
+/* Hero art slot.
+   To change the homepage hero, replace public/hero-animation.svg — same path,
+   same name — and nothing else needs editing. Any self-contained SVG, animated
+   WebP, APNG or GIF works. Scripts inside an SVG do not run when it is loaded
+   through <img>, so an animated SVG has to animate with CSS or SMIL (the
+   placeholder uses CSS, including its own reduced-motion query, since the
+   page's stylesheet cannot reach inside the file).
+
+   The photo hero stays in the markup underneath. .has-hero-art is what picks
+   between them, so removing the <img> — or the file failing to load, which
+   HomePage detects — restores the original hero with no other edits. */
+.hero-art{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  display:block;z-index:1;
+}
+/* The photo hero sits on a near-black plate with a heavy bottom fade, which
+   suits a dark photograph and not a light illustration. */
+.hero-img-wrap.has-hero-art{background-color:var(--paper);}
+.hero-img-wrap.has-hero-art .hero-bg-image,
+.hero-img-wrap.has-hero-art .hero-fade,
+.hero-img-wrap.has-hero-art::before{display:none;}
+.hero-img-wrap.has-hero-art .hero-text h1,
+.hero-img-wrap.has-hero-art .hero-text p{color:var(--ink);text-shadow:none;}
+
 .hero-fade{
   position:absolute;inset:0;
   background:linear-gradient(180deg, rgba(241,242,244,0) 0%, rgba(241,242,244,0.16) 42%, rgba(241,242,244,0.85) 72%, var(--paper) 100%);

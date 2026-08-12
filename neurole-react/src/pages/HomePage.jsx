@@ -15,6 +15,9 @@ function HomePage() {
   const [funFact, setFunFact] = useState(null);
   const [streak, setStreak] = useState(0);
   const [countdown, setCountdown] = useState('--:--:--');
+  // Flipped to false by the <img>'s onError, which swaps the hero back to the
+  // photo version if hero-animation.svg is not there.
+  const [heroArtOk, setHeroArtOk] = useState(true);
 
   useEffect(() => {
     loadFunFact().then(setFunFact).catch(() => {});
@@ -58,7 +61,26 @@ function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="hero-img-wrap" role="img" aria-label="Magnified purple neurons connected by branching dendrites">
+        <div
+          className={`hero-img-wrap${heroArtOk ? ' has-hero-art' : ''}`}
+          role="img"
+          aria-label={heroArtOk
+            ? 'A brain climbing a mountain toward a flag at the summit'
+            : 'Magnified purple neurons connected by branching dendrites'}
+        >
+          {/* Swap the homepage hero by replacing public/hero-animation.svg, and
+              bump ?v= so it is actually picked up — files in public/ are served
+              unhashed, so a returning visitor would otherwise keep the cached
+              one. If it is missing, onError falls back to the photo hero below
+              instead of leaving a broken image across the top of the page. */}
+          {heroArtOk && (
+            <img
+              className="hero-art"
+              src="/hero-animation.svg?v=1"
+              alt=""
+              onError={() => setHeroArtOk(false)}
+            />
+          )}
           <div className="hero-bg-image"></div>
           <div className="hero-fade"></div>
           <div className="hero-text">

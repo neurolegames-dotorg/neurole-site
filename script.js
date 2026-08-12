@@ -587,6 +587,25 @@ function initScrollHeader(){
   });
 }
 
+// ---------- Hero art fallback ----------
+// If /hero-animation.svg is missing or fails to decode, drop back to the
+// synapse animation that is still sitting in the markup underneath rather than
+// showing a broken-image box across the top of the homepage.
+//
+// The `complete && naturalWidth === 0` check matters: script.js loads at the
+// end of the document, so for a 404 the image's error event has usually already
+// fired and been missed. That pair is how you detect a load that already
+// failed, and the listener covers the case where it has not resolved yet.
+function initHeroArt(){
+  const img = document.getElementById('hero-art');
+  if(!img) return;
+  const stage = img.closest('.synapse-stage');
+  if(!stage) return;
+  const fallBack = () => { stage.classList.remove('has-hero-art'); img.remove(); };
+  if(img.complete && img.naturalWidth === 0) fallBack();
+  else img.addEventListener('error', fallBack, { once:true });
+}
+
 // ---------- Scroll reveal ----------
 // Sections and cards fade and rise as they enter the viewport. The hidden state
 // itself lives in CSS under html.reveal-ready, which theme-init.js sets in
@@ -672,6 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initThemeToggle();
   initScrollHeader();
+  initHeroArt();
   initScrollReveal();
   initScrollPurple();
   updateSignInTriggers();

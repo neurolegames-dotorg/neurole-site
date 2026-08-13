@@ -38,9 +38,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Canonical URL -->
 <link rel="canonical" href="https://neurole.org/daily-game.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/game-favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/game-favicon-16x16.png" sizes="16x16">
+  <link rel="shortcut icon" href="/game-favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 <title>The Daily Case, Neurole</title>
@@ -156,6 +156,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .case-card{
     background:#fff;border:1px solid var(--rule);padding:44px;
   }
+  .game-date-block{
+    text-align:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-soft);padding:14px 0 10px;
+  }
+  .game-date-name{font-weight:700;color:var(--ink);}
+  .game-date-sep{margin:0 6px;opacity:.5;}
+  .game-toolbar{
+    display:flex;align-items:center;gap:6px;
+    border:1.5px solid var(--rule);border-radius:12px;background:var(--paper);
+    padding:8px 10px;margin-bottom:22px;
+  }
+  .game-toolbar-label{font-family:'Libre Franklin',sans-serif;font-size:14.5px;font-weight:700;color:var(--ink);padding-left:4px;}
+  .game-toolbar-icon{
+    width:38px;height:38px;border-radius:8px;border:none;background:transparent;color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:background .15s ease,color .15s ease;
+  }
+  .game-toolbar-icon:hover{background:var(--paper-deep);color:var(--ink);}
+
+  .toolbar-modal-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.4);z-index:300;display:none;opacity:0;transition:opacity .25s ease;}
+  .toolbar-modal-backdrop.open{display:flex;align-items:center;justify-content:center;opacity:1;padding:20px;}
+  .toolbar-modal-panel{
+    background:var(--paper);border-radius:14px;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;
+    padding:26px 24px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .toolbar-modal-panel h3{font-family:'Libre Franklin',sans-serif;font-size:19px;font-weight:700;margin:0 0 16px;padding-right:20px;}
+  .toolbar-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px;}
+  .toolbar-stat-cell{border:1px solid var(--rule);border-radius:10px;padding:14px;text-align:center;}
+  .toolbar-stat-num{font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;color:var(--ink);}
+  .toolbar-stat-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px;}
+  .disorder-list{columns:2;gap:20px;font-family:'Inter',sans-serif;font-size:13.5px;line-height:2;color:var(--ink);}
+  @media(max-width:480px){.disorder-list{columns:1;}}
+  .qcat-item{border-bottom:1px solid var(--rule);padding:12px 0;}
+  .qcat-item:last-child{border-bottom:none;}
+  .qcat-item-label{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 3px;}
+  .qcat-item-example{font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);margin:0;font-style:italic;}
+
   .case-meta{
     display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;
     font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
@@ -165,6 +202,83 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .attempts-dots span.used{background:var(--signal-red);}
 
   .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
+
+  /* ── Diagnosis / Assessment two-column panels ── */
+  .dx-panels{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:22px;align-items:start;position:relative;z-index:65;}
+  .dx-panel{
+    border:1.5px solid var(--rule);border-radius:14px;padding:20px;
+    background:var(--paper);min-height:220px;
+    display:flex;flex-direction:column;
+  }
+  .dx-panel-title{
+    font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);margin:0 0 14px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  #ask-counter-pill-wrap{font-weight:600;color:var(--ink-soft);opacity:.8;letter-spacing:0;text-transform:none;}
+  #ask-counter-pill{color:var(--neuro-blue-deep);font-weight:700;}
+  .dx-guess-log{display:flex;flex-direction:column;gap:8px;flex:1;}
+  .dx-guess-log-empty, .dx-assessment-empty{
+    font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);opacity:.75;
+    line-height:1.6;margin:0;padding:8px 2px;
+  }
+  .dx-assessment-log{display:flex;flex-direction:column;gap:14px;max-height:340px;overflow-y:auto;flex:1;margin-bottom:14px;}
+  .dx-assessment-entry{border-bottom:1px solid var(--rule);padding-bottom:12px;}
+  .dx-assessment-entry:last-child{border-bottom:none;padding-bottom:0;}
+  .dx-assessment-q{
+    font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;color:var(--neuro-blue-deep);
+    margin:0 0 4px;line-height:1.5;
+  }
+  .dx-assessment-a{
+    font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);line-height:1.6;margin:0;
+  }
+  .dx-assessment-a.ai-generated::after{
+    content:'AI-assisted';display:inline-block;margin-left:8px;font-family:var(--mono);font-size:9px;
+    font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);
+    background:var(--paper-deep);padding:2px 7px;border-radius:20px;vertical-align:middle;
+  }
+  /* Per-column forms live inside each desktop panel, pinned to the bottom */
+  .dx-desktop-form{margin-top:14px;}
+
+  #guess-area{position:relative;z-index:65;}
+
+  .dx-mobile-tabs{display:none;}
+
+  /* ── Mobile-only combined Guess+Ask bar (hidden on desktop) ── */
+  #mobile-dx-bar{display:none;}
+  .mobile-guess-btn{
+    font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;
+    background:#6935A8;border:none;border-radius:8px;padding:0 16px;height:46px;
+    cursor:pointer;flex-shrink:0;
+  }
+  .mobile-dx-input-wrap{position:relative;flex:1;min-width:0;}
+  .mobile-dx-input-wrap input{
+    width:100%;height:46px;padding:0 14px;box-sizing:border-box;
+    font-family:'Inter',sans-serif;font-size:14.5px;color:var(--ink);
+    border:1.5px solid var(--rule);border-radius:8px;background:var(--paper);
+  }
+  .mobile-dx-input-wrap input:disabled{opacity:.6;}
+  .mobile-ask-btn{
+    width:46px;height:46px;flex-shrink:0;border-radius:8px;border:none;
+    background:#6935A8;color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  @media(max-width:640px){
+    .dx-panels{grid-template-columns:1fr;gap:0;margin-bottom:14px;}
+    .dx-mobile-tabs{
+      display:flex;gap:6px;margin-bottom:14px;background:var(--paper-deep);border-radius:10px;padding:4px;
+    }
+    .dx-mobile-tab{
+      flex:1;font-family:'Inter',sans-serif;font-size:13.5px;font-weight:700;
+      padding:9px 14px;border-radius:8px;border:none;background:transparent;color:var(--ink-soft);
+      cursor:pointer;transition:background .15s ease,color .15s ease;
+    }
+    .dx-mobile-tab.active{background:var(--paper);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+    .dx-panel{display:none;border-radius:12px;}
+    .dx-panel.active{display:flex;}
+    .dx-desktop-form, #guess-form, #ask-form{display:none !important;}
+    #mobile-dx-bar{display:flex;align-items:flex-start;gap:8px;margin-top:16px;}
+  }
   .symptom-log li{
     border:1px solid var(--rule);
     border-left:5px solid var(--neuro-blue);
@@ -494,6 +608,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main class="wrap case-shell">
 
+  <div class="game-date-block">
+    <span class="game-date-name">The Daily Case</span>
+    <span class="game-date-sep">·</span>
+    <span class="game-date-today" id="game-date-today">Loading…</span>
+  </div>
+
+  <div class="game-toolbar">
+    <span class="game-toolbar-label">The Daily Case</span>
+    <div style="flex:1;"></div>
+    <button type="button" class="game-toolbar-icon" id="toolbar-stats-btn" aria-label="Statistics" title="Statistics">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </button>
+    <button type="button" class="game-toolbar-icon" id="toolbar-hints-btn" aria-label="All disorders" title="All disorders">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg>
+    </button>
+    <button type="button" class="game-toolbar-icon" id="toolbar-questions-btn" aria-label="Question categories" title="Question categories">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2 1.7-2 3.5"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg>
+    </button>
+  </div>
+
   <div class="start-screen" id="start-screen">
     <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;margin-bottom:0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -538,36 +672,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <ul class="symptom-log" id="symptom-log"></ul>
 
-      <div id="ask-panel" style="margin-bottom:26px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-          <p style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0;">Ask about the case</p>
-          <p id="ask-counter" style="font-family:var(--game-font);font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:0;">5 questions left</p>
+      <!-- Mobile-only: switch which panel is visible -->
+      <div class="dx-mobile-tabs" id="dx-mobile-tabs">
+        <button type="button" class="dx-mobile-tab active" data-panel="diagnosis">Diagnosis</button>
+        <button type="button" class="dx-mobile-tab" data-panel="assessment">Assessment</button>
+      </div>
+
+      <div class="dx-panels">
+        <div class="dx-panel active" id="dx-panel-diagnosis">
+          <p class="dx-panel-title">Diagnosis</p>
+          <div class="dx-guess-log" id="past-guesses"></div>
+          <form class="guess-row dx-desktop-form" id="guess-form">
+            <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
+            <div class="autocomplete-list" id="autocomplete-list"></div>
+            <button class="btn" type="submit" aria-label="Submit diagnosis" title="Submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </form>
         </div>
-        <div id="ask-buttons" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-          <button type="button" class="ask-btn" data-key="vitals">Vitals</button>
-          <button type="button" class="ask-btn" data-key="exam">Physical Exam</button>
-          <button type="button" class="ask-btn" data-key="history">Past Medical History</button>
-          <button type="button" class="ask-btn" data-key="meds">Medications</button>
-          <button type="button" class="ask-btn" data-key="labs">Labs &amp; Imaging</button>
-          <button type="button" class="ask-btn" data-key="social">Social / Family History</button>
+        <div class="dx-panel" id="dx-panel-assessment">
+          <p class="dx-panel-title">Assessment <span id="ask-counter-pill-wrap"><span id="ask-counter-pill">0</span> asked</span></p>
+          <div class="dx-assessment-log" id="assessment-log">
+            <p class="dx-assessment-empty">Ask a question below to learn more about the case.</p>
+          </div>
+          <form class="guess-row dx-desktop-form" id="ask-form">
+            <input type="text" id="ask-input" placeholder='Ask a question, e.g. "What medications have you taken?"' autocomplete="off">
+            <div class="autocomplete-list" id="ask-autocomplete-list"></div>
+            <button class="btn" type="submit" aria-label="Ask question" title="Ask">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </form>
         </div>
-        <ul id="ask-answers" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;"></ul>
       </div>
 
       <div id="guess-area">
-        <form class="guess-row" id="guess-form">
-          <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
-          <div class="autocomplete-list" id="autocomplete-list"></div>
-          <button class="btn" type="submit" aria-label="Submit diagnosis" title="Submit">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <!-- Mobile-only: single input, Guess + Ask both visible together -->
+        <div id="mobile-dx-bar">
+          <button type="button" id="mobile-guess-btn" class="mobile-guess-btn">Guess</button>
+          <div class="mobile-dx-input-wrap">
+            <input type="text" id="mobile-dx-input" placeholder="Ask question here" autocomplete="off">
+            <div class="autocomplete-list" id="mobile-autocomplete-list"></div>
+          </div>
+          <button type="button" id="mobile-ask-btn" class="mobile-ask-btn" aria-label="Ask" title="Ask">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
-        </form>
+        </div>
+
         <div class="closest-note" id="closest-note"></div>
         <div id="guess-explain" style="display:none;margin-top:12px;padding:14px 16px;background:var(--paper-deep);border:1.5px solid var(--rule);border-left:4px solid #8B2635;border-radius:8px;">
           <p style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why that's not it</p>
           <p id="guess-explain-text" style="margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);">Thinking…</p>
         </div>
-        <div class="past-guesses" id="past-guesses"></div>
       </div>
 
       <div id="result-area"></div>
@@ -576,6 +731,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
       Educational use only, not medical advice.
     </p>
+  </div>
+
+  <!-- Toolbar modals -->
+  <div class="toolbar-modal-backdrop" id="toolbar-modal-backdrop">
+    <div class="toolbar-modal-panel">
+      <button id="toolbar-modal-close" aria-label="Close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
+      <div id="toolbar-modal-body"></div>
+    </div>
   </div>
 </main>
 
@@ -925,6 +1088,8 @@ async function loadCase(){
     : new Date();
   document.getElementById('case-date').textContent =
     headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}) + (archiveMode ? ' · Archive' : '');
+  const gameDateTodayEl = document.getElementById('game-date-today');
+  if(gameDateTodayEl) gameDateTodayEl.textContent = headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const caseNum = playIdx + 1;
   state.caseNum = caseNum;
   const caseNumEl = document.getElementById('case-number');
@@ -962,6 +1127,22 @@ async function loadCase(){
     const idx = playIdx;
     console.log('Neurole: rows:', allRows.length, '| dayIdx:', idx);
     console.log('Neurole: row[0] =', allRows[0]?.slice(0,5));
+
+    // Collect every unique disorder that appears anywhere in the sheet, for
+    // the "all disorders" study reference (independent of which day it is).
+    try{
+      const seen = new Set();
+      const allDisorders = [];
+      allRows.forEach(r => {
+        const name = (r[6]||'').trim();
+        if(name && !seen.has(name.toLowerCase())){
+          seen.add(name.toLowerCase());
+          allDisorders.push(name);
+        }
+      });
+      allDisorders.sort((a,b) => a.localeCompare(b));
+      state.allDisorders = allDisorders;
+    }catch(e){ state.allDisorders = []; }
 
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
@@ -1004,6 +1185,7 @@ async function loadCase(){
   }
   state.shown = 1;
   renderSymptoms();
+  renderPastGuesses();
   initAskPanel();
 
   const saved = getSavedDailyCompletion();
@@ -1088,66 +1270,295 @@ function renderSymptoms(){
   dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
 }
 
-const ASK_LABELS = {
-  vitals: 'Vitals',
-  exam: 'Physical Exam',
-  history: 'Past Medical History',
-  meds: 'Medications',
-  labs: 'Labs & Imaging',
-  social: 'Social / Family History'
+const ASK_CATEGORIES = {
+  vitals: {
+    label: 'Vitals',
+    keywords: ['vital','blood pressure','bp','heart rate','pulse','temperature','temp','respiratory rate','breathing rate','oxygen','o2 sat','saturation'],
+    example: "What are the patient's vital signs?"
+  },
+  exam: {
+    label: 'Physical Exam',
+    keywords: ['exam','physical','look like','appearance','inspection','palpation','auscultation','findings'],
+    example: 'What did the physical exam show?'
+  },
+  history: {
+    label: 'Past Medical History',
+    keywords: ['medical history','past history','pmh','prior condition','previously diagnosed','chronic condition','surgery','surgical history','preexisting'],
+    example: "What is the patient's past medical history?"
+  },
+  meds: {
+    label: 'Medications',
+    keywords: ['medication','medicine','drug','taking','prescri','dose','dosage','pills'],
+    example: 'What medications has the patient taken?'
+  },
+  labs: {
+    label: 'Labs & Imaging',
+    keywords: ['lab','test result','blood work','imaging','scan','ct','mri','x-ray','xray','ultrasound','ekg','ecg'],
+    example: 'What do the labs or imaging show?'
+  },
+  social: {
+    label: 'Social / Family History',
+    keywords: ['social','family history','smoke','smoking','alcohol','drink','drug use','occupation','job','lives with','travel'],
+    example: "What is the patient's social or family history?"
+  }
 };
-const MAX_QUESTIONS = 5;
+let questionsAsked = 0;
+
+function normalizeQ(s){ return ' ' + s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,' ') + ' '; }
+
+// Score every category against the typed question by counting keyword hits;
+// returns the best-matching category key, or null if nothing matches at all.
+function keywordMatches(norm, kw){
+  const trimmed = kw.trim();
+  // Short keywords (abbreviations like "ct", "bp", "mri") must match as a
+  // whole word, or they false-match inside unrelated words (e.g. "ct" inside
+  // "reactive"). Longer phrases are safe to match as substrings.
+  if(trimmed.length <= 3){
+    const re = new RegExp('(^|[^a-z0-9])' + trimmed.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '([^a-z0-9]|$)');
+    return re.test(norm);
+  }
+  return norm.indexOf(kw) !== -1;
+}
+
+function matchQuestionToCategory(question){
+  const norm = normalizeQ(question);
+  let best = null, bestScore = 0;
+  Object.keys(ASK_CATEGORIES).forEach(key => {
+    const cat = ASK_CATEGORIES[key];
+    let score = 0;
+    cat.keywords.forEach(kw => { if(keywordMatches(norm, kw)) score++; });
+    if(score > bestScore){ bestScore = score; best = key; }
+  });
+  return best;
+}
+
+function buildKnownFactsSummary(){
+  const parts = [];
+  if(state.symptoms && state.symptoms.length){
+    parts.push('Presenting symptoms: ' + state.symptoms.slice(0, state.shown || 1).join('; ') + '.');
+  }
+  const qa = state.questionAnswers || {};
+  Object.keys(ASK_CATEGORIES).forEach(key => {
+    if(qa[key]) parts.push(ASK_CATEGORIES[key].label + ': ' + qa[key]);
+  });
+  return parts.join(' ');
+}
+
+// AI fallback for questions that don't match any pre-written category answer.
+// Constrained to the case's real diagnosis + already-known facts, and
+// explicitly told never to name the diagnosis, so it can't give the game away.
+async function answerFreeTextQuestion(question){
+  const knownFacts = buildKnownFactsSummary();
+  const prompt = `You are simulating a clinical case in an educational diagnostic game called Neurole. The correct diagnosis, which the player is trying to guess, is "${state.answer}". Never say or hint at this diagnosis name in your answer.
+
+Facts already established about this patient: ${knownFacts || 'None yet.'}
+
+A student asked: "${question}"
+
+In 1-2 short sentences, answer as a clinical summary would (e.g. "Labs show...", "The patient reports...", "On exam,..."). Your answer must be clinically realistic and consistent with an actual case of this diagnosis and with the facts already given above. If the question isn't a reasonable clinical question about this patient, gently say that hasn't been assessed instead of making something up.`;
+
+  const answer = await askNeuroleAIRaw(prompt);
+  return answer || "That hasn't been assessed yet.";
+}
+
+function renderAssessmentEntry(questionText, answerText, isAI){
+  const log = document.getElementById('assessment-log');
+  const empty = log.querySelector('.dx-assessment-empty');
+  if(empty) empty.remove();
+  const entry = document.createElement('div');
+  entry.className = 'dx-assessment-entry';
+  entry.innerHTML = `<p class="dx-assessment-q">${questionText}</p><p class="dx-assessment-a${isAI ? ' ai-generated' : ''}">${answerText}</p>`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function updateAskCounterUI(){
+  const pill = document.getElementById('ask-counter-pill');
+  if(pill) pill.textContent = questionsAsked;
+}
 
 function initAskPanel(){
-  const panel = document.getElementById('ask-panel');
-  if(!panel) return;
-  const qa = state.questionAnswers || {};
-  const buttons = Array.from(panel.querySelectorAll('.ask-btn'));
-  let asked = 0;
+  questionsAsked = 0;
+  updateAskCounterUI();
 
-  function updateCounter(){
-    const remaining = Math.max(0, MAX_QUESTIONS - asked);
-    const counterEl = document.getElementById('ask-counter');
-    counterEl.textContent = remaining === 0
-      ? 'No questions left'
-      : remaining + (remaining === 1 ? ' question left' : ' questions left');
-    if(remaining === 0){
-      buttons.forEach(b => { if(!b.classList.contains('asked')) b.disabled = true; });
-    }
-  }
+  const guessForm = document.getElementById('guess-form');
+  const askForm = document.getElementById('ask-form');
 
-  // Hide/disable buttons for categories this case didn't provide an answer for
-  buttons.forEach(btn => {
-    const key = btn.dataset.key;
-    if(!qa[key]){
-      btn.disabled = true;
-      btn.title = 'Not available for this case';
-    }
-  });
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.key;
-      if(btn.disabled || btn.classList.contains('asked')) return;
-      if(asked >= MAX_QUESTIONS) return;
-
-      asked++;
-      btn.classList.add('asked');
-      btn.disabled = true;
-
-      const answersList = document.getElementById('ask-answers');
-      const li = document.createElement('li');
-      li.innerHTML = `<span class="ask-q-label">${ASK_LABELS[key]}</span><span class="ask-q-text">${qa[key]}</span>`;
-      answersList.appendChild(li);
-
-      updateCounter();
+  // ---------- Mobile-only: Diagnosis / Assessment panel tabs ----------
+  const mobileTabs = Array.from(document.querySelectorAll('.dx-mobile-tab'));
+  mobileTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      mobileTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const panel = tab.dataset.panel;
+      document.getElementById('dx-panel-diagnosis').classList.toggle('active', panel === 'diagnosis');
+      document.getElementById('dx-panel-assessment').classList.toggle('active', panel === 'assessment');
     });
   });
 
-  updateCounter();
+  // ---------- Ask input: live suggestions from the question bank ----------
+  const askInput = document.getElementById('ask-input');
+  const askAutocomplete = document.getElementById('ask-autocomplete-list');
+  const qa = state.questionAnswers || {};
+  const availableCats = Object.keys(ASK_CATEGORIES).filter(k => qa[k]);
+
+  askInput.addEventListener('input', () => {
+    const val = askInput.value.trim().toLowerCase();
+    askAutocomplete.innerHTML = '';
+    if(!val){ askAutocomplete.classList.remove('open'); return; }
+    const matches = availableCats.filter(key => {
+      const cat = ASK_CATEGORIES[key];
+      return cat.label.toLowerCase().indexOf(val) !== -1 ||
+             cat.example.toLowerCase().indexOf(val) !== -1 ||
+             cat.keywords.some(kw => kw.trim().indexOf(val) !== -1);
+    });
+    if(!matches.length){ askAutocomplete.classList.remove('open'); return; }
+    matches.slice(0,5).forEach(key => {
+      const div = document.createElement('div');
+      div.textContent = ASK_CATEGORIES[key].example;
+      div.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        askInput.value = ASK_CATEGORIES[key].example;
+        askAutocomplete.classList.remove('open');
+        askInput.focus();
+      });
+      askAutocomplete.appendChild(div);
+    });
+    askAutocomplete.classList.add('open');
+  });
+  askInput.addEventListener('blur', () => {
+    setTimeout(() => askAutocomplete.classList.remove('open'), 120);
+  });
+
+  // ---------- Ask submit ----------
+  askForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const question = askInput.value.trim();
+    askAutocomplete.classList.remove('open');
+    askInput.value = '';
+    await submitQuestion(question);
+  });
+}
+
+async function submitQuestion(question){
+  const qa = state.questionAnswers || {};
+  if(!question) return;
+  const askInput = document.getElementById('ask-input');
+  const mobileInput = document.getElementById('mobile-dx-input');
+  if(askInput) askInput.disabled = true;
+  if(mobileInput) mobileInput.disabled = true;
+
+  questionsAsked++;
+  updateAskCounterUI();
+
+  const matchedKey = matchQuestionToCategory(question);
+  if(matchedKey && qa[matchedKey]){
+    renderAssessmentEntry(question, qa[matchedKey], false);
+  } else {
+    renderAssessmentEntry(question, 'Thinking…', false);
+    const log = document.getElementById('assessment-log');
+    const pendingEntry = log.lastElementChild;
+    const answer = await answerFreeTextQuestion(question);
+    pendingEntry.querySelector('.dx-assessment-a').textContent = answer;
+    pendingEntry.querySelector('.dx-assessment-a').classList.add('ai-generated');
+  }
+  if(askInput){ askInput.disabled = false; askInput.focus(); }
+  if(mobileInput){ mobileInput.disabled = false; }
 }
 
 function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); }
+
+// ---------- Toolbar: Statistics / Hints / Questions ----------
+(function(){
+  const backdrop = document.getElementById('toolbar-modal-backdrop');
+  const body = document.getElementById('toolbar-modal-body');
+  const closeBtn = document.getElementById('toolbar-modal-close');
+  if(!backdrop || !body) return;
+
+  function openModal(html){
+    body.innerHTML = html;
+    backdrop.classList.add('open');
+  }
+  closeBtn.addEventListener('click', () => backdrop.classList.remove('open'));
+  backdrop.addEventListener('click', (e) => { if(e.target === backdrop) backdrop.classList.remove('open'); });
+
+  const statsBtn = document.getElementById('toolbar-stats-btn');
+  if(statsBtn) statsBtn.addEventListener('click', () => {
+    const s = getDailyStats();
+    openModal(`
+      <h3>Your Statistics</h3>
+      <div class="toolbar-stats-grid">
+        <div class="toolbar-stat-cell"><div class="toolbar-stat-num">${s.played}</div><div class="toolbar-stat-label">Played</div></div>
+        <div class="toolbar-stat-cell"><div class="toolbar-stat-num">${s.winPct}%</div><div class="toolbar-stat-label">Win %</div></div>
+        <div class="toolbar-stat-cell"><div class="toolbar-stat-num">${s.currentStreak}</div><div class="toolbar-stat-label">Streak</div></div>
+        <div class="toolbar-stat-cell"><div class="toolbar-stat-num">${s.bestStreak}</div><div class="toolbar-stat-label">Best</div></div>
+      </div>
+    `);
+  });
+
+  const hintsBtn = document.getElementById('toolbar-hints-btn');
+  if(hintsBtn) hintsBtn.addEventListener('click', () => {
+    const list = state.allDisorders || [];
+    const listHtml = list.length
+      ? '<div class="disorder-list">' + list.map(d => '<div>' + escapeHtml(d) + '</div>').join('') + '</div>'
+      : '<p style="font-family:\'Inter\',sans-serif;font-size:13.5px;color:var(--ink-soft);">Disorder list unavailable right now.</p>';
+    openModal(`
+      <h3>All Disorders in The Daily Case</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 16px;line-height:1.6;">Every diagnosis that has appeared across all cases, a study reference (not today's answer).</p>
+      ${listHtml}
+    `);
+  });
+
+  const questionsBtn = document.getElementById('toolbar-questions-btn');
+  if(questionsBtn) questionsBtn.addEventListener('click', () => {
+    const items = Object.keys(ASK_CATEGORIES).map(key => {
+      const cat = ASK_CATEGORIES[key];
+      return `<div class="qcat-item"><p class="qcat-item-label">${cat.label}</p><p class="qcat-item-example">"${cat.example}"</p></div>`;
+    }).join('');
+    openModal(`
+      <h3>What can I ask?</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 6px;line-height:1.6;">Ask in your own words in the Assessment panel. These are the topics with pre-written answers, anything else gets an AI-assisted answer.</p>
+      ${items}
+    `);
+  });
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+})();
+
+
+// ---------- Mobile combined Guess+Ask bar ----------
+(function(){
+  const input = document.getElementById('mobile-dx-input');
+  const guessBtn = document.getElementById('mobile-guess-btn');
+  const askBtn = document.getElementById('mobile-ask-btn');
+  if(!input || !guessBtn || !askBtn) return;
+
+  guessBtn.addEventListener('click', () => {
+    const val = input.value;
+    if(!val.trim()) return;
+    submitGuess(val);
+    input.value = '';
+  });
+
+  askBtn.addEventListener('click', async () => {
+    const val = input.value.trim();
+    if(!val) return;
+    input.value = '';
+    await submitQuestion(val);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if(e.key !== 'Enter') return;
+    e.preventDefault();
+    guessBtn.click();
+  });
+})();
+
+
 
 function checkAnswer(guess){
   if(!guess.trim()) return false;
@@ -1170,11 +1581,8 @@ function findClosestKnownDisorder(guess){
   return (best && bestDist <= threshold && !fuzzyMatches(guess, state.answer)) ? best : null;
 }
 
-document.getElementById('guess-form').addEventListener('submit', e => {
-  e.preventDefault();
+function submitGuess(guess){
   if(state.solved) return;
-  const input = document.getElementById('guess-input');
-  const guess = input.value;
   if(!guess.trim()) return;
   closeAutocomplete();
 
@@ -1213,6 +1621,12 @@ document.getElementById('guess-form').addEventListener('submit', e => {
       renderSymptoms();
     }
   }
+}
+
+document.getElementById('guess-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = document.getElementById('guess-input');
+  submitGuess(input.value);
   input.value = '';
 });
 
@@ -1363,6 +1777,10 @@ function getDisorderCategory(guess){
 function renderPastGuesses(){
   const wrap = document.getElementById('past-guesses');
   wrap.innerHTML = '';
+  if(!state.guesses.length){
+    wrap.innerHTML = '<p class="dx-guess-log-empty">Your guesses will appear here.</p>';
+    return;
+  }
   state.guesses.forEach(g => {
     const card = document.createElement('div');
     card.className = 'wrong-guess-card';

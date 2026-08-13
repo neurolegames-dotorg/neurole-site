@@ -17,7 +17,7 @@ try {
       && 'IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-ready')
   }
-} catch (e) { /* leave the page unrevealed and fully visible */ }
+} catch { /* leave the page unrevealed and fully visible */ }
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

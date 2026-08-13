@@ -87,7 +87,7 @@ export default {
           const answer = data?.choices?.[0]?.message?.content?.trim();
           if (res.ok && answer) return json({ answer, model });
           if (res.status === 401) break; // bad key, stop trying
-        } catch (e) { /* try next */ }
+        } catch { /* try next */ }
       }
 
       // Fallback to OpenAI if configured
@@ -103,7 +103,7 @@ export default {
       }
 
       return json({ answer: "AI is temporarily unavailable — please try again in a moment." });
-    } catch (e) {
+    } catch {
       return json({ answer: "Something went wrong — please try again." });
     }
   }

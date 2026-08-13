@@ -6,35 +6,40 @@
 # banks. Each of the three platforms honours only its own list and ignores the
 # other two, so a path added to one almost always belongs in all three.
 #
+# NOTE (2026-08): the live website is the React app in `neurole-react/`, which
+# is its own Vercel project. This Cloudflare Worker (`name: neurole-site`) only
+# applied when the static site was served straight off the repo root.
+#
 # Nothing is deleted; removing a line republishes the path.
 
-# --- Duplicate copies of the whole site --------------------------------
-neurole-site-main_4/
+# --- Non-deployed assets ---------------------------------------------------
+# The designated archive/dump folder: every image, spreadsheet and zip. Stays
+# out of any root-served deployment.
 assets/
 
-# --- Question banks ----------------------------------------------------
-# Case and quiz banks, answers included. The live games read the published
-# Google Sheet CSV, so nothing on the site fetches these.
+# --- Designated zips & spreadsheets ---------------------------------------
+# All question banks live under assets/ now (not the root), answers included.
+# The live games read the published Google Sheet CSV, so nothing fetches these.
 *.xlsx
 
-# --- Source archives ---------------------------------------------------
+# --- Source archives -------------------------------------------------------
+# Old whole-site snapshot zips and the daily/neuroanatomy game source zips.
 *.zip
 
-# --- Dead pages --------------------------------------------------------
-ai-test.html
-
-# --- Not part of the website -------------------------------------------
-# Worker source itself; it runs as the Worker, it is not an asset to serve.
-ai-worker.js
-# React port: source, not build output. Deployed as its own project.
+# --- React app -------------------------------------------------------------
+# The actual website: source, not build output. Deployed as its own Vercel
+# project. Serving this from the root would expose the whole codebase.
 neurole-react/
-# Tooling and docs.
+
+# --- Not part of the website -----------------------------------------------
+# Worker source itself lives at neurole-react/scripts/ai-worker.js; it runs as
+# the Worker (or its own deployment), it is not an asset to serve.
 wrangler.jsonc
 package.json
 package-lock.json
 *.md
 
-# --- Other platforms' config -------------------------------------------
+# --- Other platforms' config -----------------------------------------------
 _config.yml
 CNAME
 vercel.json

@@ -112,14 +112,14 @@ export const GAMES_DATA = [
     id: "daily-case",
     title: "The Daily Case",
     icon: "stethoscope",
-    url: "daily-game.html",
+    url: "/daily-game",
     type: "daily"
   },
   {
     id: "neuroanatomy",
     title: "Map the Brain",
     icon: "brain",
-    url: "neuroanatomy.html",
+    url: "/neuroanatomy",
     type: "normal"
   }
 ];

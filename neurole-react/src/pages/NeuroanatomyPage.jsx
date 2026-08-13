@@ -27,7 +27,7 @@ export default function NeuroanatomyPage() {
   const [selectedCategory, setSelectedCategory] = useState('Random')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
 
-  const [qBank, setQBank] = useState([])
+  const [qBank] = useState([])
   const [qIndex, setQIndex] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)

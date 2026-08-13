@@ -334,11 +334,11 @@ export default function DailyGamePlayPage() {
       ? `Neurole Case #${dayIndex + 1} — ${caseDay}`
       : `Neurole Daily Case — ${caseDay}`
     const shareText = w
-      ? `${heading}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game.html`
-      : `${heading}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`
+      ? `${heading}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game`
+      : `${heading}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game`
     try {
       if (navigator.share) {
-        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' })
+        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game', title: 'Neurole — The Daily Case' })
       } else {
         await navigator.clipboard.writeText(shareText)
       }

@@ -15,6 +15,7 @@ import NeuroanatomyPlayPage from './pages/NeuroanatomyPlayPage';
 import ArticlesIndexPage from './pages/ArticlesIndexPage';
 import ArticlePage from './pages/ArticlePage';
 import SynapsePage from './pages/SynapsePage';
+import ImposterPage from './pages/ImposterPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/neuroanatomy" element={<NeuroanatomyPage />} />
         <Route path="/neuroanatomy-play" element={<NeuroanatomyPlayPage />} />
         <Route path="/synapse" element={<SynapsePage />} />
+        <Route path="/imposter" element={<ImposterPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/articles" element={<ArticlesIndexPage />} />

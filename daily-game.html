@@ -63,26 +63,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #streak-label{font-family:var(--game-font) !important;font-weight:600 !important;}
   .start-meta{font-family:var(--game-font) !important;}
 
-  /* Case card */
-  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:18px !important;}
-  .symptom-log li{font-family:var(--game-font) !important;font-size:15.5px !important;font-weight:500 !important;border-radius:10px !important;}
-  .symptom-log li.locked{font-family:var(--game-font) !important;}
-
-  /* Guess row */
-  .guess-row input{font-family:var(--game-font) !important;font-size:16px !important;border-radius:10px 0 0 10px !important;}
-  .guess-row .btn{border-radius:0 10px 10px 0 !important;}
-
-  /* Past guesses */
-  .past-guesses span{font-family:var(--game-font) !important;font-weight:600 !important;border-radius:8px !important;}
-
-  /* Wrong flash */
-  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
-
-  .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
-
-  .case-card{
-    background:#fff;border:1px solid var(--rule);padding:44px;
-  }
+  .case-shell{max-width:920px;margin:0 auto;padding:50px 0 80px;}
 
   /* Mobile: remove the box and show content edge-to-edge so
      the purple gradient shows on the sides naturally */
@@ -141,75 +122,112 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .start-actions{gap:10px !important;margin-bottom:16px !important;width:100%;}
     .start-actions .btn{flex:1;justify-content:center;padding:12px 8px !important;font-size:12px !important;}
     .start-meta{font-size:11px !important;}
-    /* Case card, frameless on phone */
     .case-shell{padding:10px 0 50px !important;}
-    .case-card{background:transparent !important;border:none !important;box-shadow:none !important;padding:0 2px !important;}
-    .symptom-log li{font-size:14.5px !important;padding:10px 12px !important;}
-    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-    .guess-row{gap:8px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box;}
-    .guess-row .btn{height:46px !important;padding:0 14px !important;}
-    .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
     .modal-actions{flex-direction:column !important;gap:10px !important;}
     .modal-actions .btn{width:100% !important;justify-content:center !important;}
   }
-  .case-card{
-    background:#fff;border:1px solid var(--rule);padding:44px;
-  }
+
+  /* =====================================================
+     THE DAILY CASE — free-form layout, no outer box
+     ===================================================== */
+
+  .case-open{background:transparent;border:none;box-shadow:none;padding:0;}
+
   .case-meta{
-    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;
     font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
   }
   .attempts-dots{display:flex;gap:7px;}
   .attempts-dots span{width:10px;height:10px;border-radius:50%;background:var(--rule);}
   .attempts-dots span.used{background:var(--signal-red);}
 
-  .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
-  .symptom-log li{
-    border:1px solid var(--rule);
-    border-left:5px solid var(--neuro-blue);
-    background:var(--paper-deep);
-    padding:18px 20px;font-size:17.5px;line-height:1.55;
-    border-radius:2px;
-    display:flex;gap:14px;align-items:flex-start;
+  /* Two free-floating columns: Diagnosis (guesses) / Assessment (hints + Q&A) */
+  .case-columns{
+    display:grid;grid-template-columns:1fr 1fr;gap:36px;
+    margin-bottom:22px;
   }
-  .symptom-log li.revealed{animation:fadeIn .4s ease;}
-  .symptom-log li.locked{
-    border-left-color:var(--rule);
-    background:transparent;
-    color:var(--ink-soft);
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    padding:18px 20px;
-    opacity:.55;
+  .col-title{
+    font-family:var(--game-font);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink);text-align:center;margin:0 0 16px;
   }
-  .symptom-log .hint-num{
-    font-family:var(--mono);font-size:12px;color:var(--neuro-blue-deep);
-    font-weight:600;flex-shrink:0;min-width:30px;
-  }
-  .symptom-log li.locked .hint-num{color:var(--ink-soft);}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
-  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
-  .guess-row input{
-    flex:1;font-family:var(--serif-body);font-size:16px;padding:14px 16px;
-    border:1.5px solid var(--ink-soft);background:#fff;
-    height:52px;box-sizing:border-box;
+  /* Diagnosis column: one box per attempt, past guesses fill in */
+  .diagnosis-boxes{display:flex;flex-direction:column;gap:12px;}
+  .diagnosis-box{
+    min-height:52px;border:1.5px solid var(--rule);border-radius:12px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 18px;font-family:var(--game-font);
+    background:transparent;transition:border-color .2s,background .2s;
   }
-  .guess-row .btn{
-    font-size:18px;padding:0 20px;
-    height:52px;box-sizing:border-box;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
+  .diagnosis-box.filled{
+    border-color:rgba(168,68,58,.35);background:rgba(168,68,58,.05);
+  }
+  .diagnosis-box.filled .diagnosis-guess-name{
+    color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
+  }
+  .diagnosis-box.correct{
+    border-color:rgba(92,181,124,.45);background:rgba(92,181,124,.08);
+  }
+  .diagnosis-box.correct .diagnosis-guess-name{
+    color:#3d8a5e;text-decoration:none;
+  }
+  .diagnosis-guess-name{font-size:15.5px;font-weight:700;flex:1;}
+  .diagnosis-guess-cat{
+    font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-soft);white-space:nowrap;flex-shrink:0;
+  }
+
+  /* Assessment column: lines, not boxes, scrolls if long */
+  .assessment-lines{
+    max-height:340px;overflow-y:auto;padding-right:6px;
+  }
+  .assessment-line{
+    border-bottom:1px solid var(--rule);
+    padding:12px 2px;font-family:var(--game-font);font-size:15px;line-height:1.5;
+  }
+  .assessment-line:last-child{border-bottom:none;}
+  .assessment-line.locked{
+    color:var(--ink-soft);font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;opacity:.6;
+  }
+  .assessment-line .hint-num{
+    font-family:var(--mono);font-size:11px;color:var(--neuro-blue-deep);font-weight:700;
+    display:block;margin-bottom:4px;
+  }
+  .assessment-line.locked .hint-num{color:var(--ink-soft);}
+  .assessment-line.qa .qa-q{
+    font-weight:700;color:var(--ink);margin-bottom:4px;
+  }
+  .assessment-line.qa .qa-a{color:var(--ink-soft);}
+
+  /* Unified guess/ask input row, with a mode toggle */
+  #guess-area{margin-bottom:10px;}
+  .unified-row{position:relative;display:flex;gap:10px;align-items:stretch;}
+  .mode-toggle{
+    display:flex;flex-shrink:0;border:1.5px solid var(--ink-soft);border-radius:10px;overflow:hidden;height:52px;
+  }
+  .mode-btn{
+    font-family:var(--game-font);font-size:13px;font-weight:700;letter-spacing:.02em;
+    background:#fff;border:none;padding:0 16px;cursor:pointer;color:var(--ink-soft);
+  }
+  .mode-btn.active{background:var(--neuro-blue-deep);color:#fff;}
+  #unified-form{flex:1;display:flex;position:relative;}
+  #unified-input{
+    flex:1;font-family:var(--serif-body);font-size:16px;padding:0 16px;
+    border:1.5px solid var(--ink-soft);border-right:none;border-radius:10px 0 0 10px;
+    background:#fff;height:52px;box-sizing:border-box;
+  }
+  #unified-input:focus{outline:none;}
+  .send-btn{
+    width:52px;height:52px;flex-shrink:0;border-radius:0 10px 10px 0;
+    border:1.5px solid var(--ink-soft);background:var(--neuro-blue-deep);color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
   }
 
   .autocomplete-list{
-    position:absolute;top:100%;left:0;right:84px;
-    background:#fff;border:1.5px solid var(--ink-soft);border-top:none;
-    max-height:240px;overflow-y:auto;z-index:40;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    position:absolute;bottom:100%;left:0;right:62px;
+    background:#fff;border:1.5px solid var(--ink-soft);border-bottom:none;
+    max-height:220px;overflow-y:auto;z-index:40;
+    box-shadow:0 -10px 20px rgba(0,0,0,.08);
     display:none;
   }
   .autocomplete-list.open{display:block;}
@@ -219,200 +237,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
 
-  .past-guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
-  .wrong-guess-card{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    background:rgba(168,68,58,.06);
-    border:1.5px solid rgba(168,68,58,.25);
-    border-radius:10px;
-    padding:11px 16px;
-  }
-  .wrong-guess-name{
-    font-family:var(--game-font,'Inter',sans-serif);font-size:17px;font-weight:700;
-    color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
-    flex:1;
-  }
-  .wrong-guess-cat{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
-    color:rgba(168,68,58,.75);background:rgba(168,68,58,.1);
-    padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
-  }
-  @media(max-width:480px){
-    .wrong-guess-name{font-size:15px !important;}
-    .wrong-guess-cat{font-size:9.5px !important;}
-    .wrong-guess-card{padding:10px 12px !important;}
-  }
   .closest-note{
-    font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:8px 0 0;
   }
   .result-banner{
-    padding:22px 24px;margin-top:10px;border-left:5px solid #5C8C72;background:var(--paper-deep);
+    padding:22px 24px;margin-top:18px;border-left:5px solid #5C8C72;background:var(--paper-deep);
   }
   .result-banner.fail{border-left-color:var(--signal-red);}
   .result-banner h4{margin:0 0 8px;font-family:var(--serif-display);font-size:23px;}
   .result-banner p{font-size:16px;line-height:1.6;}
 
-  .chat-fab{
-    position:fixed;bottom:26px;right:26px;
-    height:50px;padding:0 22px 0 18px;border-radius:30px;
-    background:var(--neuro-blue-bright), var(--plum));color:#fff;
-    border:none;display:flex;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
-    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
-    z-index:60;
-  }
-  .chat-fab:hover{background:var(--neuro-blue), var(--neuro-blue-deep));}
-  .chat-backdrop{
-    position:fixed;inset:0;background:rgba(28,27,25,.5);
-    display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
-  }
-  .chat-backdrop.open{display:flex;}
-  .chat-panel{
-    width:440px;max-width:100%;max-height:80vh;
-    background:var(--paper);border:2px solid var(--ink);
-    display:flex;flex-direction:column;
-  }
-  .chat-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);}
-  .chat-head h4{margin:0;font-family:var(--serif-display);font-size:19px;}
-  .chat-body{padding:18px 20px;overflow-y:auto;flex:1;}
-  .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
-  .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
-  .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
-  .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
-  @media(max-width:480px){
-    /* Start screen, iPhone */
-    .start-screen{padding:0 16px !important;overflow-y:auto;}
-    .start-screen-inner{max-width:100% !important;padding:50px 0 40px !important;}
-    .start-screen h1{font-size:clamp(22px,6.5vw,30px) !important;margin-bottom:8px !important;}
-    .start-screen p{font-size:13px !important;margin-bottom:14px !important;}
-    .start-logo{margin-bottom:10px !important;}
-    .start-logo svg{width:40px !important;height:40px !important;}
-    #streak-label{font-size:12px !important;}
-    .start-actions{gap:8px !important;flex-direction:row;width:100%;}
-    .start-actions .btn{flex:1 !important;justify-content:center !important;padding:11px 8px !important;font-size:11px !important;}
-    .start-meta{font-size:11px !important;margin-top:4px !important;}
-
-    /* Case card, frameless on iPhone */
-    .case-shell{max-width:100% !important;padding:8px 0 50px !important;}
-    .case-card{
-      background:transparent !important;
-      border:none !important;box-shadow:none !important;
-      padding:0 4px !important;
-    }
-    .case-card > h2{font-size:17px !important;}
-    .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
-    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-    .guess-row{gap:7px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box !important;}
-    .guess-row .btn{height:46px !important;padding:0 14px !important;min-width:46px;}
-    .guess-row .btn svg{width:18px !important;height:18px !important;}
-    .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
-    .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
-
-    /* Modals, iPhone */
-    .modal{padding:18px 16px !important;}
-    .result-headline h3{font-size:20px !important;}
-    .result-stats{font-size:13px !important;}
-    .modal-actions{flex-direction:column !important;gap:10px !important;}
-    .modal-actions .btn{width:100% !important;justify-content:center !important;}
-  }
-
-/* ============================================
-   DAILY CASE, IPHONE RESPONSIVE (480px)
-   ============================================ */
-@media(max-width:480px){
-
-  /* Masthead, hamburger only */
-  .nav-left{display:none !important;}
-  .hamburger-btn{display:flex !important;}
-
-  /* Start screen, fills phone viewport, scrollable */
-  .start-screen{
-    padding:56px 20px 40px !important;
-    justify-content:flex-start !important;
-    overflow-y:auto !important;
-    -webkit-overflow-scrolling:touch !important;
-  }
-  .start-screen-inner{max-width:100% !important;}
-  .start-screen h1{font-size:28px !important;margin:0 0 8px !important;}
-  .start-screen p{font-size:14px !important;margin:0 0 18px !important;max-width:100% !important;}
-  .start-logo{margin-bottom:14px !important;}
-  .start-logo svg{width:46px !important;height:46px !important;}
-  #streak-label{font-size:12px !important;}
-  .start-actions{
-    display:flex !important;flex-direction:row !important;
-    gap:10px !important;margin-bottom:16px !important;width:100% !important;
-  }
-  .start-actions .btn{
-    flex:1 !important;justify-content:center !important;
-    padding:12px 8px !important;font-size:12px !important;
-  }
-  .start-meta{font-size:11px !important;}
-
-  /* Page hero, room for notch */
-  .page-hero{padding:76px 0 20px !important;}
-  .page-hero h1{font-size:30px !important;}
-  .page-hero p{font-size:14px !important;}
-  .back-home{font-size:11px !important;}
-
-  /* Game content, no card box on phone */
-  .case-shell{padding:10px 0 50px !important;max-width:100% !important;}
-  .case-card{
-    background:transparent !important;border:none !important;
-    box-shadow:none !important;padding:0 4px !important;
-  }
-
-  /* Symptom list */
-  .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
-  .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-
-  /* Guess input + button */
-  .guess-row{gap:8px !important;}
-  .guess-row input{
-    font-size:15px !important;padding:12px !important;
-    height:48px !important;box-sizing:border-box !important;
-  }
-  .guess-row .btn{height:48px !important;padding:0 14px !important;}
-  .guess-row .btn svg{width:18px !important;height:18px !important;}
-
-  /* Past guesses */
-  .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
-
-  /* Autocomplete */
-  .autocomplete-list{max-height:160px !important;}
-  .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
-
-  /* Result modal */
-  .modal{padding:18px 16px !important;margin:0 12px !important;width:calc(100% - 24px) !important;}
-  .result-headline h3{font-size:20px !important;}
-  .result-stats{font-size:13px !important;}
-  .modal-actions{flex-direction:column !important;gap:10px !important;}
-  .modal-actions .btn{width:100% !important;justify-content:center !important;}
-}
-
-
-  /* Attempt dots */
-  .attempt-dot{
-    width:12px;height:12px;border-radius:50%;
-    background:var(--paper-deep);border:2px solid var(--rule);
-    display:inline-block;transition:all .3s;
-  }
-  .attempt-dot.used{background:var(--signal-red);border-color:var(--signal-red);}
-  .attempt-dot.correct{background:#5CB57C;border-color:#5CB57C;transform:scale(1.3);}
+  /* Wrong flash */
+  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
 
   /* Correct answer celebration */
   @keyframes correctPop{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
-  .case-card.correct-flash{animation:correctPop .5s ease;}
+  .case-open.correct-flash{animation:correctPop .5s ease;}
 
   /* Wrong answer shake */
   @keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-  .guess-row.shake{animation:wrongShake .4s ease;}
+  .unified-row.shake{animation:wrongShake .4s ease;}
 
-  /* Symptom reveal flash */
-  @keyframes revealSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-  .symptom-log li.new-reveal{animation:revealSlide .4s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .assessment-line.new-reveal{animation:fadeIn .35s ease;}
 
   /* Page-entry: slides in from the left on load */
   @keyframes pageSlideIn{
@@ -421,6 +268,67 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
   @media(prefers-reduced-motion: reduce){body{animation:none;}}
+
+  /* ============================================
+     DAILY CASE, RESPONSIVE — stack the columns
+     ============================================ */
+  @media(max-width:720px){
+    .case-columns{grid-template-columns:1fr;gap:26px;}
+    .assessment-lines{max-height:260px;}
+  }
+
+  @media(max-width:480px){
+    .nav-left{display:none !important;}
+    .hamburger-btn{display:flex !important;}
+
+    .start-screen{
+      padding:56px 20px 40px !important;
+      justify-content:flex-start !important;
+      overflow-y:auto !important;
+      -webkit-overflow-scrolling:touch !important;
+    }
+    .start-screen-inner{max-width:100% !important;}
+    .start-screen h1{font-size:28px !important;margin:0 0 8px !important;}
+    .start-screen p{font-size:14px !important;margin:0 0 18px !important;max-width:100% !important;}
+    .start-logo{margin-bottom:14px !important;}
+    .start-logo svg{width:46px !important;height:46px !important;}
+    #streak-label{font-size:12px !important;}
+    .start-actions{
+      display:flex !important;flex-direction:row !important;
+      gap:10px !important;margin-bottom:16px !important;width:100% !important;
+    }
+    .start-actions .btn{
+      flex:1 !important;justify-content:center !important;
+      padding:12px 8px !important;font-size:12px !important;
+    }
+    .start-meta{font-size:11px !important;}
+
+    .page-hero{padding:76px 0 20px !important;}
+    .page-hero h1{font-size:30px !important;}
+    .page-hero p{font-size:14px !important;}
+    .back-home{font-size:11px !important;}
+
+    .case-shell{padding:10px 0 50px !important;max-width:100% !important;}
+    .diagnosis-box{padding:10px 14px !important;min-height:44px !important;}
+    .diagnosis-guess-name{font-size:14px !important;}
+    .diagnosis-guess-cat{font-size:9px !important;}
+    .assessment-line{font-size:13.5px !important;padding:10px 2px !important;}
+
+    .unified-row{gap:7px !important;flex-wrap:wrap;}
+    .mode-toggle{height:46px !important;}
+    .mode-btn{padding:0 12px !important;font-size:12px !important;}
+    #unified-input{font-size:15px !important;height:46px !important;padding:0 12px !important;}
+    .send-btn{width:46px !important;height:46px !important;}
+
+    .autocomplete-list{max-height:160px !important;}
+    .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
+
+    .modal{padding:18px 16px !important;margin:0 12px !important;width:calc(100% - 24px) !important;}
+    .result-headline h3{font-size:20px !important;}
+    .result-stats{font-size:13px !important;}
+    .modal-actions{flex-direction:column !important;gap:10px !important;}
+    .modal-actions .btn{width:100% !important;justify-content:center !important;}
+  }
 
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -507,9 +415,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="game-content" style="display:var(--game-content-display,none);">
     <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:6px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
-    <div class="case-card">
-    <!-- Attempt dots -->
-    <!-- Attempt dots are shown in the header, not here -->
+    <div class="case-open">
       <div class="case-meta">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <span id="case-number" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--neuro-blue-deep);color:#fff;padding:3px 10px;border-radius:20px;"></span>
@@ -520,52 +426,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <ul class="symptom-log" id="symptom-log"></ul>
+      <div class="case-columns">
+        <div class="diagnosis-col">
+          <p class="col-title">Diagnosis</p>
+          <div class="diagnosis-boxes" id="diagnosis-boxes"></div>
+        </div>
+        <div class="assessment-col">
+          <p class="col-title">Assessment</p>
+          <div class="assessment-lines" id="assessment-lines">
+            <div id="assessment-hints"></div>
+            <div id="assessment-qa"></div>
+          </div>
+        </div>
+      </div>
 
       <div id="guess-area">
-        <form class="guess-row" id="guess-form">
-          <input type="text" id="guess-input" placeholder="Type your diagnosis…" autocomplete="off">
-          <div class="autocomplete-list" id="autocomplete-list"></div>
-          <button class="btn" type="submit" aria-label="Submit diagnosis" title="Submit">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </form>
+        <div class="unified-row" id="unified-row">
+          <div class="mode-toggle" id="mode-toggle" role="tablist" aria-label="Guess or ask a question">
+            <button type="button" class="mode-btn active" data-mode="guess" role="tab" aria-selected="true">Guess</button>
+            <button type="button" class="mode-btn" data-mode="ask" role="tab" aria-selected="false">Ask</button>
+          </div>
+          <form id="unified-form" autocomplete="off">
+            <div class="autocomplete-list" id="autocomplete-list"></div>
+            <input type="text" id="unified-input" placeholder="Type your diagnosis…" autocomplete="off">
+            <button class="send-btn" type="submit" aria-label="Submit" title="Submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </form>
+        </div>
         <div class="closest-note" id="closest-note"></div>
-        <div class="past-guesses" id="past-guesses"></div>
       </div>
 
       <div id="result-area"></div>
     </div>
 
     <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
-      Educational use only, not medical advice.
+      Educational use only, not medical advice. Assessment answers may be AI-generated.
     </p>
   </div>
 </main>
-
-<button class="chat-fab" id="case-chat-fab" aria-label="Explain this case">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-  </svg>
-  Explain
-</button>
-
-<div class="chat-backdrop" id="case-chat-backdrop">
-  <div class="chat-panel">
-    <div class="chat-head">
-      <h4>Ask about this case</h4>
-      <button class="close" id="case-chat-close" style="position:static;">✕</button>
-    </div>
-    <p style="font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);opacity:.75;padding:8px 20px 0;margin:0;">AI-generated, may be inaccurate. Not medical advice.</p>
-    <div class="chat-body">
-      <div class="chat-log" id="case-chat-log"></div>
-    </div>
-    <form class="chat-ask-row" id="case-chat-form">
-      <input type="text" id="case-chat-input" placeholder="e.g. why does this fit the symptoms?">
-      <button class="btn" type="submit">Ask</button>
-    </form>
-  </div>
-</div>
 
 <footer id="footer-contact">
   <div class="wrap">
@@ -1002,19 +901,20 @@ function updateStartScreen(){
 }
 
 function renderSymptoms(){
-  const log = document.getElementById('symptom-log');
+  const log = document.getElementById('assessment-hints');
+  if(!log) return;
   log.innerHTML = '';
   const total = state.symptoms.length || 5;
   for(let i=0;i<total;i++){
-    const li = document.createElement('li');
+    const row = document.createElement('div');
     if(i < state.shown){
-      li.className = 'revealed';
-      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>${state.symptoms[i]}</span>`;
+      row.className = 'assessment-line';
+      row.innerHTML = `<span class="hint-num">Hint ${i+1}</span>${state.symptoms[i]}`;
     } else {
-      li.className = 'locked';
-      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked, make a guess to reveal this hint</span>`;
+      row.className = 'assessment-line locked';
+      row.innerHTML = `<span class="hint-num">Hint ${i+1}</span>Locked, make a guess to reveal this hint`;
     }
-    log.appendChild(li);
+    log.appendChild(row);
   }
   const dots = document.querySelectorAll('#attempts-dots span');
   dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
@@ -1043,31 +943,60 @@ function findClosestKnownDisorder(guess){
   return (best && bestDist <= threshold && !fuzzyMatches(guess, state.answer)) ? best : null;
 }
 
-document.getElementById('guess-form').addEventListener('submit', e => {
+/* ---------- Unified Guess / Ask input, toggle-driven ---------- */
+let inputMode = 'guess';
+let guessLog = []; // {text, correct} — mirrors state.guesses for the Diagnosis boxes
+
+const modeToggle = document.getElementById('mode-toggle');
+modeToggle.addEventListener('click', e => {
+  const btn = e.target.closest('.mode-btn');
+  if(!btn) return;
+  inputMode = btn.dataset.mode;
+  modeToggle.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b === btn);
+    b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+  });
+  const input = document.getElementById('unified-input');
+  input.placeholder = inputMode === 'ask' ? 'Ask a question about this case…' : 'Type your diagnosis…';
+  closeAutocomplete();
+  input.focus();
+});
+
+document.getElementById('unified-form').addEventListener('submit', e => {
   e.preventDefault();
   if(state.solved) return;
-  const input = document.getElementById('guess-input');
-  const guess = input.value;
-  if(!guess.trim()) return;
+  const input = document.getElementById('unified-input');
+  const text = input.value;
+  if(!text.trim()) return;
   closeAutocomplete();
 
+  if(inputMode === 'ask'){
+    input.value = '';
+    submitQuestion(text.trim());
+    return;
+  }
+
+  const guess = text;
   const note = document.getElementById('closest-note');
 
   if(checkAnswer(guess)){
     state.solved = true;
     note.textContent = '';
+    guessLog.push({text: guess, correct: true});
+    renderPastGuesses();
     showResult(true);
   } else {
     state.attemptsUsed++;
     state.guesses.push(guess);
+    guessLog.push({text: guess, correct: false});
     renderPastGuesses();
 
     // Update attempt dots
     updateAttemptDots();
 
-    // Shake the guess row
-    const guessRow = document.getElementById('guess-form');
-    if(guessRow){ guessRow.classList.add('shake'); setTimeout(()=>guessRow.classList.remove('shake'),450); }
+    // Shake the input row
+    const row = document.getElementById('unified-row');
+    if(row){ row.classList.add('shake'); setTimeout(()=>row.classList.remove('shake'),450); }
 
     // Flash the wrong answer prominently
     showWrongFlash(guess);
@@ -1084,6 +1013,47 @@ document.getElementById('guess-form').addEventListener('submit', e => {
   }
   input.value = '';
 });
+
+async function submitQuestion(question){
+  const qa = document.getElementById('assessment-qa');
+  const scroller = document.getElementById('assessment-lines');
+  const row = document.createElement('div');
+  row.className = 'assessment-line qa new-reveal';
+  row.innerHTML = `<div class="qa-q">${question}</div><div class="qa-a">Thinking…</div>`;
+  qa.appendChild(row);
+  scroller.scrollTop = scroller.scrollHeight;
+
+  const gameFinished = state.solved || state.attemptsUsed >= 5;
+  const shownSymptoms = state.symptoms.slice(0, state.shown).map((s,i) => `${i+1}. ${s}`).join('\n');
+
+  let prompt;
+  if(gameFinished){
+    prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
+The player just finished a diagnostic case. The correct diagnosis was: "${state.answer}".
+Explanation given to the player: "${state.explanation}"
+The player's follow-up question is: "${question}"
+
+The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`;
+  } else {
+    prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
+A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${state.attemptsUsed} of 5 guesses so far.
+Symptoms revealed to them so far:
+${shownSymptoms}
+
+The player's question is: "${question}"
+
+CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
+- Help them think through the symptoms they've already seen
+- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
+- Encourage them to consider patterns, without naming or strongly implying the answer
+- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
+Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
+  }
+
+  const answerEl = row.querySelector('.qa-a');
+  answerEl.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now, try again in a moment.";
+  scroller.scrollTop = scroller.scrollHeight;
+}
 
 function updateAttemptDots(won){
   for(let i=1;i<=5;i++){
@@ -1124,8 +1094,8 @@ function showWrongFlash(wrongGuess){
   el._timer = setTimeout(() => { el.style.opacity = '0'; }, 1600);
 }
 
-/* ---------- autocomplete dropdown ---------- */
-const guessInput = document.getElementById('guess-input');
+/* ---------- autocomplete dropdown (guess mode only) ---------- */
+const guessInput = document.getElementById('unified-input');
 const autoList = document.getElementById('autocomplete-list');
 let activeIndex = -1;
 
@@ -1153,6 +1123,7 @@ function openAutocomplete(matches){
 }
 
 guessInput.addEventListener('input', () => {
+  if(inputMode !== 'guess'){ closeAutocomplete(); return; }
   const val = guessInput.value.trim().toLowerCase();
   if(!val){ closeAutocomplete(); return; }
   const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(val));
@@ -1160,6 +1131,7 @@ guessInput.addEventListener('input', () => {
 });
 
 guessInput.addEventListener('keydown', e => {
+  if(inputMode !== 'guess') return;
   const items = Array.from(autoList.children);
   if(!items.length) return;
   if(e.key === 'ArrowDown'){
@@ -1183,7 +1155,7 @@ guessInput.addEventListener('keydown', e => {
 });
 
 document.addEventListener('click', e => {
-  if(!e.target.closest('.guess-row')) closeAutocomplete();
+  if(!e.target.closest('.unified-row')) closeAutocomplete();
 });
 
 // Brief neuro category labels for common wrong-guess patterns
@@ -1211,18 +1183,25 @@ function getDisorderCategory(guess){
 }
 
 function renderPastGuesses(){
-  const wrap = document.getElementById('past-guesses');
+  const wrap = document.getElementById('diagnosis-boxes');
+  if(!wrap) return;
   wrap.innerHTML = '';
-  state.guesses.forEach(g => {
-    const card = document.createElement('div');
-    card.className = 'wrong-guess-card';
-    const cat = getDisorderCategory(g);
-    card.innerHTML = `
-      <span class="wrong-guess-name">${g}</span>
-      <span class="wrong-guess-cat">${cat}</span>
-    `;
-    wrap.appendChild(card);
-  });
+  const totalSlots = 5;
+  for(let i=0;i<totalSlots;i++){
+    const box = document.createElement('div');
+    const entry = guessLog[i];
+    if(entry){
+      box.className = 'diagnosis-box filled' + (entry.correct ? ' correct' : '');
+      const cat = entry.correct ? 'Correct' : getDisorderCategory(entry.text);
+      box.innerHTML = `
+        <span class="diagnosis-guess-name">${entry.text}</span>
+        <span class="diagnosis-guess-cat">${cat}</span>
+      `;
+    } else {
+      box.className = 'diagnosis-box';
+    }
+    wrap.appendChild(box);
+  }
 }
 
 function showResult(won){
@@ -1243,7 +1222,7 @@ function showResult(won){
     state.attemptsUsed = Math.max(state.attemptsUsed, 1);
     updateAttemptDots(true);
     // Flash the card green briefly
-    const card = document.querySelector('.case-card');
+    const card = document.querySelector('.case-open');
     if(card){ card.classList.add('correct-flash'); setTimeout(()=>card.classList.remove('correct-flash'),600); }
   } else {
     updateAttemptDots(false);
@@ -1527,65 +1506,7 @@ updateStartScreen();
   }catch(e){ console.warn('Neurole: could not load byline', e.message); }
 })();
 
-/* ---------- AI chat modal ---------- */
-document.getElementById('case-chat-fab').addEventListener('click', () => {
-  document.getElementById('case-chat-backdrop').classList.add('open');
-});
-document.getElementById('case-chat-close').addEventListener('click', () => {
-  document.getElementById('case-chat-backdrop').classList.remove('open');
-});
-document.getElementById('case-chat-backdrop').addEventListener('click', (e) => {
-  if(e.target.id === 'case-chat-backdrop') e.currentTarget.classList.remove('open');
-});
-
-document.getElementById('case-chat-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const input = document.getElementById('case-chat-input');
-  const question = input.value.trim();
-  if(!question) return;
-  const log = document.getElementById('case-chat-log');
-
-  const userMsg = document.createElement('div');
-  userMsg.className = 'chat-msg user';
-  userMsg.textContent = question;
-  log.appendChild(userMsg);
-  input.value = '';
-
-  const aiMsg = document.createElement('div');
-  aiMsg.className = 'chat-msg ai';
-  aiMsg.textContent = 'Thinking…';
-  log.appendChild(aiMsg);
-  log.scrollTop = log.scrollHeight;
-
-  const gameFinished = state.solved || state.attemptsUsed >= 5;
-  const shownSymptoms = state.symptoms.slice(0, state.shown).map((s,i) => `${i+1}. ${s}`).join('\n');
-
-  let prompt;
-  if(gameFinished){
-    prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
-The player just finished a diagnostic case. The correct diagnosis was: "${state.answer}".
-Explanation given to the player: "${state.explanation}"
-The player's follow-up question is: "${question}"
-
-The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`;
-  } else {
-    prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
-A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${state.attemptsUsed} of 5 guesses so far.
-Symptoms revealed to them so far:
-${shownSymptoms}
-
-The player's question is: "${question}"
-
-CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
-- Help them think through the symptoms they've already seen
-- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
-- Encourage them to consider patterns, without naming or strongly implying the answer
-- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
-Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
-  }
-
-  aiMsg.textContent = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now, try again in a moment.";
-});
+/* Assessment Q&A now lives inline (see submitQuestion() above), replacing the old floating chat modal. */
 </script>
 <!-- Subscribe modal -->
 <!-- How to Play slide-out panel -->

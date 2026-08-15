@@ -140,9 +140,10 @@ body{padding-top:58px;}
 .mobile-nav-close:hover{background:var(--paper-deep);}
 
 .mobile-nav-brand{
-  padding:70px 28px 12px;
+  padding:70px 0 12px;
 }
 .mobile-nav-brand img{height:48px;width:auto;display:block;}
+.mobile-nav-brand img.full-width{width:100%;height:auto;display:block;border-radius:0;}
 .mobile-nav-brand .dot{color:var(--neuro-blue-deep);}
 
 .mobile-nav-items{
@@ -919,7 +920,7 @@ h1,h2,h3,h4,
 /* =====================================================
    DAILY CASE — GAME REDESIGN
    ===================================================== */
-.case-card{border-radius:16px !important;}
+.case-card{border-radius:0 !important;}
 
 /* Symptom log items — card style */
 .symptom-log{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:8px;}
@@ -1119,13 +1120,13 @@ h1,h2,h3,h4,
 }
 .correct-flash{ animation:correctFlash .5s ease; }
 
-/* Case card — solid, real feel */
+/* Case card — no box, content flows full width */
 .case-card{
-  background:#fff !important;
-  border:1.5px solid var(--rule) !important;
-  border-radius:14px !important;
-  box-shadow:0 2px 16px rgba(0,0,0,.05) !important;
-  padding:28px 28px 22px !important;
+  background:transparent !important;
+  border:none !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
 }
 
 /* Score tag — real capsule */

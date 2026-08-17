@@ -25,12 +25,13 @@ exclude:
   - vendor/ruby/
 
   # --- Duplicate copies of the whole site -------------------------------
-  # A second, older copy of every page, committed by accident. It was live at
-  # neurole.org/neurole-site-main_4/ and fully crawlable — duplicate content
-  # competing with the real pages, and an older snapshot of the source.
-  - neurole-site-main_4/
-
-  # Redundant copy of the images plus the spreadsheets and zips below.
+  # `neurole-site-main_4/` — a second, older copy of every page, committed by
+  # accident — has now been deleted outright rather than merely hidden, so it
+  # no longer needs an entry here. Deleting beats excluding: an exclusion only
+  # stops Pages publishing the files, while anyone reading the repo still sees
+  # them, and one edit to this list puts them back on the web.
+  #
+  # Redundant copy of the images plus the spreadsheets below.
   # Verified unreferenced: every page loads its favicons, logo and hero image
   # from the site root, not from here.
   - assets/
@@ -49,8 +50,9 @@ exclude:
   - "*.xlsx"
 
   # --- Source archives ---------------------------------------------------
-  - neurole_17.zip
-  - neurole_21.zip
+  # The archives themselves are gone; the glob stays as a standing guard, so a
+  # zip dropped in by a future upload is never published even before anyone
+  # notices it landed.
   - "*.zip"
 
   # --- Dead pages --------------------------------------------------------

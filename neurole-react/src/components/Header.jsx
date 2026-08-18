@@ -53,7 +53,6 @@ export default function Header({ onSignIn }) {
             <Link to="/about">About</Link>
             {hasArticles() && <Link to="/articles">Articles</Link>}
             <Link to="/interactive">Interactive<span className="beta-pill" style={{ marginLeft: 5 }}>Beta</span></Link>
-            <Link to="/interactive/brain-lab" style={{ fontSize: 11.5 }}>Brain Lab<span className="beta-pill" style={{ marginLeft: 5 }}>3D</span></Link>
             <button
               type="button"
               className={`theme-toggle-btn${dark ? ' is-dark' : ''}`}
@@ -98,7 +97,6 @@ export default function Header({ onSignIn }) {
           <li><Link to="/about" onClick={closeMobile}>About <span className="nav-arrow">›</span></Link></li>
           {hasArticles() && <li><Link to="/articles" onClick={closeMobile}>Articles <span className="nav-arrow">›</span></Link></li>}
           <li><Link to="/interactive" onClick={closeMobile}>Interactive<span className="beta-pill" style={{ marginLeft: 5 }}>Beta</span> <span className="nav-arrow">›</span></Link></li>
-          <li><Link to="/interactive/brain-lab" onClick={closeMobile}>Brain Lab<span className="beta-pill" style={{ marginLeft: 5 }}>3D</span> <span className="nav-arrow">›</span></Link></li>
           <li><button className="nav-tab-btn" data-signin onClick={() => { closeMobile(); if (onSignIn) onSignIn(); }}>Sign In <span className="nav-arrow">›</span></button></li>
           <li className="theme-toggle-mobile-item">
             <button

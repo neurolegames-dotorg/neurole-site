@@ -241,19 +241,6 @@ function HomePage() {
         </div>
 
         <div className="wrap" style={{ marginTop: 48 }}>
-          <span className="section-eyebrow">Interactive<span className="beta-pill">Beta</span></span>
-          <Link to="/interactive" style={{ display: 'flex', alignItems: 'center', gap: 22, background: 'var(--paper-deep)', border: '1.5px solid var(--rule)', borderRadius: 14, padding: 30, textDecoration: 'none', marginTop: 12 }}>
-            <div style={{ width: 60, height: 60, borderRadius: 14, background: 'var(--paper)', border: '1.5px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#5C4480" strokeWidth="1.6"><path d="M9 2a3 3 0 0 0-3 3v1.2A3 3 0 0 0 4 9v1a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3" /><path d="M15 2a3 3 0 0 1 3 3v1.2a3 3 0 0 1 2 2.8v1a3 3 0 0 1-1 5.5V17a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3" /></svg>
-            </div>
-            <div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontWeight: 700, fontSize: 23, margin: '0 0 4px', color: 'var(--ink)' }}>Watch Alzheimer's progress</h3>
-              <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, margin: 0 }}>An early look at our interactive teaching tools →</p>
-            </div>
-          </Link>
-        </div>
-
-        <div className="wrap" style={{ marginTop: 48 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', background: 'var(--paper)', border: '1.5px solid var(--rule)', borderLeft: '4px solid #6B4F94', borderRadius: 10, padding: '26px 28px' }}>
             <div>
               <h3 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontWeight: 700, fontSize: 22, margin: '0 0 6px', color: 'var(--ink)' }}>Help build Neurole</h3>

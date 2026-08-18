@@ -2,7 +2,7 @@ import pageStyle from './styles/NeuroanatomyPlayPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
 import { useChatFab } from '../hooks/useChatFab';
 import Portal from '../components/Portal';
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { FALLBACK_QUESTIONS } from '../games-data'
 import {
@@ -54,6 +54,7 @@ export default function NeuroanatomyPlayPage() {
   const [bestPct, setBestPct] = useState(0)
   const [streakCount, setStreakCount] = useState(0)
   const [noQuestions, setNoQuestions] = useState(false)
+  const [imageLoadError, setImageLoadError] = useState(false)
 
   const currentRef = useRef(current)
   currentRef.current = current
@@ -120,7 +121,8 @@ export default function NeuroanatomyPlayPage() {
 
   useEffect(() => { loadBank() }, [loadBank])
 
-  const getFilteredBank = useCallback(() => {
+  // Memoize filtered bank to prevent O(n) scans on every render
+  const filteredBank = useMemo(() => {
     let bank = fullBank
     if (selectedCategory !== 'Random') {
       bank = bank.filter(row => {
@@ -141,6 +143,15 @@ export default function NeuroanatomyPlayPage() {
     return q['imageurl'] || q['image_url'] || q['imageURL'] || q['image'] || q['img'] || q['url'] || findField(q, 'image_url') || ''
   }
 
+  const handleImageLoad = () => {
+    setImageLoadError(false)
+  }
+
+  const handleImageError = (e) => {
+    console.warn('Neurole: image failed to load ->', e.target.src)
+    setImageLoadError(true)
+  }
+
   const startRound = useCallback(async () => {
     if (!bankReady) {
       if (!bankLoading) loadBank()
@@ -150,14 +161,13 @@ export default function NeuroanatomyPlayPage() {
         tries++
       }
     }
-    const bank = getFilteredBank()
-    if (!bank.length) {
+    if (!filteredBank.length) {
       setNoQuestions(true)
       setLoaded(true)
       return
     }
-    const total = roundCount === 'all' ? bank.length : Math.min(parseInt(roundCount, 10), bank.length)
-    const shuffled = shuffle(bank).slice(0, total)
+    const total = roundCount === 'all' ? filteredBank.length : Math.min(parseInt(roundCount, 10), filteredBank.length)
+    const shuffled = shuffle(filteredBank).slice(0, total)
     setQBank(shuffled)
     setQIndex(0)
     setCorrectCount(0)
@@ -165,7 +175,7 @@ export default function NeuroanatomyPlayPage() {
     setAnswered(false)
     setCurrent(shuffled[0])
     setLoaded(true)
-  }, [bankReady, bankLoading, loadBank, getFilteredBank, roundCount])
+  }, [bankReady, bankLoading, loadBank, filteredBank, roundCount])
 
   useEffect(() => {
     if (bankReady && !loaded && !bankLoading) {
@@ -177,6 +187,7 @@ export default function NeuroanatomyPlayPage() {
     setAnswered(false)
     const q = qBankRef.current[qIdx]
     setCurrent(q)
+    setImageLoadError(false)
     setChoicesAnim('questionFade')
     setTimeout(() => setChoicesAnim(''), 300)
   }, [])
@@ -342,12 +353,12 @@ export default function NeuroanatomyPlayPage() {
             <div className="game-col-left">
               <div className={`specimen${specimenAnim ? ' ' + specimenAnim : ''}`} style={{ background: '#fff', border: '1px solid var(--rule)', padding: 14, marginBottom: 16, position: 'relative', borderRadius: 16, overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'var(--neuro-blue-deep)' }}></div>
-                {imgUrl ? (
+                {imgUrl && !imageLoadError ? (
                   <img src={imgUrl} alt="Brain region to identify" style={{ width: '100%', maxHeight: 240, objectFit: 'contain', background: 'var(--paper-deep)', display: 'block' }}
-                    onError={(e) => { console.error('Neurole: image failed ->', e.target.src) }}
-                    onLoad={(e) => { console.log('Neurole: image loaded ->', e.target.src) }} />
+                    onError={handleImageError}
+                    onLoad={handleImageLoad} />
                 ) : (
-                  <div style={{ width: '100%', height: 180, background: 'var(--paper-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)' }}>Loading image…</div>
+                  <div style={{ width: '100%', height: 180, background: 'var(--paper-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)' }}>{imageLoadError ? 'Image unavailable' : 'Loading image…'}</div>
                 )}
                 <p className="cap" style={{ fontFamily: 'var(--game-font)', fontSize: 13, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-soft)', margin: '8px 0 0', textAlign: 'center' }}>Which region is highlighted?</p>
               </div>

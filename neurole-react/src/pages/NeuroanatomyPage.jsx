@@ -1,7 +1,7 @@
 import pageStyle from './styles/NeuroanatomyPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
 import { useDocumentHead } from '../hooks/useDocumentHead';
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { FALLBACK_QUESTIONS, BUILT_IN_REGIONS } from '../games-data'
 import {
@@ -58,6 +58,7 @@ export default function NeuroanatomyPage() {
   const [neuropsychOpen, setNeuropsychOpen] = useState(false)
 
   const [bankError, setBankError] = useState('')
+  const [imageLoadError, setImageLoadError] = useState(false)
 
 
   const currentRef = useRef(current)
@@ -128,7 +129,8 @@ export default function NeuroanatomyPage() {
 
   useEffect(() => { loadBank() }, [loadBank])
 
-  const getFilteredBank = useCallback(() => {
+  // Memoize filtered bank to prevent O(n) scans on every render
+  const filteredBank = useMemo(() => {
     let bank = fullBank
     if (selectedCategory !== 'Random') {
       bank = bank.filter(row => {
@@ -145,10 +147,19 @@ export default function NeuroanatomyPage() {
     return bank
   }, [fullBank, selectedCategory, selectedDifficulty])
 
-  const filteredCount = getFilteredBank().length
+  const filteredCount = filteredBank.length
 
   function getQuestionImageUrl(q) {
     return q['imageurl'] || q['image_url'] || q['imageURL'] || q['image'] || q['img'] || q['url'] || findField(q, 'image_url') || ''
+  }
+
+  const handleImageLoad = () => {
+    setImageLoadError(false)
+  }
+
+  const handleImageError = (e) => {
+    console.warn('Neurole: image failed to load ->', e.target.src)
+    setImageLoadError(true)
   }
 
   // The original neuroanatomy.html round-choice buttons navigate to
@@ -169,6 +180,7 @@ export default function NeuroanatomyPage() {
     setAnswered(false)
     const q = qBank[qIdx]
     setCurrent(q)
+    setImageLoadError(false)
     setChoicesAnim('questionFade')
     setTimeout(() => setChoicesAnim(''), 300)
   }, [qBank])
@@ -486,12 +498,12 @@ export default function NeuroanatomyPage() {
               <div className="game-col-left">
                 <div className={`specimen${specimenAnim ? ' ' + specimenAnim : ''}`} style={{ background: '#fff', border: '1px solid var(--rule)', padding: 14, marginBottom: 16, position: 'relative', borderRadius: 16, overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'var(--neuro-blue-deep)' }}></div>
-                  {imgUrl ? (
+                  {imgUrl && !imageLoadError ? (
                     <img src={imgUrl} alt="Brain region to identify" style={{ width: '100%', maxHeight: 240, objectFit: 'contain', background: 'var(--paper-deep)', display: 'block' }}
-                      onError={(e) => { console.error('Neurole: image failed ->', e.target.src) }}
-                      onLoad={(e) => { console.log('Neurole: image loaded ->', e.target.src) }} />
+                      onError={handleImageError}
+                      onLoad={handleImageLoad} />
                   ) : (
-                    <div style={{ width: '100%', height: 180, background: 'var(--paper-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)' }}>Loading image…</div>
+                    <div style={{ width: '100%', height: 180, background: 'var(--paper-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)' }}>{imageLoadError ? 'Image unavailable' : 'Loading image…'}</div>
                   )}
                   <p className="cap" style={{ fontFamily: 'var(--game-font)', fontSize: 13, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-soft)', margin: '8px 0 0', textAlign: 'center' }}>Which region is highlighted?</p>
                 </div>

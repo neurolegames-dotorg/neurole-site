@@ -3,7 +3,7 @@ import { usePageStyle } from '../hooks/usePageStyle';
 import { useDocumentHead } from '../hooks/useDocumentHead';
 import { Link } from 'react-router-dom'
 
-/* SEO: description="Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support Alzheimer's research through our partner link." */
+/* SEO: description="Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support neuroscience research through our partner links." */
 /* OG: title="Donate — Support Free Neuroscience Education | Neurole", url="https://neurole.org/donate.html" */
 /* Twitter: title="Donate — Support Free Neuroscience Education | Neurole" */
 
@@ -11,7 +11,7 @@ export default function DonatePage() {
   usePageStyle(pageStyle);
   useDocumentHead({
     title: "Donate — Support Free Neuroscience Education | Neurole",
-    description: "Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support Alzheimer's research through our partner link.",
+    description: "Support free neuroscience education. Donate to Neurole to keep games free for everyone, or support neuroscience research through our partner links.",
     canonical: "/donate",
   });
   return (
@@ -33,22 +33,22 @@ export default function DonatePage() {
           <p style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--ink-soft)', margin: '10px 0 0' }}>100% goes directly to keeping Neurole free and running.</p>
         </div>
 
-        <p style={{ fontFamily: 'var(--serif-display)', fontSize: 20, margin: '44px 0 6px' }}>Prefer to support research directly?</p>
-        <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, maxWidth: 780, margin: '0 0 20px' }}>These partner organizations fund Alzheimer's care, research, and awareness. Donations here go straight to them, not to Neurole.</p>
+        <p style={{ fontFamily: 'var(--serif-display)', fontSize: 20, margin: '44px 0 6px' }}>Support neuroscience research</p>
+        <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, maxWidth: 780, margin: '0 0 20px' }}>These organizations fund neuroscience care, research, and awareness. Donations here go straight to them, not to Neurole.</p>
 
         <div className="donate-grid">
           <div className="donate-card" style={{ borderLeft: '5px solid #E8474C' }}>
             <h3 style={{ color: '#C4323A' }}>Hilarity for Charity</h3>
-            <p>Founded by Seth Rogen and Lauren Miller Rogen, Hilarity for Charity funds Alzheimer's care, research, and awareness — with a mission to engage a younger generation in the fight against the disease.</p>
+            <p>Founded by Seth Rogen and Lauren Miller Rogen, Hilarity for Charity funds research, care, and awareness — with a mission to engage a younger generation in supporting those affected by neurological diseases.</p>
             <a className="btn" id="hfc-donate-btn" href="https://hilarityforcharity.org/donate" target="_blank" rel="noopener" style={{ background: '#E8474C' }}>Donate to HFC →</a>
           </div>
           <div className="donate-card alz-card">
-            <h3>Alzheimer's Association</h3>
-            <p>The Alzheimer's Association is the world's leading voluntary health organisation for Alzheimer's care, support, and research. Every donation funds research that could change millions of lives.</p>
-            <a className="btn" href="https://act.alz.org/donate" target="_blank" rel="noopener">Donate to Alzheimer's →</a>
+            <h3>Brain & Behavior Research Foundation</h3>
+            <p>The Brain & Behavior Research Foundation funds scientific research to help people suffering from mental illness and brain disorders, advancing understanding of the brain and its diseases.</p>
+            <a className="btn" href="https://www.bbrfoundation.org/donate" target="_blank" rel="noopener">Donate to BBRF →</a>
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--ink-soft)', maxWidth: 780, marginTop: 20 }}>Neurole is not affiliated with Hilarity for Charity or the Alzheimer's Association. Both links go directly to their official donation pages.</p>
+        <p style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--ink-soft)', maxWidth: 780, marginTop: 20 }}>Neurole is not affiliated with Hilarity for Charity or the Brain & Behavior Research Foundation. Both links go directly to their official donation pages.</p>
       </main>
     </>
   )

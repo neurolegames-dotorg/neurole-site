@@ -150,3 +150,66 @@ export function synShareText(dateKey, guessHistory) {
   const rows = guessHistory.map(g => g.map(c => GROUP_EMOJI[c] || '⬜').join(''));
   return `The Synapse — ${dateKey}\n${rows.join('\n')}\n\nhttps://neurole.org/synapse`;
 }
+
+// Load all puzzles from the sheet for the archive page
+export async function loadSynapseArchive() {
+  const rows = await fetchSheetAsObjects(NEUROLE_CONFIG.SYNAPSE_SHEET_CSV);
+  if (!rows || !rows.length) throw new Error('Sheet returned no rows.');
+
+  const puzzles = [];
+  for (const row of rows) {
+    const dateStr = (findField(row, 'Date') || '').trim();
+    if (!dateStr) continue;
+
+    const groups = {};
+    for (const color of GROUP_ORDER) {
+      const words = [1, 2, 3, 4].map(n => (findField(row, color + n) || '').trim()).filter(Boolean);
+      const theme = (findField(row, 'Theme ' + color) || '').trim();
+      if (words.length === 4) groups[color] = { theme, words };
+    }
+    if (Object.keys(groups).length === 4) {
+      const tiles = [];
+      for (const color of GROUP_ORDER) {
+        for (const word of groups[color].words) tiles.push({ text: word, group: color });
+      }
+      const saved = getSynapseSaved(dateStr);
+      puzzles.push({
+        dateKey: dateStr,
+        date: parseSynDateStr(dateStr),
+        groups,
+        tiles,
+        saved,
+      });
+    }
+  }
+
+  // Sort by date, newest first
+  puzzles.sort((a, b) => b.date - a.date);
+  return puzzles;
+}
+
+// Load a specific puzzle by date
+export async function loadSynapsePuzzleByDate(dateKey) {
+  const rows = await fetchSheetAsObjects(NEUROLE_CONFIG.SYNAPSE_SHEET_CSV);
+  if (!rows || !rows.length) throw new Error('Sheet returned no rows.');
+
+  const row = rows.find(r => (findField(r, 'Date') || '').trim() === dateKey);
+  if (!row) throw new Error(`No puzzle found for date ${dateKey}`);
+
+  const groups = {};
+  for (const color of GROUP_ORDER) {
+    const words = [1, 2, 3, 4].map(n => (findField(row, color + n) || '').trim()).filter(Boolean);
+    const theme = (findField(row, 'Theme ' + color) || '').trim();
+    if (words.length === 4) groups[color] = { theme, words };
+  }
+  if (Object.keys(groups).length !== 4) {
+    throw new Error(`Puzzle row for ${dateKey} is missing data (found ${Object.keys(groups).length} of 4 groups).`);
+  }
+
+  const tiles = [];
+  for (const color of GROUP_ORDER) {
+    for (const word of groups[color].words) tiles.push({ text: word, group: color });
+  }
+
+  return { groups, tiles, dateKey };
+}

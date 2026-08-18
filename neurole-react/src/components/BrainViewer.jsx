@@ -77,7 +77,7 @@ function isHighlighted(info, highlight) {
 
 /**
  * props
- *   stage      0-3 Alzheimer's atrophy preset (Brain Lab)
+ *   stage      0-3 atrophy progression preset
  *   viewMode   'surface' | 'translucent'
  *   highlight  { meshNames, regionFields, categories } from resolveRegions(),
  *              or null. When set, matched structures render solid and
@@ -119,7 +119,7 @@ const BrainViewer = forwardRef(function BrainViewer(
     if (!container) return
 
     let renderer, scene, camera, controls
-    let frameId, observer, handleResize
+    let frameId, observer, handleResize, resizeTimeout
     let meshes = []
     let ownedMaterials = []
 
@@ -355,33 +355,6 @@ const BrainViewer = forwardRef(function BrainViewer(
         },
       }
 
-      // Dev-only handle for inspecting what a figure actually matched.
-      // `__brain.report()` lists the highlighted structures — the quickest way
-      // to tell "my region name was wrong" from "the camera is pointing away".
-      if (import.meta.env.DEV) {
-        window.__brain = {
-          scene, camera, controls, meshes,
-          report: () => {
-            const hl = propsRef.current.highlight
-            const hit = hl ? meshes.filter((m) => m.userData.brainInfo && isHighlighted(m.userData.brainInfo, hl)) : []
-            return {
-              meshes: meshes.length,
-              visible: meshes.filter((m) => m.visible).length,
-              highlighted: hit.length,
-              highlightedNames: [...new Set(hit.map((m) => m.userData.brainInfo.base))],
-              highlightedVisible: hit.filter((m) => m.visible).length,
-              cameraPos: camera.position.toArray().map((n) => +n.toFixed(3)),
-              axes: {
-                derived: axes.derived,
-                right: axes.right.toArray().map((n) => +n.toFixed(2)),
-                up: axes.up.toArray().map((n) => +n.toFixed(2)),
-                front: axes.front.toArray().map((n) => +n.toFixed(2)),
-              },
-            }
-          },
-        }
-      }
-
       const p = propsRef.current
       applyStyle(p.stage, p.viewMode, p.highlight, p.cutaway)
       placeCamera(p.cameraPreset, p.highlight)
@@ -393,7 +366,9 @@ const BrainViewer = forwardRef(function BrainViewer(
       // would otherwise keep its original, now-wrong framing and zoom limits.
       // Scaling by the ratio preserves whatever angle and zoom the reader
       // had already dialled in.
-      handleResize = () => {
+      // Throttle resize to prevent excessive recalculations during drag events.
+      let resizeTimeout = null
+      const doResize = () => {
         const cw = container.clientWidth || 400
         const ch = container.clientHeight || 400
         if (!cw || !ch) return
@@ -415,8 +390,17 @@ const BrainViewer = forwardRef(function BrainViewer(
         }
         controls.update()
       }
+      handleResize = () => {
+        // Throttle: only execute once per 100ms during rapid resize events
+        if (resizeTimeout) clearTimeout(resizeTimeout)
+        resizeTimeout = setTimeout(doResize, 100)
+      }
       window.addEventListener('resize', handleResize)
-      observer = new ResizeObserver(handleResize)
+      observer = new ResizeObserver(() => {
+        // ResizeObserver fires frequently during drag; throttle similarly
+        if (resizeTimeout) clearTimeout(resizeTimeout)
+        resizeTimeout = setTimeout(doResize, 100)
+      })
       observer.observe(container)
 
       const animateFrame = () => {
@@ -435,6 +419,7 @@ const BrainViewer = forwardRef(function BrainViewer(
 
     return () => {
       destroyedRef.current = true
+      if (resizeTimeout) clearTimeout(resizeTimeout)
       cancelAnimationFrame(frameId)
       if (handleResize) window.removeEventListener('resize', handleResize)
       if (observer) observer.disconnect()

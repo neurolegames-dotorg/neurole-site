@@ -6,41 +6,35 @@ import { Link } from 'react-router-dom';
 import Portal from '../components/Portal';
 import {
   GROUP_ORDER, GROUP_COLORS, MAX_MISTAKES,
-  loadSynapsePuzzle, getSynapseSaved, saveSynapseCompletion,
-  getSynapseStats, synShuffle, synShareText,
+  loadSynapseArchive, loadSynapsePuzzleByDate, getSynapseSaved, saveSynapseCompletion,
+  getSynapseStats, synShuffle, synShareText, synDateStr,
 } from '../utils/synapse';
 
-// Mirrors synapse.html: one page holding a start screen and the board, swapped
-// in place. The puzzle is only fetched when Play is pressed, exactly as the
-// static page does — landing on /synapse costs no network request.
-export default function SynapsePage() {
+export default function SynapseArchivePage() {
   usePageStyle(pageStyle);
   useDocumentHead({
-    title: 'The Synapse — A Daily Word-Connection Puzzle | Neurole',
-    description: 'A daily word-connection puzzle about the brain. Find the four hidden groups. Free, no account needed.',
-    canonical: '/synapse',
+    title: 'The Synapse Archive — Past Puzzles | Neurole',
+    description: 'Play previous daily Synapse puzzles. Access the complete archive of word-connection games.',
+    canonical: '/synapse/archive',
   });
 
-  const [started, setStarted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [loadError, setLoadError] = useState('');
-  const [howToPlay, setHowToPlay] = useState(false);
+  const [archiveLoading, setArchiveLoading] = useState(true);
+  const [archiveError, setArchiveError] = useState('');
+  const [puzzles, setPuzzles] = useState([]);
 
+  const [activePuzzle, setActivePuzzle] = useState(null);
   const [groups, setGroups] = useState({});
-  const [dateKey, setDateKey] = useState('');
-  const [order, setOrder] = useState([]);          // tile text, display order
+  const [order, setOrder] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [solved, setSolved] = useState([]);        // group colours, in solve order
+  const [solved, setSolved] = useState([]);
   const [mistakes, setMistakes] = useState(0);
   const [shaking, setShaking] = useState([]);
   const [msg, setMsg] = useState('');
   const [gameOver, setGameOver] = useState(false);
-  const [result, setResult] = useState(null);      // { won } once the modal is due
+  const [result, setResult] = useState(null);
   const [stats, setStats] = useState(null);
   const [shareLabel, setShareLabel] = useState('Share Result');
 
-  // Kept in refs, not state: the submit handler reads them synchronously and
-  // neither is ever rendered.
   const tilesRef = useRef([]);
   const guessHistory = useRef([]);
   const wrongGuesses = useRef([]);
@@ -63,34 +57,53 @@ export default function SynapsePage() {
     setResult({ won });
   }, []);
 
-  const play = async () => {
-    setLoading(true);
-    setLoadError('');
+  useEffect(() => {
+    const loadArchive = async () => {
+      setArchiveLoading(true);
+      setArchiveError('');
+      try {
+        const data = await loadSynapseArchive();
+        setPuzzles(data);
+      } catch (err) {
+        console.warn('Neurole Synapse Archive: could not load puzzles —', err.message);
+        setArchiveError('Could not load the archive. Please check your connection and try again.');
+      } finally {
+        setArchiveLoading(false);
+      }
+    };
+    loadArchive();
+  }, []);
+
+  const playPuzzle = async (dateKey) => {
     try {
-      const puzzle = await loadSynapsePuzzle();
+      const puzzle = await loadSynapsePuzzleByDate(dateKey);
       tilesRef.current = puzzle.tiles;
       setGroups(puzzle.groups);
-      setDateKey(puzzle.dateKey);
+      setActivePuzzle(dateKey);
 
-      const saved = getSynapseSaved(puzzle.dateKey);
+      const saved = getSynapseSaved(dateKey);
       if (saved) {
-        // Finished earlier today — show the full board and the result, not a
-        // replayable game.
+        // Already completed
         setSolved(GROUP_ORDER.filter(c => puzzle.groups[c]));
         setMistakes(saved.mistakes || 0);
         setOrder([]);
         setGameOver(true);
-        setStarted(true);
         later(() => openResult(!!saved.won), 300);
       } else {
+        // Fresh puzzle
         setOrder(synShuffle(puzzle.tiles.map(t => t.text)));
-        setStarted(true);
+        setSolved([]);
+        setMistakes(0);
+        setGameOver(false);
+        setResult(null);
       }
+      setSelected([]);
+      setShaking([]);
+      guessHistory.current = [];
+      wrongGuesses.current = [];
     } catch (err) {
-      console.warn('Neurole Synapse: could not load puzzle —', err.message);
-      setLoadError("Could not load today's puzzle. Please check your connection and try again.");
-    } finally {
-      setLoading(false);
+      showMsg('Could not load puzzle', 2000);
+      console.warn('Error loading puzzle:', err);
     }
   };
 
@@ -104,11 +117,10 @@ export default function SynapsePage() {
   const endGame = (won, ctx) => {
     setGameOver(true);
     if (!won) {
-      // Reveal the groups the player never found, in sheet order.
       setSolved([...ctx.solved, ...GROUP_ORDER.filter(c => !ctx.solved.includes(c) && groups[c])]);
       setOrder([]);
     }
-    saveSynapseCompletion(dateKey, won, ctx.mistakes);
+    saveSynapseCompletion(activePuzzle, won, ctx.mistakes);
     later(() => openResult(won), won ? 500 : 900);
   };
 
@@ -150,11 +162,11 @@ export default function SynapsePage() {
   };
 
   const share = async () => {
-    const text = synShareText(dateKey, guessHistory.current);
-    const url = 'https://neurole.org/synapse';
+    const text = synShareText(activePuzzle, guessHistory.current);
+    const url = 'https://neurole.org/synapse/archive';
     try {
       if (navigator.share) {
-        await navigator.share({ text, url, title: 'The Synapse' });
+        await navigator.share({ text, url, title: 'The Synapse Archive' });
       } else {
         await navigator.clipboard.writeText(text);
         setShareLabel('Copied! ✓');
@@ -168,56 +180,126 @@ export default function SynapsePage() {
     : 'Next time.';
   const resultSub = result?.won
     ? (mistakes === 0 ? 'No mistakes — well done.' : `${mistakes} ${mistakes === 1 ? 'mistake.' : 'mistakes.'}`)
-    : "Here were today's groups.";
+    : "Here were the groups.";
 
   return (
     <>
       <main className="wrap" style={{ padding: 0, maxWidth: 'none' }}>
+        {!activePuzzle && (
+          <div style={{ maxWidth: 900, margin: '0 auto', padding: '50px 20px' }}>
+            <Link className="back-home" to="/synapse" style={{ marginBottom: 24 }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+              Back to The Synapse
+            </Link>
 
-        {!started && (
-          <div id="syn-start" style={{ maxWidth: 460, margin: '0 auto', padding: '70px 20px 60px', textAlign: 'center' }}>
-            <img src="/synapse-icon.png" alt="The Synapse" style={{ width: 88, height: 'auto', margin: '0 auto 20px', display: 'block' }} />
-            <span className="section-eyebrow" style={{ justifyContent: 'center', display: 'flex' }}>Daily · Word Puzzle</span>
-            <h1 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontSize: 'clamp(32px,6vw,44px)', fontWeight: 700, margin: '6px 0 14px', letterSpacing: '-.01em' }}>The Synapse</h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, lineHeight: 1.7, margin: '0 auto 26px', maxWidth: 400 }}>
-              Find four groups of four. Each group shares something in common — some connections are obvious, some are a stretch.
+            <h1 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontSize: 'clamp(32px,6vw,44px)', fontWeight: 700, margin: '0 0 8px', letterSpacing: '-.01em' }}>Synapse Archive</h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, lineHeight: 1.7, margin: '0 0 30px', maxWidth: 600 }}>
+              Play previous daily Synapse puzzles. Each puzzle can be solved or replayed at any time.
             </p>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button className="btn" style={{ borderRadius: 999, padding: '13px 30px' }} disabled={loading} onClick={play}>
-                {loading ? 'Loading…' : "Play today's puzzle →"}
-              </button>
-              <button className="btn ghost" style={{ borderRadius: 999, padding: '13px 22px' }} onClick={() => setHowToPlay(true)}>How to play</button>
-              <Link to="/synapse/archive" className="btn ghost" style={{ borderRadius: 999, padding: '13px 22px', textDecoration: 'none' }}>Archive</Link>
-            </div>
-            {loadError && (
-              <div style={{ marginTop: 22, fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)' }}>{loadError}</div>
+
+            {archiveLoading && (
+              <div style={{ textAlign: 'center', color: 'var(--ink-soft)', paddingTop: 40 }}>
+                Loading archive…
+              </div>
+            )}
+
+            {archiveError && (
+              <div style={{ textAlign: 'center', color: 'var(--ink-soft)', paddingTop: 40 }}>
+                {archiveError}
+              </div>
+            )}
+
+            {!archiveLoading && !archiveError && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+                {puzzles.map((puzzle) => (
+                  <button
+                    key={puzzle.dateKey}
+                    onClick={() => playPuzzle(puzzle.dateKey)}
+                    style={{
+                      background: 'var(--paper)',
+                      border: '1.5px solid var(--rule)',
+                      borderRadius: 12,
+                      padding: 16,
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      transition: 'all 150ms ease',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = '#7E5FA6'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--rule)'}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                      <div>
+                        <div style={{ fontFamily: "var(--mono)", fontSize: 12, color: 'var(--ink-soft)', margin: '0 0 4px' }}>
+                          {puzzle.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </div>
+                        <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
+                          {puzzle.dateKey}
+                        </div>
+                      </div>
+                      {puzzle.saved && (
+                        <div style={{ display: 'flex', gap: 2 }}>
+                          {Array.from({ length: 4 }, (_, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: '50%',
+                                background: i < (puzzle.saved.mistakes || 0) ? '#E8A499' : '#A7D8A0',
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {Object.keys(puzzle.groups).map(color => (
+                        <span
+                          key={color}
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 600,
+                            padding: '2px 6px',
+                            borderRadius: 4,
+                            background: GROUP_COLORS[color],
+                            color: '#000',
+                            opacity: 0.7,
+                          }}
+                        >
+                          {puzzle.groups[color].theme || color}
+                        </span>
+                      ))}
+                    </div>
+                  </button>
+                ))}
+              </div>
             )}
           </div>
         )}
 
-        {started && (
+        {activePuzzle && (
           <div className="syn-shell">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-              <Link className="back-home" to="/" style={{ marginBottom: 0, position: 'static' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>Home
-              </Link>
-              <button aria-label="How to play" onClick={() => setHowToPlay(true)}
-                style={{ width: 36, height: 36, borderRadius: 8, border: '1.5px solid var(--rule)', background: 'var(--paper)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="14" y2="17" />
-                </svg>
+              <button
+                onClick={() => setActivePuzzle(null)}
+                className="back-home"
+                style={{ marginBottom: 0, position: 'static', cursor: 'pointer', background: 'none', border: 'none', padding: 0, font: 'inherit', color: 'inherit' }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                Archive
               </button>
             </div>
 
             <p style={{ textAlign: 'center', fontFamily: "'Outfit',sans-serif", fontSize: 14, color: 'var(--ink-soft)', margin: '0 0 18px' }}>
-              Create four groups of four.
+              {activePuzzle}
             </p>
 
             <div className="syn-solved" id="syn-solved">
               {solved.map(color => groups[color] && (
                 <div key={color} className="syn-solved-row" style={{ background: GROUP_COLORS[color] }}>
-                  {/* The theme cell is sometimes left blank in the sheet; drop
-                      the label rather than render an empty line above the words. */}
                   {groups[color].theme && <div className="theme">{groups[color].theme}</div>}
                   <div className="words">{groups[color].words.join(', ')}</div>
                 </div>
@@ -254,11 +336,8 @@ export default function SynapsePage() {
             </div>
           </div>
         )}
-
       </main>
 
-      {/* Both overlays are fixed-position, so they must sit outside <main> —
-          main's questionIn animation makes it a containing block for 250ms. */}
       <Portal>
         <div className={'modal-backdrop rmodal-backdrop' + (result ? ' open' : '')}
           onClick={e => { if (e.target === e.currentTarget) setResult(null); }}>
@@ -295,43 +374,19 @@ export default function SynapsePage() {
                   <div className="rmodal-game-title">The Daily Case</div>
                   <div className="rmodal-game-sub">Diagnose the case</div>
                 </Link>
+                <Link to="/synapse" className="rmodal-game-card rmodal-game-synapse">
+                  <img src="/synapse-icon.png" alt="" style={{ width: 28, height: 28 }} />
+                  <div className="rmodal-game-title">The Synapse</div>
+                  <div className="rmodal-game-sub">Today's puzzle</div>
+                </Link>
                 <Link to="/neuroanatomy" className="rmodal-game-card rmodal-game-purple">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M7 4.5C5 4.5 3.5 6 3.5 8c0 .9.3 1.7.8 2.3-.6.7-1.1 1.7-1.1 2.7 0 1.8 1.3 3.3 3 3.6.3 1.9 2 3.4 3.9 3.4h.4c.9 0 1.7-.3 2.4-.8" />
-                    <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8" />
-                    <path d="M12 4.5V20" />
-                    <circle cx="17.3" cy="6.3" r="1.5" fill="#fff" stroke="none" />
-                  </svg>
+                    <path d="M17 4.5c2 0 3.5 1.5 3.5 3.5 0 .9-.3 1.7-.8 2.3.6.7 1.1 1.7 1.1 2.7 0 1.8-1.3 3.3-3 3.6-.3 1.9-2 3.4-3.9 3.4h-.4c-.9 0-1.7-.3-2.4-.8" /></svg>
                   <div className="rmodal-game-title">Map the Brain</div>
-                  <div className="rmodal-game-sub">Learn a region</div>
+                  <div className="rmodal-game-sub">Neuroanatomy quiz</div>
                 </Link>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={'htp-backdrop' + (howToPlay ? ' open' : '')}
-          onClick={e => { if (e.target === e.currentTarget) setHowToPlay(false); }}>
-          <div className="htp-panel">
-            <button className="htp-close" aria-label="Close" onClick={() => setHowToPlay(false)}>✕</button>
-            <div className="htp-brand">
-              <img src="/synapse-icon.png" alt="" width="28" height="28" style={{ objectFit: 'contain' }} />
-              <span>The Synapse</span>
-            </div>
-            <div className="htp-section">
-              <p className="htp-section-title">How to Play</p>
-              <p className="htp-line">Find groups of four items that share something in common.</p>
-              <p className="htp-line">Select four tiles, then press Submit.</p>
-              <p className="htp-line">Categories range from straightforward to tricky — some items could fit more than one group.</p>
-            </div>
-            <div className="htp-section">
-              <p className="htp-section-title">Mistakes</p>
-              <p className="htp-line">You get four mistakes before the puzzle ends. If you're one away from a correct group, we'll let you know.</p>
-            </div>
-            <div className="htp-section">
-              <p className="htp-section-title">Tips</p>
-              <p className="htp-line">Start with the group you're most confident about.</p>
-              <p className="htp-line">Watch out for words that seem to belong to an obvious category — they're often a trap.</p>
             </div>
           </div>
         </div>

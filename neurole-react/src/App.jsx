@@ -6,7 +6,6 @@ import ContactPage from './pages/ContactPage';
 import DonatePage from './pages/DonatePage';
 import VolunteerPage from './pages/VolunteerPage';
 import InteractivePage from './pages/InteractivePage';
-import BrainLabPage from './pages/BrainLabPage';
 import ArchivePage from './pages/ArchivePage';
 import DailyGamePage from './pages/DailyGamePage';
 import DailyGamePlayPage from './pages/DailyGamePlayPage';
@@ -15,6 +14,7 @@ import NeuroanatomyPlayPage from './pages/NeuroanatomyPlayPage';
 import ArticlesIndexPage from './pages/ArticlesIndexPage';
 import ArticlePage from './pages/ArticlePage';
 import SynapsePage from './pages/SynapsePage';
+import SynapseArchivePage from './pages/SynapseArchivePage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -29,13 +29,13 @@ function App() {
         <Route path="/donate" element={<DonatePage />} />
         <Route path="/volunteer" element={<VolunteerPage />} />
         <Route path="/interactive" element={<InteractivePage />} />
-        <Route path="/interactive/brain-lab" element={<BrainLabPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/daily-game" element={<DailyGamePage />} />
         <Route path="/daily-game-play" element={<DailyGamePlayPage />} />
         <Route path="/neuroanatomy" element={<NeuroanatomyPage />} />
         <Route path="/neuroanatomy-play" element={<NeuroanatomyPlayPage />} />
         <Route path="/synapse" element={<SynapsePage />} />
+        <Route path="/synapse/archive" element={<SynapseArchivePage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/articles" element={<ArticlesIndexPage />} />

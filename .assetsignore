@@ -9,7 +9,7 @@
 # Nothing is deleted; removing a line republishes the path.
 
 # --- Duplicate copies of the whole site --------------------------------
-neurole-site-main_4/
+# `neurole-site-main_4/` has been deleted from the repo, so it needs no entry.
 assets/
 
 # --- Question banks ----------------------------------------------------

@@ -8,8 +8,8 @@
 # Nothing is deleted; removing a line republishes the path.
 
 # --- Duplicate copies of the whole site --------------------------------
-# A second, older copy of every page, committed by accident.
-neurole-site-main_4/
+# `neurole-site-main_4/` was a second, older copy of every page, committed by
+# accident. It has now been deleted rather than hidden, so it needs no entry.
 # Redundant copy of the images plus the spreadsheets and zips below. Verified
 # unreferenced: every page loads its assets from the site root, not from here.
 assets/

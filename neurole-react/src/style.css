@@ -170,12 +170,35 @@ body{padding-top:58px;}
   border-radius:50%;transition:background .15s;
 }
 .mobile-nav-close:hover{background:var(--paper-deep);}
+/* Over the banner the ✕ sits on saturated purple, where the usual --ink-soft
+   is close to unreadable in light mode and the hover fill is invisible. */
+.mobile-nav-overlay:has(.mobile-nav-brand.has-banner) .mobile-nav-close{
+  color:#fff;
+  background:rgba(0,0,0,.18);
+}
+.mobile-nav-overlay:has(.mobile-nav-brand.has-banner) .mobile-nav-close:hover{
+  background:rgba(0,0,0,.34);
+}
 
 .mobile-nav-brand{
   padding:24px 28px 12px;
 }
 .mobile-nav-brand img{height:48px;width:auto;display:block;}
 .mobile-nav-brand .dot{color:var(--neuro-blue-deep);}
+
+/* Banner variant: edge to edge, no side padding, and clear of the close button
+   which sits over the top-right corner. Falls back to the padded wordmark
+   above whenever the banner file is missing. */
+.mobile-nav-brand.has-banner{
+  padding:0;
+  /* The drawer is a scrolling flex column; without this the banner is a
+     shrinkable flex item and gets squashed once the item list is tall. */
+  flex-shrink:0;
+}
+.mobile-nav-brand.has-banner img.full-width{
+  width:100%;height:auto;display:block;margin:0;border-radius:0;
+}
+.mobile-nav-brand.has-banner + .mobile-nav-items{margin-top:8px;}
 
 .mobile-nav-items{
   list-style:none;margin:32px 0 0;padding:0;

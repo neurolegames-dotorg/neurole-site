@@ -38,20 +38,25 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const allowed = ALLOWED_ORIGINS.includes(origin);
     const cors = {
-      // Reflect the origin only when it is on the allowlist; otherwise send a
-      // value the browser will reject, so a page on another origin can't read
-      // the response.
-      "Access-Control-Allow-Origin": allowed ? origin : "null",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      // Responses differ by Origin, so caches must key on it.
       "Vary": "Origin",
     };
+    // Only an allowlisted origin gets the header at all. Sending
+    // "Access-Control-Allow-Origin: null" as a rejection is worse than sending
+    // nothing: "null" is a real origin, produced by sandboxed iframes and
+    // data: URLs, so a page there would have matched it.
+    if (allowed) cors["Access-Control-Allow-Origin"] = origin;
 
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
     if (request.method !== "POST") return new Response("POST only", { status: 405, headers: cors });
-    // Reject cross-origin callers outright. A same-origin fetch from the site
-    // sends its Origin header, so the real games still pass.
-    if (origin && !allowed) return new Response("Forbidden origin", { status: 403, headers: cors });
+    // A missing Origin is rejected along with a wrong one. The previous check
+    // was `origin && !allowed`, which let anything without the header straight
+    // through — and non-browser clients simply do not send one, so `curl` had
+    // full use of the key this worker exists to hide. Browsers always attach
+    // Origin to a cross-origin POST, so the games are unaffected.
+    if (!allowed) return new Response("Forbidden origin", { status: 403, headers: cors });
 
     const json = (obj) => new Response(JSON.stringify(obj), {
       headers: { ...cors, "Content-Type": "application/json" }
@@ -63,8 +68,11 @@ export default {
       if (!prompt) return json({ answer: "No prompt received." });
       if (prompt.length > MAX_PROMPT_CHARS) return json({ answer: "That question is too long — please shorten it." });
 
-      // Try Groq models in order
-      const models = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'];
+      // Groq retired the llama-3.x and gemma2 model IDs on 2026-06-17. The
+      // list here still named them, so every Groq call would have 404'd and
+      // the tutor would have fallen through to "temporarily unavailable" the
+      // moment it was wired up — a failure that only shows after deployment.
+      const models = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'];
       for (const model of models) {
         try {
           const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {

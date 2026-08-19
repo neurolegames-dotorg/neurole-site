@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
+import RouteErrorBoundary from './components/RouteErrorBoundary';
 // The landing page ships in the first bundle: it is what most visitors ask for,
 // and lazy-loading it would only add a second round trip before anything paints.
 import HomePage from './pages/HomePage';
@@ -34,12 +35,19 @@ const TermsPage = lazy(() => import('./pages/TermsPage'));
 // progress. A page that genuinely takes time shows its own loading state.
 const PageFallback = () => null;
 
-// One Suspense boundary shared by every lazy route, rather than one per route.
-const LazyPages = () => (
-  <Suspense fallback={<PageFallback />}>
-    <Outlet />
-  </Suspense>
-);
+// One Suspense boundary shared by every lazy route, rather than one per route,
+// wrapped in an error boundary so a chunk that fails to arrive shows a page
+// with a way out instead of unmounting the site to a blank screen.
+const LazyPages = () => {
+  const location = useLocation();
+  return (
+    <RouteErrorBoundary routeKey={location.pathname}>
+      <Suspense fallback={<PageFallback />}>
+        <Outlet />
+      </Suspense>
+    </RouteErrorBoundary>
+  );
+};
 
 function App() {
   return (

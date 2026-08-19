@@ -1,6 +1,7 @@
 import pageStyle from './styles/DailyGamePlayPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
 import Portal from '../components/Portal';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { NEURO_DISORDERS, FALLBACK_CASES } from '../games-data'
@@ -82,6 +83,9 @@ export default function DailyGamePlayPage() {
   const [resultTab, setResultTab] = useState('dist')
   // Live-generated note on what the last wrong guess actually is.
   const [guessExplain, setGuessExplain] = useState(null)
+
+  // The result popup covers the case; without this the page scrolls behind it.
+  useBodyScrollLock(resultModalOpen)
 
   const gameStateRef = useRef(gameState)
   gameStateRef.current = gameState

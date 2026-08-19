@@ -22,6 +22,9 @@ const REVEAL_SELECTOR = [
 const DURATION = 550;
 const STEP = 70;
 const MAX_STEPS = 4;
+// How long to wait for the observer to prove it works before giving up on the
+// animation and simply showing the page.
+const FAILSAFE_MS = 4000;
 
 // `key` re-runs the scan on route change, since each page mounts its own cards.
 export function useScrollReveal(key) {
@@ -38,6 +41,8 @@ export function useScrollReveal(key) {
     const timers = [];
 
     const reveal = (el) => {
+      // Proof that the observer works — the failsafe below stands down.
+      document.documentElement.classList.add('reveal-running');
       const delay = Math.min(indexInParent.get(el) || 0, MAX_STEPS) * STEP;
       el.style.transitionDelay = `${delay}ms`;
       el.classList.add('is-revealed');
@@ -78,6 +83,37 @@ export function useScrollReveal(key) {
 
     scan(document.body);
 
+    // Failsafe. The hidden state is applied by CSS the moment `reveal-ready`
+    // is set, and only this observer ever takes it off again — so anything
+    // that stops the observer firing does not degrade the animation, it makes
+    // the content permanently invisible. Verified reachable: with the tab
+    // occluded, an IntersectionObserver over a card sitting well inside a
+    // 1536x730 viewport produced no callback at all, and every one of the
+    // archive's 41 cards stayed at opacity 0.
+    //
+    // So: if nothing at all has revealed within a few seconds, assume the
+    // observer is not going to fire and drop the gate, which makes everything
+    // visible at once. A missed animation is a far smaller failure than a
+    // blank page.
+    //
+    // The clock starts only once the page is actually being looked at. A tab
+    // opened in the background can sit unobserved for minutes, and burning the
+    // effect there would punish exactly the visitors who never saw the problem.
+    let settled = false;
+    let failsafeTimer = 0;
+    const dropGate = () => {
+      if (settled) return;
+      settled = true;
+      if (!root.classList.contains('reveal-running')) root.classList.remove('reveal-ready');
+    };
+    const armFailsafe = () => {
+      window.clearTimeout(failsafeTimer);
+      failsafeTimer = window.setTimeout(dropGate, FAILSAFE_MS);
+    };
+    const onVisible = () => { if (document.visibilityState === 'visible') armFailsafe(); };
+    if (document.visibilityState === 'visible') armFailsafe();
+    document.addEventListener('visibilitychange', onVisible);
+
     // Cards rendered after the effect runs — anything waiting on a fetch —
     // would otherwise be hidden by the CSS and never observed, leaving them
     // permanently invisible. Only added nodes are inspected, so this stays
@@ -90,6 +126,8 @@ export function useScrollReveal(key) {
     return () => {
       io.disconnect();
       mo.disconnect();
+      document.removeEventListener('visibilitychange', onVisible);
+      window.clearTimeout(failsafeTimer);
       timers.forEach(window.clearTimeout);
       // Anything still mid-transition when the route changes must not be left
       // stranded at opacity 0.

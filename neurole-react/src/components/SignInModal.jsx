@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { renderGoogleSignIn, googleSignInState } from '../utils/helpers';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 const GSI_CONTAINER = 'signin-google-container';
 
 export default function SignInModal({ open, onClose }) {
   const [signedIn, setSignedIn] = useState(googleSignInState.signedIn);
+  useBodyScrollLock(open);
 
   // The header modal was never wired to renderGoogleSignIn during the React
   // port (the static site did it in script.js), so the container below the

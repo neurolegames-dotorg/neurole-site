@@ -14,7 +14,10 @@
 
 # --- Non-deployed assets ---------------------------------------------------
 # The designated archive/dump folder: every image, spreadsheet and zip. Stays
-# out of any root-served deployment.
+# out of any root-served deployment. The duplicate whole-site copy that used to
+# need an entry here was deleted outright instead — an exclusion only stops a
+# host publishing a path, while anyone reading the repo still sees it and one
+# edit to this list puts it back on the web.
 assets/
 
 # --- Designated zips & spreadsheets ---------------------------------------

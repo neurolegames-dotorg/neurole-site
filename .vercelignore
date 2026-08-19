@@ -16,7 +16,8 @@
 # --- Non-deployed assets ---------------------------------------------------
 # The designated archive/dump folder: every image, spreadsheet and zip. Stays
 # out of the repo-root deployment. (The React app copies the images it needs
-# into its own public/ folder, so nothing served needs this.)
+# into its own public/ folder, so nothing served needs this.) The duplicate
+# whole-site copy that used to need an entry here was deleted outright instead.
 assets/
 # All question banks live under assets/ now (not the root), answers included.
 # The live games read the published Google Sheet CSV, so nothing fetches these.

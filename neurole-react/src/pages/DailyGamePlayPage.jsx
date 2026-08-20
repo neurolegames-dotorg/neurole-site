@@ -1,7 +1,7 @@
 import pageStyle from './styles/DailyGamePlayPage.css?raw';
 import { usePageStyle } from '../hooks/usePageStyle';
-import { useChatFab } from '../hooks/useChatFab';
 import Portal from '../components/Portal';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { NEURO_DISORDERS, FALLBACK_CASES } from '../games-data'
@@ -13,6 +13,32 @@ import {
   submitGlobalDailyResult, fetchGlobalDailyDistribution,
   renderGoogleSignIn
 } from '../utils/helpers'
+
+const MAX_ATTEMPTS = 5
+// Long enough for a real clinical question, short enough that the box is not a
+// free channel into the AI provider. The Worker caps it again server-side.
+const MAX_QUESTION_CHARS = 300
+
+/** The prompt tells the model never to name the diagnosis while the case is
+ *  open. A prompt is an instruction, not a guarantee — a determined player can
+ *  usually talk a model into breaking one. This is the guarantee: the answer
+ *  and its accepted synonyms are stripped out of the reply before it is shown,
+ *  so even a model that gives the game away cannot land it on screen. */
+function redactDiagnosis(text, answer, synonyms) {
+  if (!text) return text
+  const terms = [answer, ...(synonyms || [])]
+    .map(t => (t || '').trim())
+    // Very short synonyms ("MS", "ALS") appear inside ordinary words; matching
+    // them whole-word only keeps the redaction from shredding the sentence.
+    .filter(t => t.length >= 2)
+    .sort((a, b) => b.length - a.length)
+  let out = text
+  for (const term of terms) {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    out = out.replace(new RegExp(`\\b${escaped}\\b`, 'gi'), '———')
+  }
+  return out
+}
 
 export default function DailyGamePlayPage() {
   usePageStyle(pageStyle);
@@ -33,32 +59,39 @@ export default function DailyGamePlayPage() {
     shown: 1, attemptsUsed: 0, guesses: [], solved: false, alreadyCompletedToday: false
   })
   const [inputValue, setInputValue] = useState('')
+  const [inputMode, setInputMode] = useState('guess')
   const [autocompleteMatches, setAutocompleteMatches] = useState([])
   const [autocompleteOpen, setAutocompleteOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
-  const [pastGuesses, setPastGuesses] = useState([])
+  // One entry per spent guess, in order — this is what fills the Diagnosis
+  // boxes. The winning guess is included, flagged correct.
+  const [guessLog, setGuessLog] = useState([])
+  // Asked questions and their answers, shown under the hints in Assessment.
+  const [qaLog, setQaLog] = useState([])
   const [closestNote, setClosestNote] = useState('')
   const [caseDate, setCaseDate] = useState('—')
   const [caseNumber, setCaseNumber] = useState('')
   const [resultModalOpen, setResultModalOpen] = useState(false)
   const [won, setWon] = useState(false)
   const [countdownText, setCountdownText] = useState('')
-  const [chatOpen, setChatOpen] = useState(false)
-  const [chatLog, setChatLog] = useState([])
-  const [chatInput, setChatInput] = useState('')
   const [wrongFlash, setWrongFlash] = useState('')
   const [sheetWarning, setSheetWarning] = useState('')
-  const [shakeForm, setShakeForm] = useState(false)
+  const [shakeRow, setShakeRow] = useState(false)
+  const [correctFlash, setCorrectFlash] = useState(false)
   const [noCase, setNoCase] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [resultTab, setResultTab] = useState('dist')
   // Live-generated note on what the last wrong guess actually is.
   const [guessExplain, setGuessExplain] = useState(null)
 
+  // The result popup covers the case; without this the page scrolls behind it.
+  useBodyScrollLock(resultModalOpen)
+
   const gameStateRef = useRef(gameState)
   gameStateRef.current = gameState
   const guessExplainTokenRef = useRef(0)
-  const fabRef = useChatFab()
+  const inputRef = useRef(null)
+  const assessmentRef = useRef(null)
 
   const loadCase = useCallback(async () => {
     try {
@@ -199,7 +232,7 @@ export default function DailyGamePlayPage() {
     if (!loaded) return
     const interval = setInterval(() => {
       const gs = gameStateRef.current
-      if (gs.solved || gs.attemptsUsed >= 5) return
+      if (gs.solved || gs.attemptsUsed >= MAX_ATTEMPTS) return
       setGameState(prev => {
         if (prev.shown < prev.symptoms.length) {
           return { ...prev, shown: Math.min(prev.shown + 1, prev.symptoms.length) }
@@ -210,7 +243,13 @@ export default function DailyGamePlayPage() {
     return () => clearInterval(interval)
   }, [loaded])
 
-  // Declared before handleGuess, which lists them as dependencies — a
+  // Keep the newest Q&A in view as it arrives.
+  useEffect(() => {
+    const el = assessmentRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [qaLog])
+
+  // Declared before handleSubmit, which lists them as dependencies — a
   // useCallback referenced in a dep array must already be initialised.
   const showResult = useCallback((w, gs) => {
     const state = gs || gameStateRef.current
@@ -230,69 +269,143 @@ export default function DailyGamePlayPage() {
     setActiveIndex(-1)
   }, [])
 
-  const handleGuess = useCallback((e) => {
+  const submitQuestion = useCallback(async (question) => {
+    const gs = gameStateRef.current
+    const entryId = Date.now() + Math.random()
+    setQaLog(prev => [...prev, { id: entryId, q: question, a: '', pending: true }])
+
+    const gameFinished = gs.solved || gs.attemptsUsed >= MAX_ATTEMPTS
+    const shownSymptoms = gs.symptoms.slice(0, gs.shown).map((s, i) => `${i + 1}. ${s}`).join('\n')
+
+    let prompt
+    if (gameFinished) {
+      prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
+The player just finished a diagnostic case. The correct diagnosis was: "${gs.answer}".
+Explanation given to the player: "${gs.explanation}"
+The player's follow-up question is: "${question}"
+
+The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`
+    } else {
+      prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
+A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${gs.attemptsUsed} of ${MAX_ATTEMPTS} guesses so far.
+Symptoms revealed to them so far:
+${shownSymptoms}
+
+The player's question is: "${question}"
+
+CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
+- Answer factual questions about the patient (medications, history, examination findings) in general terms
+- Help them think through the symptoms they've already seen
+- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
+- Encourage them to consider patterns, without naming or strongly implying the answer
+- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
+Keep your answer to 2-4 sentences, plain language, encouraging tone.`
+    }
+
+    let answer = await askNeuroleAIRaw(prompt)
+      || "I can't reach an AI provider right now — try again in a moment."
+    // Belt and braces: strip the diagnosis out of the reply while the case is
+    // still open, whatever the model decided to say.
+    if (!gameFinished) {
+      answer = redactDiagnosis(answer, gs.answer, gs.synonyms)
+    }
+    setQaLog(prev => prev.map(e => e.id === entryId ? { ...e, a: answer, pending: false } : e))
+  }, [])
+
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
     const gs = gameStateRef.current
-    if (gs.solved) return
-    const guess = inputValue.trim()
-    if (!guess) return
+    const finished = gs.solved || gs.attemptsUsed >= MAX_ATTEMPTS
+    const text = inputValue.trim()
+    if (!text) return
     closeAutocomplete()
 
-    if (checkAnswer(guess, gs)) {
-      const newState = { ...gs, solved: true }
+    // Once the case is over the only thing the row can do is ask, whatever the
+    // toggle last said. Guarding on the state rather than the toggle means a
+    // stale mode cannot spend a guess that no longer exists.
+    if (inputMode === 'ask' || finished) {
+      setInputValue('')
+      submitQuestion(text.slice(0, MAX_QUESTION_CHARS))
+      return
+    }
+
+    if (checkAnswer(text, gs)) {
+      // attemptsUsed counts *wrong* guesses, so a first-try win leaves it at 0
+      // and the popup reads "0 tries". Floor it at 1, exactly as the static
+      // site does. Deliberately not switched to a true guess count: that would
+      // shift every new result one bucket away from the distribution already
+      // collected from live players.
+      const newState = { ...gs, solved: true, attemptsUsed: Math.max(gs.attemptsUsed, 1) }
       setGameState(newState)
       gameStateRef.current = newState
+      setGuessLog(prev => [...prev, { text, correct: true }])
       setClosestNote('')
       setGuessExplain(null)
+      setCorrectFlash(true)
+      setTimeout(() => setCorrectFlash(false), 600)
       showResult(true, newState)
     } else {
       const newAttempts = gs.attemptsUsed + 1
-      const newGuesses = [...gs.guesses, guess]
+      const newGuesses = [...gs.guesses, text]
       const newState = {
         ...gs,
         attemptsUsed: newAttempts,
         guesses: newGuesses,
-        shown: newAttempts >= 5 ? gs.symptoms.length : Math.min(gs.shown + 1, gs.symptoms.length)
+        shown: newAttempts >= MAX_ATTEMPTS ? gs.symptoms.length : Math.min(gs.shown + 1, gs.symptoms.length)
       }
       setGameState(newState)
       gameStateRef.current = newState
-      setPastGuesses(newGuesses)
-      setShakeForm(true)
-      setTimeout(() => setShakeForm(false), 450)
-      setWrongFlash(guess)
+      setGuessLog(prev => [...prev, { text, correct: false }])
+      setShakeRow(true)
+      setTimeout(() => setShakeRow(false), 450)
+      setWrongFlash(text)
       setTimeout(() => setWrongFlash(''), 1600)
 
-      const closest = findClosestKnownDisorder(guess, gs.answer, NEURO_DISORDERS)
+      const closest = findClosestKnownDisorder(text, gs.answer, NEURO_DISORDERS)
       setClosestNote(closest ? `Read as: "${closest}" — not quite right.` : '')
 
       // Live note on what the guess actually is. Token-guarded so a slow reply
       // for an earlier guess can't overwrite the note for a newer one.
       const myToken = ++guessExplainTokenRef.current
       setGuessExplain({ pending: true, text: '' })
-      explainWrongGuess(guess, gs.answer).then(text => {
+      explainWrongGuess(text, gs.answer).then(explainText => {
         if (myToken !== guessExplainTokenRef.current) return
-        setGuessExplain(text ? { pending: false, text } : null)
+        setGuessExplain(explainText ? { pending: false, text: explainText } : null)
       }).catch(() => {
         if (myToken === guessExplainTokenRef.current) setGuessExplain(null)
       })
 
-      if (newAttempts >= 5) {
+      if (newAttempts >= MAX_ATTEMPTS) {
         showResult(false, newState)
       }
     }
     setInputValue('')
-  }, [inputValue, showResult, closeAutocomplete])
+  }, [inputValue, inputMode, showResult, closeAutocomplete, submitQuestion])
+
+  const handleModeChange = useCallback((mode) => {
+    setInputMode(mode)
+    closeAutocomplete()
+    // Switching mode reinterprets whatever is half-typed, so clear it rather
+    // than send a diagnosis to the tutor or a question to the checker.
+    setInputValue('')
+    inputRef.current?.focus()
+  }, [closeAutocomplete])
 
   const handleInputChange = useCallback((e) => {
     const val = e.target.value
     setInputValue(val)
+    // The disorder list is a list of answers — offering it while the player is
+    // composing a question would hand them the answer key.
+    const gs = gameStateRef.current
+    const finished = gs.solved || gs.attemptsUsed >= MAX_ATTEMPTS
+    if (inputMode !== 'guess' || finished) { closeAutocomplete(); return }
     const trimmed = val.trim().toLowerCase()
     if (!trimmed) { closeAutocomplete(); return }
     const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(trimmed))
     setAutocompleteMatches(matches.slice(0, 8))
     setAutocompleteOpen(matches.length > 0)
     setActiveIndex(-1)
-  }, [closeAutocomplete])
+  }, [inputMode, closeAutocomplete])
 
   const handleKeyDown = useCallback((e) => {
     if (!autocompleteOpen || !autocompleteMatches.length) return
@@ -314,11 +427,12 @@ export default function DailyGamePlayPage() {
   const handleAutocompleteSelect = useCallback((name) => {
     setInputValue(name)
     closeAutocomplete()
+    inputRef.current?.focus()
   }, [closeAutocomplete])
 
   const handleShare = useCallback(async () => {
     const gs = gameStateRef.current
-    const total = 5
+    const total = MAX_ATTEMPTS
     const used = gs.attemptsUsed || 0
     const w = gs.solved
     let grid = ''
@@ -334,11 +448,11 @@ export default function DailyGamePlayPage() {
       ? `Neurole Case #${dayIndex + 1} — ${caseDay}`
       : `Neurole Daily Case — ${caseDay}`
     const shareText = w
-      ? `${heading}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game.html`
-      : `${heading}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`
+      ? `${heading}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game`
+      : `${heading}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game`
     try {
       if (navigator.share) {
-        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' })
+        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game', title: 'Neurole — The Daily Case' })
       } else {
         await navigator.clipboard.writeText(shareText)
       }
@@ -348,46 +462,13 @@ export default function DailyGamePlayPage() {
     }
   }, [dayIndex, isArchive])
 
-  const handleChatSubmit = useCallback(async (e) => {
-    e.preventDefault()
-    const q = chatInput.trim()
-    if (!q) return
-    setChatLog(prev => [...prev, { role: 'user', text: q }])
-    setChatInput('')
-    setChatLog(prev => [...prev, { role: 'ai', text: 'Thinking…' }])
-    const gs = gameStateRef.current
-    const gameFinished = gs.solved || gs.attemptsUsed >= 5
-    const shownSymptoms = gs.symptoms.slice(0, gs.shown).map((s, i) => `${i + 1}. ${s}`).join('\n')
-    let prompt
-    if (gameFinished) {
-      prompt = `You are a friendly neuroscience tutor inside an educational game called Neurole.
-The player just finished a diagnostic case. The correct diagnosis was: "${gs.answer}".
-Explanation given to the player: "${gs.explanation}"
-The player's follow-up question is: "${q}"
-
-The case is over, so you may discuss the diagnosis, symptoms, and reasoning freely. Answer clearly and concisely (2-4 sentences), in plain language for a curious learner who isn't a medical professional.`
-    } else {
-      prompt = `You are a friendly neuroscience tutor inside an educational diagnostic game called Neurole.
-A player is mid-way through guessing a clinical case and has NOT solved it yet. They have used ${gs.attemptsUsed} of 5 guesses so far.
-Symptoms revealed to them so far:
-${shownSymptoms}
-
-The player's question is: "${q}"
-
-CRITICAL RULE: Do NOT reveal, name, confirm, deny, or strongly hint at the specific name of the diagnosis under any circumstances, even if the player asks directly or tries to trick you into confirming a guess. Instead:
-- Help them think through the symptoms they've already seen
-- Explain relevant neuroscience/anatomy/physiology concepts behind the symptoms in general terms
-- Encourage them to consider patterns, without naming or strongly implying the answer
-- If they ask "is it X?" or try to get you to confirm/deny a specific condition, politely decline and redirect them to think about the symptom pattern instead, without confirming or denying anything about X
-Keep your answer to 2-4 sentences, plain language, encouraging tone.`
-    }
-    const answer = await askNeuroleAIRaw(prompt) || "I can't reach an AI provider right now — try again in a moment."
-    setChatLog(prev => prev.map((msg, i) => i === prev.length - 1 ? { ...msg, text: answer } : msg))
-  }, [chatInput])
-
   const gs = gameStateRef.current
   const dailyStats = getDailyStats()
-  const totalSymptoms = gs.symptoms.length || 5
+  const totalSymptoms = gs.symptoms.length || MAX_ATTEMPTS
+  const gameOver = gs.solved || gs.attemptsUsed >= MAX_ATTEMPTS
+  // What the row is really doing right now: guessing is impossible once the
+  // case is closed, so the toggle reads "Ask" regardless of its last setting.
+  const effectiveMode = gameOver ? 'ask' : inputMode
 
   useEffect(() => {
     if (resultModalOpen) {
@@ -460,7 +541,7 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
 
   return (
     <main className="wrap case-shell">
-      <div id="game-content" style={{ display: 'block' }}>
+      <div id="game-content">
         {!loaded && <div style={{ textAlign: 'center', padding: 80, fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-soft)' }}>{isArchive ? `Loading case #${dayIndex + 1}…` : "Loading today's case…"}</div>}
 
         {sheetWarning && (
@@ -482,10 +563,10 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
         )}
 
         {loaded && !noCase && (
-          <div className="case-card" style={shakeForm ? { animation: 'wrongShake .4s ease' } : {}}>
-            <div className="case-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 26, fontFamily: 'var(--mono)', fontSize: 12.5, textTransform: 'uppercase', letterSpacing: '.1em', color: 'var(--ink-soft)' }}>
+          <div className={`case-open${correctFlash ? ' correct-flash' : ''}`}>
+            <div className="case-meta">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                <span id="case-number" style={{ fontFamily: 'var(--game-font)', fontSize: 11, fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', background: 'var(--neuro-blue-deep)', color: '#fff', padding: '3px 10px', borderRadius: 20 }}>{caseNumber}</span>
+                <span id="case-number" style={{ fontFamily: 'var(--game-font)', fontSize: 11, fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', background: 'var(--neuro-blue-deep)', color: 'var(--on-accent)', padding: '3px 10px', borderRadius: 20 }}>{caseNumber}</span>
                 <span id="case-date">{caseDate}</span>
                 {isArchive && (
                   <span id="archive-badge" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', border: '1px solid var(--rule)', color: 'var(--ink-soft)', padding: '2px 9px', borderRadius: 20 }}>From the archive</span>
@@ -494,109 +575,123 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
                   <span id="case-author-line" style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '.03em', textTransform: 'none' }}>By {gs.author}</span>
                 )}
               </div>
-              <div className="attempts-dots" id="attempts-dots" style={{ display: 'flex', gap: 7 }}>
-                {[0, 1, 2, 3, 4].map(i => (
-                  <span key={i} className={i < gs.attemptsUsed ? 'used' : ''} style={{
-                    width: 12, height: 12, borderRadius: '50%',
-                    background: i < gs.attemptsUsed ? 'var(--signal-red)' : 'var(--rule)',
-                    border: '2px solid',
-                    borderColor: i < gs.attemptsUsed ? 'var(--signal-red)' : 'var(--rule)',
-                    display: 'inline-block',
-                    transition: 'all .3s',
-                    ...(gs.solved && i === gs.attemptsUsed - 1 ? { background: '#5CB57C', borderColor: '#5CB57C', transform: 'scale(1.3)' } : {})
-                  }} />
-                ))}
-              </div>
-            </div>
-
-            <ul className="symptom-log" style={{ listStyle: 'none', margin: '0 0 30px', padding: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {Array.from({ length: totalSymptoms }).map((_, i) => (
-                <li key={i} className={i < gs.shown ? 'revealed' : 'locked'} style={{
-                  border: '1px solid var(--rule)',
-                  borderLeft: i < gs.shown ? '5px solid var(--neuro-blue)' : '5px solid var(--rule)',
-                  background: i < gs.shown ? 'var(--paper-deep)' : 'transparent',
-                  padding: '18px 20px', fontSize: i < gs.shown ? 17.5 : 12.5,
-                  lineHeight: 1.55, borderRadius: 2,
-                  display: 'flex', gap: 14, alignItems: 'flex-start',
-                  color: i < gs.shown ? 'inherit' : 'var(--ink-soft)',
-                  fontFamily: i < gs.shown ? 'inherit' : 'var(--mono)',
-                  letterSpacing: i < gs.shown ? 'normal' : '.06em',
-                  textTransform: i < gs.shown ? 'none' : 'uppercase',
-                  opacity: i < gs.shown ? 1 : .55
-                }}>
-                  <span className="hint-num" style={{
-                    fontFamily: 'var(--mono)', fontSize: 12,
-                    color: i < gs.shown ? 'var(--neuro-blue-deep)' : 'var(--ink-soft)',
-                    fontWeight: 600, flexShrink: 0, minWidth: 30
-                  }}>Hint {i + 1}</span>
-                  <span>{i < gs.shown ? gs.symptoms[i] : 'Locked — make a guess to reveal this hint'}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div id="guess-area" style={{ display: gs.solved || gs.attemptsUsed >= 5 ? 'none' : 'block' }}>
-              <form className="guess-row" id="guess-form" onSubmit={handleGuess} style={{ position: 'relative', display: 'flex', gap: 10, marginBottom: 16 }}>
-                <input type="text" id="guess-input" placeholder="Type your diagnosis…" autoComplete="off"
-                  value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown}
-                  style={{ flex: 1, fontFamily: 'var(--serif-body)', fontSize: 16, padding: '14px 16px', border: '1.5px solid var(--ink-soft)', background: '#fff', height: 52, boxSizing: 'border-box' }} />
-                <div className={`autocomplete-list${autocompleteOpen ? ' open' : ''}`} style={{
-                  position: 'absolute', top: '100%', left: 0, right: 84,
-                  background: '#fff', border: '1.5px solid var(--ink-soft)', borderTop: 'none',
-                  maxHeight: 240, overflowY: 'auto', zIndex: 40,
-                  boxShadow: '0 10px 20px rgba(0,0,0,.08)',
-                  display: autocompleteOpen ? 'block' : 'none'
-                }}>
-                  {autocompleteMatches.map((name, i) => (
-                    <div key={name} role="option" className={i === activeIndex ? 'active' : ''}
-                      onMouseDown={(e) => { e.preventDefault(); handleAutocompleteSelect(name) }}
-                      style={{ padding: '11px 16px', fontFamily: 'var(--serif-body)', fontSize: 15.5, cursor: 'pointer', borderBottom: '1px solid var(--paper-deep)', background: i === activeIndex ? 'var(--paper-deep)' : '' }}>
-                      {name}
-                    </div>
-                  ))}
-                </div>
-                <button className="btn" type="submit" aria-label="Submit diagnosis" title="Submit" style={{ fontSize: 18, padding: '0 20px', height: 52, boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-                </button>
-              </form>
-              {closestNote && <div className="closest-note" style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-soft)', margin: '-8px 0 18px' }}>{closestNote}</div>}
-              {guessExplain && !gs.solved && (
-                <div id="guess-explain" style={{ marginTop: 12, marginBottom: 18, padding: '14px 16px', background: 'var(--paper-deep)', border: '1.5px solid var(--rule)', borderLeft: '4px solid #8B2635', borderRadius: 8 }}>
-                  <p style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', margin: '0 0 6px' }}>Why that&rsquo;s not it</p>
-                  <p id="guess-explain-text" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'var(--ink)' }}>
-                    {guessExplain.pending ? 'Thinking…' : guessExplain.text}
-                  </p>
-                </div>
-              )}
-              <div className="past-guesses" id="past-guesses" style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
-                {pastGuesses.map((g, i) => {
-                  const cat = getDisorderCategory(g)
+              <div className="attempts-dots" id="attempts-dots" aria-label={`${gs.attemptsUsed} of ${MAX_ATTEMPTS} guesses used`}>
+                {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => {
+                  const isWinningDot = gs.solved && i === gs.attemptsUsed - 1
+                  const used = i < gs.attemptsUsed
                   return (
-                    <div key={i} className="wrong-guess-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: 'rgba(168,68,58,.06)', border: '1.5px solid rgba(168,68,58,.25)', borderRadius: 10, padding: '11px 16px' }}>
-                      <span className="wrong-guess-name" style={{ fontFamily: 'var(--game-font)', fontSize: 17, fontWeight: 700, color: 'var(--signal-red)', textDecoration: 'line-through', textDecorationColor: 'rgba(168,68,58,.5)', flex: 1 }}>{g}</span>
-                      <span className="wrong-guess-cat" style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(168,68,58,.75)', background: 'rgba(168,68,58,.1)', padding: '3px 10px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>{cat}</span>
-                    </div>
+                    <span key={i} className={`attempt-dot${isWinningDot ? ' correct' : used ? ' used' : ''}`} />
                   )
                 })}
               </div>
             </div>
 
-            {gs.solved || gs.attemptsUsed >= 5 ? (
-              <div id="result-area">
-                <div className={`result-banner${gs.solved ? '' : ' fail'}`} style={{ padding: '22px 24px', marginTop: 10, borderLeft: gs.solved ? '5px solid #5C8C72' : '5px solid var(--signal-red)', background: 'var(--paper-deep)' }}>
-                  {gs.solved ? (
-                    <><h4 style={{ margin: '0 0 8px', fontFamily: 'var(--serif-display)', fontSize: 23 }}>Correct — it's {gs.answer}.</h4><p style={{ fontSize: 16, lineHeight: 1.6 }}>{gs.explanation}</p></>
-                  ) : (
-                    <><h4 style={{ margin: '0 0 8px', fontFamily: 'var(--serif-display)', fontSize: 23 }}>The diagnosis was {gs.answer}.</h4><p style={{ fontSize: 16, lineHeight: 1.6 }}>{gs.explanation}</p></>
-                  )}
+            <div className="case-columns">
+              <div className="diagnosis-col">
+                <p className="col-title">Diagnosis</p>
+                <div className="diagnosis-boxes" id="diagnosis-boxes">
+                  {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => {
+                    const entry = guessLog[i]
+                    if (!entry) return <div key={i} className="diagnosis-box" />
+                    return (
+                      <div key={i} className={`diagnosis-box filled${entry.correct ? ' correct' : ''}`}>
+                        <span className="diagnosis-guess-name">{entry.text}</span>
+                        <span className="diagnosis-guess-cat">
+                          {entry.correct ? 'Correct' : getDisorderCategory(entry.text)}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {guessExplain && !gs.solved && (
+                  <div className="guess-explain" id="guess-explain">
+                    <p className="guess-explain-label">Why that&rsquo;s not it</p>
+                    <p className="guess-explain-text" id="guess-explain-text">
+                      {guessExplain.pending ? 'Thinking…' : guessExplain.text}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="assessment-col">
+                <p className="col-title">Assessment</p>
+                <div className="assessment-lines" id="assessment-lines" ref={assessmentRef}>
+                  <div id="assessment-hints">
+                    {Array.from({ length: totalSymptoms }).map((_, i) => (
+                      <div key={i} className={`assessment-line${i < gs.shown ? '' : ' locked'}`}>
+                        <span className="hint-num">Hint {i + 1}</span>
+                        {i < gs.shown ? gs.symptoms[i] : 'Locked — make a guess to reveal this hint'}
+                      </div>
+                    ))}
+                  </div>
+                  <div id="assessment-qa" aria-live="polite">
+                    {qaLog.map(entry => (
+                      <div key={entry.id} className="assessment-line qa new-reveal">
+                        <div className="qa-q">{entry.q}</div>
+                        <div className="qa-a">{entry.pending ? 'Thinking…' : entry.a}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            ) : null}
+            </div>
+
+            {/* The row survives the end of the game in ask-only form. Questions
+                were previously answered by a floating chat panel, which this
+                input replaces — losing the row entirely at the final guess
+                would take post-game questions with it, and that is when a
+                player most wants to ask what they missed. */}
+            <div id="guess-area">
+                <div className={`unified-row${shakeRow ? ' shake' : ''}`} id="unified-row">
+                  <div className="mode-toggle" id="mode-toggle" role="tablist" aria-label="Guess or ask a question">
+                    {!gameOver && (
+                      <button type="button" className={`mode-btn${inputMode === 'guess' ? ' active' : ''}`}
+                        role="tab" aria-selected={inputMode === 'guess'}
+                        onClick={() => handleModeChange('guess')}>Guess</button>
+                    )}
+                    <button type="button" className={`mode-btn${effectiveMode === 'ask' ? ' active' : ''}`}
+                      role="tab" aria-selected={effectiveMode === 'ask'}
+                      onClick={() => handleModeChange('ask')}>Ask</button>
+                  </div>
+                  <form className="unified-form" id="unified-form" onSubmit={handleSubmit} autoComplete="off">
+                    <div className={`autocomplete-list${autocompleteOpen ? ' open' : ''}`} role="listbox">
+                      {autocompleteMatches.map((name, i) => (
+                        <div key={name} role="option" aria-selected={i === activeIndex}
+                          className={i === activeIndex ? 'active' : ''}
+                          onMouseDown={(e) => { e.preventDefault(); handleAutocompleteSelect(name) }}>
+                          {name}
+                        </div>
+                      ))}
+                    </div>
+                    <input ref={inputRef} className="unified-input" type="text" id="unified-input"
+                      maxLength={effectiveMode === 'ask' ? MAX_QUESTION_CHARS : 80}
+                      placeholder={effectiveMode === 'ask' ? 'Ask a question about this case…' : 'Type your diagnosis…'}
+                      aria-label={effectiveMode === 'ask' ? 'Ask a question about this case' : 'Type your diagnosis'}
+                      autoComplete="off"
+                      value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown} />
+                    <button className="send-btn" type="submit" aria-label={effectiveMode === 'ask' ? 'Send question' : 'Submit diagnosis'} title="Submit">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                    </button>
+                  </form>
+                </div>
+                {closestNote && !gameOver && <div className="closest-note" id="closest-note">{closestNote}</div>}
+            </div>
+
+            {gameOver && (
+              <div id="result-area">
+                <div className={`result-banner${gs.solved ? '' : ' fail'}`}>
+                  <h4>{gs.solved ? `Correct — it's ${gs.answer}.` : `The diagnosis was ${gs.answer}.`}</h4>
+                  <p>{gs.explanation}</p>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {loaded && !noCase && (
           <p style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--ink-soft)', marginTop: 18, textAlign: 'center' }}>
-            Educational use only — not medical advice.
+            Educational use only — not medical advice. Assessment answers may be AI-generated.
           </p>
         )}
       </div>
@@ -605,7 +700,7 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
           carries a transform for the first 250ms of every page — see Portal. */}
       <Portal>
       {wrongFlash && (
-        <div style={{
+        <div id="wrong-flash" style={{
           position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
           background: '#fff', border: '2.5px solid #8B2635', borderRadius: 12,
           opacity: 1, pointerEvents: 'none', zIndex: 500, textAlign: 'center',
@@ -616,44 +711,6 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '.1em', color: '#8B2635', marginTop: 6, opacity: .7 }}>Incorrect</div>
         </div>
       )}
-
-      {/* Everything but visibility comes from .chat-fab in the page stylesheet —
-          inline styles here would defeat the restyle and the ripple's
-          position:relative parent. */}
-      <button ref={fabRef} className="chat-fab" id="case-chat-fab" aria-label="Explain this case" onClick={() => setChatOpen(true)}
-        style={{ display: loaded && !noCase ? 'flex' : 'none' }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-        </svg>
-        Explain
-      </button>
-
-      <div className={`chat-backdrop${chatOpen ? ' open' : ''}`} style={{ position: 'fixed', inset: 0, background: 'rgba(28,27,25,.5)', display: chatOpen ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', zIndex: 70, padding: 20 }} onClick={(e) => { if (e.target === e.currentTarget) setChatOpen(false) }}>
-        <div className="chat-panel" style={{ width: 440, maxWidth: '100%', maxHeight: '80vh', background: 'var(--paper)', border: '2px solid var(--ink)', display: 'flex', flexDirection: 'column' }}>
-          <div className="chat-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid var(--rule)' }}>
-            <h4 style={{ margin: 0, fontFamily: 'var(--serif-display)', fontSize: 19 }}>Ask about this case</h4>
-            <button className="close" onClick={() => setChatOpen(false)} style={{ position: 'static', background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--ink-soft)', lineHeight: 1 }}>✕</button>
-          </div>
-          <div className="chat-body" style={{ padding: '18px 20px', overflowY: 'auto', flex: 1 }}>
-            <div className="chat-log" style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 280, overflowY: 'auto' }}>
-              {chatLog.map((msg, i) => (
-                <div key={i} className={`chat-msg ${msg.role}`} style={{
-                  fontSize: 14.5, padding: '9px 12px', borderRadius: 3,
-                  background: msg.role === 'user' ? 'var(--paper-deep)' : '#fff',
-                  border: msg.role === 'ai' ? '1px solid var(--rule)' : 'none',
-                  alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start'
-                }}>{msg.text}</div>
-              ))}
-            </div>
-          </div>
-          <form className="chat-ask-row" onSubmit={handleChatSubmit} style={{ display: 'flex', gap: 8, padding: '14px 20px', borderTop: '1px solid var(--rule)' }}>
-            <input type="text" id="case-chat-input" placeholder="e.g. why does this fit the symptoms?"
-              value={chatInput} onChange={(e) => setChatInput(e.target.value)}
-              style={{ flex: 1, padding: '10px 11px', border: '1px solid var(--ink-soft)', fontFamily: 'var(--serif-body)' }} />
-            <button className="btn" type="submit">Ask</button>
-          </form>
-        </div>
-      </div>
 
       {/* Layout comes entirely from style.css's .rmodal-* rules. The inline
           styles this block used to carry pinned the pre-redesign look and
@@ -704,7 +761,7 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`
             {resultTab === 'dist' ? (
               <div id="result-tab-dist">
                 <div id="result-grid" className="rmodal-grid">
-                  {Array.from({ length: 5 }).map((_, i) => {
+                  {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => {
                     const used = gs.attemptsUsed || 0
                     if (i < used - (won ? 1 : 0)) return '🟥'
                     else if (i === used - 1 && won) return '🟩'

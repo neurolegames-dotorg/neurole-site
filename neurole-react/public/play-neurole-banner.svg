@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 150" width="380" height="150" role="img" aria-label="Play Neurole.org">
+  <title>Play Neurole.org</title>
+
+  <!--
+    Drawer banner, sized to the drawer's own width (min(380px, 84vw)) so it sits
+    full-bleed with no side gaps.
+
+    Deliberately a solid purple panel rather than a themed one. This loads
+    through an <img>, which cannot see the page's CSS variables, and the site's
+    theme is driven by a data-theme attribute rather than the OS setting — so a
+    prefers-color-scheme swap in here would disagree with the drawer whenever a
+    visitor has overridden the theme by hand. A saturated brand panel reads
+    correctly against both the light and the dark drawer instead.
+
+    The wordmark is pinned with textLength, so it fills the same width whatever
+    font the viewer's system actually resolves. Webfonts do not load inside an
+    <img>-referenced SVG, so this cannot rely on Outfit being available.
+  -->
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7A5FAF"/>
+      <stop offset="0.55" stop-color="#6A5098"/>
+      <stop offset="1" stop-color="#523A7B"/>
+    </linearGradient>
+    <clipPath id="frame">
+      <rect x="0" y="0" width="380" height="150"/>
+    </clipPath>
+  </defs>
+
+  <rect width="380" height="150" fill="url(#bg)"/>
+
+  <!-- Synapse motif: a signal travelling between nodes, clipped to the panel. -->
+  <g clip-path="url(#frame)" fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <g opacity="0.16" stroke-width="1.5">
+      <path d="M262 118 L300 92 L344 104"/>
+      <path d="M300 92 L318 52"/>
+      <path d="M318 52 L358 40"/>
+      <path d="M300 92 L268 62"/>
+    </g>
+    <g opacity="0.26" fill="#FFFFFF" stroke="none">
+      <circle cx="300" cy="92" r="5.5"/>
+      <circle cx="318" cy="52" r="3.5"/>
+      <circle cx="344" cy="104" r="3"/>
+      <circle cx="268" cy="62" r="2.5"/>
+      <circle cx="358" cy="40" r="2.5"/>
+      <circle cx="262" cy="118" r="2.5"/>
+    </g>
+    <g opacity="0.5" fill="#D4C2F2" stroke="none">
+      <circle cx="300" cy="92" r="2"/>
+    </g>
+  </g>
+
+  <text x="30" y="58"
+        font-family="'Outfit','Segoe UI',system-ui,'Helvetica Neue',Arial,sans-serif"
+        font-size="15" font-weight="700" letter-spacing="4.5"
+        fill="#FFFFFF" fill-opacity="0.72">PLAY</text>
+
+  <text x="30" y="106"
+        font-family="'Outfit','Segoe UI',system-ui,'Helvetica Neue',Arial,sans-serif"
+        font-size="40" font-weight="800" letter-spacing="-0.5"
+        textLength="214" lengthAdjust="spacingAndGlyphs"
+        fill="#FFFFFF">Neurole<tspan fill="#D4C2F2">.org</tspan></text>
+
+  <text x="30" y="128"
+        font-family="'Outfit','Segoe UI',system-ui,'Helvetica Neue',Arial,sans-serif"
+        font-size="11.5" font-weight="500" letter-spacing="0.6"
+        fill="#FFFFFF" fill-opacity="0.6">A free daily neuroscience game</text>
+</svg>

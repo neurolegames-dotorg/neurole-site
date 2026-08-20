@@ -1,16 +1,19 @@
 # GitHub Pages build configuration
 #
-# neurole.org is served by GitHub Pages straight off the `main` branch, which
-# publishes EVERY file in the branch verbatim. There is no build step, so a file
-# committed here is a file the public can fetch. This is the only mechanism for
-# keeping something in the repo without putting it on the web.
+# NOTE (2026-08): the live website is the React app in `neurole-react/`, which
+# is deployed as its own Vercel project (framework "vite", output `dist/`). The
+# repo root no longer contains the static site, so this _config.yml only guards
+# against a hypothetical re-deploy of the repo root via GitHub Pages.
 #
-# Pages runs Jekyll by default (there is no `.nojekyll` file), and `exclude`
-# below is what it honours. Nothing is deleted — excluded paths stay in git and
-# come back the moment they are removed from this list.
+# If the root ever IS published on Pages: it runs Jekyll by default (there is
+# no `.nojekyll` file), and `exclude` below is what it honours. Nothing is
+# deleted — excluded paths stay in git and come back the moment they are
+# removed from this list. Verify after changing anything here: the Pages build
+# must succeed, or the site silently stops updating.
 #
-# Verify after changing anything here: the Pages build must succeed, or the site
-# silently stops updating. Check the Actions tab for "pages build and deployment".
+# NOTE: `.vercelignore` and `.assetsignore` are the other two twins of this
+# list. Jekyll's `exclude` does nothing on Vercel or Cloudflare and vice versa,
+# so a path added to one almost always belongs in all three — keep them in sync.
 
 exclude:
   # --- Jekyll's own defaults -------------------------------------------
@@ -24,29 +27,20 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
 
-  # --- Duplicate copies of the whole site -------------------------------
-  # `neurole-site-main_4/` — a second, older copy of every page, committed by
-  # accident — has now been deleted outright rather than merely hidden, so it
-  # no longer needs an entry here. Deleting beats excluding: an exclusion only
-  # stops Pages publishing the files, while anyone reading the repo still sees
-  # them, and one edit to this list puts them back on the web.
+  # --- Non-deployed assets ---------------------------------------------
+  # The designated archive/dump folder: every image, spreadsheet and zip.
+  # Stays out of any root-served deployment.
   #
-  # Redundant copy of the images plus the spreadsheets below.
-  # Verified unreferenced: every page loads its favicons, logo and hero image
-  # from the site root, not from here.
+  # The duplicate whole-site copy that used to need an entry here has been
+  # deleted outright rather than merely hidden. Deleting beats excluding: an
+  # exclusion only stops Pages publishing the files, while anyone reading the
+  # repo still sees them, and one edit to this list puts them back on the web.
   - assets/
 
   # --- Question banks ----------------------------------------------------
-  # The case and quiz banks, including answers. The live games read the
-  # published Google Sheet CSV instead, so nothing on the site fetches these —
-  # publishing them just hands players the answer key.
-  #
-  # Listed by name as well as by glob on purpose: Jekyll matches these with
-  # File.fnmatch, whose treatment of `*` around path separators is easy to get
-  # wrong. The names guarantee today's files; the glob catches new ones.
-  - Neurole_Daily_Case_Bank.xlsx
-  - Neurole_Neuroanatomy_Bank.xlsx
-  - Neurole_Neuropsychology_Bank.xlsx
+  # The case and quiz banks, including answers. All live under assets/ — never
+  # publish them from the root; the live games read the published Google Sheet
+  # CSV instead, so publishing them just hands players the answer key.
   - "*.xlsx"
 
   # --- Source archives ---------------------------------------------------
@@ -55,20 +49,16 @@ exclude:
   # notices it landed.
   - "*.zip"
 
-  # --- Dead pages --------------------------------------------------------
-  # A stub reading "Page not found" that returned HTTP 200 — a soft 404, which
-  # search engines index as a real (empty) page. 404.html now handles this
-  # properly, with the correct status code.
-  - ai-test.html
+  # --- React app ---------------------------------------------------------
+  # The actual website: source, not build output. Deployed as its own Vercel
+  # project. Serving it from the root would expose the whole codebase.
+  - neurole-react/
 
   # --- Not part of the website -------------------------------------------
-  # Cloudflare Worker source; runs on Cloudflare, never fetched by a browser.
-  - ai-worker.js
-  # React port: source, not output. Serving it would expose the whole codebase
-  # and could drag node_modules along with it.
-  - neurole-react/
-  # Tooling and docs.
+  # Cloudflare Worker source; lives at neurole-react/scripts/ai-worker.js and
+  # runs on Cloudflare, never fetched by a browser.
   - wrangler.jsonc
+  # Tooling and docs.
   - package.json
   - package-lock.json
   # Every markdown file in the root is a note or a readme for whoever is
@@ -76,13 +66,9 @@ exclude:
   # same File.fnmatch reason as the .xlsx entries above.
   - README.md
   - NOTES-brain-essay-embed.md
+  - WEBSITE-SETUP-AND-ORGANIZATION.md
   - "*.md"
 
   # --- Other platforms' config -------------------------------------------
   # Would otherwise be served as a plain static file from the site root.
-  # `.vercelignore` needs no entry: Jekyll always ignores dotfiles.
-  #
-  # NOTE: `.vercelignore` is the Vercel-side twin of this list. Jekyll's
-  # `exclude` does nothing on Vercel and vice versa, so a path added to one
-  # almost always belongs in the other too — keep them in sync.
   - vercel.json

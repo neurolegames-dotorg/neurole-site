@@ -20,7 +20,7 @@ export default function DailyGamePage() {
     canonical: "/daily-game",
   });
   const navigate = useNavigate()
-  const [playing, setPlaying] = useState(false)
+  const [playing] = useState(false)
   const [gameState, setGameState] = useState({
     symptoms: [], answer: '', synonyms: [], explanation: '',
     shown: 1, attemptsUsed: 0, guesses: [], solved: false, alreadyCompletedToday: false
@@ -38,7 +38,7 @@ export default function DailyGamePage() {
   const [caseNumber, setCaseNumber] = useState('')
   const [resultModalOpen, setResultModalOpen] = useState(false)
   const [won, setWon] = useState(false)
-  const [countdownText, setCountdownText] = useState('')
+  const [countdownText] = useState('')
   const [chatOpen, setChatOpen] = useState(false)
   const [chatLog, setChatLog] = useState([])
   const [chatInput, setChatInput] = useState('')
@@ -72,7 +72,7 @@ export default function DailyGamePage() {
     setCaseDate(new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }))
   }, [])
 
-  const loadCase = useCallback(async () => {
+  const _loadCase = useCallback(async () => {
     try {
       const etToday = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
       const lastDay = sessionStorage.getItem('neurole_last_play_date')
@@ -288,11 +288,11 @@ export default function DailyGamePage() {
     const tries = w ? `${used}/${total}` : `X/${total}`
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' })
     const shareText = w
-      ? `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game.html`
-      : `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game.html`
+      ? `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used === 1 ? 'try' : 'tries'}. Can you beat that?\nneurole.org/daily-game`
+      : `Neurole Daily Case — ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/daily-game`
     try {
       if (navigator.share) {
-        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game.html', title: 'Neurole — The Daily Case' })
+        await navigator.share({ text: shareText, url: 'https://neurole.org/daily-game', title: 'Neurole — The Daily Case' })
       } else {
         await navigator.clipboard.writeText(shareText)
       }

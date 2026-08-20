@@ -51,7 +51,12 @@ button{font-family:inherit;cursor:pointer;}
   background:var(--paper);
   position:fixed;top:0;left:0;right:0;z-index:50;
   margin:0 !important;
-  transition:transform .3s ease;
+  /* Same story as the nav drawer: this transition used to be wiped out by the
+     theme-fade rules further down, which listed .masthead and re-declared the
+     `transition` shorthand. The header jumped out of view instead of sliding.
+     The colour fade is folded in here so the shorthand is declared once. */
+  transition:transform .3s ease,
+             background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 .masthead.hide{transform:translateY(-100%);}
 /* Offset body so content doesn't hide behind fixed header */
@@ -85,27 +90,60 @@ body{padding-top:58px;}
 .hamburger-btn.is-open span:nth-child(2){opacity:0;width:0;}
 .hamburger-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-/* Full-screen mobile nav overlay — phones only */
-.mobile-nav-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:var(--paper);
-  display:flex;flex-direction:column;
-  opacity:0;
-  transform:translateX(24px);
-  pointer-events:none;
-  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
-  overflow-y:auto;
-}
-.mobile-nav-overlay.open{opacity:1;transform:translateX(0);pointer-events:auto;}
+/* Slide-in nav drawer — parked off the left edge, slides in when opened.
+   Two things here are load-bearing; both used to be broken:
 
-/* Nav items stagger in slightly after the panel, for a more graceful reveal */
+   1. It is a fixed-width panel, not `inset:0`. A full-bleed overlay already
+      covers the viewport, so translating it has nowhere to travel from and
+      never reads as motion.
+   2. `transition` is declared exactly once per state. Two later rules in this
+      file re-declared `transition` on .mobile-nav-overlay for the theme colour
+      fade, and being later with equal specificity they replaced the shorthand
+      outright — dropping transform and killing the slide. Those rules no longer
+      list this class; the colour fade is folded in below instead. Adding
+      .mobile-nav-overlay to another `transition:` rule will kill it again. */
+.mobile-nav-overlay{
+  position:fixed;top:0;left:0;bottom:0;z-index:200;
+  width:min(86vw,340px);
+  background:var(--paper);
+  border-right:1px solid var(--rule);
+  box-shadow:6px 0 32px rgba(20,18,22,.16);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  transform:translateX(-100%);
+  /* `visibility` instead of `pointer-events:none` — it also takes the drawer's
+     links out of the tab order while closed. Transitioning it over 0s with a
+     delay keeps the panel on screen for the length of the slide-out, then
+     hides it. */
+  visibility:hidden;
+  transition:
+    transform .38s cubic-bezier(.22,.9,.32,1),
+    visibility 0s linear .38s,
+    background-color .35s ease,
+    color .35s ease,
+    border-color .35s ease;
+}
+.mobile-nav-overlay.open{
+  transform:translateX(0);
+  visibility:visible;
+  /* No delay on the way in: the drawer has to be visible before it moves. */
+  transition:
+    transform .38s cubic-bezier(.22,.9,.32,1),
+    visibility 0s,
+    background-color .35s ease,
+    color .35s ease,
+    border-color .35s ease;
+}
+
+/* Nav items trail the panel in, staggered, for a more graceful reveal */
 .mobile-nav-items li{
   opacity:0;
-  transform:translateY(8px);
+  transform:translateX(-10px);
   transition:opacity .3s ease, transform .3s ease;
   transition-delay:0s;
 }
-.mobile-nav-overlay.open .mobile-nav-items li{opacity:1;transform:translateY(0);}
+.mobile-nav-overlay.open .mobile-nav-items li{opacity:1;transform:translateX(0);}
 .mobile-nav-overlay.open .mobile-nav-items li:nth-child(1){transition-delay:.06s;}
 .mobile-nav-overlay.open .mobile-nav-items li:nth-child(2){transition-delay:.1s;}
 .mobile-nav-overlay.open .mobile-nav-items li:nth-child(3){transition-delay:.14s;}
@@ -114,7 +152,12 @@ body{padding-top:58px;}
 .mobile-nav-overlay.open .mobile-nav-items li:nth-child(6){transition-delay:.26s;}
 .mobile-nav-overlay.open .mobile-nav-items li:nth-child(n+7){transition-delay:.3s;}
 @media (prefers-reduced-motion: reduce){
-  .mobile-nav-overlay, .mobile-nav-items li{transition:opacity .15s ease !important;transform:none !important;}
+  /* Drop the transitions but KEEP the transform — translateX(-100%) is what
+     holds the drawer off-screen. The previous rule forced `transform:none`
+     here, which parked the drawer permanently across the page for anyone with
+     reduced motion enabled. */
+  .mobile-nav-overlay, .mobile-nav-overlay.open, .mobile-nav-backdrop{transition:none;}
+  .mobile-nav-items li{transition:none;transform:none;transition-delay:0s !important;}
 }
 
 /* Close button inside the overlay */
@@ -127,12 +170,35 @@ body{padding-top:58px;}
   border-radius:50%;transition:background .15s;
 }
 .mobile-nav-close:hover{background:var(--paper-deep);}
+/* Over the banner the ✕ sits on saturated purple, where the usual --ink-soft
+   is close to unreadable in light mode and the hover fill is invisible. */
+.mobile-nav-overlay:has(.mobile-nav-brand.has-banner) .mobile-nav-close{
+  color:#fff;
+  background:rgba(0,0,0,.18);
+}
+.mobile-nav-overlay:has(.mobile-nav-brand.has-banner) .mobile-nav-close:hover{
+  background:rgba(0,0,0,.34);
+}
 
 .mobile-nav-brand{
   padding:24px 28px 12px;
 }
 .mobile-nav-brand img{height:48px;width:auto;display:block;}
 .mobile-nav-brand .dot{color:var(--neuro-blue-deep);}
+
+/* Banner variant: edge to edge, no side padding, and clear of the close button
+   which sits over the top-right corner. Falls back to the padded wordmark
+   above whenever the banner file is missing. */
+.mobile-nav-brand.has-banner{
+  padding:0;
+  /* The drawer is a scrolling flex column; without this the banner is a
+     shrinkable flex item and gets squashed once the item list is tall. */
+  flex-shrink:0;
+}
+.mobile-nav-brand.has-banner img.full-width{
+  width:100%;height:auto;display:block;margin:0;border-radius:0;
+}
+.mobile-nav-brand.has-banner + .mobile-nav-items{margin-top:8px;}
 
 .mobile-nav-items{
   list-style:none;margin:32px 0 0;padding:0;
@@ -174,15 +240,23 @@ body{padding-top:58px;}
 .hamburger-btn{display:flex;}
 .nav-left{display:none !important;}
 
+/* Backdrop. This used to toggle `display:none`/`block`, which cannot be
+   transitioned — so the dim snapped in, and on close the element left the box
+   tree immediately and the fade-out never ran at all. `visibility` keeps it in
+   the layout so the opacity transition runs in both directions. */
 .mobile-nav-backdrop{
   position:fixed;inset:0;
   background:rgba(20,18,22,0.5);
   z-index:199;
-  display:none;
   opacity:0;
-  transition:opacity .3s ease;
+  visibility:hidden;
+  transition:opacity .3s ease, visibility 0s linear .3s;
 }
-.mobile-nav-backdrop.open{display:block;opacity:1;}
+.mobile-nav-backdrop.open{
+  opacity:1;
+  visibility:visible;
+  transition:opacity .3s ease, visibility 0s;
+}
 .nav-left a, .nav-left button.linklike{
   font-family:var(--mono);
   font-size:12.5px;
@@ -267,6 +341,33 @@ body{padding-top:58px;}
 .hero-img-wrap:hover .hero-bg-image{
   transform:scale(1.06);
 }
+
+/* Hero art slot.
+   To change the homepage hero, replace public/hero-animation.svg — same path,
+   same name — and nothing else needs editing. Any self-contained SVG, animated
+   WebP, APNG or GIF works. Scripts inside an SVG do not run when it is loaded
+   through <img>, so an animated SVG has to animate with CSS or SMIL (the
+   placeholder uses CSS, including its own reduced-motion query, since the
+   page's stylesheet cannot reach inside the file).
+
+   The photo hero stays in the markup underneath. .has-hero-art is what picks
+   between them, so removing the <img> — or the file failing to load, which
+   HomePage detects — restores the original hero with no other edits. */
+.hero-art{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  display:block;z-index:1;
+}
+/* The photo hero sits on a near-black plate with a heavy bottom fade, which
+   suits a dark photograph and not a light illustration. */
+.hero-img-wrap.has-hero-art{background-color:var(--paper);}
+.hero-img-wrap.has-hero-art .hero-bg-image,
+.hero-img-wrap.has-hero-art .hero-fade,
+.hero-img-wrap.has-hero-art::before{display:none;}
+.hero-img-wrap.has-hero-art .hero-text h1,
+.hero-img-wrap.has-hero-art .hero-text p{color:var(--ink);text-shadow:none;}
 
 .hero-fade{
   position:absolute;inset:0;
@@ -1385,8 +1486,11 @@ main{ animation:questionIn .25s ease; }
   --gold:#D7AD61;
 }
 
-/* Smooth theme toggle transition — fades colors instead of snapping */
-body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
+/* Smooth theme toggle transition — fades colors instead of snapping.
+   .mobile-nav-overlay is deliberately NOT in this list: `transition` is a
+   shorthand, so listing it here replaced the drawer's slide transition and
+   stopped it animating. Its colour fade lives in its own rule instead. */
+body, footer, .start-screen, .page-hero,
 .game-card, .home-game-card, .how-card, .case-card, .role-card, .donate-card,
 .modal, .specimen, .choice-btn, .symptom-log li, input, textarea, select,
 .factbox, .archive-card, .partner-card{
@@ -1459,14 +1563,17 @@ body, .masthead, footer, .mobile-nav-overlay, .start-screen, .page-hero,
 }
 :root[data-theme="dark"] .btn:not(.ghost):hover{background:#6F50A4 !important;}
 :root[data-theme="dark"] .btn.ghost{background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);}
-html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
+/* Second theme-fade pass. .mobile-nav-overlay is excluded for the same reason
+   as above — this rule sits after the drawer's own and would overwrite the
+   `transition` shorthand, leaving the slide with nothing to animate. */
+html,body,.page-hero,footer,
 .game-card,.home-game-card,.case-card,.archive-card,.role-card,.donate-card,
 .contact-card,.value-card,.modal,input,textarea,select{
   transition:background-color .2s ease,color .2s ease,border-color .2s ease;
 }
 
 @media(prefers-reduced-motion:reduce){
-  html,body,.masthead,.mobile-nav-overlay,.page-hero,footer,
+  html,body,.page-hero,footer,
   .game-card,.home-game-card,.case-card,.archive-card,.role-card,.donate-card,
   .contact-card,.value-card,.modal,input,textarea,select{transition:none;}
 }
@@ -1543,4 +1650,60 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
   display:inline-block; font-family:var(--game-font,'Outfit',sans-serif); font-size:9.5px; font-weight:700;
   letter-spacing:.1em; text-transform:uppercase; color:#B84A0A; background:#FCEBDD;
   border-radius:20px; padding:3px 9px; margin-left:8px; vertical-align:middle;
+}
+
+/* =====================================================================
+   SCROLL REVEAL
+   Sections and cards fade and rise as they scroll into view.
+
+   Fail-open by design. The hidden state only applies under
+   `html.reveal-ready`, a class theme-init.js adds in <head> — and only when
+   the browser has IntersectionObserver and the visitor has not asked for
+   reduced motion. theme-init.js also arms a timer that strips the class again
+   if script.js never runs, so a script failure can never leave the page blank.
+   Setting it in <head> is what keeps these cards from painting once and then
+   snapping out of view.
+
+   Two things here are deliberate and easy to get wrong:
+
+   1. The offset uses `translate`, NOT `transform`. Nearly every card in this
+      list lifts on :hover with `transform:translateY(-4px)`. `translate` is an
+      independent property that composes with `transform`, so the two never
+      fight. Using `transform` here would have needed a selector specific
+      enough to beat the hover rule — which would then have killed the hover
+      lift site-wide.
+
+   2. The `transition` is scoped inside this rule rather than declared on the
+      cards globally. While a card is animating in, this replaces its own
+      transition; `.reveal-done` then drops every rule here for that card and
+      hands its normal styling straight back. That is why archive.html's own
+      `transition:transform .18s` keeps working the moment the reveal ends.
+   ===================================================================== */
+html.reveal-ready :where(
+  .factbox, .home-game-card, .game-card, .stats-section,
+  .how-card, .case-card, .role-card, .donate-card, .contact-card,
+  .value-card, .archive-card
+):not(.reveal-done){
+  opacity:0;
+  translate:0 18px;
+  transition:opacity .55s cubic-bezier(.22,.9,.32,1),
+             translate .55s cubic-bezier(.22,.9,.32,1);
+}
+html.reveal-ready :where(
+  .factbox, .home-game-card, .game-card, .stats-section,
+  .how-card, .case-card, .role-card, .donate-card, .contact-card,
+  .value-card, .archive-card
+):not(.reveal-done).is-revealed{
+  opacity:1;
+  translate:none;
+}
+
+/* Belt and braces: theme-init.js already declines to arm the reveal under
+   reduced motion, but this covers a visitor who flips the setting mid-session. */
+@media (prefers-reduced-motion: reduce){
+  html.reveal-ready :where(
+    .factbox, .home-game-card, .game-card, .stats-section,
+    .how-card, .case-card, .role-card, .donate-card, .contact-card,
+    .value-card, .archive-card
+  ):not(.reveal-done){opacity:1;translate:none;transition:none;}
 }

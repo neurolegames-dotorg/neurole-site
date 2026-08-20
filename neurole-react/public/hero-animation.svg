@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="800" height="460" role="img" aria-labelledby="heroTitle heroDesc">
+  <title id="heroTitle">A brain climbing a mountain</title>
+  <desc id="heroDesc">An illustrated brain character climbs a purple mountain toward a flag at the summit.</desc>
+
+  <!--
+    PLACEHOLDER hero animation for the Neurole homepage.
+
+    Swap it by replacing this file (same path, same name) — nothing else needs
+    to change. Any self-contained SVG, animated WebP, APNG or GIF works at this
+    path. The slot scales the file to fit, so keep roughly a 800x460 landscape
+    shape or adjust the stage height in the page's CSS.
+
+    Animation is plain CSS inside the SVG rather than SMIL or script, because
+    the file is loaded through <img>. Scripts never run in that context, but CSS
+    animations do — which is also why the reduced-motion query at the bottom is
+    inside this file rather than in the site stylesheet: the page's CSS cannot
+    reach in here.
+  -->
+
+  <defs>
+    <linearGradient id="peak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9B7FD4"/>
+      <stop offset="100%" stop-color="#5B3F94"/>
+    </linearGradient>
+    <linearGradient id="peakBack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C9B8EC"/>
+      <stop offset="100%" stop-color="#A28BD8"/>
+    </linearGradient>
+    <linearGradient id="brainFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4B8C8"/>
+      <stop offset="100%" stop-color="#E38DA8"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .ink { stroke:#231C33; stroke-width:5; stroke-linejoin:round; stroke-linecap:round; }
+    .thin { stroke:#231C33; stroke-width:3.5; stroke-linecap:round; fill:none; }
+
+    /* The climb runs once and stays at the summit, rather than looping back to
+       the bottom. A loop has to hide its restart somehow — fading out and
+       reappearing at the foot of the slope — which means the climber is
+       invisible for part of every cycle, and invisible entirely in any context
+       that applies the animation without advancing it (a background tab, a
+       thumbnailer). Ending at the peak also just reads better next to a flag.
+       The idle motion below keeps going, so the scene still feels alive. */
+    @keyframes climb {
+      from { transform: translate(0px, 0px); }
+      to   { transform: translate(224px, -268px); }
+    }
+    /* Bob and lean live on nested groups so they compose with the climb
+       instead of overwriting its transform. */
+    @keyframes bob   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes lean  { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(2deg); } }
+    @keyframes stepA { 0%,100% { transform: rotate(16deg); } 50% { transform: rotate(-14deg); } }
+    @keyframes stepB { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(16deg); } }
+    @keyframes reach { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(-30deg); } }
+    @keyframes wave  { 0%,100% { transform: skewY(0deg); }   50% { transform: skewY(-7deg); } }
+    @keyframes drift { 0% { transform: translateX(0); } 100% { transform: translateX(70px); } }
+    @keyframes twinkle { 0%,100% { opacity:.25; } 50% { opacity:.9; } }
+
+    /* The static transform is the resting pose, and it deliberately matches the
+       animation's end state: anything that never runs the animation still shows
+       the climber at the summit rather than nothing at all. `both` holds the
+       start frame through the delay, so it is visible at the foot of the slope
+       from the first paint too. */
+    .climber  { transform: translate(224px, -268px);
+                animation: climb 5.5s cubic-bezier(.5,.03,.35,1) .4s both; }
+    .bobber   { animation: bob 1.1s ease-in-out infinite; }
+    .leaner   { animation: lean 1.1s ease-in-out infinite; transform-origin: 60px 74px; }
+    .legA     { animation: stepA 1.1s ease-in-out infinite; transform-origin: 48px 92px; }
+    .legB     { animation: stepB 1.1s ease-in-out infinite; transform-origin: 70px 92px; }
+    .armUp    { animation: reach 1.1s ease-in-out infinite; transform-origin: 74px 62px; }
+    .flag     { animation: wave 2.4s ease-in-out infinite; transform-origin: 566px 96px; }
+    .cloudA   { animation: drift 26s linear infinite; }
+    .cloudB   { animation: drift 34s linear infinite; }
+    .spark    { animation: twinkle 3s ease-in-out infinite; }
+    .spark2   { animation: twinkle 3s ease-in-out infinite 1.1s; }
+    .spark3   { animation: twinkle 3s ease-in-out infinite 2s; }
+
+    /* Honour the visitor's motion setting. Everything stops and the climber
+       falls back to the mid-face pose above. This query has to live inside the
+       file: the SVG is loaded through an img element, so the page's stylesheet
+       cannot reach these elements. */
+    @media (prefers-reduced-motion: reduce) {
+      .climber, .bobber, .leaner, .legA, .legB, .armUp,
+      .flag, .cloudA, .cloudB, .spark, .spark2, .spark3 { animation: none; }
+    }
+  </style>
+
+  <!-- Drifting clouds, kept pale so they read on light and dark backgrounds -->
+  <g opacity=".55">
+    <g class="cloudA">
+      <ellipse cx="90" cy="92" rx="46" ry="19" fill="#CFC2EE"/>
+      <ellipse cx="126" cy="86" rx="32" ry="15" fill="#CFC2EE"/>
+    </g>
+    <g class="cloudB">
+      <ellipse cx="470" cy="52" rx="38" ry="15" fill="#DCD2F4"/>
+      <ellipse cx="500" cy="47" rx="26" ry="12" fill="#DCD2F4"/>
+    </g>
+  </g>
+
+  <!-- Idea sparks near the summit -->
+  <g fill="#D7AD61">
+    <circle class="spark"  cx="640" cy="120" r="5"/>
+    <circle class="spark2" cx="676" cy="168" r="4"/>
+    <circle class="spark3" cx="612" cy="196" r="3.5"/>
+  </g>
+
+  <!-- Back ridge -->
+  <path d="M120 430 L300 190 L430 330 L520 240 L700 430 Z" fill="url(#peakBack)"/>
+
+  <!-- Main peak -->
+  <path class="ink" d="M250 430 L560 96 L800 430 Z" fill="url(#peak)"/>
+  <!-- Snow cap -->
+  <path d="M560 96 L636 178 q-26 12 -50 -4 q-24 16 -46 -2 q-18 10 -32 2 Z" fill="#F3EEFC"/>
+
+  <!-- Climbing route -->
+  <path class="thin" d="M300 424 Q392 330 430 268 Q474 196 548 116" stroke-dasharray="10 13" opacity=".65" stroke="#F3EEFC"/>
+
+  <!-- Summit flag -->
+  <g>
+    <path class="ink" d="M566 96 L566 40" fill="none"/>
+    <path class="flag ink" d="M566 44 L622 58 L566 76 Z" fill="#E58276"/>
+  </g>
+
+  <!--
+    The climber. Its own coordinates are local (roughly 20..100 x 40..104); the
+    .climber group is what places it at the foot of the slope and moves it up,
+    so the inner art never needs to know where it is on the mountain.
+  -->
+  <g class="climber" transform="translate(0,0)">
+    <g transform="translate(268,330)">
+      <g class="bobber">
+        <g class="leaner">
+
+          <!-- legs -->
+          <g class="legA">
+            <path class="ink" d="M50 88 L44 104" fill="none"/>
+            <path class="ink" d="M44 104 L34 106" fill="none"/>
+          </g>
+          <g class="legB">
+            <path class="ink" d="M70 88 L76 104" fill="none"/>
+            <path class="ink" d="M76 104 L86 106" fill="none"/>
+          </g>
+
+          <!-- reaching arm -->
+          <g class="armUp">
+            <path class="ink" d="M74 62 L96 42" fill="none"/>
+          </g>
+          <!-- trailing arm -->
+          <path class="ink" d="M44 64 L26 78" fill="none"/>
+
+          <!-- brain body: two lobes with a centre fissure -->
+          <path class="ink" d="M60 30
+                   C 84 30, 98 44, 98 60
+                   C 98 78, 82 90, 60 90
+                   C 38 90, 22 78, 22 60
+                   C 22 44, 36 30, 60 30 Z" fill="url(#brainFill)"/>
+          <path class="thin" d="M60 31 L60 89" stroke="#C06A88"/>
+          <path class="thin" d="M44 42 q10 8 0 16 q-10 8 0 16" stroke="#C06A88"/>
+          <path class="thin" d="M76 42 q-10 8 0 16 q10 8 0 16" stroke="#C06A88"/>
+
+          <!-- face -->
+          <circle cx="49" cy="58" r="3.6" fill="#231C33"/>
+          <circle cx="71" cy="58" r="3.6" fill="#231C33"/>
+          <path class="thin" d="M52 70 q8 7 16 0" stroke="#231C33"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

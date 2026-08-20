@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 export default function SubscribeModal({ open, onClose }) {
+  useBodyScrollLock(open);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef(null);

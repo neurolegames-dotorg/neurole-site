@@ -15,6 +15,9 @@ function HomePage() {
   const [funFact, setFunFact] = useState(null);
   const [streak, setStreak] = useState(0);
   const [countdown, setCountdown] = useState('--:--:--');
+  // Flipped to false by the <img>'s onError, which swaps the hero back to the
+  // photo version if hero-animation.svg is not there.
+  const [heroArtOk, setHeroArtOk] = useState(true);
 
   useEffect(() => {
     loadFunFact().then(setFunFact).catch(() => {});
@@ -58,7 +61,26 @@ function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="hero-img-wrap" role="img" aria-label="Magnified purple neurons connected by branching dendrites">
+        <div
+          className={`hero-img-wrap${heroArtOk ? ' has-hero-art' : ''}`}
+          role="img"
+          aria-label={heroArtOk
+            ? 'A brain climbing a mountain toward a flag at the summit'
+            : 'Magnified purple neurons connected by branching dendrites'}
+        >
+          {/* Swap the homepage hero by replacing public/hero-animation.svg, and
+              bump ?v= so it is actually picked up — files in public/ are served
+              unhashed, so a returning visitor would otherwise keep the cached
+              one. If it is missing, onError falls back to the photo hero below
+              instead of leaving a broken image across the top of the page. */}
+          {heroArtOk && (
+            <img
+              className="hero-art"
+              src="/hero-animation.svg?v=1"
+              alt=""
+              onError={() => setHeroArtOk(false)}
+            />
+          )}
           <div className="hero-bg-image"></div>
           <div className="hero-fade"></div>
           <div className="hero-text">
@@ -160,6 +182,29 @@ function HomePage() {
                 </div>
               </Link>
 
+            </div>
+          </div>
+        </section>
+
+        {/* Study Games — the party-word-light game in its own section, as on
+            the static homepage. */}
+        <section style={{ marginTop: 56 }}>
+          <div className="wrap" style={{ textAlign: 'center' }}>
+            <h2 style={{ fontWeight: 700 }}>Study Games</h2>
+            <div className="home-games-grid" style={{ gridTemplateColumns: '1fr', maxWidth: 400, margin: '0 auto' }}>
+              <Link className="home-game-card" to="/imposter" style={{ '--game-accent': '#A579E8', '--game-accent-deep': '#6935A8', '--game-accent-tint': '#EFE3FC' }}>
+                <div className="home-game-card-body">
+                  <div className="game-card-icon-wrap">
+                    <div className="game-icon-badge" style={{ background: '#EFE3FC' }}>
+                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6935A8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/><path d="M2 2l20 20"/></svg>
+                    </div>
+                  </div>
+                  <span className="game-card-badge">Party · Word Game</span>
+                  <h3>Imposter</h3>
+                  <p>Add your own words or use our neuroscience word banks, then pass the device around to find who's faking it.</p>
+                  <span className="play-cta">Play →</span>
+                </div>
+              </Link>
             </div>
           </div>
         </section>

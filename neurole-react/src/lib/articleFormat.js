@@ -136,8 +136,17 @@ function parseInline(text, keyPrefix = 'i') {
     else if (m[5]) nodes.push(h('code', { key }, m[6]))
     else if (m[7]) {
       const href = m[9]
-      // Only http(s), mail and in-site links — never javascript: or data:.
-      const safe = /^(https?:|mailto:|\/|#)/i.test(href)
+      // Only http(s), mail and in-site links - never javascript: or data:.
+      //
+      // The in-site branch is a slash followed by something that is NOT another
+      // slash or a backslash. A bare leading-slash test also matched
+      // "//evil.example", a protocol-relative URL: the browser reads that as an
+      // absolute link to another host, but it was treated as internal here and
+      // so rendered without target/rel. Some browsers normalise the backslash
+      // form the same way, so it is excluded too.
+      //
+      // Character classes stand in for escaped slashes purely for legibility.
+      const safe = /^(https?:[/][/]|mailto:|#|[/](?![/\\]))/i.test(href)
       nodes.push(
         safe
           ? h('a', {

@@ -1,384 +1,220 @@
+/* =====================================================
+   THE DAILY CASE — play page
+   =====================================================
+   Layout follows the redesign the client shipped on the static site:
+   two free-floating columns (Diagnosis / Assessment) over a single input
+   row that toggles between guessing and asking.
 
+   Colours do NOT follow it. That version hard-coded #fff on the input,
+   the toggle, the send button and the autocomplete, which is invisible
+   text on a dark page — the site has a persistent dark theme. Every
+   surface below is a token, so both themes come out right.
 
-  /* --- Fun game typography & visuals --- */
+   Only rules this page actually renders live here. The start-screen and
+   how-to-play panels belong to DailyGamePage.css, which has its own copies. */
+
   :root{--game-font:'Outfit',sans-serif;}
-
-  /* Start screen */
-  .start-screen h1{
-    font-family:var(--game-font) !important;font-weight:800 !important;letter-spacing:-.02em !important;
-  }
-  .start-screen p{font-family:var(--game-font) !important;}
-  .start-actions .btn{font-family:var(--game-font) !important;font-weight:700 !important;border-radius:12px !important;}
-  #streak-label{font-family:var(--game-font) !important;font-weight:600 !important;}
-  .start-meta{font-family:var(--game-font) !important;}
-
-  /* Case card */
-  .case-card h2{font-family:var(--game-font) !important;font-weight:700 !important;font-size:18px !important;}
-  .symptom-log li{font-family:var(--game-font) !important;font-size:15.5px !important;font-weight:500 !important;border-radius:10px !important;}
-  .symptom-log li.locked{font-family:var(--game-font) !important;}
-
-  /* Guess row */
-  .guess-row input{font-family:var(--game-font) !important;font-size:16px !important;border-radius:10px 0 0 10px !important;}
-  .guess-row .btn{border-radius:0 10px 10px 0 !important;}
-
-  /* Past guesses */
-  .past-guesses span{font-family:var(--game-font) !important;font-weight:600 !important;border-radius:8px !important;}
-
-  /* Wrong flash */
-  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
 
   .case-shell{max-width:760px;margin:0 auto;padding:50px 0 80px;}
 
-  .case-card{
-    background:#fff;border:1px solid var(--rule);padding:44px;
+  /* Two theme-dependent pairs the palette doesn't already carry.
+     --on-accent is the text that sits ON --neuro-blue-deep: that token is a
+     deep purple in light mode but a pale lavender in dark, so a fixed white
+     would vanish against it. --ok-green is the "correct" accent, which needs
+     to lighten in dark for the same reason. Scoped to the card so nothing
+     else on the page inherits them. */
+  .case-open{
+    --on-accent:#fff;
+    --ok-green:#3d8a5e;
+    --ok-line:rgba(92,181,124,.45);
+    --ok-fill:rgba(92,181,124,.08);
+    --bad-line:rgba(168,68,58,.35);
+    --bad-fill:rgba(168,68,58,.05);
+    background:transparent;border:none;box-shadow:none;padding:0;
+  }
+  :root[data-theme="dark"] .case-open{
+    --on-accent:#17141F;
+    --ok-green:#7ED9A4;
+    --ok-line:rgba(126,217,164,.4);
+    --ok-fill:rgba(126,217,164,.09);
+    --bad-line:rgba(229,130,118,.4);
+    --bad-fill:rgba(229,130,118,.08);
   }
 
-  /* Mobile: remove the box and show content edge-to-edge so
-     the purple gradient shows on the sides naturally */
-  .start-screen{
-    position:fixed;inset:0;z-index:9999;
-    background:#FAFAFA;
-    width:100%;height:100%;
-    display:var(--start-display,flex);flex-direction:column;align-items:center;
-    justify-content:center;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    padding:max(60px,env(safe-area-inset-top,60px)) 28px max(40px,env(safe-area-inset-bottom,40px));
-    text-align:center;
-  }
-  .start-screen-inner{max-width:400px;width:100%;display:flex;flex-direction:column;align-items:center;margin-top:28px;}
-  .start-logo{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
-  .start-screen h1{
-    font-family:'Cormorant Garamond','Playfair Display',serif;
-    font-size:clamp(34px,8vw,46px);font-weight:700;margin:0 0 10px;letter-spacing:-.02em;
-  }
-  .start-screen p{
-    color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:300px;line-height:1.6;
-    font-family:'Outfit',sans-serif;
-  }
-  .start-actions{display:flex;gap:12px;margin-bottom:22px;width:100%;}
-  .start-actions .btn{padding:13px 0;font-size:13px;flex:1;justify-content:center;}
-  .start-meta{font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.9;}
-  /* Accent pill bar above title */
-  .start-pills{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
-  .start-pill{
-    font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-    text-transform:uppercase;padding:4px 12px;border-radius:20px;
-  }
-  .pill-red{background:rgba(168,68,58,.1);color:#8B2635;}
-  .pill-purple{background:rgba(107,79,148,.1);color:var(--neuro-blue-deep);}
-  .pill-green{background:rgba(92,181,124,.12);color:#3d8a5e;}
-
-  /* iPhone fix — vertically centred */
-  @media(max-width:480px){
-    .start-screen{justify-content:center;padding:50px 22px 40px;}
-    .start-screen h1{font-size:32px !important;}
-    .start-screen p{font-size:14px !important;margin-bottom:20px !important;}
-    .start-actions{flex-direction:row !important;gap:10px !important;}
-    .start-actions .btn{font-size:12px !important;padding:12px 0 !important;}
-  }
-
-  /* iPhone — start screen compact */
-  @media(max-width:480px){
-    .start-screen{padding:50px 18px 36px;justify-content:flex-start;}
-    .start-screen-inner{max-width:100%;}
-    .start-screen h1{font-size:26px !important;margin-bottom:8px !important;}
-    .start-screen p{font-size:13.5px !important;margin-bottom:18px !important;}
-    .start-logo{margin-bottom:12px !important;}
-    .start-logo svg{width:44px !important;height:44px !important;}
-    #streak-label{font-size:12px !important;margin-top:4px;}
-    .start-actions{gap:10px !important;margin-bottom:16px !important;width:100%;}
-    .start-actions .btn{flex:1;justify-content:center;padding:12px 8px !important;font-size:12px !important;}
-    .start-meta{font-size:11px !important;}
-    /* Case card — frameless on phone */
-    .case-shell{padding:10px 0 50px !important;}
-    .case-card{background:transparent !important;border:none !important;box-shadow:none !important;padding:0 2px !important;}
-    .symptom-log li{font-size:14.5px !important;padding:10px 12px !important;}
-    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-    .guess-row{gap:8px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box;}
-    .guess-row .btn{height:46px !important;padding:0 14px !important;}
-    .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
-    .modal-actions{flex-direction:column !important;gap:10px !important;}
-    .modal-actions .btn{width:100% !important;justify-content:center !important;}
-  }
-  .case-card{
-    background:#fff;border:1px solid var(--rule);padding:44px;
-  }
   .case-meta{
-    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;
     font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);
   }
   .attempts-dots{display:flex;gap:7px;}
-  .attempts-dots span{width:10px;height:10px;border-radius:50%;background:var(--rule);}
-  .attempts-dots span.used{background:var(--signal-red);}
+  .attempt-dot{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--paper-deep);border:2px solid var(--rule);
+    display:inline-block;transition:background-color .3s, border-color .3s, transform .3s;
+  }
+  .attempt-dot.used{background:var(--signal-red);border-color:var(--signal-red);}
+  .attempt-dot.correct{background:var(--ok-green);border-color:var(--ok-green);transform:scale(1.3);}
 
-  .symptom-log{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:14px;}
-  .symptom-log li{
-    border:1px solid var(--rule);
-    border-left:5px solid var(--neuro-blue);
-    background:var(--paper-deep);
-    padding:18px 20px;font-size:17.5px;line-height:1.55;
-    border-radius:2px;
-    display:flex;gap:14px;align-items:flex-start;
+  /* --- The two columns ------------------------------------------------ */
+  .case-columns{
+    display:grid;grid-template-columns:1fr 1fr;gap:36px;
+    margin-bottom:22px;
   }
-  .symptom-log li.revealed{animation:fadeIn .4s ease;}
-  .symptom-log li.locked{
-    border-left-color:var(--rule);
-    background:transparent;
-    color:var(--ink-soft);
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    padding:18px 20px;
-    opacity:.55;
-  }
-  .symptom-log .hint-num{
-    font-family:var(--mono);font-size:12px;color:var(--neuro-blue-deep);
-    font-weight:600;flex-shrink:0;min-width:30px;
-  }
-  .symptom-log li.locked .hint-num{color:var(--ink-soft);}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-
-  .guess-row{position:relative;display:flex;gap:10px;margin-bottom:16px;}
-  .guess-row input{
-    flex:1;font-family:var(--serif-body);font-size:16px;padding:14px 16px;
-    border:1.5px solid var(--ink-soft);background:#fff;
-    height:52px;box-sizing:border-box;
-  }
-  .guess-row .btn{
-    font-size:18px;padding:0 20px;
-    height:52px;box-sizing:border-box;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
+  .col-title{
+    font-family:var(--game-font);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink);text-align:center;margin:0 0 16px;
   }
 
+  /* Diagnosis: one box per attempt, filling in as guesses are spent. All five
+     are drawn from the start so the player can see what the budget is. */
+  .diagnosis-boxes{display:flex;flex-direction:column;gap:12px;}
+  .diagnosis-box{
+    min-height:52px;border:1.5px solid var(--rule);border-radius:12px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 18px;font-family:var(--game-font);
+    background:transparent;transition:border-color .2s, background-color .2s;
+  }
+  .diagnosis-box.filled{border-color:var(--bad-line);background:var(--bad-fill);}
+  .diagnosis-box.filled .diagnosis-guess-name{
+    color:var(--signal-red);text-decoration:line-through;text-decoration-color:var(--bad-line);
+  }
+  .diagnosis-box.correct{border-color:var(--ok-line);background:var(--ok-fill);}
+  .diagnosis-box.correct .diagnosis-guess-name{color:var(--ok-green);text-decoration:none;}
+  .diagnosis-guess-name{font-size:15.5px;font-weight:700;flex:1;overflow-wrap:anywhere;}
+  .diagnosis-guess-cat{
+    font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-soft);white-space:nowrap;flex-shrink:0;
+  }
+
+  /* Assessment: lines rather than boxes, so hints and answered questions read
+     as one running record. Scrolls once the Q&A outgrows the column. */
+  .assessment-lines{
+    max-height:340px;overflow-y:auto;padding-right:6px;
+    overscroll-behavior:contain;
+  }
+  .assessment-line{
+    border-bottom:1px solid var(--rule);
+    padding:12px 2px;font-family:var(--game-font);font-size:15px;line-height:1.5;
+  }
+  .assessment-line:last-child{border-bottom:none;}
+  .assessment-line.locked{
+    color:var(--ink-soft);font-family:var(--mono);font-size:11.5px;
+    letter-spacing:.05em;text-transform:uppercase;opacity:.6;
+  }
+  .assessment-line .hint-num{
+    font-family:var(--mono);font-size:11px;color:var(--neuro-blue-deep);font-weight:700;
+    display:block;margin-bottom:4px;
+  }
+  .assessment-line.locked .hint-num{color:var(--ink-soft);}
+  .assessment-line.qa .qa-q{font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .assessment-line.qa .qa-a{color:var(--ink-soft);}
+  .assessment-empty{
+    font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.6;padding:12px 2px;
+  }
+
+  /* --- Unified guess / ask row ---------------------------------------- */
+  #guess-area{margin-bottom:10px;}
+  .unified-row{position:relative;display:flex;gap:10px;align-items:stretch;}
+  .mode-toggle{
+    display:flex;flex-shrink:0;border:1.5px solid var(--ink-soft);border-radius:10px;overflow:hidden;height:52px;
+  }
+  .mode-btn{
+    font-family:var(--game-font);font-size:13px;font-weight:700;letter-spacing:.02em;
+    background:var(--paper);border:none;padding:0 16px;cursor:pointer;color:var(--ink-soft);
+    transition:background-color .2s, color .2s;
+  }
+  .mode-btn.active{background:var(--neuro-blue-deep);color:var(--on-accent);}
+  .unified-form{flex:1;display:flex;position:relative;min-width:0;}
+  .unified-input{
+    flex:1;min-width:0;font-family:var(--game-font);font-size:16px;padding:0 16px;
+    border:1.5px solid var(--ink-soft);border-right:none;border-radius:10px 0 0 10px;
+    background:var(--paper);color:var(--ink);height:52px;box-sizing:border-box;
+  }
+  .unified-input::placeholder{color:var(--ink-soft);opacity:.85;}
+  .unified-input:focus{outline:2px solid var(--neuro-blue-deep);outline-offset:-2px;}
+  .send-btn{
+    width:52px;height:52px;flex-shrink:0;border-radius:0 10px 10px 0;
+    border:1.5px solid var(--ink-soft);background:var(--neuro-blue-deep);color:var(--on-accent);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .send-btn:disabled{opacity:.55;cursor:default;}
+
+  /* Opens upward: the row sits low on the page, so a downward list would be
+     off-screen on a phone. */
   .autocomplete-list{
-    position:absolute;top:100%;left:0;right:84px;
-    background:#fff;border:1.5px solid var(--ink-soft);border-top:none;
-    max-height:240px;overflow-y:auto;z-index:40;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    position:absolute;bottom:100%;left:0;right:52px;
+    background:var(--paper);border:1.5px solid var(--ink-soft);border-bottom:none;
+    max-height:220px;overflow-y:auto;z-index:40;
+    box-shadow:0 -10px 20px rgba(0,0,0,.08);
     display:none;
   }
   .autocomplete-list.open{display:block;}
   .autocomplete-list div{
-    padding:11px 16px;font-family:var(--serif-body);font-size:15.5px;cursor:pointer;
-    border-bottom:1px solid var(--paper-deep);
+    padding:11px 16px;font-family:var(--game-font);font-size:15.5px;cursor:pointer;
+    border-bottom:1px solid var(--paper-deep);color:var(--ink);
   }
-  .autocomplete-list div:hover, .autocomplete-list div.active{background:var(--paper-deep);}
+  .autocomplete-list div:hover,
+  .autocomplete-list div.active{background:var(--paper-deep);}
 
-  .past-guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
-  .wrong-guess-card{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    background:rgba(168,68,58,.06);
-    border:1.5px solid rgba(168,68,58,.25);
-    border-radius:10px;
-    padding:11px 16px;
+  .closest-note{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:8px 0 0;}
+
+  .guess-explain{
+    margin-top:12px;padding:14px 16px;background:var(--paper-deep);
+    border:1.5px solid var(--rule);border-left:4px solid var(--signal-red);border-radius:8px;
   }
-  .wrong-guess-name{
-    font-family:var(--game-font,'Outfit',sans-serif);font-size:17px;font-weight:700;
-    color:var(--signal-red);text-decoration:line-through;text-decoration-color:rgba(168,68,58,.5);
-    flex:1;
+  .guess-explain-label{
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;
   }
-  .wrong-guess-cat{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
-    color:rgba(168,68,58,.75);background:rgba(168,68,58,.1);
-    padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
-  }
-  @media(max-width:480px){
-    .wrong-guess-name{font-size:15px !important;}
-    .wrong-guess-cat{font-size:9.5px !important;}
-    .wrong-guess-card{padding:10px 12px !important;}
-  }
-  .closest-note{
-    font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:-8px 0 18px;
-  }
+  .guess-explain-text{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);}
+
   .result-banner{
-    padding:22px 24px;margin-top:10px;border-left:5px solid #5C8C72;background:var(--paper-deep);
+    padding:22px 24px;margin-top:18px;border-left:5px solid var(--ok-green);background:var(--paper-deep);
   }
   .result-banner.fail{border-left-color:var(--signal-red);}
   .result-banner h4{margin:0 0 8px;font-family:var(--serif-display);font-size:23px;}
   .result-banner p{font-size:16px;line-height:1.6;}
 
-  .chat-fab{
-    position:fixed;bottom:26px;right:26px;
-    height:52px;padding:0 24px 0 20px;border-radius:999px;
-    background:var(--neuro-blue-deep);color:#fff;
-    border:none;display:flex;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 24px rgba(122,95,175,.35), 0 2px 8px rgba(0,0,0,.12);
-    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
-    z-index:60;
-  }
-  .chat-fab:hover{background:var(--plum);box-shadow:0 10px 28px rgba(122,95,175,.45), 0 2px 8px rgba(0,0,0,.14);}
-  .chat-backdrop{
-    position:fixed;inset:0;background:rgba(28,27,25,.5);
-    display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
-  }
-  .chat-backdrop.open{display:flex;}
-  .chat-panel{
-    width:440px;max-width:100%;max-height:80vh;
-    background:var(--paper);border:2px solid var(--ink);
-    display:flex;flex-direction:column;
-  }
-  .chat-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);}
-  .chat-head h4{margin:0;font-family:var(--serif-display);font-size:19px;}
-  .chat-body{padding:18px 20px;overflow-y:auto;flex:1;}
-  .chat-log{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;}
-  .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
-  .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:var(--paper);color:var(--ink);border:1px solid var(--rule);align-self:flex-start;}
-  .chat-ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
-  .chat-ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);background:#fff;color:var(--ink);}
-  @media(max-width:480px){
-    /* Start screen — iPhone */
-    .start-screen{padding:0 16px !important;overflow-y:auto;}
-    .start-screen-inner{max-width:100% !important;padding:50px 0 40px !important;}
-    .start-screen h1{font-size:clamp(22px,6.5vw,30px) !important;margin-bottom:8px !important;}
-    .start-screen p{font-size:13px !important;margin-bottom:14px !important;}
-    .start-logo{margin-bottom:10px !important;}
-    .start-logo svg{width:40px !important;height:40px !important;}
-    #streak-label{font-size:12px !important;}
-    .start-actions{gap:8px !important;flex-direction:row;width:100%;}
-    .start-actions .btn{flex:1 !important;justify-content:center !important;padding:11px 8px !important;font-size:11px !important;}
-    .start-meta{font-size:11px !important;margin-top:4px !important;}
+  #wrong-flash div:first-child{font-family:var(--game-font) !important;font-weight:800 !important;}
 
-    /* Case card — frameless on iPhone */
-    .case-shell{max-width:100% !important;padding:8px 0 50px !important;}
-    .case-card{
-      background:transparent !important;
-      border:none !important;box-shadow:none !important;
-      padding:0 4px !important;
-    }
-    .case-card > h2{font-size:17px !important;}
-    .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
-    .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-    .guess-row{gap:7px !important;}
-    .guess-row input{font-size:15px !important;padding:12px !important;height:46px !important;box-sizing:border-box !important;}
-    .guess-row .btn{height:46px !important;padding:0 14px !important;min-width:46px;}
-    .guess-row .btn svg{width:18px !important;height:18px !important;}
-    .past-guesses span{font-size:12.5px !important;padding:5px 11px !important;}
-    .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
-
-    /* Modals — iPhone */
-    .modal{padding:18px 16px !important;}
-    .result-headline h3{font-size:20px !important;}
-    .result-stats{font-size:13px !important;}
-    .modal-actions{flex-direction:column !important;gap:10px !important;}
-    .modal-actions .btn{width:100% !important;justify-content:center !important;}
-  }
-
-/* ============================================
-   DAILY CASE — IPHONE RESPONSIVE (480px)
-   ============================================ */
-@media(max-width:480px){
-
-  /* Masthead — hamburger only */
-  .nav-left{display:none !important;}
-  .hamburger-btn{display:flex !important;}
-
-  /* Start screen — fills phone viewport, scrollable */
-  .start-screen{
-    padding:56px 20px 40px !important;
-    justify-content:flex-start !important;
-    overflow-y:auto !important;
-    -webkit-overflow-scrolling:touch !important;
-  }
-  .start-screen-inner{max-width:100% !important;}
-  .start-screen h1{font-size:28px !important;margin:0 0 8px !important;}
-  .start-screen p{font-size:14px !important;margin:0 0 18px !important;max-width:100% !important;}
-  .start-logo{margin-bottom:14px !important;}
-  .start-logo svg{width:46px !important;height:46px !important;}
-  #streak-label{font-size:12px !important;}
-  .start-actions{
-    display:flex !important;flex-direction:row !important;
-    gap:10px !important;margin-bottom:16px !important;width:100% !important;
-  }
-  .start-actions .btn{
-    flex:1 !important;justify-content:center !important;
-    padding:12px 8px !important;font-size:12px !important;
-  }
-  .start-meta{font-size:11px !important;}
-
-  /* Page hero — room for notch */
-  .page-hero{padding:76px 0 20px !important;}
-  .page-hero h1{font-size:30px !important;}
-  .page-hero p{font-size:14px !important;}
-  .back-home{font-size:11px !important;}
-
-  /* Game content — no card box on phone */
-  .case-shell{padding:10px 0 50px !important;max-width:100% !important;}
-  .case-card{
-    background:transparent !important;border:none !important;
-    box-shadow:none !important;padding:0 4px !important;
-  }
-
-  /* Symptom list */
-  .symptom-log li{font-size:14px !important;padding:10px 12px !important;line-height:1.5 !important;}
-  .symptom-log li.locked{font-size:11px !important;padding:8px 12px !important;}
-
-  /* Guess input + button */
-  .guess-row{gap:8px !important;}
-  .guess-row input{
-    font-size:15px !important;padding:12px !important;
-    height:48px !important;box-sizing:border-box !important;
-  }
-  .guess-row .btn{height:48px !important;padding:0 14px !important;}
-  .guess-row .btn svg{width:18px !important;height:18px !important;}
-
-  /* Past guesses */
-  .past-guesses span{font-size:12.5px !important;padding:5px 12px !important;}
-
-  /* Autocomplete */
-  .autocomplete-list{max-height:160px !important;}
-  .autocomplete-list div{font-size:14px !important;padding:10px 12px !important;}
-
-  /* Result modal */
-  .modal{padding:18px 16px !important;margin:0 12px !important;width:calc(100% - 24px) !important;}
-  .result-headline h3{font-size:20px !important;}
-  .result-stats{font-size:13px !important;}
-  .modal-actions{flex-direction:column !important;gap:10px !important;}
-  .modal-actions .btn{width:100% !important;justify-content:center !important;}
-}
-
-
-  /* Attempt dots */
-  .attempt-dot{
-    width:12px;height:12px;border-radius:50%;
-    background:var(--paper-deep);border:2px solid var(--rule);
-    display:inline-block;transition:all .3s;
-  }
-  .attempt-dot.used{background:var(--signal-red);border-color:var(--signal-red);}
-  .attempt-dot.correct{background:#5CB57C;border-color:#5CB57C;transform:scale(1.3);}
-
-  /* Correct answer celebration */
+  /* --- Motion ---------------------------------------------------------- */
   @keyframes correctPop{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
-  .case-card.correct-flash{animation:correctPop .5s ease;}
+  .case-open.correct-flash{animation:correctPop .5s ease;}
 
-  /* Wrong answer shake */
   @keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-  .guess-row.shake{animation:wrongShake .4s ease;}
+  .unified-row.shake{animation:wrongShake .4s ease;}
 
-  /* Symptom reveal flash */
-  @keyframes revealSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-  .symptom-log li.new-reveal{animation:revealSlide .4s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .assessment-line.new-reveal{animation:fadeIn .35s ease;}
 
+  @media(prefers-reduced-motion: reduce){
+    .case-open.correct-flash,
+    .unified-row.shake,
+    .assessment-line.new-reveal{animation:none;}
+    .attempt-dot,.diagnosis-box,.mode-btn{transition:none;}
+  }
 
+  /* --- Responsive ------------------------------------------------------ */
+  @media(max-width:760px){
+    .case-columns{grid-template-columns:1fr;gap:26px;margin-bottom:18px;}
+    .assessment-lines{max-height:260px;}
+  }
+  @media(max-width:480px){
+    .case-shell{max-width:100%;padding:10px 0 50px;}
+    .case-meta{margin-bottom:18px;font-size:11.5px;}
+    .col-title{font-size:12px;margin-bottom:12px;}
+    .diagnosis-box{min-height:46px;padding:10px 14px;}
+    .diagnosis-guess-name{font-size:14.5px;}
+    .assessment-line{font-size:14px;padding:10px 2px;}
 
-.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
-.htp-backdrop.open{display:block;opacity:1;}
-.htp-panel{
-  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
-  background:var(--paper);z-index:200;
-  transform:translateX(24px);opacity:0;pointer-events:none;
-  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
-  overflow-y:auto;padding:26px 26px 40px;
-}
-.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
-.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
-.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:'Cormorant Garamond','Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
-.htp-section{margin-bottom:24px;}
-.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
-.htp-line{font-family:'Outfit',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
-@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+    /* The toggle keeps its own row on a phone: three items side by side
+       leaves the input too narrow to read what you typed. */
+    .unified-row{flex-wrap:wrap;gap:8px;}
+    .mode-toggle{height:44px;order:1;}
+    .unified-form{order:2;flex:1 1 100%;}
+    .mode-btn{font-size:12px;padding:0 14px;}
+    .unified-input{height:46px;font-size:15px;padding:0 13px;}
+    .send-btn{width:46px;height:46px;}
+    .autocomplete-list{right:46px;max-height:180px;}
+    .autocomplete-list div{font-size:14px;padding:10px 12px;}
+  }

@@ -105,56 +105,33 @@ export function startCountdown(el, setText) {
   return id;
 }
 
+// The Worker in ai-worker.js is the only route to a provider. It holds the key
+// in its environment; set AI_ENDPOINT_URL in config.js to its deployed URL.
+//
+// There used to be a fallback here that called api.groq.com directly with
+// cfg.GROQ_API_KEY. It was dormant only because that field was left empty — the
+// moment anyone filled it in, the key would ship inside the JS bundle, readable
+// in view-source, in DevTools and in the Authorization header of every request.
+// A browser cannot hold a secret, so the fallback is gone rather than left as a
+// footgun with a warning comment on it.
 export async function askNeuroleAIRaw(prompt) {
   const cfg = (typeof window !== 'undefined' && window.NEUROLE_CONFIG) || {};
-  const models = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'gemma2-9b-it'];
-
-  // Preferred path: proxy through the server-side Worker so no key is in the
-  // browser. Enabled simply by setting AI_ENDPOINT_URL in config.js.
   const endpoint = (cfg.AI_ENDPOINT_URL || '').trim();
-  if (endpoint && !endpoint.startsWith('PASTE_')) {
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      const answer = (data?.answer || data?.choices?.[0]?.message?.content || '').trim();
-      if (res.ok && answer) return answer;
-      console.warn('Neurole AI worker status', res.status, data?.error || '');
-    } catch (e) { console.warn('Neurole AI worker error:', e.message); }
+  if (!endpoint || endpoint.startsWith('PASTE_')) {
+    console.warn('Neurole: AI_ENDPOINT_URL is not configured — deploy ai-worker.js and set it in config.js.');
     return null;
   }
-
-  // Fallback: direct Groq call using the key from the single config file.
-  const key = cfg.GROQ_API_KEY || '';
-  if (!key || key.startsWith('PASTE_')) {
-    console.warn('Neurole: no GROQ_API_KEY or AI_ENDPOINT_URL configured.');
-    return null;
-  }
-  for (const model of models) {
-    try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: 'system', content: 'You are a friendly neuroscience tutor in an educational game. Answer in 3-4 clear sentences for a student.' },
-            { role: 'user', content: prompt }
-          ],
-          max_tokens: 400,
-          temperature: 0.7
-        })
-      });
-      const data = await res.json();
-      const answer = data?.choices?.[0]?.message?.content?.trim();
-      if (res.ok && answer) return answer;
-      console.warn('Groq', model, 'status', res.status, data?.error?.message || '');
-      if (res.status === 401) break;
-    } catch (e) { console.warn('Groq network error:', e.message); }
-  }
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    const answer = (data?.answer || data?.choices?.[0]?.message?.content || '').trim();
+    if (res.ok && answer) return answer;
+    console.warn('Neurole AI worker status', res.status, data?.error || '');
+  } catch (e) { console.warn('Neurole AI worker error:', e.message); }
   return null;
 }
 

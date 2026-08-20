@@ -5,50 +5,54 @@
 # what keeps a path in the repo without putting it on the web here. Anything
 # added to one list almost always belongs in the other too — keep them in sync.
 #
+# NOTE (2026-08): the live website is the React app in `neurole-react/`, which
+# is deployed as its OWN Vercel project (framework "vite", output `dist/`). This
+# root-level Vercel config and these exclude lists only matter if a site is ever
+# (re)deployed straight from the repo root. The React project has its own
+# vercel.json and ignore handling — none of this applies to it.
+#
 # Nothing is deleted; removing a line republishes the path.
 
-# --- Duplicate copies of the whole site --------------------------------
-# `neurole-site-main_4/` was a second, older copy of every page, committed by
-# accident. It has now been deleted rather than hidden, so it needs no entry.
-# Redundant copy of the images plus the spreadsheets and zips below. Verified
-# unreferenced: every page loads its assets from the site root, not from here.
+# --- Non-deployed assets ---------------------------------------------------
+# The designated archive/dump folder: every image, spreadsheet and zip. Stays
+# out of the repo-root deployment. (The React app copies the images it needs
+# into its own public/ folder, so nothing served needs this.) The duplicate
+# whole-site copy that used to need an entry here was deleted outright instead.
 assets/
-
-# --- Question banks ----------------------------------------------------
-# Case and quiz banks, answers included. The live games read the published
-# Google Sheet CSV, so nothing on the site fetches these.
+# All question banks live under assets/ now (not the root), answers included.
+# The live games read the published Google Sheet CSV, so nothing fetches these.
 *.xlsx
 
-# --- Source archives ---------------------------------------------------
+# --- Source archives -------------------------------------------------------
+# Old whole-site snapshot zips and the daily/neuroanatomy game source zips.
+# Kept for history under assets/; nothing on a deployed site links to them.
 *.zip
 
-# --- Dead pages --------------------------------------------------------
-# Stub that returned HTTP 200 with "Page not found" — a soft 404. 404.html
-# replaces it and Vercel serves that automatically with a real 404 status.
-ai-test.html
-
-# --- Not part of the website -------------------------------------------
-# Cloudflare Worker source; runs on Cloudflare, never fetched by a browser.
-ai-worker.js
-# React port: source, not build output. Deployed as its own Vercel project.
+# --- React app -------------------------------------------------------------
+# The actual website: source, not build output. Deployed as its own Vercel
+# project. Serving this from the root would expose the whole codebase.
 neurole-react/
-# Tooling and docs.
+
+# --- Not part of the website -----------------------------------------------
+# Cloudflare Worker source; lives at neurole-react/scripts/ai-worker.js and
+# runs on Cloudflare, never fetched by a browser.
 wrangler.jsonc
+# Tooling and docs.
 package.json
 package-lock.json
 # Every markdown file in the root is a note or a readme for whoever is working
 # on the repo — none is a page. Named by pattern so a new one does not silently
-# become a URL. (Article content lives in neurole-react/, already excluded.)
+# become a URL. (Article content lives in the excluded neurole-react/.)
 *.md
 
-# --- Other platforms' config -------------------------------------------
+# --- Other platforms' config -----------------------------------------------
 # Both would otherwise be served as plain static files from the site root.
 # CNAME is a GitHub Pages convention; on Vercel the domain is set in project
 # settings, so it is meaningless here — but harmless to keep in the repo.
 _config.yml
 CNAME
 
-# --- Dotfiles ----------------------------------------------------------
+# --- Dotfiles --------------------------------------------------------------
 # Jekyll ignores these automatically; Vercel does not, so they need naming
 # here or they end up served from the site root.
 .gitignore

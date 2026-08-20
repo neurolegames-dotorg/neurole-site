@@ -29,6 +29,7 @@ export default function Footer({ onSubscribe }) {
             <Link to="/daily-game">The Daily Case</Link>
             <Link to="/neuroanatomy">Map the Brain</Link>
             <Link to="/synapse">Synapse</Link>
+            <Link to="/imposter">Imposter</Link>
             <Link to="/archive">Case Archive</Link>
             <Link to="/interactive">
               Interactive <span className="beta-pill" style={{ marginLeft: 4 }}>Beta</span>

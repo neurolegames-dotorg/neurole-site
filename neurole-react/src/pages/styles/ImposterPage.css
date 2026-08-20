@@ -1,0 +1,123 @@
+
+/* Ported from imposter.html's inline <style>. Kept under .imp- prefixes so
+   nothing leaks into the shared stylesheet. */
+.imp-shell{max-width:520px;margin:0 auto;padding:24px 20px 60px;}
+.imp-popup-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--paper);
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+
+/* Category selection cards */
+.imp-cat-card{
+  border:1.5px solid var(--rule);border-radius:10px;margin-bottom:12px;overflow:hidden;
+  transition:border-color .15s ease;
+}
+.imp-cat-card.selected{border-color:#6935A8;border-width:2px;}
+.imp-cat-header{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;background:var(--paper);border:none;cursor:pointer;text-align:left;
+  box-sizing:border-box;
+}
+.imp-cat-header-left{display:flex;align-items:center;gap:12px;}
+.imp-cat-icon{
+  width:34px;height:34px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.imp-cat-title{display:block;font-family:'Libre Franklin',sans-serif;font-size:15.5px;font-weight:700;color:var(--ink);}
+.imp-cat-sub{display:block;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:1px;}
+.imp-cat-check{
+  width:22px;height:22px;border-radius:50%;border:1.5px solid var(--rule);flex-shrink:0;
+  position:relative;
+}
+.imp-cat-card.selected .imp-cat-check{background:#6935A8;border-color:#6935A8;}
+.imp-cat-card.selected .imp-cat-check::after{
+  content:'';position:absolute;left:50%;top:50%;width:5px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;
+  transform:translate(-50%,-60%) rotate(45deg);
+}
+.imp-cat-body{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 16px;}
+.imp-cat-card.selected .imp-cat-body{max-height:260px;padding:0 16px 16px;}
+.imp-start-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* How to play panel (shared site pattern, no dark backdrop) */
+.imp-htp-backdrop{position:fixed;inset:0;background:transparent;pointer-events:none;z-index:10001;display:none;opacity:0;transition:opacity .3s ease;}
+.imp-htp-backdrop.open{display:block;opacity:1;}
+.imp-htp-panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(380px,90vw);background:var(--paper);
+  z-index:200;padding:26px 24px;overflow-y:auto;box-shadow:0 0 40px rgba(0,0,0,.18);
+  transform:translateX(24px);opacity:0;pointer-events:none;
+  transition:opacity .3s ease, transform .3s cubic-bezier(.22,.9,.32,1);
+}
+.imp-htp-backdrop.open .imp-htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
+.imp-htp-panel h3{font-family:'Libre Franklin',sans-serif;font-size:19px;font-weight:700;margin:0 0 18px;display:flex;align-items:center;gap:10px;}
+.imp-htp-panel h4{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 8px;}
+.imp-htp-panel p{font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+
+/* Setup */
+.imp-field{margin-bottom:20px;text-align:left;}
+.imp-field label{
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-soft);display:block;margin-bottom:8px;
+}
+.imp-stepper{display:flex;align-items:center;gap:16px;}
+.imp-stepper button{
+  width:44px;height:44px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);
+  font-size:20px;font-weight:700;cursor:pointer;color:var(--ink);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.imp-stepper button:disabled{opacity:.35;cursor:not-allowed;}
+.imp-stepper .imp-count{font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;min-width:44px;text-align:center;}
+.imp-word-preview{
+  font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);line-height:1.7;
+  background:var(--paper-deep);border-radius:8px;padding:14px 16px;margin-bottom:4px;
+}
+.imp-custom-box textarea{
+  width:100%;min-height:110px;padding:14px;font-family:'Inter',sans-serif;font-size:14.5px;line-height:1.6;
+  border:1.5px solid var(--rule);border-radius:8px;box-sizing:border-box;resize:vertical;
+  background:var(--paper);color:var(--ink);
+}
+.imp-custom-hint{font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:6px;}
+.imp-error{
+  display:none;font-family:'Inter',sans-serif;font-size:13px;color:#B23A30;
+  background:#FCE4E1;border-radius:6px;padding:10px 14px;margin-bottom:16px;
+}
+:root[data-theme="dark"] .imp-error{background:rgba(178,58,48,.18);color:#F2685D;}
+
+/* Reveal / pass-and-play */
+.imp-reveal-card{
+  border:1.5px solid var(--rule);border-radius:14px;padding:44px 24px;text-align:center;
+  background:var(--paper);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.imp-pass-name{font-family:'Libre Franklin',sans-serif;font-size:24px;font-weight:700;margin:0 0 6px;}
+.imp-pass-sub{font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 26px;}
+.imp-tap-target{
+  width:100%;max-width:280px;padding:20px;border-radius:10px;border:2px dashed var(--rule);
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--ink-soft);cursor:pointer;
+  background:transparent;
+}
+.imp-role-word{
+  font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:clamp(26px,7vw,36px);
+  margin:0 0 10px;letter-spacing:-.01em;
+}
+.imp-role-word.is-imposter{color:#B23A30;}
+:root[data-theme="dark"] .imp-role-word.is-imposter{color:#F2685D;}
+.imp-role-sub{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:320px;}
+.imp-progress{font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;text-align:center;}
+
+/* Discuss / reveal-all */
+.imp-vote-list{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:8px;}
+.imp-vote-list li{
+  font-family:'Inter',sans-serif;font-size:14.5px;font-weight:600;padding:12px 16px;
+  border:1.5px solid var(--rule);border-radius:8px;display:flex;align-items:center;justify-content:space-between;
+}
+.imp-vote-list li.was-imposter{border-color:#B23A30;background:#FCE4E1;color:#9E3F38;}
+:root[data-theme="dark"] .imp-vote-list li.was-imposter{background:rgba(178,58,48,.18);color:#F2685D;border-color:#B23A30;}
+.imp-vote-list li .tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+
+@media(max-width:480px){
+  .imp-shell{padding:16px 14px max(50px, env(safe-area-inset-bottom, 50px));}
+  .imp-reveal-card{padding:32px 18px;min-height:240px;}
+}

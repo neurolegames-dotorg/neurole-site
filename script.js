@@ -473,70 +473,19 @@ async function fetchGlobalDailyDistribution(dateKey){
 // ---------- Chat FAB: liquid-glass linger interaction ----------
 // Applies to any .chat-fab button (both games' "Explain" buttons share the
 // class). Purely additive motion, doesn't touch existing colors/markup.
-function initChatFabInteraction(){
-  const LINGER_DELAY = 400;   // ms of continuous hover before the "linger" state kicks in
-  const PULL_STRENGTH = 7;    // px of magnetic pull toward the cursor, max
 
-  document.querySelectorAll('.chat-fab').forEach(fab => {
-    let lingerTimer = null;
 
-    fab.addEventListener('mousemove', e => {
-      const rect = fab.getBoundingClientRect();
-      const relX = e.clientX - rect.left, relY = e.clientY - rect.top;
-      // Glass highlight follows the cursor
-      fab.style.setProperty('--fab-x', relX + 'px');
-      fab.style.setProperty('--fab-y', relY + 'px');
-      // Gentle magnetic pull toward the cursor, clamped to a small radius
-      const dx = ((relX / rect.width) - 0.5) * PULL_STRENGTH * 2;
-      const dy = ((relY / rect.height) - 0.5) * PULL_STRENGTH * 2;
-      fab.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
-    });
-
-    fab.addEventListener('mouseenter', e => {
-      clearTimeout(lingerTimer);
-      lingerTimer = setTimeout(() => fab.classList.add('linger'), LINGER_DELAY);
-      // Ripple/wave that expands outward from exactly where the cursor entered
-      const rect = fab.getBoundingClientRect();
-      const relX = e.clientX - rect.left, relY = e.clientY - rect.top;
-      const ripple = document.createElement('span');
-      ripple.className = 'fab-ripple';
-      ripple.style.left = relX + 'px';
-      ripple.style.top = relY + 'px';
-      fab.appendChild(ripple);
-      ripple.addEventListener('animationend', () => ripple.remove());
-    });
-
-    fab.addEventListener('mouseleave', () => {
-      clearTimeout(lingerTimer);
-      fab.classList.remove('linger');
-      fab.style.transform = '';
-    });
-  });
-}
-document.addEventListener('DOMContentLoaded', initChatFabInteraction);
-// In case script.js loads after DOMContentLoaded already fired
-if(document.readyState !== 'loading') initChatFabInteraction();
-
-// ---------- Scroll-driven purple background tint ----------
-// Fades in only as the user scrolls toward the bottom of the page.
+// ---------- iOS overscroll (bounce zone) background match ----------
+// Keeps the area above/below the page flat and consistent with the
+// current theme, no scroll-driven color animation.
 function initScrollPurple(){
   function applyTint(){
-    const scrolled = window.scrollY;
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
-    const progress = maxScroll <= 0 ? 0 : Math.max(0, Math.min(1, (scrolled / maxScroll - 0.25) / 0.55));
     const dark = document.documentElement.dataset.theme === 'dark';
-    const start = dark ? [17,18,23] : [248,249,250];
-    const end = dark ? [36,26,61] : [229,220,245];
-    const r = Math.round(start[0] + progress * (end[0] - start[0]));
-    const g = Math.round(start[1] + progress * (end[1] - start[1]));
-    const b = Math.round(start[2] + progress * (end[2] - start[2]));
-    const footerBg = dark ? '#1A1B21' : '#EDEEF1';
-    document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
-    // html element controls what shows in the iOS overscroll (bounce) zone.
-    // At the bottom of the page match the footer; at top match body.
-    // This prevents any purple colour leaking into the system UI area.
+    const footerBg = dark ? '#1A1B21' : '#EDEAE1';
+    const scrolled = window.scrollY;
     const atBottom = scrolled + window.innerHeight >= document.body.scrollHeight - 10;
-    document.documentElement.style.backgroundColor = atBottom ? footerBg : `rgb(${r},${g},${b})`;
+    document.documentElement.style.backgroundColor = atBottom ? footerBg : '';
+    document.body.style.backgroundColor = '';
   }
   window.addEventListener('scroll', applyTint, {passive:true});
   document.addEventListener('neurole:themechange', applyTint);

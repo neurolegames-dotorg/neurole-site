@@ -45,9 +45,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=171">
+<link rel="stylesheet" href="style.css?v=172">
 <style>
 /* ── Synapse hero ── */
 .hero-synapse{padding:0;overflow:hidden;}
@@ -70,13 +70,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   transform:translate(-50%,-50%);
   opacity:1;
   transition:left .05s linear;
-  box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
 .neurotransmitter.is-icon{
   width:52px;height:52px;border-radius:13px;
-  background:#fff !important;
+  background:var(--paper) !important;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(0,0,0,.18);
 }
 .neurotransmitter.is-icon img{width:70%;height:70%;object-fit:contain;}
 .hero-headline-overlay{
@@ -138,7 +136,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 
 <style>
-:root{--game-font:'Inter',sans-serif;}
+:root{--game-font:'Libre Franklin',sans-serif;}
 
 /* ── Hero ── */
 .hero-text h1{letter-spacing:-.01em;font-family:'Times New Roman',serif;font-weight:700;}
@@ -147,12 +145,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 /* ── Fun fact ── */
 .factbox{
   background:rgba(160,142,200,.08);
-  border:1.5px solid rgba(145,118,184,.28);border-left:5px solid var(--neuro-blue);
-  border-radius:12px;padding:24px 28px;display:flex;flex-direction:column;gap:10px;
+  border:1.5px solid rgba(145,118,184,.28);
+  border-radius:4px;padding:24px 28px;display:flex;flex-direction:column;gap:10px;
+  position:relative;overflow:hidden;
 }
-.factbox p{margin:0;font-size:17px;line-height:1.75;font-style:italic;color:var(--ink);}
+.factbox p{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.75;color:var(--ink);}
 .factbox .cite{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
 .factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
+.fact-fullwidth{width:100vw;margin-left:calc(-50vw + 50%);padding-left:24px;padding-right:24px;box-sizing:border-box;}
+.fact-fullwidth .factbox{border-radius:0;}
 
 /* ── Games spotlight, fun, energetic ── */
 .games-spotlight{
@@ -184,24 +185,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @media(max-width:600px){.home-games-grid{grid-template-columns:1fr;gap:28px;}}
 
 .home-game-card{
-  background:#fff;border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;
+  background:var(--paper);border:1.5px solid var(--rule);border-radius:3px;overflow:hidden;
   display:flex;flex-direction:column;color:var(--ink);
   transition:box-shadow .15s ease;
   position:relative;
 }
 .home-game-card:hover{
-  box-shadow:0 10px 24px rgba(0,0,0,.1);
 }
 .home-game-card-top{
   padding:36px 24px 28px;text-align:center;
   display:flex;flex-direction:column;align-items:center;
   text-decoration:none;color:inherit;
-  background:#fff;
+  background:var(--paper);
   transition:background .2s ease;
 }
 .home-game-card:hover .home-game-card-top{background:var(--game-accent);}
 .game-card-icon-wrap{
-  width:60px;height:60px;border-radius:6px;
+  width:60px;height:60px;border-radius:3px;
   background:rgba(255,255,255,.95);
   border:1.5px solid var(--rule);
   display:flex;align-items:center;justify-content:center;
@@ -222,7 +222,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 .home-game-card:hover .home-game-card-top h3{color:#fff !important;}
 .home-game-card-bottom{
-  background:#fff !important;padding:20px 22px 24px;text-align:center;
+  background:var(--paper) !important;padding:20px 22px 24px;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;
 }
 .home-game-card-bottom p{margin:0;color:#5c5c66 !important;font-size:13.5px;line-height:1.6;max-width:260px;}
@@ -234,7 +234,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color:#fff !important;
   background:var(--game-accent);
   border:1.5px solid var(--game-accent);
-  padding:10px 20px;border-radius:6px;
+  padding:10px 20px;border-radius:3px;
   transition:filter .15s ease;
   box-sizing:border-box;
 }
@@ -281,7 +281,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 .stat-num{
   font-family:'Libre Franklin',sans-serif;font-size:clamp(34px,5vw,48px);font-weight:700;
-  color:var(--orange, #E0722E);line-height:1;margin-bottom:8px;letter-spacing:-.01em;
+  color:var(--neuro-blue-deep);line-height:1;margin-bottom:8px;letter-spacing:-.01em;
 }
 .stat-label{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
 
@@ -296,15 +296,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .seo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
 .seo-tag{
   font-family:var(--game-font);font-size:11px;font-weight:600;letter-spacing:.04em;
-  background:#fff;border:1.5px solid var(--rule);border-radius:20px;padding:5px 13px;color:var(--ink-soft);
+  background:var(--paper);border:1.5px solid var(--rule);border-radius:5px;padding:5px 13px;color:var(--ink-soft);
 }
 @media(max-width:480px){.seo-section{padding:22px 18px;}}
 
 /* ── Volunteer banner ── */
 .volunteer-banner{
   display:flex;align-items:center;justify-content:space-between;gap:20px;
-  background:var(--paper);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;
-  border-radius:8px;padding:26px 30px;margin-bottom:0;
+  background:var(--paper);border:1.5px solid var(--rule);
+  border-radius:3px;padding:26px 30px;margin-bottom:0;
   flex-wrap:wrap;
 }
 .volunteer-banner-text h4{
@@ -408,6 +408,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Fun Fact -->
   <div class="wrap" style="margin-top:48px;">
     <span class="section-eyebrow">Weekly Neuroscience Fun Fact</span>
+  </div>
+  <div class="fact-fullwidth" style="margin-top:12px;">
     <div class="factbox" id="fun-fact-box">
       <p class="fact-text">Loading this week's fact…</p>
       <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">Loading...</a></span>
@@ -431,7 +433,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
           <div class="home-game-card-bottom">
             <p>A new diagnosis every morning.</p>
-            <div id="home-streak-display" style="display:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:20px;"></div>
+            <div id="home-streak-display" style="display:none;font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:5px;"></div>
             <div class="card-btn-group">
               <a class="play-cta" href="daily-game.html">Play →</a>
               <a class="play-cta secondary" href="archive.html">Archive</a>
@@ -494,12 +496,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Join Us -->
   <div class="wrap" style="margin-top:48px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--paper);border:1.5px solid var(--rule);border-left:4px solid #6B4F94;border-radius:10px;padding:26px 28px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--paper);border:1.5px solid var(--rule);border-radius:3px;padding:26px 28px;">
       <div>
         <h3 style="font-family:'Libre Franklin',sans-serif;font-weight:700;font-size:22px;margin:0 0 6px;color:var(--ink);">Help build Neurole</h3>
         <p style="color:var(--ink-soft);font-size:14px;margin:0;max-width:460px;line-height:1.6;">Clinicians, students, designers, and developers work on Neurole as volunteers. If you'd like to help, we'd like to hear from you.</p>
       </div>
-      <a class="btn" href="volunteer.html" style="border-radius:999px;flex-shrink:0;padding:12px 26px;">Join Us →</a>
+      <a class="btn" href="volunteer.html" style="border-radius:4px;flex-shrink:0;padding:12px 26px;">Join Us →</a>
     </div>
   </div>
 
@@ -513,7 +515,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-about">
         <p style="font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -561,19 +563,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
     <div style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <h3 style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Inter',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Libre Franklin',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:3px;font-family:'Libre Franklin',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
-    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:3px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="terms.html" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="privacy.html" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="terms.html" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="privacy.html" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 
@@ -677,7 +679,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
       if(streak > 0){
         const el = document.getElementById('home-streak-display');
-        if(el){ el.style.display='flex'; el.textContent = '🔥 ' + streak + '-day streak'; }
+        if(el){ el.style.display='flex'; el.textContent = streak + '-day streak'; }
       }
     }
   }catch(e){}
@@ -703,24 +705,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
       <h3 style="font-family:'Libre Franklin',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
-    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+    <div class="sub-body" style="padding:24px 28px 26px;background:var(--paper);">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Libre Franklin',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:3px;box-sizing:border-box;">
         </div>
-        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:3px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Libre Franklin',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

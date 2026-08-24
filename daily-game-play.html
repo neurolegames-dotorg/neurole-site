@@ -47,13 +47,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>The Daily Case, Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Merriweather:wght@700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Bitter:wght@400;600;700;800;900&family=Merriweather:wght@700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=172">
 <style>
 
   /* --- Fun game typography & visuals --- */
-  :root{--game-font:'Libre Franklin',sans-serif;}
+  :root{
+    --game-font:'Libre Franklin',sans-serif;
+    --neuro-blue-deep:#B23A30;
+    --neuro-blue:#D14A3D;
+    --neuro-blue-bright:#E8756A;
+    --plum:#8B2620;
+  }
 
   /* Start screen */
   .start-screen h1{
@@ -270,10 +276,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #mobile-dx-bar{display:flex;align-items:flex-start;gap:10px;max-width:520px;margin:0 auto;}
   .mobile-guess-btn{
     font-family:'Libre Franklin',sans-serif;font-size:14px;font-weight:700;color:#fff;
-    background:#4A2570;border:none;border-radius:3px;padding:0 20px;height:48px;
+    background:#8B2620;border:none;border-radius:3px;padding:0 20px;height:48px;
     cursor:pointer;flex-shrink:0;transition:background .15s ease;min-width:82px;
   }
-  .mobile-guess-btn[data-mode="ask"]{background:var(--plum);}
+  .mobile-guess-btn[data-mode="ask"]{background:#A8443A;}
   .mobile-dx-input-wrap{position:relative;flex:1;min-width:0;}
   .mobile-dx-input-wrap input{
     width:100%;height:48px;padding:0 14px;box-sizing:border-box;
@@ -283,7 +289,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .mobile-dx-input-wrap input:disabled{opacity:.6;}
   .mobile-ask-btn{
     width:48px;height:48px;flex-shrink:0;border-radius:3px;border:none;
-    background:#4A2570;color:#fff;cursor:pointer;
+    background:#8B2620;color:#fff;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
   }
   @media(max-width:640px){
@@ -1479,7 +1485,6 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
       : '<p style="font-family:\'Inter\',sans-serif;font-size:13.5px;color:var(--ink-soft);">Disorder list unavailable right now.</p>';
     openModal(`
       <h3>All Disorders in The Daily Case</h3>
-      <p style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 16px;line-height:1.6;">Every diagnosis that has appeared across all cases, a study reference (not today's answer). Tap any one to read more on Mayo Clinic.</p>
       ${listHtml}
     `);
   });
@@ -1671,7 +1676,7 @@ function showWrongFlash(wrongGuess){
     document.body.appendChild(el);
   }
   el.innerHTML = `
-    <div style="font-family:'Libre Baskerville',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
+    <div style="font-family:'Bitter',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
     <div style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#8B2635;margin-top:6px;opacity:.7;">Incorrect</div>
   `;
   el.style.opacity = '1';

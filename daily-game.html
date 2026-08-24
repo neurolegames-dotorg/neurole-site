@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>The Daily Case, A Neuroscience Wordle | Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Bitter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=172">
 <style>
@@ -1085,7 +1085,7 @@ function showWrongFlash(wrongGuess){
     document.body.appendChild(el);
   }
   el.innerHTML = `
-    <div style="font-family:'Libre Baskerville',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
+    <div style="font-family:'Bitter',Georgia,serif;font-weight:700;font-size:clamp(20px,5vw,30px);color:#8B2635;line-height:1.2;word-break:break-word;">${wrongGuess || 'Wrong'}</div>
     <div style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#8B2635;margin-top:6px;opacity:.7;">Incorrect</div>
   `;
   el.style.opacity = '1';

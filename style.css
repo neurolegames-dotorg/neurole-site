@@ -22,7 +22,7 @@
   --gold:#E0722E;
   --paper-rgb:246,244,239;
 
-  --serif-display:'Libre Franklin', sans-serif;
+  --serif-display:'Bitter', serif;
   --serif-body:'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
   --mono:'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
 
@@ -226,7 +226,7 @@ body{padding-top:58px;}
   padding-right:14px;border-right:1.5px solid var(--rule);
 }
 .brand-wordmark{
-  font-family:'Times New Roman',serif;
+  font-family:'Bitter',serif;
   font-weight:800;font-size:26px;letter-spacing:-.01em;
   color:var(--ink);white-space:nowrap;
   /* Nudge text baseline to match logo optical centre */

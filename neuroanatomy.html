@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Free Neuroanatomy Quiz, Learn Brain Regions | Map the Brain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Bitter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=172">
 <style>
@@ -62,7 +62,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   /* --- Fun game typography & visuals --- */
-  :root{--game-font:'Libre Franklin',sans-serif;}
+  :root{
+    --game-font:'Libre Franklin',sans-serif;
+    --neuro-blue-deep:#153F66;
+    --neuro-blue:#2B72B8;
+    --neuro-blue-bright:#5C9FDB;
+    --plum:#0F2E4A;
+  }
 
   /* Score bar, vivid pill style */
   .game-stats-bar{
@@ -795,10 +801,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="modal-backdrop" id="neuro-result-modal">
   <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:3px;">
-    <div style="background:#6B4F94;padding:28px 28px 26px;text-align:center;position:relative;">
+    <div style="background:#153F66;padding:28px 28px 26px;text-align:center;position:relative;">
       <p style="font-family:'Libre Franklin',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 14px;">Neurole · Map the Brain</p>
       <div id="neuro-score-ring" style="width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.18);">
-        <div style="width:78px;height:78px;border-radius:50%;background:#7A5FAF;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="width:78px;height:78px;border-radius:50%;background:#2B72B8;display:flex;flex-direction:column;align-items:center;justify-content:center;">
           <span id="neuro-score-pct" style="font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;color:#fff;line-height:1;"></span>
           <span style="font-family:'Libre Franklin',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:2px;">Correct</span>
         </div>
@@ -806,7 +812,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h3 id="neuro-result-headline" style="font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;color:#fff;margin:0 0 6px;letter-spacing:-.01em;"></h3>
       <p id="neuro-result-stats" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:rgba(255,255,255,.75);margin:0;"></p>
     </div>
-    <div id="neuro-best-banner" style="display:none;padding:10px 28px;background:#F4EFFA;text-align:center;border-bottom:1px solid rgba(0,0,0,.06);">
+    <div id="neuro-best-banner" style="display:none;padding:10px 28px;background:#E3EDF7;text-align:center;border-bottom:1px solid rgba(0,0,0,.06);">
       <span style="font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);">New personal best for this round type!</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(0,0,0,.07);">

@@ -60,6 +60,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --neuro-blue-bright:#E8756A;
     --plum:#8B2620;
   }
+  :root[data-theme="dark"]{
+    --neuro-blue-deep:#E8756A;
+    --neuro-blue:#F09085;
+    --neuro-blue-bright:#F5B0A8;
+    --plum:#D14A3D;
+  }
+  :root[data-theme="dark"] .btn:not(.ghost){
+    background:#B23A30 !important;color:#fff !important;-webkit-text-fill-color:#fff !important;
+  }
+  :root[data-theme="dark"] .btn:not(.ghost):hover{background:#8B2620 !important;}
 
   /* Start screen */
   .start-screen h1{

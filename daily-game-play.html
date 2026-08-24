@@ -1385,7 +1385,7 @@ A student asked: "${question}"
 In 1-2 short sentences, answer as a clinical summary would (e.g. "Labs show...", "The patient reports...", "On exam,..."). Give a confident, clinically realistic answer consistent with an actual case of this diagnosis and with the facts already given above, this is your default. Only if the question is completely unrelated to a clinical assessment (not about symptoms, history, exam, labs, or the patient at all) should you gently redirect instead of answering.`;
 
   const answer = await askNeuroleAIRaw(prompt);
-  return answer || "Couldn't reach the AI just now, try asking again.";
+  return answer || `Couldn't reach the AI (${askNeuroleAIRaw.lastError || 'unknown error'}). Try asking again.`;
 }
 
 function renderAssessmentEntry(questionText, answerText, isAI){

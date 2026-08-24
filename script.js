@@ -245,7 +245,8 @@ async function askNeuroleAIRaw(prompt){
   const p1='gsk_PRTnVg2SnS0fCB8qD0gK';
   const p2='WGdyb3FYGQrdhrIHqFGZ6xpiw9em2Yp3';
   const key = p1+p2;
-  const models = ['llama-3.1-8b-instant','llama-3.3-70b-versatile','gemma2-9b-it'];
+  const models = ['openai/gpt-oss-20b','openai/gpt-oss-120b'];
+  let lastErrorDetail = '';
   for(const model of models){
     try{
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
@@ -264,10 +265,16 @@ async function askNeuroleAIRaw(prompt){
       const data = await res.json();
       const answer = data?.choices?.[0]?.message?.content?.trim();
       if(res.ok && answer) return answer;
-      console.warn('Groq',model,'status',res.status,data?.error?.message||'');
-      if(res.status===401) break;
-    }catch(e){ console.warn('Groq network error:',e.message); }
+      lastErrorDetail = `HTTP ${res.status}: ${data?.error?.message || 'no message'}`;
+      console.warn('Groq', model, lastErrorDetail);
+      if(res.status===401){ lastErrorDetail = 'HTTP 401: API key invalid or revoked'; break; }
+    }catch(e){
+      lastErrorDetail = 'Network error: ' + e.message;
+      console.warn('Groq network error:',e.message);
+    }
   }
+  console.warn('Neurole AI: all models failed. Last error —', lastErrorDetail);
+  askNeuroleAIRaw.lastError = lastErrorDetail;
   return null;
 }
 

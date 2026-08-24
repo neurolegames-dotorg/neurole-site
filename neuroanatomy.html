@@ -47,9 +47,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Free Neuroanatomy Quiz, Learn Brain Regions | Map the Brain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="style.css?v=171">
+<link rel="stylesheet" href="style.css?v=172">
 <style>
   /* Prevent white flash on tap in iOS */
   * { -webkit-tap-highlight-color: transparent; }
@@ -62,7 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   /* --- Fun game typography & visuals --- */
-  :root{--game-font:'Inter',sans-serif;}
+  :root{--game-font:'Libre Franklin',sans-serif;}
 
   /* Score bar, vivid pill style */
   .game-stats-bar{
@@ -73,27 +73,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:var(--game-font) !important;font-size:13px !important;font-weight:700;
     background:var(--neuro-blue-deep);
     color:#fff !important;border:none !important;
-    padding:5px 14px !important;border-radius:20px !important;
+    padding:5px 14px !important;border-radius:5px !important;
     letter-spacing:.02em;text-transform:none !important;
   }
   .score-pill{
     font-family:var(--game-font) !important;font-size:13px !important;font-weight:700;
-    background:#fff;color:var(--ink) !important;
+    background:var(--paper);color:var(--ink) !important;
     border:1.5px solid var(--rule) !important;
-    padding:5px 14px !important;border-radius:20px !important;
+    padding:5px 14px !important;border-radius:5px !important;
     letter-spacing:.02em;text-transform:none !important;
   }
   .difficulty-badge{
     font-family:var(--game-font) !important;font-size:11.5px !important;font-weight:600;
     background:rgba(168,68,58,.1);color:#8B2635 !important;
     border:1.5px solid rgba(168,68,58,.2) !important;
-    padding:4px 12px !important;border-radius:20px !important;
+    padding:4px 12px !important;border-radius:5px !important;
     text-transform:capitalize !important;letter-spacing:.02em;
   }
 
   /* Specimen image area */
   .specimen{
-    border-radius:16px !important;
+    border-radius:4px !important;
     overflow:hidden;
     margin-bottom:8px;
   }
@@ -106,8 +106,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Choice buttons, fun card style */
   .choice-btn{
     font-family:var(--game-font) !important;font-size:16px !important;font-weight:500;
-    border:2px solid var(--rule) !important;border-radius:12px !important;
-    background:#fff !important;
+    border:2px solid var(--rule) !important;border-radius:4px !important;
+    background:var(--paper) !important;
     padding:14px 14px 14px 50px !important;
     transition:all .15s !important;
     color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
@@ -128,7 +128,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .choice-letter{
     font-family:var(--game-font) !important;font-size:12px !important;font-weight:800;
     width:26px !important;height:26px !important;line-height:26px !important;left:12px !important;
-    border-radius:8px !important;
+    border-radius:3px !important;
     background:var(--paper-deep) !important;
     color:var(--ink) !important;
   }
@@ -139,7 +139,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .next-row{margin-top:20px;}
   #next-btn{
     font-family:var(--game-font) !important;font-size:14px !important;font-weight:700;
-    padding:12px 28px !important;border-radius:12px !important;
+    padding:12px 28px !important;border-radius:4px !important;
   }
 
   /* Start screen, game personality */
@@ -155,13 +155,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .category-btn{
     font-family:var(--game-font) !important;
     font-weight:600 !important;
-    border-radius:10px !important;
+    border-radius:3px !important;
   }
 
   .round-choice{
     font-family:var(--game-font) !important;
     font-size:14px !important;font-weight:700 !important;
-    border-radius:12px !important;
+    border-radius:4px !important;
   }
 
 
@@ -207,8 +207,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .category-row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-bottom:26px;}
   .category-btn{
     font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
-    padding:9px 16px;border-radius:20px;
-    border:1.5px solid var(--rule);background:#fff;color:var(--ink-soft);
+    padding:9px 16px;border-radius:5px;
+    border:1.5px solid var(--rule);background:var(--paper);color:var(--ink-soft);
     cursor:pointer;transition:all .12s;
     -webkit-tap-highlight-color:transparent !important;
     user-select:none;
@@ -234,18 +234,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .learn-tab-toggle{
     width:100%;display:flex;justify-content:space-between;align-items:center;
-    background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:8px;
+    background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:3px;
     padding:12px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;
     text-align:left;cursor:pointer;transition:background .15s;
   }
   .learn-tab-toggle:hover,.learn-tab-toggle[aria-expanded="true"]{
-    background:#fff;border-color:var(--neuro-blue);
+    background:var(--paper);border-color:var(--neuro-blue);
   }
   .learn-tab-arrow{font-size:14px;transition:transform .2s;flex-shrink:0;margin-left:8px;}
   .learn-tab-toggle[aria-expanded="true"] .learn-tab-arrow{transform:rotate(180deg);}
   .learn-tab-body{
     width:100%;
-    background:#fff;
+    background:var(--paper);
     border:1.5px solid var(--rule);
     border-radius:0 0 8px 8px;
     padding:14px;
@@ -287,7 +287,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   .beginner-card{
-    background:var(--paper-deep);border-radius:8px;padding:14px 16px;
+    background:var(--paper-deep);border-radius:3px;padding:14px 16px;
   }
   .beginner-card strong{font-family:var(--serif-display);font-size:15px;color:var(--ink);display:block;margin-bottom:5px;}
   .beginner-card p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.55;}
@@ -298,7 +298,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .difficulty-badge{
     font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-    padding:4px 11px;border-radius:20px;border:1px solid var(--rule);
+    padding:4px 11px;border-radius:5px;border:1px solid var(--rule);
   }
   .difficulty-badge.easy{color:#3D7A57;background:rgba(61,122,87,0.08);border-color:rgba(61,122,87,0.3);}
   .difficulty-badge.medium{color:#9C6F1E;background:rgba(156,111,30,0.08);border-color:rgba(156,111,30,0.3);}
@@ -320,7 +320,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* Mobile-friendly specimen image, shorter on small screens */
   .specimen{
-    background:#fff;
+    background:var(--paper);
     border:1px solid var(--rule);
     padding:14px;margin-bottom:16px;
     position:relative;
@@ -348,7 +348,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Answer choices, more compact on phone */
   .choices{display:grid;grid-template-columns:1fr;gap:9px;}
   .choice-btn{
-    text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:#fff;
+    text-align:left;padding:13px 14px 13px 46px;border:1.5px solid var(--rule);background:var(--paper);
     font-family:var(--serif-body);font-size:15px;transition:background .15s,border-color .15s,transform .1s;
     position:relative;
     color:var(--ink) !important;
@@ -376,7 +376,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .score-tag{
     font-family:var(--mono);font-size:12px;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;
     background:var(--paper-deep);border:1px solid var(--rule);
-    padding:4px 11px;border-radius:20px;
+    padding:4px 11px;border-radius:5px;
   }
 
   .chat-fab{
@@ -384,7 +384,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     height:50px;padding:0 22px 0 18px;border-radius:30px;
     background:var(--neuro-blue-deep);color:#fff;
     border:none;display:none;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
@@ -407,7 +406,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chat-log{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
   .chat-msg{font-size:14.5px;padding:9px 12px;border-radius:3px;}
   .chat-msg.user{background:var(--paper-deep);align-self:flex-end;}
-  .chat-msg.ai{background:#fff;border:1px solid var(--rule);align-self:flex-start;}
+  .chat-msg.ai{background:var(--paper);border:1px solid var(--rule);align-self:flex-start;}
   .ask-row{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--rule);}
   .ask-row input{flex:1;padding:10px 11px;border:1px solid var(--ink-soft);font-family:var(--serif-body);}
   @media(max-width:480px){
@@ -452,10 +451,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       position:relative !important;
       width:100% !important;max-width:100% !important;
       max-height:72vh !important;
-      border-radius:16px 16px 0 0 !important;
+      border-radius:4px 16px 0 0 !important;
       border-top:2px solid var(--rule) !important;
       border-left:none !important;border-right:none !important;border-bottom:none !important;
-      box-shadow:0 -8px 40px rgba(0,0,0,.15) !important;
     }
     .learn-fab{bottom:max(20px,env(safe-area-inset-bottom,20px)) !important;}
   }
@@ -522,10 +520,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:relative !important;
     width:100% !important;max-width:100% !important;
     max-height:80vh !important;height:auto !important;
-    border-radius:16px !important;
+    border-radius:4px !important;
     border:none !important;
-    box-shadow:0 8px 40px rgba(0,0,0,.3) !important;
-    background:#fff !important;
+    background:var(--paper) !important;
     overflow:hidden !important;
     display:flex !important;flex-direction:column !important;
   }
@@ -544,10 +541,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Progress bar */
   .progress-bar-wrap{
     width:100%;height:6px;background:rgba(145,118,184,.15);
-    border-radius:6px;overflow:hidden;margin-bottom:16px;
+    border-radius:3px;overflow:hidden;margin-bottom:16px;
   }
   .progress-bar-fill{
-    height:100%;border-radius:6px;
+    height:100%;border-radius:3px;
     background:var(--neuro-blue-deep);
     transition:width .5s cubic-bezier(.4,0,.2,1);
   }
@@ -650,7 +647,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="back-home" href="index.html" style="position:absolute;top:18px;left:20px;z-index:10;margin-bottom:0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Home
     </a>
-    <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+    <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:3px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
     </button>
     <div class="start-screen-inner" style="max-width:460px;padding-top:10px;">
@@ -660,11 +657,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="map-brain-icon.png" alt="Map the Brain" width="56" height="56" style="object-fit:contain;">
       </div>
       <h1 style="font-family:'Libre Franklin',sans-serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
-      <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
 
       <!-- Difficulty -->
       <div style="width:100%;text-align:left;margin-bottom:8px;">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Difficulty</p>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Difficulty</p>
         <div class="category-row" id="difficulty-row">
           <button class="category-btn active" data-difficulty="all">All</button>
           <button class="category-btn" data-difficulty="Easy">Easy</button>
@@ -675,7 +672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Question type -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Question type</p>
         <div class="category-row" id="question-type-row">
           <button class="category-btn active" data-qtype="region">Name the Region</button>
           <button class="category-btn" data-qtype="function">Name from Function</button>
@@ -685,7 +682,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Area -->
       <div style="width:100%;text-align:left;margin:14px 0 8px;">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 8px;">Brain area</p>
         <div class="category-row" id="category-row">
           <button class="category-btn active" data-category="Random">Random Mix</button>
           <button class="category-btn" data-category="Sulci">Sulci</button>
@@ -697,10 +694,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Round length, big game-style buttons -->
       <div style="width:100%;margin-top:20px;display:flex;flex-direction:column;gap:10px;">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 4px;">Choose round length</p>
-        <button class="btn round-choice" data-count="10" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Quick Round, 10 Questions</button>
-        <button class="btn round-choice" data-count="25" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Standard, 25 Questions</button>
-        <button class="btn round-choice ghost" data-count="all" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:12px;">Full Quiz, All Questions</button>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:0 0 4px;">Choose round length</p>
+        <button class="btn round-choice" data-count="10" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:4px;">Quick Round, 10 Questions</button>
+        <button class="btn round-choice" data-count="25" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:4px;">Standard, 25 Questions</button>
+        <button class="btn round-choice ghost" data-count="all" style="width:100%;justify-content:center;font-size:15px;padding:15px;border-radius:4px;">Full Quiz, All Questions</button>
       </div>
 
       <div class="synapse-rule" style="width:100%;margin:22px 0 16px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
@@ -708,7 +705,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Inline expandable tabs -->
       <div style="width:100%;display:flex;flex-direction:column;gap:10px;">
         <button class="learn-tab-toggle" id="learn-toggle" aria-expanded="false">
-          🧠 New to neuroanatomy? Learn key brain regions
+          New to neuroanatomy? Learn key brain regions
           <span class="learn-tab-arrow">▾</span>
         </button>
         <div class="learn-tab-body" id="learn-tab-body" style="display:none;">
@@ -721,7 +718,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <button class="learn-tab-toggle" id="neuropsych-toggle" aria-expanded="false">
-          🔬 Neuropsychology, regions important for psychology
+          Neuropsychology, regions important for psychology
           <span class="learn-tab-arrow">▾</span>
         </button>
         <div class="learn-tab-body" id="neuropsych-tab-body" style="display:none;">
@@ -797,47 +794,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 
 <div class="modal-backdrop" id="neuro-result-modal">
-  <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.4);">
-    <div style="background:linear-gradient(135deg,#6B4F94,#9176B8);padding:28px 28px 26px;text-align:center;position:relative;">
-      <p style="font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 14px;">Neurole · Map the Brain</p>
-      <div id="neuro-score-ring" style="width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:conic-gradient(#fff 0deg, rgba(255,255,255,.25) 0deg);">
+  <div class="modal" style="max-width:400px;padding:0;overflow:hidden;border-radius:3px;">
+    <div style="background:#6B4F94;padding:28px 28px 26px;text-align:center;position:relative;">
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 14px;">Neurole · Map the Brain</p>
+      <div id="neuro-score-ring" style="width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.18);">
         <div style="width:78px;height:78px;border-radius:50%;background:#7A5FAF;display:flex;flex-direction:column;align-items:center;justify-content:center;">
           <span id="neuro-score-pct" style="font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;color:#fff;line-height:1;"></span>
-          <span style="font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:2px;">Correct</span>
+          <span style="font-family:'Libre Franklin',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:2px;">Correct</span>
         </div>
       </div>
       <h3 id="neuro-result-headline" style="font-family:'Libre Franklin',sans-serif;font-size:26px;font-weight:700;color:#fff;margin:0 0 6px;letter-spacing:-.01em;"></h3>
-      <p id="neuro-result-stats" style="font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,.75);margin:0;"></p>
+      <p id="neuro-result-stats" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:rgba(255,255,255,.75);margin:0;"></p>
     </div>
     <div id="neuro-best-banner" style="display:none;padding:10px 28px;background:#F4EFFA;text-align:center;border-bottom:1px solid rgba(0,0,0,.06);">
-      <span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);">🏆 New personal best for this round type!</span>
+      <span style="font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);">New personal best for this round type!</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(0,0,0,.07);">
       <div id="neuro-stat-rounds" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
         <div style="font-family:'Libre Franklin',sans-serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Rounds Played</div>
+        <div style="font-family:'Libre Franklin',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Rounds Played</div>
       </div>
       <div id="neuro-stat-avg" style="text-align:center;padding:16px 4px;border-right:1px solid rgba(0,0,0,.07);">
         <div style="font-family:'Libre Franklin',sans-serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Avg Score</div>
+        <div style="font-family:'Libre Franklin',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Avg Score</div>
       </div>
       <div id="neuro-stat-best" style="text-align:center;padding:16px 4px;">
         <div style="font-family:'Libre Franklin',sans-serif;font-size:30px;font-weight:700;color:var(--neuro-blue-deep);line-height:1;"></div>
-        <div style="font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Best (this type)</div>
+        <div style="font-family:'Libre Franklin',sans-serif;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;">Best (this type)</div>
       </div>
     </div>
-    <div style="padding:22px 28px 26px;background:#fff;">
+    <div style="padding:22px 28px 26px;background:var(--paper);">
       <div id="neuro-google-container" style="margin-bottom:14px;"></div>
-      <button class="btn" id="new-round-btn" style="width:100%;justify-content:center;border-radius:8px;background:var(--neuro-blue-deep);font-size:13px;padding:14px;letter-spacing:.03em;margin-bottom:8px;">Play another round</button>
-      <a href="daily-game.html" style="display:flex;align-items:center;justify-content:center;padding:11px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.02em;border:1.5px solid #e0e0e0;border-radius:8px;text-decoration:none;color:var(--ink);margin-bottom:8px;">Try The Daily Case</a>
-      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--ink-soft);cursor:pointer;padding:6px;text-align:center;letter-spacing:.03em;">Dismiss</button>
+      <button class="btn" id="new-round-btn" style="width:100%;justify-content:center;border-radius:3px;background:var(--neuro-blue-deep);font-size:13px;padding:14px;letter-spacing:.03em;margin-bottom:8px;">Play another round</button>
+      <a href="daily-game.html" style="display:flex;align-items:center;justify-content:center;padding:11px;font-family:'Libre Franklin',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.02em;border:1.5px solid #e0e0e0;border-radius:3px;text-decoration:none;color:var(--ink);margin-bottom:8px;">Try The Daily Case</a>
+      <button id="neuro-result-close" style="display:block;width:100%;background:none;border:none;font-family:'Libre Franklin',sans-serif;font-size:11.5px;color:var(--ink-soft);cursor:pointer;padding:6px;text-align:center;letter-spacing:.03em;">Dismiss</button>
     </div>
   </div>
 </div>
 
 <!-- Mobile AI popup backdrop -->
 <div id="ai-mobile-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:20px;">
-  <div id="ai-mobile-panel" style="background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.25);">
+  <div id="ai-mobile-panel" style="background:var(--paper);border-radius:4px;width:100%;max-width:520px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);">
       <h4 id="ai-mobile-title" style="font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;margin:0;">Region</h4>
       <button id="ai-mobile-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);">✕</button>
@@ -845,13 +842,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="flex:1;overflow-y:auto;padding:14px 18px;-webkit-overflow-scrolling:touch;">
       <p id="ai-mobile-function" style="color:var(--ink-soft);font-size:14.5px;line-height:1.7;margin:0 0 12px;"></p>
       <div style="border-top:1px solid var(--rule);padding-top:12px;">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 0 10px;">Ask the AI</p>
+        <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 0 10px;">Ask the AI</p>
         <div id="ai-mobile-chat" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
       </div>
     </div>
     <form id="ai-mobile-form" style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--rule);">
-      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:8px;font-family:'Inter',sans-serif;">
-      <button class="btn" type="submit" style="height:38px;padding:0 14px;font-size:13px;border-radius:8px;">Ask</button>
+      <input id="ai-mobile-input" type="text" placeholder="e.g. what happens if this is damaged?" style="flex:1;padding:8px 12px;font-size:14px;border:1.5px solid var(--rule);border-radius:3px;font-family:'Libre Franklin',sans-serif;">
+      <button class="btn" type="submit" style="height:38px;padding:0 14px;font-size:13px;border-radius:3px;">Ask</button>
     </form>
   </div>
 </div>
@@ -870,7 +867,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-about">
         <p style="font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -920,19 +917,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
     <div style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <h3 style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:6px;font-family:'Inter',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Libre Franklin',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:3px;font-family:'Libre Franklin',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
-    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:6px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
+    <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:3px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 </div>
@@ -1273,7 +1270,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
     const total = qBank.length;
     const pct = total ? Math.round((correctCount/total)*100) : 0;
     const ring = document.getElementById('neuro-score-ring');
-    if(ring) ring.style.background = `conic-gradient(#fff ${pct*3.6}deg, rgba(255,255,255,.25) 0deg)`;
+    if(ring) ring.style.background = 'rgba(255,255,255,.18)';
     const pctEl = document.getElementById('neuro-score-pct');
     if(pctEl) pctEl.textContent = pct + '%';
     const headline = document.getElementById('neuro-result-headline');
@@ -1378,10 +1375,10 @@ document.getElementById('ai-mobile-form').addEventListener('submit', async e => 
   const q = input.value.trim(); if(!q) return;
   const chat = document.getElementById('ai-mobile-chat');
   const u = document.createElement('div');
-  u.style.cssText="font-family:'Inter',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:8px;align-self:flex-end;max-width:85%;";
+  u.style.cssText="font-family:'Libre Franklin',sans-serif;font-size:14px;background:rgba(107,79,148,.08);padding:8px 12px;border-radius:3px;align-self:flex-end;max-width:85%;";
   u.textContent=q; chat.appendChild(u); input.value='';
   const a = document.createElement('div');
-  a.style.cssText="font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);padding:6px 0;";
+  a.style.cssText="font-family:'Libre Franklin',sans-serif;font-size:14px;color:var(--ink-soft);padding:6px 0;";
   a.textContent='…'; chat.appendChild(a);
   const title = document.getElementById('ai-mobile-title').textContent;
   const func  = document.getElementById('ai-mobile-function').textContent;
@@ -1562,7 +1559,7 @@ document.getElementById('start-beginner-btn').addEventListener('click', () => {
 .htp-brand span{font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;color:var(--ink);}
 .htp-section{margin-bottom:24px;}
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
-.htp-line{font-family:'Inter',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
+.htp-line{font-family:'Libre Franklin',sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
 @media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
 
 /* Page-entry: slides in from the left on load */
@@ -1589,24 +1586,24 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
       <h3 style="font-family:'Libre Franklin',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning, today's neurological case, ready to play.</p>
     </div>
-    <div class="sub-body" style="padding:24px 28px 26px;background:#fff;">
+    <div class="sub-body" style="padding:24px 28px 26px;background:var(--paper);">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole, Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:6px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Libre Franklin',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:3px;box-sizing:border-box;">
         </div>
-        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:6px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:3px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Libre Franklin',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

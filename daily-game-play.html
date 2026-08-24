@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>The Daily Case, Neurole</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Merriweather:wght@700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=172">
 <style>
@@ -155,15 +155,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .modal-actions .btn{width:100% !important;justify-content:center !important;}
   }
   .game-date-block{
-    text-align:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
-    color:var(--ink-soft);padding:14px 0 10px;
+    text-align:left;padding:20px 0 14px;
   }
-  .game-date-name{font-weight:700;color:var(--ink);}
-  .game-date-sep{margin:0 6px;opacity:.5;}
+  .game-date-name{
+    display:block;font-family:'Merriweather',serif;font-weight:900;
+    font-size:clamp(26px,4vw,34px);color:var(--ink);letter-spacing:-.01em;line-height:1.15;
+  }
+  .game-date-today{
+    display:block;font-family:'Roboto',sans-serif;font-weight:400;font-size:13px;
+    color:var(--ink-soft);margin-top:5px;
+  }
+  .game-date-sep{display:none;}
   .game-toolbar{
     display:flex;align-items:center;gap:6px;
-    border:1.5px solid var(--rule);border-radius:4px;background:var(--paper);
-    padding:8px 10px;margin-bottom:22px;
+    border-top:1.5px solid var(--rule);border-bottom:1.5px solid var(--rule);background:var(--paper);
+    padding:10px max(16px, calc((100vw - 1100px) / 2));margin-bottom:22px;
+    width:100vw;margin-left:calc(-50vw + 50%);box-sizing:border-box;
   }
   .game-toolbar-label{font-family:'Libre Franklin',sans-serif;font-size:14.5px;font-weight:700;color:var(--ink);padding-left:4px;}
   .game-toolbar-icon{
@@ -186,6 +193,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .toolbar-stat-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px;}
   .disorder-list{columns:2;gap:20px;font-family:'Libre Franklin',sans-serif;font-size:13.5px;line-height:2;color:var(--ink);}
   @media(max-width:480px){.disorder-list{columns:1;}}
+  .disorder-link{display:block;color:var(--neuro-blue-deep);text-decoration:none;border-bottom:1px solid transparent;}
+  .disorder-link:hover{border-bottom-color:currentColor;}
   .qcat-item{border-bottom:1px solid var(--rule);padding:12px 0;}
   .qcat-item:last-child{border-bottom:none;}
   .qcat-item-label{font-family:'Libre Franklin',sans-serif;font-size:13.5px;font-weight:700;color:var(--neuro-blue-deep);margin:0 0 3px;}
@@ -261,10 +270,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #mobile-dx-bar{display:flex;align-items:flex-start;gap:10px;max-width:520px;margin:0 auto;}
   .mobile-guess-btn{
     font-family:'Libre Franklin',sans-serif;font-size:14px;font-weight:700;color:#fff;
-    background:#6935A8;border:none;border-radius:3px;padding:0 20px;height:48px;
+    background:#4A2570;border:none;border-radius:3px;padding:0 20px;height:48px;
     cursor:pointer;flex-shrink:0;transition:background .15s ease;min-width:82px;
   }
-  .mobile-guess-btn[data-mode="ask"]{background:var(--neuro-blue-deep);}
+  .mobile-guess-btn[data-mode="ask"]{background:var(--plum);}
   .mobile-dx-input-wrap{position:relative;flex:1;min-width:0;}
   .mobile-dx-input-wrap input{
     width:100%;height:48px;padding:0 14px;box-sizing:border-box;
@@ -274,7 +283,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .mobile-dx-input-wrap input:disabled{opacity:.6;}
   .mobile-ask-btn{
     width:48px;height:48px;flex-shrink:0;border-radius:3px;border:none;
-    background:#6935A8;color:#fff;cursor:pointer;
+    background:#4A2570;color:#fff;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
   }
   @media(max-width:640px){
@@ -288,6 +297,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       cursor:pointer;transition:background .15s ease,color .15s ease;
     }
     .dx-mobile-tab.active{background:var(--paper);color:var(--ink);}
+    :root[data-theme="dark"] .dx-mobile-tabs{background:#0A0A0D;}
+    :root[data-theme="dark"] .dx-mobile-tab.active{background:#16161C;}
     .dx-panel{display:none;border-radius:4px;}
     .dx-panel.active{display:flex;}
     #mobile-dx-bar{max-width:none;margin-top:16px;}
@@ -399,13 +410,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .chat-fab{
     position:fixed;bottom:26px;right:26px;
-    height:52px;padding:0 24px 0 20px;border-radius:3px;
-    background:var(--neuro-blue-deep);color:#fff;
+    height:52px;padding:0 24px 0 20px;border-radius:999px;
+    background:var(--plum);color:#fff;
     border:none;display:flex;align-items:center;justify-content:center;gap:8px;
     font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
     z-index:60;
   }
-  .chat-fab:hover{background:var(--plum);}
+  .chat-fab:hover{background:#4A3970;}
   .chat-backdrop{
     position:fixed;inset:0;background:rgba(28,27,25,.5);
     display:none;align-items:center;justify-content:center;z-index:70;padding:20px;
@@ -1365,10 +1376,10 @@ Facts already established about this patient: ${knownFacts || 'None yet.'}
 
 A student asked: "${question}"
 
-In 1-2 short sentences, answer as a clinical summary would (e.g. "Labs show...", "The patient reports...", "On exam,..."). Your answer must be clinically realistic and consistent with an actual case of this diagnosis and with the facts already given above. If the question isn't a reasonable clinical question about this patient, gently say that hasn't been assessed instead of making something up.`;
+In 1-2 short sentences, answer as a clinical summary would (e.g. "Labs show...", "The patient reports...", "On exam,..."). Give a confident, clinically realistic answer consistent with an actual case of this diagnosis and with the facts already given above, this is your default. Only if the question is completely unrelated to a clinical assessment (not about symptoms, history, exam, labs, or the patient at all) should you gently redirect instead of answering.`;
 
   const answer = await askNeuroleAIRaw(prompt);
-  return answer || "That hasn't been assessed yet.";
+  return answer || "Couldn't reach the AI just now, try asking again.";
 }
 
 function renderAssessmentEntry(questionText, answerText, isAI){
@@ -1462,11 +1473,13 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
   if(hintsBtn) hintsBtn.addEventListener('click', () => {
     const list = state.allDisorders || [];
     const listHtml = list.length
-      ? '<div class="disorder-list">' + list.map(d => '<div>' + escapeHtml(d) + '</div>').join('') + '</div>'
+      ? '<div class="disorder-list">' + list.map(d =>
+          `<a href="https://www.mayoclinic.org/search/search-results?q=${encodeURIComponent(d)}" target="_blank" rel="noopener" class="disorder-link">${escapeHtml(d)}</a>`
+        ).join('') + '</div>'
       : '<p style="font-family:\'Inter\',sans-serif;font-size:13.5px;color:var(--ink-soft);">Disorder list unavailable right now.</p>';
     openModal(`
       <h3>All Disorders in The Daily Case</h3>
-      <p style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 16px;line-height:1.6;">Every diagnosis that has appeared across all cases, a study reference (not today's answer).</p>
+      <p style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink-soft);margin:0 0 16px;line-height:1.6;">Every diagnosis that has appeared across all cases, a study reference (not today's answer). Tap any one to read more on Mayo Clinic.</p>
       ${listHtml}
     `);
   });

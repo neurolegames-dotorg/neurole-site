@@ -18,3 +18,17 @@ details summary::after{
 }
 details[open] summary::after{content:'−';}
 details summary:hover{background:var(--paper-deep);}
+
+/* Contributors — a plain rule-separated roster rather than cards, so adding a
+   name never reflows into a lopsided grid. The last row drops its border so the
+   list ends flush with the panel padding. */
+.contributor-row{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:10px 0;border-bottom:1px solid var(--rule);
+}
+.contributor-row:last-child{border-bottom:none;}
+.contributor-name{font-size:15px;color:var(--ink);}
+.contributor-role{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;
+}

@@ -1563,6 +1563,42 @@ body, footer, .start-screen, .page-hero,
 }
 :root[data-theme="dark"] .btn:not(.ghost):hover{background:#6F50A4 !important;}
 :root[data-theme="dark"] .btn.ghost{background:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);}
+
+/* Dark-mode surfaces that were still painting themselves pure white.
+   Each of these sets its own background in the base rule, so the shared
+   card/input overrides above never reached them: the fill stayed #fff while
+   --ink went near-white, leaving text somewhere between low-contrast and
+   invisible. Values match the tiers already used above — #1A1B21 for cards,
+   #202128 for controls, #26272E for a hovered control. */
+:root[data-theme="dark"] .volunteer-banner{
+  background:#1A1B21 !important;border-color:var(--rule) !important;
+}
+:root[data-theme="dark"] .seo-tag,
+:root[data-theme="dark"] .role-chip{
+  background:#202128 !important;border-color:var(--rule) !important;
+  color:var(--ink-soft) !important;-webkit-text-fill-color:var(--ink-soft) !important;
+}
+/* The selected chip keeps the accent fill, so it must win over the rule above. */
+:root[data-theme="dark"] .role-chip.selected{
+  background:var(--neuro-blue-deep) !important;border-color:var(--neuro-blue-deep) !important;
+  color:#17141F !important;-webkit-text-fill-color:#17141F !important;
+}
+:root[data-theme="dark"] .share-row button{
+  background:#202128 !important;border-color:var(--ink-soft) !important;
+  color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
+}
+:root[data-theme="dark"] .share-row button:hover{
+  background:var(--ink) !important;
+  color:var(--paper) !important;-webkit-text-fill-color:var(--paper) !important;
+}
+/* Hover/open state of the learn tab. In light mode it brightens to white; the
+   dark equivalent is a step lighter than the panel, not a step to paper, which
+   would read as the control dimming when you touch it. */
+:root[data-theme="dark"] .learn-tab-toggle:hover,
+:root[data-theme="dark"] .learn-tab-toggle[aria-expanded="true"]{
+  background:#26272E !important;border-color:var(--neuro-blue) !important;
+  color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
+}
 /* Second theme-fade pass. .mobile-nav-overlay is excluded for the same reason
    as above — this rule sits after the drawer's own and would overwrite the
    `transition` shorthand, leaving the slide with nothing to animate. */

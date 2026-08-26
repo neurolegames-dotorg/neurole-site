@@ -7,6 +7,16 @@ import { Link } from 'react-router-dom'
 /* OG: title="About Neurole", url="https://neurole.org/about.html", image="https://neurole.org//neurole-logo.png" */
 /* Twitter: title="About Neurole" */
 
+// Roster shown in the Contributors panel, mirroring the static site's about page.
+const CONTRIBUTORS = [
+  { name: 'Reva Shrestha', role: 'Founder' },
+  { name: 'Arnesh Mohanty', role: 'Contributor' },
+  { name: 'Matt Gresham', role: 'Contributor' },
+  { name: 'Nima Gholipour', role: 'Contributor' },
+  { name: 'Shritha Repala', role: 'Contributor' },
+  { name: 'Suleyman Akkaya', role: 'Contributor' },
+];
+
 export default function AboutPage() {
   usePageStyle(pageStyle);
   useDocumentHead({
@@ -25,33 +35,43 @@ export default function AboutPage() {
       <main className="wrap" style={{ padding: '36px 0 70px', maxWidth: 820 }}>
         <div className="panel" style={{ marginBottom: 24 }}>
           <h3 style={{ fontFamily: 'var(--serif-display)', marginTop: 0, fontSize: 22 }}>Our mission</h3>
-          <p style={{ fontSize: 16, lineHeight: 1.75 }}>Neurole was built on the idea that learning the nervous system should feel like a game, not a grind. Whether you're a student, a clinician-in-training, or just someone who's curious about how your brain works, Neurole turns real neuroscience into something you look forward to every day.</p>
-          <p style={{ fontSize: 16, lineHeight: 1.75, marginTop: 12, color: 'var(--ink-soft)' }}>Every case, every brain region, every fun fact is grounded in real science — reviewed by people who care deeply about getting it right.</p>
+          <p style={{ fontSize: 16, lineHeight: 1.75 }}>Neurole is a free educational platform aimed at teaching others about the human brain through games. With games in neurology and neuroanatomy, our team of students and professionals work towards creating games about your brain.</p>
         </div>
 
         <h3 style={{ fontFamily: 'var(--serif-display)', fontSize: 20, marginBottom: 4 }}>What we believe</h3>
         <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, marginTop: 0 }}>Four principles that shape every decision we make.</p>
         <div className="about-values">
           <div className="value-card">
-            <div className="val-icon">🧠</div>
+            <div className="val-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3a4 4 0 0 0-4 4c0 1-.5 1.5-1 2a3 3 0 0 0 1 5.5V17a3 3 0 0 0 3 3h2a3 3 0 0 0 3-3v-2.5a3 3 0 0 0 1-5.5c-.5-.5-1-1-1-2a4 4 0 0 0-4-4Z" /><path d="M10 21h4" /></svg></div>
             <h4>Curiosity first</h4>
             <p>The best way to learn neuroscience is to be genuinely curious about it. We build experiences that make you want to know more.</p>
           </div>
           <div className="value-card">
-            <div className="val-icon">🎯</div>
+            <div className="val-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" fill="currentColor" /></svg></div>
             <h4>Accuracy matters</h4>
             <p>Every case and region is reviewed against real clinical and scientific sources. If something's wrong, we want to know.</p>
           </div>
           <div className="value-card">
-            <div className="val-icon">🌍</div>
+            <div className="val-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a13 13 0 0 1 0 18M12 3a13 13 0 0 0 0 18" /></svg></div>
             <h4>Free forever</h4>
             <p>Neurole is and always will be free. Great science education shouldn't be behind a paywall.</p>
           </div>
           <div className="value-card">
-            <div className="val-icon">🤝</div>
+            <div className="val-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" /><circle cx="10" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></div>
             <h4>Built with the community</h4>
             <p>The people who use Neurole are also the ones who help build it — clinicians, students, and curious minds alike.</p>
           </div>
+        </div>
+
+        <h3 style={{ fontFamily: 'var(--serif-display)', fontSize: 20, margin: '32px 0 4px' }}>Contributors</h3>
+        <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, marginTop: 0, marginBottom: 20 }}>The people behind Neurole.</p>
+        <div className="panel contributor-panel" style={{ marginBottom: 24 }}>
+          {CONTRIBUTORS.map(({ name, role }) => (
+            <div className="contributor-row" key={name}>
+              <span className="contributor-name">{name}</span>
+              <span className="contributor-role">{role}</span>
+            </div>
+          ))}
         </div>
 
         <div className="synapse-rule" style={{ margin: '36px 0 28px' }}><span className="node"></span><span className="node"></span><span className="node"></span></div>

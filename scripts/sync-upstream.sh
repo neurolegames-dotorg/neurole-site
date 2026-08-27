@@ -21,9 +21,43 @@ mkdir -p "$REPO/scripts"
 LOG="$REPO/scripts/sync-upstream.log"
 UPSTREAM="origin/main"
 
+# A scheduled run has no console, so anything that asks a question hangs until
+# the task's time limit kills it - which is what happened on 2026-08-27: the
+# run logged a start and no end. Git Credential Manager is the usual culprit,
+# so every interactive path is closed off and the network/build steps are
+# given hard timeouts.
+export GIT_TERMINAL_PROMPT=0
+export GIT_ASKPASS=echo
+export SSH_ASKPASS=echo
+export GIT_CONFIG_PARAMETERS="'credential.interactive=never'"
+export NPM_CONFIG_YES=true
+export CI=1
+
 log() { printf '%s  %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG"; }
 
 BRANCH="${1:-$(git rev-parse --abbrev-ref HEAD)}"
+# Refuse to pile a second run on top of a stuck one.
+LOCK="$REPO/scripts/.sync.lock"
+if [ -e "$LOCK" ]; then
+  LOCK_PID="$(cat "$LOCK" 2>/dev/null || echo '?')"
+  if kill -0 "$LOCK_PID" 2>/dev/null; then
+    log "SKIP: another sync (pid $LOCK_PID) is still running"
+    exit 0
+  fi
+  log "clearing stale lock from pid $LOCK_PID"
+  rm -f "$LOCK"
+fi
+echo $ > "$LOCK"
+
+finish() {
+  local code=$?
+  rm -f "$LOCK"
+  if [ "${ENDED:-0}" != "1" ]; then
+    log "--- sync end (interrupted, exit $code) ---"
+  fi
+}
+trap finish EXIT INT TERM
+
 log "--- sync start (branch: $BRANCH) ---"
 
 if [ "$BRANCH" = "HEAD" ]; then
@@ -59,8 +93,8 @@ restore_stash() {
   fi
 }
 
-if ! git fetch --prune origin >> "$LOG" 2>&1; then
-  log "ABORT: fetch failed (offline, or no access to origin)"
+if ! timeout 300 git fetch --prune origin >> "$LOG" 2>&1; then
+  log "ABORT: fetch failed or timed out (offline, no access, or credentials needed)"
   restore_stash
   exit 1
 fi
@@ -69,7 +103,7 @@ BEHIND="$(git rev-list --count "HEAD..$UPSTREAM" 2>/dev/null || echo 0)"
 if [ "$BEHIND" = "0" ]; then
   log "already up to date with $UPSTREAM"
   restore_stash
-  log "--- sync end ---"
+  ENDED=1; log "--- sync end ---"
   exit 0
 fi
 
@@ -81,7 +115,7 @@ if git merge --no-edit "$UPSTREAM" >> "$LOG" 2>&1; then
   # A build failure is not a reason to unwind a clean merge - the merge is
   # still correct and the breakage is worth seeing - but say it loudly.
   if [ -f neurole-react/package.json ]; then
-    if (cd neurole-react && npm run build) >> "$LOG" 2>&1; then
+    if (cd neurole-react && timeout 600 npm run build) >> "$LOG" 2>&1; then
       log "build OK"
     else
       log "ATTENTION: merge applied but the build now fails - needs a look"
@@ -93,4 +127,4 @@ else
 fi
 
 restore_stash
-log "--- sync end ---"
+ENDED=1; log "--- sync end ---"

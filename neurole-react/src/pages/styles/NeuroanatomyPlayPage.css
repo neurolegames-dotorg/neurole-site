@@ -178,7 +178,10 @@
     text-align:left;cursor:pointer;transition:background .15s;
   }
   .learn-tab-toggle:hover,.learn-tab-toggle[aria-expanded="true"]{
-    background:#fff;border-color:var(--neuro-blue);
+    /* !important because the button sets its own background inline in the
+       JSX, and a normal declaration here loses to it -- which left this
+       highlight never rendering at all in light mode. */
+    background:var(--paper) !important;border-color:var(--neuro-blue) !important;
   }
   .learn-tab-arrow{font-size:14px;transition:transform .2s;flex-shrink:0;margin-left:8px;}
   .learn-tab-toggle[aria-expanded="true"] .learn-tab-arrow{transform:rotate(180deg);}

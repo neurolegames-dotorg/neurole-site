@@ -579,22 +579,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(systemTheme.addEventListener) systemTheme.addEventListener('change', syncSystemTheme);
     else systemTheme.addListener(syncSystemTheme);
 
-    // Interactive nav link (with Beta badge), desktop
-    const desktopNavForInteractive = document.querySelector('.nav-left');
-    if(desktopNavForInteractive && !desktopNavForInteractive.querySelector('a[href="interactive.html"]')){
-      const a = document.createElement('a');
-      a.href = 'interactive.html';
-      a.innerHTML = 'Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span>';
-      desktopNavForInteractive.insertBefore(a, desktopNavForInteractive.lastElementChild);
-    }
-    // Interactive nav link, mobile
-    const mobileNavForInteractive = document.querySelector('.mobile-nav-items');
-    if(mobileNavForInteractive && !mobileNavForInteractive.querySelector('a[href="interactive.html"]')){
-      const li = document.createElement('li');
-      li.innerHTML = '<a href="interactive.html">Interactive<span class="beta-pill" style="margin-left:5px;">Beta</span> <span class="nav-arrow">\u203a</span></a>';
-      mobileNavForInteractive.insertBefore(li, mobileNavForInteractive.lastElementChild);
-    }
-
     // Theme toggle, inserted before Sign In on desktop.
     const desktopNav = document.querySelector('.nav-left');
     if(desktopNav){

@@ -144,16 +144,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* ── Fun fact ── */
 .factbox{
-  background:rgba(160,142,200,.08);
-  border:1.5px solid rgba(145,118,184,.28);
-  border-radius:4px;padding:24px 28px;display:flex;flex-direction:column;gap:10px;
+  padding:24px 0;display:flex;flex-direction:column;gap:14px;
   position:relative;overflow:hidden;
 }
-.factbox p{margin:0;font-family:'Bitter',Georgia,serif;font-size:17px;line-height:1.75;color:var(--ink);}
-.factbox .cite{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
+.factbox p{margin:0;font-family:'Bitter',Georgia,serif;font-size:26px;line-height:1.6;color:var(--ink);}
+.factbox .cite{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);}
 .factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
 .fact-fullwidth{width:100vw;margin-left:calc(-50vw + 50%);padding-left:24px;padding-right:24px;box-sizing:border-box;}
-.fact-fullwidth .factbox{border-radius:0;}
 
 /* ── Games spotlight, fun, energetic ── */
 .games-spotlight{
@@ -362,7 +359,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li><a href="archive.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C9982F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg></span>Case Archive</span> <span class="nav-arrow">›</span></a></li>
     <li><a href="about.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#5C5C66;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.6" fill="#fff" stroke="none"/></svg></span>About</span> <span class="nav-arrow">›</span></a></li>
     <li><a href="volunteer.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#B8577A;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Join Us</span> <span class="nav-arrow">›</span></a></li>
-    <li><a href="donate.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#C1543F;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>Donate</span> <span class="nav-arrow">›</span></a></li>
     <li><a href="contact.html"><span class="nav-item-left"><span class="nav-item-icon" style="background:#3A8A82;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>Contact Us</span> <span class="nav-arrow">›</span></a></li>
     <li><button class="nav-tab-btn" data-signin><span class="nav-item-left"><span class="nav-item-icon" style="background:#2B2B38;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>Sign In</span> <span class="nav-arrow">›</span></button></li>
   </ul>
@@ -529,7 +525,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="footer-col-title">Get Involved</p>
         <a href="volunteer.html">Join Us</a>
         <a href="volunteer.html#create-a-case">Create a Case</a>
-        <a href="donate.html">Donate</a>
         <a href="mailto:neurolegames@gmail.com">Contact Us</a>
       </div>
 
@@ -697,6 +692,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           document.getElementById('reminder-success').style.display = 'block';
         } else { btn.textContent = 'Remind me →'; btn.disabled = false; }
       }catch(e){ btn.textContent = 'Remind me →'; btn.disabled = false; }
+    });
+  }
+</script>
+
 <script>
 (function(){
   var f=document.getElementById('sub-form');

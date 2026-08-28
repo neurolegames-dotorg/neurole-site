@@ -406,12 +406,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- Fun Fact -->
-  <div class="wrap" style="margin-top:48px;">
-    <span class="section-eyebrow">Neuroscience Fun Fact</span>
+  <div class="wrap" style="margin-top:70px;">
+    <span class="section-eyebrow">Weekly Neuroscience Fact</span>
   </div>
-  <div class="fact-fullwidth" style="margin-top:12px;">
+  <div class="fact-fullwidth" style="margin-top:20px;">
     <div class="factbox" id="fun-fact-box">
-      <p class="fact-text">Loading this week's fact…</p>
+      <p class="fact-text">Loading. . .</p>
       <span class="cite">Source: <a class="fact-link" href="#" target="_blank" rel="noopener">Loading...</a></span>
     </div>
   </div>
@@ -428,11 +428,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="game-card-icon-wrap">
               <img src="daily-case-icon.png" alt="The Daily Case" width="42" height="46" style="object-fit:contain;">
             </div>
-            <span class="game-card-badge">Daily · Diagnostic</span>
+            <span class="game-card-badge">Daily | Neurology</span>
             <h3>The Daily Case</h3>
           </a>
           <div class="home-game-card-bottom">
-            <p>A new diagnosis every morning.</p>
+            <p>Guess the diagnosis in 5 tries.</p>
             <div id="home-streak-display" style="display:none;font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:700;color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);padding:5px 12px;border-radius:5px;"></div>
             <div class="card-btn-group">
               <a class="play-cta" href="daily-game.html">Play →</a>
@@ -446,11 +446,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="game-card-icon-wrap">
               <img src="map-brain-icon.png" alt="Map the Brain" width="42" height="42" style="object-fit:contain;">
             </div>
-            <span class="game-card-badge">Untimed · Visual</span>
+            <span class="game-card-badge">Unlimited | Neuroanatomy</span>
             <h3>Map the Brain</h3>
           </a>
           <div class="home-game-card-bottom">
-            <p>Learn the brain, one region at a time.</p>
+            <p>Name regions and their function.</p>
             <div class="card-btn-group">
               <a class="play-cta" href="neuroanatomy.html">Play →</a>
               <a class="play-cta secondary" href="neuroanatomy.html#how-to-play">How to Play</a>
@@ -463,7 +463,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="game-card-icon-wrap">
               <img src="synapse-icon.png" alt="The Synapse" width="42" height="42" style="object-fit:contain;">
             </div>
-            <span class="game-card-badge">Daily · Word Puzzle</span>
+            <span class="game-card-badge">Daily | Connections</span>
             <h3>The Synapse</h3>
           </a>
           <div class="home-game-card-bottom">
@@ -485,9 +485,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="stats-section" style="margin-top:48px;">
     <div class="wrap">
       <div class="stats-row">
-        <div class="stat-cell"><div class="stat-num">45+</div><div class="stat-label">Brain regions</div></div>
-        <div class="stat-cell"><div class="stat-num">Daily</div><div class="stat-label">New cases</div></div>
-        <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">No account needed</div></div>
+        <div class="stat-cell"><div class="stat-num">45+</div><div class="stat-label">Questions</div></div>
+        <div class="stat-cell"><div class="stat-num">Daily</div><div class="stat-label">Cases</div></div>
+        <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">Every day</div></div>
       </div>
     </div>
   </section>
@@ -595,7 +595,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const particles = [];
     const COUNT = 9;
-    const gameLinks = ['daily-game.html', 'neuroanatomy.html', 'synapse.html'];
+    const gameLinks = ['daily-case.html', 'map-the-brain.html', 'synapse.html'];
     for(let i = 0; i < COUNT; i++){
       const isIcon = i % 3 === 2; // every third particle is a game icon
       const el = document.createElement('span');

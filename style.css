@@ -1,9 +1,13 @@
-/* ===========================================================
-   NEUROLE — shared styles
-   Palette: off-white paper, ink black, neuro blue, synapse teal
-=========================================================== */
+@font-face {
+  font-family: 'Libre Franklin';
+  src: url('Hamburg-Serial-ExtraBold/Hamburg-Serial-ExtraBold Regular/Hamburg-Serial-ExtraBold Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* Keep the remaining Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
   --paper:#F6F4EF;
@@ -1378,43 +1382,3 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 }
 .partner-card-logo img{max-width:100%;max-height:76px;width:auto;height:auto;object-fit:contain;}
 
-/* ===================== Interactive: Alzheimer's scroll section ===================== */
-.alz-scroller{ position:relative; height:380vh; margin-top:18px; }
-.alz-sticky{
-  position:sticky; top:0; height:100vh; min-height:480px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  overflow:hidden; text-align:center; padding:20px;
-}
-.alz-visual{ width:220px; height:180px; margin-bottom:6px; }
-.alz-brain{ width:100%; height:100%; transition:transform .6s ease; }
-.alz-brain-shape{ fill:#8B6BB8; transition:fill .6s ease; }
-.alz-plaque{ fill:#3A2E4D; opacity:0; transition:opacity .6s ease; }
-
-.alz-sticky[data-stage="0"] .alz-brain-shape{ fill:#8B6BB8; }
-.alz-sticky[data-stage="0"] .alz-brain{ transform:scale(1); }
-
-.alz-sticky[data-stage="1"] .alz-brain-shape{ fill:#A18BC4; }
-.alz-sticky[data-stage="1"] .alz-brain{ transform:scale(.96); }
-.alz-sticky[data-stage="1"] .alz-plaque.p1{ opacity:.55; }
-
-.alz-sticky[data-stage="2"] .alz-brain-shape{ fill:#BBAFCB; }
-.alz-sticky[data-stage="2"] .alz-brain{ transform:scale(.9); }
-.alz-sticky[data-stage="2"] .alz-plaque.p1,
-.alz-sticky[data-stage="2"] .alz-plaque.p2{ opacity:.65; }
-
-.alz-sticky[data-stage="3"] .alz-brain-shape{ fill:#D8D2DE; }
-.alz-sticky[data-stage="3"] .alz-brain{ transform:scale(.8); }
-.alz-sticky[data-stage="3"] .alz-plaque{ opacity:.75; }
-
-.alz-caption{ max-width:360px; margin-top:14px; }
-.alz-stage-label{ font-family:var(--game-font,'Libre Franklin',sans-serif); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--neuro-blue-deep); margin-bottom:6px; }
-.alz-caption h3{ font-family:'Libre Franklin',sans-serif; font-size:22px; margin:0 0 6px; }
-.alz-caption p{ font-family:var(--game-font,'Libre Franklin',sans-serif); font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.6; }
-.alz-dots{ display:flex; gap:8px; margin-top:20px; }
-.alz-dot{ width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,.15); transition:background .3s ease; }
-.alz-dot.active{ background:var(--neuro-blue-deep); }
-.beta-pill{
-  display:inline-block; font-family:var(--game-font,'Libre Franklin',sans-serif); font-size:9.5px; font-weight:700;
-  letter-spacing:.1em; text-transform:uppercase; color:#B84A0A; background:#FCEBDD;
-  border-radius:5px; padding:3px 9px; margin-left:8px; vertical-align:middle;
-}

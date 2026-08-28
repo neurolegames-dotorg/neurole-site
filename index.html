@@ -49,6 +49,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="style.css?v=172">
 <style>
+/* ── Synapse hero ── */
+.hero-synapse{padding:0;overflow:hidden;}
+.synapse-stage{
+  position:relative;
+  width:100vw;margin-left:calc(-50vw + 50%);
+  height:clamp(210px,34vw,460px);
+  background:var(--paper-deep);
 }
 .synapse-neuron{position:absolute;top:5%;height:76%;z-index:2;}
 .synapse-neuron-left{left:0;aspect-ratio:520/300;}
@@ -137,10 +144,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* ── Fun fact ── */
 .factbox{
+  background:rgba(160,142,200,.08);
+  border:1.5px solid rgba(145,118,184,.28);
+  border-radius:4px;padding:24px 28px;display:flex;flex-direction:column;gap:10px;
+  position:relative;overflow:hidden;
 }
-.factbox p{margin:0;font-family:'Bitter',Georgia,serif;font-size:20px;line-height:1.75;color:var(--ink);}
+.factbox p{margin:0;font-family:'Bitter',Georgia,serif;font-size:17px;line-height:1.75;color:var(--ink);}
 .factbox .cite{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
-.factbox .cite a{color:var(--neuro-blue-deep); solid currentColor;text-decoration:none;}
+.factbox .cite a{color:var(--neuro-blue-deep);border-bottom:1px solid currentColor;text-decoration:none;}
 .fact-fullwidth{width:100vw;margin-left:calc(-50vw + 50%);padding-left:24px;padding-right:24px;box-sizing:border-box;}
 .fact-fullwidth .factbox{border-radius:0;}
 
@@ -504,6 +515,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-about">
         <p style="font-family:'Libre Franklin',sans-serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">

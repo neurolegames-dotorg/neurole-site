@@ -1,20 +1,3 @@
-/* =====================================================================
-   NEUROLE AI WORKER — Cloudflare Worker (Groq backend)
-   Keys stay server-side, never exposed in your public GitHub repo.
-
-   DEPLOY IN 5 MINUTES:
-   1. Go to workers.cloudflare.com → sign up free → Create a Worker
-   2. Paste this entire file as the worker code
-   3. Settings → Variables and Secrets → add:
-        GROQ_API_KEY   →  (paste your Groq key from console.groq.com)
-      (add it as a Secret so it's encrypted — never visible to anyone)
-   4. Deploy → copy the worker URL (e.g. https://neurole-ai.yourname.workers.dev)
-   5. In your GitHub repo, open config.js and set:
-        AI_ENDPOINT_URL: "https://neurole-ai.yourname.workers.dev"
-   6. Also set GROQ_API_KEY to "DEPLOYED_VIA_WORKER" in config.js
-      so the frontend knows not to call Groq directly
-   ===================================================================== */
-
 export default {
   async fetch(request, env) {
     const cors = {
@@ -73,9 +56,9 @@ export default {
         if (res.ok && answer) return json({ answer, model: "gpt-4o-mini" });
       }
 
-      return json({ answer: "AI is temporarily unavailable — please try again in a moment." });
+      return json({ answer: "AI is temporarily unavailable." });
     } catch (e) {
-      return json({ answer: "Something went wrong — please try again." });
+      return json({ answer: "Error, please try again." });
     }
   }
 };

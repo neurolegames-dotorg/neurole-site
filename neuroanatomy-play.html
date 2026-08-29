@@ -755,7 +755,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                  onload="console.log('Neurole: image loaded ->', this.src);">
             <p class="cap" id="specimen-cap">Which region is highlighted?</p>
           </div>
-          <div class="choices" id="choices"></div>
+          <div class="choices" id="choices">
+            <button class="choice-btn choice-btn-placeholder" disabled></button>
+            <button class="choice-btn choice-btn-placeholder" disabled></button>
+            <button class="choice-btn choice-btn-placeholder" disabled></button>
+            <button class="choice-btn choice-btn-placeholder" disabled></button>
+          </div>
           <div id="wrong-explain" style="display:none;margin-top:14px;padding:16px 18px;background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:3px;">
             <p id="wrong-explain-label" style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why</p>
             <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink);"><strong id="wrong-explain-region"></strong> <span id="wrong-explain-text"></span></p>

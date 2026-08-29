@@ -273,8 +273,9 @@ h2.section-title{
 
 /* fun fact */
 .factbox{
-  padding:24px 0;
+  padding:36px 24px;
   display:flex;flex-direction:column;gap:14px;
+  max-width:1180px;margin:0 auto;
 }
 .factbox p{margin:0;font-size:26px;}
 .factbox .cite{

@@ -49,9 +49,6 @@
 .syn-solved-row .theme{font-family:'Google Sans Flex',sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
 .syn-solved-row .words{font-family:'Google Sans Flex',sans-serif;font-size:13.5px;font-weight:600;}
 .syn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:18px;}
-.syn-skel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;max-width:360px;margin:0 auto;}
-.syn-skel-tile{aspect-ratio:1.4;border-radius:3px;background:#EDEDED;border:1.5px solid #C4C4C4;}
-:root[data-theme="dark"] .syn-skel-tile{background:#232323;border-color:#3A3A3A;}
 .syn-start-screen{
   position:fixed;inset:0;z-index:9999;
   background:var(--paper);
@@ -91,6 +88,8 @@
 .syn-tile.shake{animation:synShake .4s ease;}
 .syn-tile.hide{visibility:hidden;pointer-events:none;}
 .syn-tile:disabled{cursor:default;}
+.syn-tile-placeholder{background:#EDEDED !important;border:1.5px solid #C4C4C4;cursor:default;pointer-events:none;}
+:root[data-theme="dark"] .syn-tile-placeholder{background:#232323 !important;border-color:#3A3A3A;}
 @keyframes synShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .syn-mistakes{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;font-family:'Google Sans Flex',sans-serif;font-size:13px;color:var(--ink-soft);}
 .syn-dot{width:10px;height:10px;border-radius:50%;background:var(--ink);}
@@ -144,14 +143,6 @@
       <button id="syn-htp-btn" class="btn ghost" style="border-radius:4px;padding:13px 22px;">How to play</button>
     </div>
     <div id="syn-load-error" style="display:none;margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);"></div>
-    <div id="syn-load-skeleton" style="display:none;margin-top:22px;">
-      <div class="syn-skel-grid">
-        <div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div>
-        <div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div>
-        <div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div>
-        <div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div><div class="syn-skel-tile"></div>
-      </div>
-    </div>
    </div>
   </div>
 
@@ -171,7 +162,12 @@
 
       <div class="syn-solved" id="syn-solved"></div>
       <div class="syn-msg" id="syn-msg"></div>
-      <div class="syn-grid" id="syn-grid"></div>
+      <div class="syn-grid" id="syn-grid">
+        <div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div>
+        <div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div>
+        <div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div>
+        <div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div><div class="syn-tile syn-tile-placeholder"></div>
+      </div>
 
       <div class="syn-mistakes">
         Mistakes remaining
@@ -683,11 +679,15 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
   document.getElementById('syn-play-btn').addEventListener('click', async function(){
     const btn = document.getElementById('syn-play-btn');
     const errEl = document.getElementById('syn-load-error');
-    const skelEl = document.getElementById('syn-load-skeleton');
+    const startEl = document.getElementById('syn-start');
+    const gameEl = document.getElementById('syn-game');
     const origText = btn.textContent;
     btn.disabled = true;
     errEl.style.display = 'none';
-    if(skelEl) skelEl.style.display = 'block';
+    // Reveal the real game screen right away so the grey placeholder tiles
+    // appear in their actual final position, not as a separate preview.
+    startEl.style.display = 'none';
+    gameEl.style.display = 'block';
     try{
       await loadSynapsePuzzle();
       let alreadyDone = null;
@@ -695,13 +695,14 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
         const raw = localStorage.getItem('neurole_synapse_' + synState.dateKey);
         if(raw) alreadyDone = JSON.parse(raw);
       }catch(e){}
-      if(skelEl) skelEl.style.display = 'none';
       startGame(alreadyDone);
     }catch(e){
       console.warn('Neurole Synapse: could not load puzzle', e.message);
+      // Loading failed - revert back to the start screen to show the error
+      gameEl.style.display = 'none';
+      startEl.style.display = 'flex';
       errEl.innerHTML = 'Could not load today\'s puzzle.<br><span style="opacity:.75;">Details: ' + (e.message || 'unknown error') + '</span>';
       errEl.style.display = 'block';
-      if(skelEl) skelEl.style.display = 'none';
       btn.textContent = origText;
       btn.disabled = false;
     }

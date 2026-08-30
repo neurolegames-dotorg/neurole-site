@@ -1,13 +1,19 @@
 @font-face {
-  font-family: 'Outfit';
-  src: url('Hamburg-Serial-ExtraBold/Hamburg-Serial-ExtraBold Regular/Hamburg-Serial-ExtraBold Regular.ttf') format('truetype');
+  font-family: 'Crete Round';
+  src: url('CreteRound-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Crete Round';
+  src: url('CreteRound-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
 
-/* Keep the remaining Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap');
 
 :root{
   --paper:#F6F4EF;
@@ -26,9 +32,9 @@
   --gold:#E0722E;
   --paper-rgb:246,244,239;
 
-  --serif-display:'Abril Fatface', serif;
-  --serif-body:'Outfit', 'Helvetica Neue', Arial, sans-serif;
-  --mono:'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --serif-display:'Google Sans Flex', sans-serif;
+  --serif-body:'Google Sans Flex', 'Helvetica Neue', Arial, sans-serif;
+  --mono:'Google Sans Flex', 'Helvetica Neue', Arial, sans-serif;
 
   --max-w:1180px;
 }

@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Libre Franklin';
+  font-family: 'Outfit';
   src: url('Hamburg-Serial-ExtraBold/Hamburg-Serial-ExtraBold Regular/Hamburg-Serial-ExtraBold Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
@@ -26,9 +26,9 @@
   --gold:#E0722E;
   --paper-rgb:246,244,239;
 
-  --serif-display:'Bitter', serif;
-  --serif-body:'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
-  --mono:'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+  --serif-display:'Abril Fatface', serif;
+  --serif-body:'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --mono:'Outfit', 'Helvetica Neue', Arial, sans-serif;
 
   --max-w:1180px;
 }
@@ -230,7 +230,7 @@ body{padding-top:58px;}
   padding-right:14px;border-right:1.5px solid var(--rule);
 }
 .brand-wordmark{
-  font-family:'Bitter',serif;
+  font-family:'Abril Fatface',serif;
   font-weight:800;font-size:26px;letter-spacing:-.01em;
   color:var(--ink);white-space:nowrap;
   /* Nudge text baseline to match logo optical centre */
@@ -526,8 +526,8 @@ footer {
 .rmodal-game-card.rmodal-game-neutral{background:#5C5C66;}
 .rmodal-game-card:hover{transform:translateY(-2px);}
 .rmodal-game-card svg{width:22px;height:22px;margin-bottom:10px;stroke:#fff;}
-.rmodal-game-title{font-family:'Libre Franklin',sans-serif;font-size:13.5px;font-weight:700;color:#fff;}
-.rmodal-game-sub{font-family:'Libre Franklin',sans-serif;font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;}
+.rmodal-game-title{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#fff;}
+.rmodal-game-sub{font-family:'Outfit',sans-serif;font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;}
 
 .modal{
   background:var(--paper);max-width:480px;width:100%;
@@ -841,7 +841,7 @@ h1,h2,h3,h4,
 .nav-left a,.mobile-nav-items a,
 .home-game-card-tag,.play-cta,
 .stat-label,.step-num{
-  font-family:'Libre Franklin',sans-serif;
+  font-family:'Outfit',sans-serif;
 }
 
 /* Page hero headline — dramatic and classic */
@@ -860,12 +860,12 @@ h1,h2,h3,h4,
 
 /* Hero section text */
 .hero-text h1{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:clamp(52px,9vw,88px) !important;
   font-weight:700 !important;
 }
 .hero-text p{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:clamp(13px,2vw,16px) !important;
 }
 
@@ -888,7 +888,7 @@ h1,h2,h3,h4,
 .symptom-log li::before{
   content:counter(symptom-counter);
   counter-increment:symptom-counter;
-  font-family:'Libre Franklin',sans-serif;font-size:10px;font-weight:700;
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
   color:var(--neuro-blue-deep);background:rgba(145,118,184,.12);
   width:20px;height:20px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -901,7 +901,7 @@ h1,h2,h3,h4,
   border-left-color:var(--rule);
   color:var(--ink-soft);
   font-size:12px;letter-spacing:.04em;text-transform:uppercase;
-  font-family:'Libre Franklin',sans-serif;
+  font-family:'Outfit',sans-serif;
 }
 
 /* Guess input row */
@@ -955,7 +955,7 @@ h1,h2,h3,h4,
 }
 :root[data-theme="dark"] #specimen-img{ border-color:rgba(0,0,0,.35); }
 .cap{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:11px !important;font-weight:700 !important;
   letter-spacing:.1em !important;text-transform:uppercase !important;
   color:var(--neuro-blue-deep) !important;
@@ -965,7 +965,7 @@ h1,h2,h3,h4,
 /* Choice buttons — much more game-like */
 .choices{display:flex;flex-direction:column;gap:10px !important;}
 .choice-btn{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:16px !important;font-weight:600 !important;
   border:2px solid rgba(0,0,0,.1) !important;
   border-radius:4px !important;
@@ -991,7 +991,7 @@ h1,h2,h3,h4,
   position:absolute;left:14px;top:50%;transform:translateY(-50%);
   width:28px;height:28px;border-radius:3px;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Libre Franklin',sans-serif !important;font-size:12px !important;font-weight:800 !important;
+  font-family:'Outfit',sans-serif !important;font-size:12px !important;font-weight:800 !important;
   background:var(--paper-deep) !important;color:var(--ink) !important;
   letter-spacing:0 !important;
 }
@@ -1125,12 +1125,12 @@ main{ animation:questionIn .25s ease; }
   text-align:center;
 }
 #reminder-signup-modal .sub-top h3{
-  font-family:'Libre Franklin',sans-serif;
+  font-family:'Outfit',sans-serif;
   font-size:30px;font-weight:700;color:#fff;
   margin:0 0 8px;
 }
 #reminder-signup-modal .sub-top p{
-  font-family:'Libre Franklin',sans-serif;
+  font-family:'Outfit',sans-serif;
   font-size:14px;color:rgba(255,255,255,.8);
   margin:0;line-height:1.6;
 }
@@ -1141,12 +1141,12 @@ main{ animation:questionIn .25s ease; }
   margin-bottom:12px;
 }
 #reminder-signup-modal .sub-body .field label{
-  font-family:'Libre Franklin',sans-serif;font-size:12.5px;font-weight:600;
+  font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;
   color:var(--ink);display:block;margin-bottom:5px;
 }
 #reminder-signup-modal .sub-body input[type=email]{
   width:100%;padding:12px 14px;
-  font-family:'Libre Franklin',sans-serif;font-size:15px;
+  font-family:'Outfit',sans-serif;font-size:15px;
   border:1.5px solid var(--rule);border-radius:3px;
   box-sizing:border-box;
   transition:border-color .15s;
@@ -1162,12 +1162,12 @@ main{ animation:questionIn .25s ease; }
 #reminder-signup-modal .sub-close-text{
   display:block;width:100%;margin-top:12px;
   background:none;border:none;
-  font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);
+  font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);
   cursor:pointer;padding:4px;text-align:center;
 }
 #sub-success-msg{
   display:none;text-align:center;padding:8px 0 4px;
-  font-family:'Libre Franklin',sans-serif;font-size:14px;
+  font-family:'Outfit',sans-serif;font-size:14px;
   font-weight:600;color:#3a7d5a;
 }
 @media(max-width:480px){
@@ -1201,7 +1201,7 @@ main{ animation:questionIn .25s ease; }
   text-align:center;
 }
 #signin-modal .modal h3{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:26px !important;
   font-weight:700 !important;
   letter-spacing:-.01em;
@@ -1212,7 +1212,7 @@ main{ animation:questionIn .25s ease; }
   border:1px solid #c8c8c8 !important;
   padding:13px 14px !important;
   font-size:15px !important;
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   transition:border-color .15s, box-shadow .15s;
 }
 #signin-modal .modal input[type=email]:focus{
@@ -1245,7 +1245,7 @@ main{ animation:questionIn .25s ease; }
   transform:translateY(-2px) !important;
 }
 .role-tag{
-  font-family:'Libre Franklin',sans-serif !important;
+  font-family:'Outfit',sans-serif !important;
   font-size:10px !important;
   font-weight:700 !important;
   letter-spacing:.12em !important;
@@ -1378,7 +1378,7 @@ html,body,.masthead,.page-hero,footer,
 .partner-card{
   border:1.5px dashed rgba(0,0,0,.18);border-radius:4px;
   padding:22px 12px;text-align:center;
-  font-family:var(--game-font,'Libre Franklin',sans-serif);font-size:12.5px;font-weight:600;
+  font-family:var(--game-font,'Outfit',sans-serif);font-size:12.5px;font-weight:600;
   color:var(--ink-soft);letter-spacing:.01em;
   display:flex;align-items:center;justify-content:center;min-height:64px;
   text-decoration:none;transition:border-color .15s ease,transform .15s ease;

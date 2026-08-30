@@ -16,7 +16,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Bitter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Bitter:wght@400;600;700;800;900&family=Abril+Fatface&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="/theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="/style.css?v=138">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -27,7 +27,7 @@
     text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px;
   }
   .nf-main h1{
-    font-family:'Libre Franklin','Playfair Display',serif;font-weight:700;
+    font-family:'Outfit','Playfair Display',serif;font-weight:700;
     font-size:clamp(30px,5vw,46px);margin:0 0 12px;letter-spacing:-.01em;
   }
   .nf-lede{
@@ -89,9 +89,9 @@
     <!-- About + columns -->
     <div class="footer-grid">
       <div class="footer-about">
-        <p style="font-family:'Libre Franklin','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
+        <p style="font-family:'Outfit','Playfair Display',serif;font-size:20px;font-weight:700;margin:0 0 10px;color:var(--ink);">Neurole</p>
         <p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0 0 14px;max-width:320px;">A free daily neuroscience game for students, clinicians, and anyone curious how the brain works.</p>
-        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Libre Franklin',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
+        <a href="#" onclick="document.getElementById('reminder-signup-modal').classList.add('open');return false;" style="font-family:'Outfit',sans-serif;font-size:13px;color:var(--ink);text-decoration:underline;">Get the daily reminder →</a>
       </div>
 
       <div class="footer-col">
@@ -138,20 +138,20 @@
 <div class="modal-backdrop" id="signin-modal">
   <div class="modal" style="max-width:480px;padding:48px 40px 40px;text-align:center;">
     <button class="close" data-close style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);line-height:1;">✕</button>
-    <div style="font-family:'Libre Franklin',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
-    <h3 style="font-family:'Libre Franklin',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
+    <div style="font-family:'Outfit',serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:22px;">Neurole</div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;margin:0 0 22px;letter-spacing:-.01em;">Log in or create an account</h3>
     <div class="field" style="margin-bottom:12px;text-align:left;">
-      <label style="font-family:'Libre Franklin',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
-      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:3px;font-family:'Libre Franklin',sans-serif;box-sizing:border-box;margin-top:4px;">
+      <label style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--ink);">Email address</label>
+      <input type="email" id="signin-email" placeholder="" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--rule);border-radius:3px;font-family:'Outfit',sans-serif;box-sizing:border-box;margin-top:4px;">
     </div>
     <button class="btn" style="width:100%;justify-content:center;background:#111;border-radius:3px;font-size:15px;padding:14px;margin-bottom:14px;" onclick="document.getElementById('signin-modal').classList.remove('open');">Continue</button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="flex:1;height:1px;background:var(--rule);"></div>
-      <span style="font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
+      <span style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);">or</span>
       <div style="flex:1;height:1px;background:var(--rule);"></div>
     </div>
     <div id="signin-google-container" style="margin-bottom:10px;"></div>
-    <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);margin:14px 0 0;line-height:1.6;">By continuing, you agree to Neurole's <a href="#" style="color:var(--ink);text-decoration:underline;">Terms</a> and <a href="#" style="color:var(--ink);text-decoration:underline;">Privacy Policy</a>.</p>
   </div>
 </div>
 <script src="/config.js?v=136"></script><script src="/script.js?v=136"></script>
@@ -160,24 +160,24 @@
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
     <div class="sub-top" style="background:#1a1a1a;padding:28px 28px 22px;text-align:center;">
-      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
-      <h3 style="font-family:'Libre Franklin',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
-      <p style="font-family:'Libre Franklin',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 8px;">Neurole</p>
+      <h3 style="font-family:'Outfit',serif;font-size:28px;font-weight:700;color:#fff;margin:0 0 8px;letter-spacing:-.01em;">Daily Brain Case</h3>
+      <p style="font-family:'Outfit',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin:0;line-height:1.6;">One email every morning — today's neurological case, ready to play.</p>
     </div>
     <div class="sub-body" style="padding:24px 28px 26px;background:var(--paper);">
       <form id="sub-form" action="https://formspree.io/f/maqgkjlr" method="POST">
         <input type="hidden" name="_subject" value="Neurole — Daily case subscriber">
         <input type="hidden" name="type" value="daily_subscriber">
         <div class="field">
-          <label style="font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
+          <label style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;">Email address</label>
           <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"
-            style="width:100%;padding:12px 14px;font-family:'Libre Franklin',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:3px;box-sizing:border-box;">
+            style="width:100%;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:15px;border:1.5px solid var(--rule);border-radius:3px;box-sizing:border-box;">
         </div>
         <button class="btn sub-submit" type="submit" style="width:100%;justify-content:center;background:#1a1a1a;border-radius:3px;font-size:14px;padding:13px;margin-top:2px;letter-spacing:.03em;">Continue</button>
-        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Libre Franklin',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
+        <p id="sub-success-msg" style="display:none;text-align:center;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#3a7d5a;margin-top:12px;">✓ You're in. See you tomorrow morning.</p>
       </form>
-      <p style="font-family:'Libre Franklin',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
-      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Libre Franklin',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
+      <p style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;margin:14px 0 0;line-height:1.6;">No spam, unsubscribe any time.</p>
+      <button class="sub-close-text" onclick="document.getElementById('reminder-signup-modal').classList.remove('open')" style="display:block;width:100%;margin-top:8px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;padding:4px;text-align:center;">Not now</button>
     </div>
   </div>
 </div>

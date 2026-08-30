@@ -130,6 +130,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .role-chip.selected{
   background:var(--neuro-blue-deep);border-color:var(--neuro-blue-deep);color:#fff;
 }
+
+/* Contributors — face, name, description.
+   Photos live in /contributors/ (repo root). A card with its <img> line still
+   commented out falls back to an initials avatar, so the grid reads as complete
+   while photos are still coming in. See contributors/README.md. */
+.contributor-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:24px;
+}
+@media(max-width:580px){
+  .contributor-grid{grid-template-columns:1fr;}
+}
+.contributor-card{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:4px;
+  padding:20px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  transition:background-color .35s ease, color .35s ease, border-color .35s ease;
+}
+.contributor-photo{
+  flex:0 0 72px;
+  width:72px;height:72px;
+  border-radius:50%;
+  overflow:hidden;
+  background:var(--paper-deep);
+  border:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;
+}
+.contributor-photo img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+.contributor-initials{
+  font-family:var(--mono);
+  font-size:20px;font-weight:700;letter-spacing:.04em;
+  color:var(--neuro-blue-deep);
+  user-select:none;
+}
+.contributor-info{
+  min-width:0;
+  display:flex;flex-direction:column;gap:5px;
+}
+.contributor-fullname{
+  font-family:var(--serif-display);
+  font-size:17px;margin:0;
+  color:var(--ink);
+}
+.contributor-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--neuro-blue-deep);background:rgba(107,79,148,.08);
+  border-radius:5px;padding:3px 10px;align-self:flex-start;
+}
+.contributor-bio{
+  margin:4px 0 0;
+  color:var(--ink-soft);
+  font-size:14.5px;line-height:1.6;
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
 </head>
@@ -218,6 +281,92 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="synapse-rule"><span class="node"></span><span class="node"></span><span class="node"></span></div>
+
+  <span class="section-eyebrow">The Team</span>
+  <h3 style="font-family:'Google Sans Flex',sans-serif;font-size:20px;margin:0 0 8px;">Contributors</h3>
+  <p style="color:var(--ink-soft);font-size:14.5px;margin:0 0 20px;max-width:560px;">The people behind Neurole &mdash; clinicians, students, and builders who make the games.</p>
+  <div class="contributor-grid">
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/reva-shrestha.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/reva-shrestha.jpg" alt="Reva Shrestha" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">RS</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Reva Shrestha</h4>
+        <span class="contributor-tag">Founder</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/arnesh-mohanty.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/arnesh-mohanty.jpg" alt="Arnesh Mohanty" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">AM</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Arnesh Mohanty</h4>
+        <span class="contributor-tag">Contributor</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/matt-gresham.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/matt-gresham.jpg" alt="Matt Gresham" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">MG</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Matt Gresham</h4>
+        <span class="contributor-tag">Contributor</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/nima-gholipour.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/nima-gholipour.jpg" alt="Nima Gholipour" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">NG</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Nima Gholipour</h4>
+        <span class="contributor-tag">Contributor</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/shritha-repala.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/shritha-repala.jpg" alt="Shritha Repala" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">SR</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Shritha Repala</h4>
+        <span class="contributor-tag">Contributor</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <!-- Photo: drop /contributors/suleyman-akkaya.jpg in, then swap the two lines below. -->
+        <!-- <img src="/contributors/suleyman-akkaya.jpg" alt="Suleyman Akkaya" width="72" height="72" loading="lazy"> -->
+        <span class="contributor-initials" aria-hidden="true">SA</span>
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Suleyman Akkaya</h4>
+        <span class="contributor-tag">Contributor</span>
+        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <p class="contributor-bio"></p> -->
+      </div>
+    </article>
+  </div>
+
+  <div class="synapse-rule" style="margin:36px 0 28px;"><span class="node"></span><span class="node"></span><span class="node"></span></div>
 
   <!-- Interest form -->
   <div class="interest-form-wrap" id="create-a-case">

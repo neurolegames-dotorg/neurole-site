@@ -140,6 +140,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   grid-template-columns:1fr 1fr;
   gap:16px;
   margin-bottom:24px;
+  /* Cards size to their own content. Without this a card whose bio hasn't
+     arrived is stretched hollow by a long bio beside it. */
+  align-items:start;
 }
 @media(max-width:580px){
   .contributor-grid{grid-template-columns:1fr;}
@@ -157,7 +160,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .contributor-photo{
   flex:0 0 72px;
   width:72px;height:72px;
-  border-radius:50%;
+  border-radius:16px;
   overflow:hidden;
   background:var(--paper-deep);
   border:1px solid var(--rule);
@@ -295,21 +298,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Reva Shrestha</h4>
         <span class="contributor-tag">Founder</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <!-- Bio: the contributor's own words, once they send one.
         <p class="contributor-bio"></p> -->
       </div>
     </article>
     <article class="contributor-card">
       <div class="contributor-photo">
-        <!-- Photo: drop /contributors/arnesh-mohanty.jpg in, then swap the two lines below. -->
-        <!-- <img src="/contributors/arnesh-mohanty.jpg" alt="Arnesh Mohanty" width="72" height="72" loading="lazy"> -->
-        <span class="contributor-initials" aria-hidden="true">AM</span>
+        <img src="/contributors/arnesh-mohanty.jpg" alt="Arnesh Mohanty" width="72" height="72" loading="lazy">
       </div>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Arnesh Mohanty</h4>
         <span class="contributor-tag">Contributor</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
-        <p class="contributor-bio"></p> -->
+        <p class="contributor-bio">Hello, I am Arnesh. I am a sophomore, and I&rsquo;m really interested in neuroscience, and I want to become a neurosurgeon. I am researching epilepsy and making a medical device to reduce the fatigue of surgeons during an operation. Outside of school and research, I like to play chess, draw, paint, sing, and play the alto saxophone.</p>
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <img src="/contributors/bhavya.jpg" alt="Bhavya" width="72" height="72" loading="lazy">
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Bhavya</h4>
+        <span class="contributor-tag">Contributor</span>
+        <p class="contributor-bio">Hi! I&rsquo;m Bhavya, a junior from Illinois. At Neurole, I currently volunteer as a Social Media Design Lead and Game Developer. In my free time, I like to dance, play the violin, and watch movies!</p>
+      </div>
+    </article>
+    <article class="contributor-card">
+      <div class="contributor-photo">
+        <img src="/contributors/daiana-salcedo-rioja.jpg" alt="Daiana Salcedo Rioja" width="72" height="72" loading="lazy">
+      </div>
+      <div class="contributor-info">
+        <h4 class="contributor-fullname">Daiana Salcedo Rioja</h4>
+        <span class="contributor-tag">Contributor</span>
+        <p class="contributor-bio">My name is Daiana Salcedo Rioja. I&rsquo;m a BSc Neuroscience student with an interdisciplinary academic background. I&rsquo;m interested in biomedical research, cognition, and computational neuroscience.</p>
       </div>
     </article>
     <article class="contributor-card">
@@ -321,7 +341,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Matt Gresham</h4>
         <span class="contributor-tag">Contributor</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <!-- Bio: the contributor's own words, once they send one.
         <p class="contributor-bio"></p> -->
       </div>
     </article>
@@ -334,7 +354,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Nima Gholipour</h4>
         <span class="contributor-tag">Contributor</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <!-- Bio: the contributor's own words, once they send one.
         <p class="contributor-bio"></p> -->
       </div>
     </article>
@@ -347,7 +367,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Shritha Repala</h4>
         <span class="contributor-tag">Contributor</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <!-- Bio: the contributor's own words, once they send one.
         <p class="contributor-bio"></p> -->
       </div>
     </article>
@@ -360,7 +380,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="contributor-info">
         <h4 class="contributor-fullname">Suleyman Akkaya</h4>
         <span class="contributor-tag">Contributor</span>
-        <!-- Bio: one or two sentences from the contributor. Awaiting Reva.
+        <!-- Bio: the contributor's own words, once they send one.
         <p class="contributor-bio"></p> -->
       </div>
     </article>

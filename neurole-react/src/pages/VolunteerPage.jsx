@@ -18,6 +18,75 @@ const ROLES = [
   'Media & content'
 ]
 
+// Contributor roster — face, name, description.
+//
+// Founder first, then contributors A–Z by first name.
+//
+// photo: image lives in neurole-react/public/contributors/, referenced from the
+//        site root as '/contributors/<slug>.jpg'. null renders an initials
+//        avatar instead, so the grid stays whole while photos arrive.
+// bio:   the contributor's own words, verbatim. Empty until they send one.
+//
+// Intake is still open — Arnesh asked the workspace for names/descriptions by
+// September 5th, so expect this list to grow. See CONTRIBUTOR-PHOTOS.md.
+const CONTRIBUTORS = [
+  {
+    name: 'Reva Shrestha',
+    role: 'Founder',
+    photo: null,
+    bio: '',
+  },
+  {
+    name: 'Arnesh Mohanty',
+    role: 'Contributor',
+    photo: '/contributors/arnesh-mohanty.jpg',
+    bio: "Hello, I am Arnesh. I am a sophomore, and I'm really interested in neuroscience, and I want to become a neurosurgeon. I am researching epilepsy and making a medical device to reduce the fatigue of surgeons during an operation. Outside of school and research, I like to play chess, draw, paint, sing, and play the alto saxophone.",
+  },
+  {
+    // Surname not confirmed — her Slack name is a handle, and her own
+    // description gives only "Bhavya". Ask Reva before adding one.
+    name: 'Bhavya',
+    role: 'Contributor',
+    photo: '/contributors/bhavya.jpg',
+    bio: "Hi! I'm Bhavya, a junior from Illinois. At Neurole, I currently volunteer as a Social Media Design Lead and Game Developer. In my free time, I like to dance, play the violin, and watch movies!",
+  },
+  {
+    name: 'Daiana Salcedo Rioja',
+    role: 'Contributor',
+    photo: '/contributors/daiana-salcedo-rioja.jpg',
+    bio: "My name is Daiana Salcedo Rioja. I'm a BSc Neuroscience student with an interdisciplinary academic background. I'm interested in biomedical research, cognition, and computational neuroscience.",
+  },
+  {
+    name: 'Matt Gresham',
+    role: 'Contributor',
+    photo: null,
+    bio: "Hi, I'm Matt — a high school student who works on the Neurole website. I'm interested in just about everything to do with computers, and websites are a huge part of what I make and design. In my spare time I play chess, run competitively, and build projects on GitHub.",
+  },
+  {
+    name: 'Nima Gholipour',
+    role: 'Contributor',
+    photo: null,
+    bio: '',
+  },
+  {
+    name: 'Shritha Repala',
+    role: 'Contributor',
+    photo: null,
+    bio: '',
+  },
+  {
+    name: 'Suleyman Akkaya',
+    role: 'Contributor',
+    photo: null,
+    bio: '',
+  },
+]
+
+// "Reva Shrestha" -> "RS". Used for the avatar when no photo is set yet.
+function initials(name) {
+  return name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase()
+}
+
 export default function VolunteerPage() {
   usePageStyle(pageStyle);
   useDocumentHead({
@@ -123,6 +192,28 @@ export default function VolunteerPage() {
         </div>
 
         <div className="synapse-rule"><span className="node"></span><span className="node"></span><span className="node"></span></div>
+
+        <span className="section-eyebrow">The Team</span>
+        <h3 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontSize: 20, margin: '0 0 8px' }}>Contributors</h3>
+        <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, margin: '0 0 20px', maxWidth: 560 }}>The people behind Neurole — clinicians, students, and builders who make the games.</p>
+        <div className="contributor-grid">
+          {CONTRIBUTORS.map(person => (
+            <article className="contributor-card" key={person.name}>
+              <div className="contributor-photo">
+                {person.photo
+                  ? <img src={person.photo} alt={person.name} width="72" height="72" loading="lazy" />
+                  : <span className="contributor-initials" aria-hidden="true">{initials(person.name)}</span>}
+              </div>
+              <div className="contributor-info">
+                <h4 className="contributor-fullname">{person.name}</h4>
+                <span className="contributor-tag">{person.role}</span>
+                {person.bio && <p className="contributor-bio">{person.bio}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="synapse-rule" style={{ margin: '36px 0 28px' }}><span className="node"></span><span className="node"></span><span className="node"></span></div>
 
         <div className="interest-form-wrap" id="create-a-case">
           {sent ? (

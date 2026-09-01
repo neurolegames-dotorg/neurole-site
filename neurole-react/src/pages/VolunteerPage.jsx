@@ -59,8 +59,8 @@ const CONTRIBUTORS = [
   {
     name: 'Matt Gresham',
     role: 'Contributor',
-    photo: null,
-    bio: "Hi, I'm Matt — a high school student who works on the Neurole website. I'm interested in just about everything to do with computers, and websites are a huge part of what I make and design. In my spare time I play chess, run competitively, and build projects on GitHub.",
+    photo: '/contributors/matt-gresham.jpg',
+    bio: "Hi, I'm Matt — a high school student who works on the Neurole website. I'm interested in just about everything to do with computers, and websites are a huge part of what I make and design. In my spare time I play chess, run competitively, play the trumpet, and build projects on GitHub.",
   },
   {
     name: 'Nima Gholipour',

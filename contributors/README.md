@@ -9,16 +9,17 @@ both places needs no path change when that port goes live.
 
 ## Current state
 
-Intake is **still open** — Arnesh asked the workspace on 2026-08-30 for names and
-descriptions, with a deadline of **September 5th**. Expect this table to grow.
+Intake closed **5 September 2026**. Afifa Zahid sent a description that day but no
+photo yet; Matt asked her for one in DM.
 
 | Contributor | Filename | Photo | Bio |
 |---|---|---|---|
 | Reva Shrestha *(Founder)* | `reva-shrestha.jpg` | — | — |
+| Afifa Zahid | `afifa-zahid.jpg` | — | ✅ |
 | Arnesh Mohanty | `arnesh-mohanty.jpg` | ✅ | ✅ |
 | Bhavya | `bhavya.jpg` | ✅ | ✅ |
 | Daiana Salcedo Rioja | `daiana-salcedo-rioja.jpg` | ✅ | ✅ |
-| Matt Gresham | `matt-gresham.jpg` | — | — |
+| Matt Gresham | `matt-gresham.jpg` | ✅ | ✅ |
 | Nima Gholipour | `nima-gholipour.jpg` | — | — |
 | Shritha Repala | `shritha-repala.jpg` | — | — |
 | Suleyman Akkaya | `suleyman-akkaya.jpg` | — | — |

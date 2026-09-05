@@ -37,6 +37,12 @@ const CONTRIBUTORS = [
     bio: '',
   },
   {
+    name: 'Afifa Zahid',
+    role: 'Contributor',
+    photo: null,
+    bio: "My name is Afifa and I contribute to Neurole's daily case bank and Weekly Neuroscience fun facts. In my free time, I enjoy reading, gardening, and collecting vinyl records!",
+  },
+  {
     name: 'Arnesh Mohanty',
     role: 'Contributor',
     photo: '/contributors/arnesh-mohanty.jpg',

@@ -95,7 +95,19 @@
   display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;
 }
 .home-game-card-bottom p{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.6;max-width:260px;}
+/* The card is a flex column and the grid stretches every card to the tallest in
+   its row, so the body has to fill that height and push the CTA to the bottom.
+   Without this, a card with less copy than its neighbours (Synapse) leaves its
+   button floating mid-card. The markup uses -body; the older -top/-bottom rules
+   below predate that rename and no longer match anything. */
+.home-game-card-body{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+
 .play-cta{
+  margin-top:auto;
   display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;
   font-family:var(--game-font);font-size:13.5px;font-weight:700;
   color:var(--ink);

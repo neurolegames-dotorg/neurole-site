@@ -21,6 +21,13 @@ export default function InteractivePage() {
 
       <main className="wrap" style={{ padding: '36px 0 70px', maxWidth: 820 }}>
         <div className="wrap" style={{ padding: 0 }}>
+          <span className="section-eyebrow">3D Brain Lab</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontWeight: 700, fontSize: 26, letterSpacing: '-.01em', margin: '0 0 8px' }}>Watch Alzheimer&rsquo;s progress</h2>
+          <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, maxWidth: 560, margin: '0 0 18px' }}>Explore a 3D-rendered brain and step through the stages of Alzheimer&rsquo;s to see how the disease changes it over time.</p>
+          <Link to="/interactive/brain-lab" className="btn" style={{ display: 'inline-flex' }}>Open the 3D Brain Lab &rarr;</Link>
+
+          <div className="synapse-rule" style={{ margin: '36px 0 28px' }}><span className="node"></span><span className="node"></span><span className="node"></span></div>
+
           <p style={{ color: 'var(--ink-soft)', fontSize: 14.5, maxWidth: 560, margin: 0 }}>More interactive teaching tools are coming soon. Have an idea? <Link to="/contact" style={{ color: 'var(--neuro-blue-deep)' }}>Let us know →</Link></p>
         </div>
       </main>

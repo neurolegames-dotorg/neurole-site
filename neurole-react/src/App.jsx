@@ -16,6 +16,7 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const DonatePage = lazy(() => import('./pages/DonatePage'));
 const VolunteerPage = lazy(() => import('./pages/VolunteerPage'));
 const InteractivePage = lazy(() => import('./pages/InteractivePage'));
+const BrainLabPage = lazy(() => import('./pages/BrainLabPage'));
 const ArchivePage = lazy(() => import('./pages/ArchivePage'));
 const DailyGamePage = lazy(() => import('./pages/DailyGamePage'));
 const DailyGamePlayPage = lazy(() => import('./pages/DailyGamePlayPage'));
@@ -60,6 +61,7 @@ function App() {
           <Route path="/donate" element={<DonatePage />} />
           <Route path="/volunteer" element={<VolunteerPage />} />
           <Route path="/interactive" element={<InteractivePage />} />
+          <Route path="/interactive/brain-lab" element={<BrainLabPage />} />
           <Route path="/archive" element={<ArchivePage />} />
           <Route path="/daily-game" element={<DailyGamePage />} />
           <Route path="/daily-game-play" element={<DailyGamePlayPage />} />

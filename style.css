@@ -16,8 +16,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap');
 
 :root{
-  --paper:#F6F4EF;
-  --paper-deep:#EDEAE1;
+  --paper:#FCFBF8;
+  --paper-deep:#F5F3ED;
   --ink:#1C1E21;
   --ink-soft:#52565C;
   --rule:#D6D9DC;
@@ -30,7 +30,7 @@
   --orange:#E0722E;
   --orange-deep:#B8571C;
   --gold:#E0722E;
-  --paper-rgb:246,244,239;
+  --paper-rgb:252,251,248;
 
   --serif-display:'Google Sans Flex', sans-serif;
   --serif-body:'Google Sans Flex', 'Helvetica Neue', Arial, sans-serif;
@@ -584,7 +584,7 @@ footer {
 .field label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);display:block;margin-bottom:4px;}
 .field input{
   font-family:var(--serif-body);font-size:15px;padding:9px 10px;
-  border:1px solid var(--ink-soft);background:var(--paper);width:100%;box-sizing:border-box;
+  border:1px solid var(--ink-soft);background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box;
 }
 
 /* ===================================================

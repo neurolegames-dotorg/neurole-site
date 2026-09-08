@@ -37,7 +37,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:image" content="https://neurole.org/neurole-logo-black.png">
 
 <!-- Canonical URL -->
-<link rel="canonical" href="https://neurole.org/neuroanatomy.html">
+<link rel="canonical" href="https://neurole.org/Mapthebrain.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="/mtb-favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/mtb-favicon-16x16.png" sizes="16x16">
@@ -154,12 +154,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .choice-btn.correct .choice-letter{background:#5CB57C !important;color:#fff !important;}
   .choice-btn.wrong .choice-letter{background:var(--signal-red) !important;color:#fff !important;}
 
-  /* Next button */
-  .next-row{margin-top:20px;}
-  #next-btn{
-    font-family:var(--game-font) !important;font-size:14px !important;font-weight:700;
-    padding:12px 28px !important;border-radius:4px !important;
-  }
 
   /* Start screen, game personality */
   .start-screen h1{
@@ -673,7 +667,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="map-brain-icon.png" alt="Map the Brain" width="56" height="56" style="object-fit:contain;">
       </div>
       <h1 style="font-family:'Google Sans Flex',sans-serif;font-size:clamp(32px,6vw,46px);font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;">Map the Brain</h1>
-      <p style="font-family:'Google Sans Flex',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify highlighted brain regions from real images. Get it right, then ask the AI what that region actually does.</p>
+      <p style="font-family:'Google Sans Flex',sans-serif;font-size:14px;color:var(--ink-soft);margin:0 0 20px;max-width:300px;line-height:1.6;">Identify the brain regions, or their function.</p>
 
       <!-- Difficulty -->
       <div style="width:100%;text-align:left;margin-bottom:8px;">
@@ -704,7 +698,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button class="category-btn" data-category="Sulci">Sulci</button>
           <button class="category-btn" data-category="Gyri">Gyri</button>
           <button class="category-btn" data-category="Cortex">Cortices</button>
-          <button class="category-btn" data-category="Neuropsychology">Neuropsychology</button>
         </div>
       </div>
 
@@ -721,7 +714,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Inline expandable tabs -->
       <div style="width:100%;display:flex;flex-direction:column;gap:10px;">
         <button class="learn-tab-toggle" id="learn-toggle" aria-expanded="false">
-          New to neuroanatomy? Learn key brain regions
+          Learn key brain regions
           <span class="learn-tab-arrow">▾</span>
         </button>
         <div class="learn-tab-body" id="learn-tab-body" style="display:none;">
@@ -733,26 +726,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <button class="learn-tab-toggle" id="neuropsych-toggle" aria-expanded="false">
-          Neuropsychology, regions important for psychology
-          <span class="learn-tab-arrow">▾</span>
-        </button>
-        <div class="learn-tab-body" id="neuropsych-tab-body" style="display:none;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-            <div class="beginner-card"><strong>Prefrontal Cortex</strong><p>Executive function, decision-making, impulse control. Implicated in ADHD, depression, and schizophrenia.</p></div>
-            <div class="beginner-card"><strong>Amygdala</strong><p>Fear and emotional memory. Central to anxiety disorders, PTSD, and phobias.</p></div>
-            <div class="beginner-card"><strong>Hippocampus</strong><p>Memory formation and spatial navigation. Severely affected in Alzheimer's and depression.</p></div>
-            <div class="beginner-card"><strong>Anterior Cingulate Cortex</strong><p>Error detection and conflict monitoring. Involved in OCD and mood disorders.</p></div>
-            <div class="beginner-card"><strong>Insula</strong><p>Interoception and emotional awareness. Plays a role in addiction and eating disorders.</p></div>
-            <div class="beginner-card"><strong>Ventral Striatum</strong><p>Reward anticipation and motivation. Core to addiction, depression, and anhedonia.</p></div>
-            <div class="beginner-card"><strong>Orbitofrontal Cortex</strong><p>Evaluates reward and consequence. Disrupted in OCD and impulse-control disorders.</p></div>
-            <div class="beginner-card"><strong>Hypothalamus</strong><p>Regulates stress hormones, sleep, appetite. Central to mood and anxiety disorders.</p></div>
-          </div>
-          <div style="display:flex;justify-content:flex-end;margin-top:14px;">
-            <button class="btn" id="start-neuropsych-btn" style="font-size:12px;padding:9px 18px;">Play Neuropsychology →</button>
-          </div>
-        </div>
-      </div>
+        <button class="learn-tab-toggle" id="neuropsych-toggle" aria-expanded="false"
 
       <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin:22px 0 0;line-height:1.6;max-width:320px;">For education only. Explanations may be AI-generated. <a href="terms.html" style="color:inherit;">Learn more</a></p>
     </div>

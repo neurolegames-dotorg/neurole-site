@@ -168,7 +168,7 @@ body{padding-top:58px;}
 .mobile-nav-items li button.nav-tab-btn{
   display:flex;align-items:center;justify-content:space-between;
   width:100%;padding:20px 28px;
-  font-family:var(--serif-display);font-size:22px;font-weight:600;
+  font-family:var(--serif-display);font-size:19px;font-weight:600;
   color:var(--ink);background:none;border:none;text-align:left;
   text-decoration:none;cursor:pointer;
   transition:background .15s, color .15s;

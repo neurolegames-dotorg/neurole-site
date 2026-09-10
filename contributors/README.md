@@ -15,17 +15,20 @@ photo yet; Matt asked her for one in DM.
 | Contributor | Filename | Photo | Bio |
 |---|---|---|---|
 | Reva Shrestha *(Founder)* | `reva-shrestha.jpg` | — | — |
-| Afifa Zahid | `afifa-zahid.jpg` | — | ✅ |
+| Afifa Zahid | — *(declined)* | n/a | ✅ |
 | Arnesh Mohanty | `arnesh-mohanty.jpg` | ✅ | ✅ |
 | Bhavya | `bhavya.jpg` | ✅ | ✅ |
 | Daiana Salcedo Rioja | `daiana-salcedo-rioja.jpg` | ✅ | ✅ |
 | Matt Gresham | `matt-gresham.jpg` | ✅ | ✅ |
 | Nima Gholipour | `nima-gholipour.jpg` | — | — |
-| Shritha Repala | `shritha-repala.jpg` | — | — |
+| Shritha Repala | `shritha-repala.jpg` | ✅ | ✅ |
 | Suleyman Akkaya | `suleyman-akkaya.jpg` | — | — |
 
 Cards still waiting render an initials avatar, so the grid stays whole while the
 rest arrive.
+
+**Afifa Zahid declined a photo** (DM, 2026-09-07: "ill pass on the photo") — her
+card keeps its initials avatar permanently, don't chase her for one.
 
 **Open questions:** Bhavya's surname is unconfirmed — her Slack name is a handle
 and her own description gives only "Bhavya". Vijval R asked to be credited in

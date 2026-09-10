@@ -37,6 +37,8 @@ const CONTRIBUTORS = [
     bio: '',
   },
   {
+    // Declined a photo in DM 2026-09-07 ("ill pass on the photo") - this card
+    // keeps its initials avatar permanently.
     name: 'Afifa Zahid',
     role: 'Contributor',
     photo: null,
@@ -77,8 +79,8 @@ const CONTRIBUTORS = [
   {
     name: 'Shritha Repala',
     role: 'Contributor',
-    photo: null,
-    bio: '',
+    photo: '/contributors/shritha-repala.jpg',
+    bio: "Hello. My name is Shritha Repala. As part of Neurole, I'm interested in improving the organization as a Head of Design, Game Developer, and an Analytics Lead. A fun fact about me is that I have been dancing for over 12 years and I know three languages, and continuing to learn more.",
   },
   {
     name: 'Suleyman Akkaya',

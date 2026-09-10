@@ -19,13 +19,13 @@ photo yet; Matt asked her for one in DM.
 | Contributor | Filename | Photo | Bio |
 |---|---|---|---|
 | Reva Shrestha *(Founder)* | `reva-shrestha.jpg` | — | — |
-| Afifa Zahid | `afifa-zahid.jpg` | — | ✅ |
+| Afifa Zahid | — *(declined)* | n/a | ✅ |
 | Arnesh Mohanty | `arnesh-mohanty.jpg` | ✅ | ✅ |
 | Bhavya | `bhavya.jpg` | ✅ | ✅ |
 | Daiana Salcedo Rioja | `daiana-salcedo-rioja.jpg` | ✅ | ✅ |
 | Matt Gresham | `matt-gresham.jpg` | ✅ | ✅ |
 | Nima Gholipour | `nima-gholipour.jpg` | — | — |
-| Shritha Repala | `shritha-repala.jpg` | — | — |
+| Shritha Repala | `shritha-repala.jpg` | ✅ | ✅ |
 | Suleyman Akkaya | `suleyman-akkaya.jpg` | — | — |
 
 Anyone still at `photo: null` renders an initials avatar, so the grid stays

@@ -45,6 +45,12 @@ const CONTRIBUTORS = [
     bio: "My name is Afifa and I contribute to Neurole's daily case bank and Weekly Neuroscience fun facts. In my free time, I enjoy reading, gardening, and collecting vinyl records!",
   },
   {
+    name: 'Ananya Prassanna',
+    role: 'Contributor',
+    photo: '/contributors/ananya-prassanna.jpg',
+    bio: 'Ananya Prassanna is a high school student passionate about neuroscience and medicine. At Neurole, she creates brain illustrations and develops neuroanatomy questions to help make complex concepts more engaging and accessible for students. She is especially interested in neuroanatomy, neuroimmunology, and neurological disorders.',
+  },
+  {
     name: 'Arnesh Mohanty',
     role: 'Contributor',
     photo: '/contributors/arnesh-mohanty.jpg',

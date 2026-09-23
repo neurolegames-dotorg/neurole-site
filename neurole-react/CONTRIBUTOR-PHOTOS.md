@@ -20,6 +20,7 @@ photo yet; Matt asked her for one in DM.
 |---|---|---|---|
 | Reva Shrestha *(Founder)* | `reva-shrestha.jpg` | — | — |
 | Afifa Zahid | — *(declined)* | n/a | ✅ |
+| Ananya Prassanna | `ananya-prassanna.jpg` | ✅ | ✅ |
 | Arnesh Mohanty | `arnesh-mohanty.jpg` | ✅ | ✅ |
 | Bhavya | `bhavya.jpg` | ✅ | ✅ |
 | Daiana Salcedo Rioja | `daiana-salcedo-rioja.jpg` | ✅ | ✅ |

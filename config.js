@@ -26,11 +26,6 @@ window.NEUROLE_CONFIG = {
   //   N = medications, O = labs & imaging, P = social/family history
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
-  // --- Learn Regions (beginners section on Map the Brain) ---------
-  // Columns expected (header row):
-  // region | function_text | category (optional) | difficulty (optional)
-  // One row per brain region you want shown in the "Learn regions" modal.
-  LEARN_REGIONS_SHEET_CSV: "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE_FOR_LEARN_REGIONS",
 
   // --- Neuroanatomy game ---------------------------------------------
   // The code reads columns by HEADER NAME (row 1), not by column letter.
@@ -60,7 +55,7 @@ window.NEUROLE_CONFIG = {
   //   purple3 | purple4 | Theme red | Theme yellow | Theme green | Theme purple
   // Date format matches your sheet exactly: M-D-YYYY, no leading zeros
   // (e.g. "8-4-2026" for August 4, 2026).
-  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5Za-nsdHnaneFXdg4MRGn_RCz-EcRVZ-SztPZjBM2Z8mYCX7-jHQg1vYFuV7lcOw9r7Y0fd7F3XjZ/pub?gid=0&single=true&output=csv",
+  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXPCHy6ed6llhK4q0tSDIMn1VR6YnvAOa7J-Twnb_U4-yBTrToiIZQDS5jXBb2SXYSjHw1NBFTu5uq/pubhtml",
 
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):

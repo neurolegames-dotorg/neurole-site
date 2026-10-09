@@ -82,6 +82,7 @@
   cursor:pointer;user-select:none;transition:background .12s ease,transform .12s ease;
   line-height:1.25;
   min-width:0;overflow-wrap:break-word;word-break:break-word;
+  hyphens:auto;-webkit-hyphens:auto;   /* NEW: split long words at proper syllable points, not mid-letter */
 }
 .syn-tile:hover:not(:disabled){background:var(--rule);}
 .syn-tile.selected{background:#D9D9DE;color:#16171A;}
@@ -89,6 +90,8 @@
 .syn-tile.shake{animation:synShake .4s ease;}
 .syn-tile.hide{visibility:hidden;pointer-events:none;}
 .syn-tile:disabled{cursor:default;}
+/* NEW: tiles containing a long word (10+ letters, e.g. Schwannoma) use a slightly smaller font so they fit. */
+.syn-tile.syn-tile-long{font-size:clamp(8.5px,2.5vw,11.5px);}
 .syn-tile-placeholder{background:#EDEDED !important;border:1.5px solid #C4C4C4;cursor:default;pointer-events:none;}
 :root[data-theme="dark"] .syn-tile-placeholder{background:#232323 !important;border-color:#3A3A3A;}
 @keyframes synShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
@@ -399,16 +402,47 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
     return new Date(parts[2], parts[0] - 1, parts[1]);
   }
 
+  // NEW: turns "9-4-2026", "09-04-2026" or "9/4/2026" into the one format the game
+  // uses everywhere ("9-4-2026"). Google Sheets can export dates in a different style
+  // than you typed, which used to make the "find today's row" step fail silently.
+  function normalizeSynDate(s){
+    const parts = String(s || '').trim().split(/[-\/]/).map(Number);
+    if(parts.length !== 3 || parts.some(isNaN)) return '';
+    return parts[0] + '-' + parts[1] + '-' + parts[2];
+  }
+
+  // NEW: used only when the sheet has NO row for today.
+  // Instead of always showing the last row (which got stuck on one old puzzle),
+  // we restart the sheet from the FIRST puzzle on the first day after the sheet runs out,
+  // then walk forward one puzzle per day (second, third, ...), looping forever.
+  function pickFallbackRow(rows, todayStr){
+    const today = parseSynDateStr(todayStr);
+    let lastDate = null;                       // date of the newest puzzle in the sheet
+    rows.forEach(function(r){
+      const d = parseSynDateStr(normalizeSynDate(findField(r, 'Date')));
+      if(!isNaN(d.getTime()) && (!lastDate || d > lastDate)) lastDate = d;
+    });
+    if(lastDate && today > lastDate){
+      const daysPast = Math.round((today - lastDate) / 86400000);   // days since the sheet ran out
+      return rows[(daysPast - 1) % rows.length];                    // 1 day past -> first row
+    }
+    return rows[0];                            // gap inside the sheet, or no dates at all
+  }
+
   async function loadSynapsePuzzle(){
     const rows = await fetchSheetAsObjects(window.NEUROLE_CONFIG.SYNAPSE_SHEET_CSV);
     if(!rows || !rows.length) throw new Error('Sheet returned no rows.');
     console.log('Neurole Synapse: loaded', rows.length, 'row(s) from the sheet.');
 
     const todayStr = getSynDateStr();
-    let row = rows.find(r => (findField(r, 'Date') || '').trim() === todayStr);
+    // CHANGED: compare normalised dates, so "9/4/2026" and "09-04-2026" still match.
+    let row = rows.find(r => normalizeSynDate(findField(r, 'Date')) === todayStr);
+    let usedFallback = false;
     if(!row){
-      row = rows[rows.length - 1];
-      console.warn('Neurole Synapse: no row found for today\'s date "' + todayStr + '". Falling back to the most recent row in the sheet (Date: "' + (findField(row,'Date')||'(blank)') + '"). Add a row with Date = "' + todayStr + '" to fix this.');
+      usedFallback = true;
+      // CHANGED: was "rows[rows.length - 1]" (always the last puzzle). Now we restart from the first.
+      row = pickFallbackRow(rows, todayStr);
+      console.warn('Neurole Synapse: no row found for today\'s date "' + todayStr + '". Using a fallback puzzle (Date: "' + (findField(row,'Date')||'(blank)') + '"). Add a row with Date = "' + todayStr + '" to fix this.');
     } else {
       console.log('Neurole Synapse: using today\'s row (Date: "' + todayStr + '").');
     }
@@ -430,8 +464,13 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
     GROUP_ORDER.forEach(color => {
       groups[color].words.forEach(word => synState.tiles.push({ text: word, group: color }));
     });
-    synState.dateKey = (findField(row, 'Date') || '').trim() || todayStr;
-    synState.isStale = synState.dateKey !== todayStr;
+    // THE FIX: dateKey used to be the puzzle row's own date, so a fallback puzzle from
+    // "9-4-2026" saved its result under that same old key and showed "already done" forever.
+    // Now progress is always keyed by TODAY's date, so every new day starts fresh.
+    // (The streak/stats code below already expects keys to be real calendar dates.)
+    synState.dateKey = todayStr;
+    synState.puzzleDate = normalizeSynDate(findField(row, 'Date')) || '(undated)';
+    synState.isStale = usedFallback;
   }
 
   function renderGrid(){
@@ -440,6 +479,8 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
     synDisplayOrder.forEach(tileText => {
       const btn = document.createElement('button');
       btn.className = 'syn-tile' + (synState.selected.indexOf(tileText) > -1 ? ' selected' : '');
+      // NEW: flag tiles with a long word (10+ letters) so CSS can shrink the text a little
+      if(tileText.split(/[\s-]+/).some(function(w){ return w.length > 9; })) btn.classList.add('syn-tile-long');
       btn.textContent = tileText;
       btn.dataset.text = tileText;
       btn.disabled = synState.gameOver;

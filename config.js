@@ -61,7 +61,7 @@ window.NEUROLE_CONFIG = {
   // Date format matches your sheet exactly: M-D-YYYY, no leading zeros
   // (e.g. "8-4-2026" for August 4, 2026).
   // Sheet: "Neuroscience Connections Game" (tab: Sheet1). Swapped in from the previous sheet.
-  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXPCHy6ed6llhK4q0tSDIMn1VR6YnvAOa7J-Twnb_U4yBTrToiIZQDS5jXBb2SXYSjHw1NBFTu5uq/pub?output=csv",
+  SYNAPSE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXPCHy6ed6llhK4q0tSDIMn1VR6YnvAOa7J-Twnb_U4-yBTrToiIZQDS5jXBb2SXYSjHw1NBFTu5uq/pub?gid=0&single=true&output=csv",
 
   // --- Weekly fun fact -------------------------------------------------
   // Columns expected (header row):

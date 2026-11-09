@@ -757,10 +757,13 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
     document.getElementById('syn-stat-streak').textContent = stats.streak;
     document.getElementById('syn-stat-best').textContent = stats.best;
 
+    // The How to Play panel sits above this popup (it has to clear the start screen), so close it first.
+    document.getElementById('htp-backdrop').classList.remove('open');
     backdrop.classList.add('open');
   }
 
   function startGame(alreadyDone){
+    document.getElementById('htp-backdrop').classList.remove('open');
     document.getElementById('syn-start').style.display = 'none';
     document.getElementById('syn-game').style.display = 'block';
 

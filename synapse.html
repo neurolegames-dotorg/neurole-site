@@ -238,30 +238,79 @@
   <div class="htp-panel" id="htp-panel">
     <button class="htp-close" id="htp-close" aria-label="Close">✕</button>
     <div class="htp-brand"><img src="synapse-icon.png" alt="" width="28" height="28" style="object-fit:contain;"><span>The Synapse</span></div>
+    <p class="htp-lede">Sixteen neuroscience terms are hiding <strong>four groups of four</strong>. Find every group before you run out of mistakes.</p>
+
     <div class="htp-section">
       <p class="htp-section-title">How to Play</p>
-      <p class="htp-line">Find groups of four items that share something in common.</p>
-      <p class="htp-line">Select four tiles, then press Submit.</p>
-      <p class="htp-line">Categories range from straightforward to tricky, some items could fit more than one group.</p>
+
+      <div class="htp-step">
+        <span class="htp-step-num">1</span>
+        <div class="htp-step-body">
+          <p class="htp-line">Tap four tiles you think belong together. Tap a tile again to unselect it.</p>
+          <div class="htp-ex-grid" aria-hidden="true">
+            <span class="htp-tile sel">Frontal</span><span class="htp-tile">Dopamine</span><span class="htp-tile sel">Temporal</span><span class="htp-tile">Myelin</span>
+            <span class="htp-tile">Axon</span><span class="htp-tile sel">Parietal</span><span class="htp-tile">GABA</span><span class="htp-tile sel">Occipital</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="htp-step">
+        <span class="htp-step-num">2</span>
+        <div class="htp-step-body">
+          <p class="htp-line">Press <strong>Submit</strong>. If all four share a link, the group locks in with its theme.</p>
+          <div class="htp-ex-row" style="background:#A7D8A0;" aria-hidden="true">
+            <span class="theme">Lobes of the cerebrum</span>
+            <span class="words">Frontal, Temporal, Parietal, Occipital</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="htp-step">
+        <span class="htp-step-num">3</span>
+        <div class="htp-step-body">
+          <p class="htp-line">Keep going until all four groups are found. A new puzzle comes out every day.</p>
+        </div>
+      </div>
     </div>
+
+    <div class="htp-section">
+      <p class="htp-section-title">Difficulty colours</p>
+      <p class="htp-line">Each group has a colour that shows how hard it is.</p>
+      <div class="htp-key" aria-hidden="true">
+        <span class="htp-swatch" style="background:#A7D8A0;"></span><span class="htp-swatch" style="background:#F0E17E;"></span><span class="htp-swatch" style="background:#E8A499;"></span><span class="htp-swatch" style="background:#C9B3E8;"></span>
+      </div>
+      <div class="htp-key-labels"><span>Easiest</span><span>Trickiest</span></div>
+    </div>
+
     <div class="htp-section">
       <p class="htp-section-title">Mistakes</p>
-      <p class="htp-line">You get four mistakes before the puzzle ends. If you're one away from a correct group, we'll let you know.</p>
+      <p class="htp-line">You get <strong>four mistakes</strong>. Each wrong guess costs one dot. Lose all four and the puzzle ends, revealing the answers.</p>
+      <div class="htp-ex-dots" aria-hidden="true">Mistakes remaining <span class="syn-dot"></span><span class="syn-dot"></span><span class="syn-dot"></span><span class="syn-dot used"></span></div>
+      <p class="htp-line">If three of your four tiles are right, you'll see <strong>One away…</strong> Repeating a guess you've already made doesn't cost a mistake.</p>
     </div>
+
+    <div class="htp-section">
+      <p class="htp-section-title">Watch for red herrings</p>
+      <p class="htp-line">Some terms look like they fit more than one group. <em>Dopamine</em> is a neurotransmitter, but it could also belong in a group about the reward pathway. Check where every tile fits before you submit.</p>
+    </div>
+
     <div class="htp-section">
       <p class="htp-section-title">Tips</p>
-      <p class="htp-line">Start with the group you're most confident about.</p>
-      <p class="htp-line">Watch out for words that seem to belong to an obvious category, they're often a trap.</p>
+      <p class="htp-line">Start with the group you're most sure about. It leaves fewer tiles for the harder groups.</p>
+      <p class="htp-line">Stuck? <strong>Shuffle</strong> moves the tiles around so you can see them fresh. <strong>Deselect All</strong> clears your picks.</p>
+      <p class="htp-line">When you finish, share your result as a colour grid without giving away the answers.</p>
     </div>
+
+    <button class="btn htp-go" id="htp-go">Got it, let's play</button>
   </div>
 </div>
 <style>
-.htp-backdrop{position:fixed;inset:0;background:transparent;pointer-events:none;z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
+.htp-backdrop{position:fixed;inset:0;background:transparent;pointer-events:none;z-index:10000;display:none;opacity:0;transition:opacity .3s ease;}
 .htp-backdrop .htp-panel{pointer-events:auto;}
 .htp-backdrop.open{display:block;opacity:1;}
 .htp-panel{
   position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
-  background:var(--paper);z-index:200;
+  background:var(--paper);z-index:10001;
   transform:translateX(24px);opacity:0;pointer-events:none;
   transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
   overflow-y:auto;padding:max(26px, env(safe-area-inset-top, 26px)) 26px max(40px, env(safe-area-inset-bottom, 40px));
@@ -274,6 +323,25 @@
 .htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
 .htp-line{font-family:var(--serif-body),sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
 @media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
+/* Illustrated instructions */
+.htp-panel{box-shadow:-12px 0 40px rgba(0,0,0,.12);}
+.htp-lede{font-family:var(--serif-body),sans-serif;font-size:15px;line-height:1.6;color:var(--ink);margin:0 0 26px;}
+.htp-step{display:flex;gap:12px;margin-bottom:16px;}
+.htp-step-num{flex:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.htp-step-body{flex:1;min-width:0;}
+.htp-ex-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px 0 4px;}
+.htp-tile{aspect-ratio:1.35;border-radius:3px;background:var(--paper-deep);color:var(--ink);font-family:var(--serif-body),sans-serif;font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px;min-width:0;overflow-wrap:anywhere;}
+.htp-tile.sel{background:#D9D9DE;color:#16171A;}
+:root[data-theme="dark"] .htp-tile.sel{background:#4A4A55;color:#F2F0F6;}
+.htp-ex-row{display:flex;flex-direction:column;align-items:center;padding:11px 8px;border-radius:3px;color:#16171A;margin:6px 0 4px;text-align:center;}
+.htp-ex-row .theme{font-family:var(--serif-body),sans-serif;font-weight:800;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;}
+.htp-ex-row .words{font-family:var(--serif-body),sans-serif;font-size:12px;font-weight:600;}
+.htp-key{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px;}
+.htp-swatch{height:22px;border-radius:3px;}
+.htp-key-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;}
+.htp-ex-dots{display:flex;align-items:center;gap:6px;font-family:var(--serif-body),sans-serif;font-size:12.5px;color:var(--ink-soft);margin:2px 0 12px;}
+.htp-ex-dots span:first-child{margin-left:4px;}
+.htp-go{width:100%;justify-content:center;border-radius:4px;padding:13px;margin-top:4px;}
 /* Page-entry: slides in from the left on load */
 @keyframes pageSlideIn{0%{transform:translateX(-40px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
 body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
@@ -689,10 +757,13 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
     document.getElementById('syn-stat-streak').textContent = stats.streak;
     document.getElementById('syn-stat-best').textContent = stats.best;
 
+    // The How to Play panel sits above this popup (it has to clear the start screen), so close it first.
+    document.getElementById('htp-backdrop').classList.remove('open');
     backdrop.classList.add('open');
   }
 
   function startGame(alreadyDone){
+    document.getElementById('htp-backdrop').classList.remove('open');
     document.getElementById('syn-start').style.display = 'none';
     document.getElementById('syn-game').style.display = 'block';
 
@@ -809,6 +880,17 @@ body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
   document.getElementById('htp-close').addEventListener('click', function(){
     document.getElementById('htp-backdrop').classList.remove('open');
   });
+  document.getElementById('htp-go').addEventListener('click', function(){
+    document.getElementById('htp-backdrop').classList.remove('open');
+  });
+  // First visit: open the instructions automatically, once. The key deliberately does not
+  // start with "neurole_synapse_", because getSynapseStats() counts every key with that prefix.
+  try{
+    if(!localStorage.getItem('neurole_syn_htp_seen')){
+      localStorage.setItem('neurole_syn_htp_seen', '1');
+      setTimeout(function(){ document.getElementById('htp-backdrop').classList.add('open'); }, 400);
+    }
+  }catch(e){}
   document.getElementById('htp-backdrop').addEventListener('click', function(e){
     if(e.target === this) this.classList.remove('open');
   });

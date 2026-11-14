@@ -140,7 +140,7 @@ window.NEUROLE_CONFIG = {
     youtube: "https://www.youtube.com/@Neurolegames"
   },
 
-  // --- Global Guess Distribution (Diagnosly) ---------------------------
+  // --- Global Guess Distribution (Diagnosely) ---------------------------
   // Powers the "Guess Distribution, All Players" bars in the end-of-game
   // popup, showing how everyone who played today's case did, not just you.
   // Uses Firebase Firestore, which is free for this kind of light usage

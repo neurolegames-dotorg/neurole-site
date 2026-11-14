@@ -1,7 +1,7 @@
 {
   "name": "Neurole — Games About Your Brain",
   "short_name": "Neurole",
-  "description": "Free daily neuroscience games: Diagnosly, Map the Brain, and The Synapse.",
+  "description": "Free daily neuroscience games: Diagnosely, Map the Brain, and The Synapse.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",

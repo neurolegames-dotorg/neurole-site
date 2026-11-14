@@ -26,7 +26,7 @@ window.NEUROLE_CONFIG = {
   //   N = medications, O = labs & imaging, P = social/family history
   DAILY_CASE_SHEET_CSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdap3vkFznafgNnu5r2kNXWxmEw_DJDtHMOA78NweNZG4c-xl8DLIaBEjijkoZLg/pub?output=csv",
 
-  // --- Learn Regions (beginners section on Map the Brain) ---------
+  // --- Learn Regions (beginners section on The Brainer) ---------
   // Columns expected (header row):
   // region | function_text | category (optional) | difficulty (optional)
   // One row per brain region you want shown in the "Learn regions" modal.

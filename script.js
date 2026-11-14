@@ -218,7 +218,7 @@ async function loadFunFact(){
       if(key === weekKey){ best = r; break; }
     }
     // No explicit week_start match (or column left blank), cycle through
-    // sheet rows in order, one per week, same pattern as the Daily Case.
+    // sheet rows in order, one per week, same pattern as Diagnosly.
     if(!best){
       const idx = weeksSinceEpoch % usableRows.length;
       best = usableRows[idx];
@@ -292,7 +292,7 @@ Answer clearly and concisely (2-4 sentences), in plain language suitable for a c
 }
 
 // Explains, in 2-3 sentences, what a wrong guess actually is and how it
-// differs from the real answer, used by The Daily Case after each
+// differs from the real answer, used by Diagnosly after each
 // incorrect guess. Generated live rather than pre-written, since we can't
 // pre-author a factual blurb for every possible free-text guess a player
 // might type.
@@ -434,7 +434,7 @@ function recordWin(todayKey){
   return streak;
 }
 
-// ---------- Global guess distribution (Daily Case) ----------
+// ---------- Global guess distribution (Diagnosly) ----------
 // Optional, only active if FIREBASE_CONFIG is filled in in config.js.
 // Falls back silently (callers just get null) if not configured or offline.
 let neuroleFirebaseReady = false;

@@ -1100,6 +1100,8 @@ h1,h2,h3,h4,
 
 /* Page transitions — subtle */
 main{ animation:questionIn .25s ease; }
+/* No entrance slide on the game play screens */
+main.case-shell, main.game-shell, main.no-enter-anim{ animation:none; }
 
 /* Category buttons on Map the Brain — no flash */
 .category-btn{ -webkit-tap-highlight-color:transparent; }

@@ -130,7 +130,7 @@
   </ul>
 </div>
 
-<main class="wrap" style="padding:0;max-width:none;">
+<main class="wrap no-enter-anim" style="padding:0;max-width:none;">
 
   <!-- Start screen -->
   <div id="syn-start" class="syn-start-screen">
@@ -344,7 +344,7 @@
 .htp-go{width:100%;justify-content:center;border-radius:4px;padding:13px;margin-top:4px;}
 /* Page-entry: slides in from the left on load */
 @keyframes pageSlideIn{0%{transform:translateX(-40px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
-body{animation:pageSlideIn .45s cubic-bezier(.22,.7,.32,1) both;}
+body{animation:none;}
 @media(prefers-reduced-motion: reduce){body{animation:none;}}
 </style>
 

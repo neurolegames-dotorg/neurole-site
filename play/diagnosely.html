@@ -602,6 +602,239 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 </script>
 
+<style id="dx2-styles">
+/* =========== Diagnosely game screen (redesign) =========== */
+@font-face{font-family:'Playfair Display';font-weight:900;font-display:swap;src:url('/menu/playfair-900.woff2') format('woff2');}
+@font-face{font-family:'Fredoka';font-weight:600;font-display:swap;src:url('/menu/fredoka-600.woff2') format('woff2');}
+
+.dx2{
+  --dx-ink:#151515; --dx-soft:#5A5A5A; --dx-line:#555555; --dx-rule:#C9C9C9; --dx-bg:#FFFFFF; --dx-tint:#F6F6F4;
+  --dx-guess:#BFDBFE; --dx-guess-ink:#0F3557;
+  --dx-ask:#E2D9FA;   --dx-ask-ink:#3D2C7A;
+  --dx-bad:#FBE4E4;   --dx-bad-line:#C94545;
+  --dx-good:#DDF5E3;  --dx-good-line:#2E9A57;
+  --dx-gap:clamp(14px, 3.6vw, 24px);
+  max-width:760px;margin:0 auto;padding:clamp(14px,3vw,26px) clamp(14px,4vw,28px) 70px;
+  color:var(--dx-ink);font-family:'Outfit',system-ui,sans-serif;
+}
+:root[data-theme="dark"] .dx2{
+  --dx-ink:#F2F0F5; --dx-soft:#B5B1BD; --dx-line:#8A8794; --dx-rule:#3C3A44; --dx-bg:#1A1920; --dx-tint:#22212A;
+  --dx-guess:#1F3B5C; --dx-guess-ink:#D6E8FF; --dx-ask:#352A5C; --dx-ask-ink:#E4DCFF;
+  --dx-bad:#3A1F22; --dx-bad-line:#E07575; --dx-good:#1C3626; --dx-good-line:#5CCB86;
+}
+
+/* Title + date */
+.dx2-title{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;padding-bottom:clamp(10px,2.4vw,16px);border-bottom:1.5px solid var(--dx-line);}
+.dx2-name{font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:clamp(30px,8.4vw,52px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--dx-ink);}
+.dx2-date{font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:clamp(17px,4.6vw,30px);line-height:1;color:var(--dx-ink);white-space:nowrap;}
+
+/* Toolbar */
+.dx2-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:2.5px solid var(--dx-line);}
+.dx2-case-no{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:13px;color:var(--dx-soft);letter-spacing:.03em;}
+.dx2-tools{display:flex;align-items:center;gap:clamp(2px,1.5vw,10px);}
+.dx2-tool{
+  position:relative;width:44px;height:44px;border:none;background:none;border-radius:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--dx-ink);
+  -webkit-tap-highlight-color:transparent;transition:background .15s ease;
+}
+.dx2-tool svg{width:26px;height:26px;display:block;}
+.dx2-tool:hover,.dx2-tool:focus-visible{background:var(--dx-tint);}
+.dx2-tool:active{background:var(--dx-rule);}
+.dx2-tool:disabled{opacity:.35;cursor:default;background:none;}
+.dx2-badge{
+  position:absolute;top:3px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;
+  background:#F5B400;color:#2A2100;font:700 11px/17px 'Outfit',system-ui,sans-serif;text-align:center;
+}
+.dx2-badge[data-n="0"]{display:none;}
+/* Idle glow on the hint bulb */
+.dx2-bulb.glow{color:#E0A100;animation:dxGlow 1.6s ease-in-out infinite;}
+@keyframes dxGlow{
+  0%,100%{background:rgba(255,200,40,.10);box-shadow:0 0 0 0 rgba(255,190,0,.0);}
+  50%{background:rgba(255,200,40,.28);box-shadow:0 0 18px 4px rgba(255,190,0,.55);}
+}
+
+/* Patient case card */
+.dx2-case{margin-top:var(--dx-gap);background:var(--dx-tint);border-radius:18px;padding:14px 16px 12px;}
+.dx2-case-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.dx2-case-tag{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dx-soft);}
+.dx2-case-count{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:12px;color:var(--dx-soft);}
+.dx2-case-list{list-style:none;margin:0;padding:0;}
+.dx2-case-list li{font-size:clamp(15px,3.9vw,17px);line-height:1.5;padding:6px 0;color:var(--dx-ink);}
+.dx2-case-list li + li{border-top:1px dashed var(--dx-rule);}
+.dx2-case-list li .hint-label{display:inline-block;font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:11px;letter-spacing:.04em;color:#8A6A00;background:#FFF1BF;border-radius:6px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+:root[data-theme="dark"] .dx2-case-list li .hint-label{background:#4A3B00;color:#FFE08A;}
+.dx2-case-list li.new{animation:dxIn .35s ease;}
+@keyframes dxIn{from{opacity:0;background:rgba(255,215,64,.35);}to{opacity:1;background:transparent;}}
+
+/* Two columns */
+.dx2-cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--dx-gap);margin-top:var(--dx-gap);align-items:start;}
+.dx2-col{min-width:0;display:flex;flex-direction:column;}
+.dx2-col-title{
+  display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 10px;
+  font-family:'Outfit',system-ui,sans-serif;font-weight:700;font-size:clamp(17px,4.6vw,22px);color:var(--dx-ink);
+}
+#ask-counter-pill-wrap #ask-counter-pill{all:unset;}
+#ask-counter-pill-wrap::before,#ask-counter-pill-wrap::after{content:none !important;}
+.dx2-pill{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:12px;line-height:1;color:var(--dx-soft);background:var(--dx-tint);border-radius:999px;padding:5px 8px;}
+
+/* Questions box with ruled lines */
+.dx2-qbox{
+  border:2px solid var(--dx-line);border-radius:22px;background:var(--dx-bg);
+  height:var(--dx-colh, 330px);overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:4px 12px;
+}
+.dx2-qbox .dx-assessment-entry{padding:10px 2px;border-bottom:1.5px solid var(--dx-rule);}
+.dx2-q{display:block;font-weight:700;font-size:13px;line-height:1.35;color:var(--dx-ink);margin-bottom:3px;word-break:break-word;}
+.dx2-qbox .dx-assessment-a{display:block;font-size:13px;line-height:1.45;color:var(--dx-soft);word-break:break-word;}
+.dx2-qbox .dx-assessment-a.thinking{font-style:italic;}
+.dx2-empty{
+  margin:0;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:13.5px;line-height:1.5;color:var(--dx-soft);padding:0 6px;
+  background:repeating-linear-gradient(to bottom, transparent 0 calc(20% - 1.5px), var(--dx-rule) calc(20% - 1.5px) 20%);
+}
+.dx2-empty b{color:var(--dx-ask-ink);background:var(--dx-ask);border-radius:6px;padding:0 5px;}
+
+/* Guess slots */
+.dx2-guesses{display:flex;flex-direction:column;gap:12px;}
+.dx2-slot{
+  height:calc((var(--dx-colh, 330px) - 48px) / 5);min-height:48px;
+  border:2px solid var(--dx-line);border-radius:22px;background:var(--dx-bg);
+  display:flex;flex-direction:column;justify-content:center;padding:0 14px;min-width:0;
+  transition:background .2s ease,border-color .2s ease;
+}
+.dx2-slot .n{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:13px;color:var(--dx-rule);}
+.dx2-slot-name{font-weight:700;font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dx2-slot-cat{font-size:11.5px;color:var(--dx-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dx2-slot.bad{background:var(--dx-bad);border-color:var(--dx-bad-line);}
+.dx2-slot.bad .dx2-slot-name::before{content:"✕ ";color:var(--dx-bad-line);}
+.dx2-slot.good{background:var(--dx-good);border-color:var(--dx-good-line);}
+.dx2-slot.good .dx2-slot-name::before{content:"✓ ";color:var(--dx-good-line);}
+.dx2-slot.next{border-style:dashed;}
+.dx2-slot.pop{animation:dxPop .35s ease;}
+@keyframes dxPop{0%{transform:scale(.96);}60%{transform:scale(1.02);}100%{transform:scale(1);}}
+
+/* Guess / Ask bar */
+#guess-area{margin-top:calc(var(--dx-gap) + 6px);}
+.dx2-bar{display:flex;align-items:center;gap:12px;max-width:620px;margin:0 auto;}
+.dx2-mode{
+  flex:0 0 auto;display:flex;align-items:center;gap:7px;height:50px;padding:0 16px;border:none;border-radius:12px;cursor:pointer;
+  font-family:'Outfit',system-ui,sans-serif;font-weight:700;font-size:17px;
+  background:var(--dx-guess);color:var(--dx-guess-ink);-webkit-tap-highlight-color:transparent;
+  transition:background .2s ease,color .2s ease;
+}
+.dx2-mode svg{width:17px;height:17px;opacity:.7;}
+.dx2-mode:active{filter:brightness(.95);}
+.dx2-bar[data-mode="ask"] .dx2-mode{background:var(--dx-ask);color:var(--dx-ask-ink);}
+.dx2-input-wrap{position:relative;flex:1;min-width:0;}
+.dx2-input-wrap input{
+  width:100%;height:50px;box-sizing:border-box;border:2.5px solid var(--dx-ink);border-radius:12px;
+  padding:0 54px 0 14px;font-size:16px;font-family:'Outfit',system-ui,sans-serif;background:var(--dx-bg);color:var(--dx-ink);
+  outline:none;transition:box-shadow .15s ease;
+}
+.dx2-input-wrap input:focus{box-shadow:0 0 0 4px var(--dx-guess);}
+.dx2-bar[data-mode="ask"] .dx2-input-wrap input:focus{box-shadow:0 0 0 4px var(--dx-ask);}
+.dx2-input-wrap input:disabled{opacity:.6;}
+.dx2-send{
+  position:absolute;right:6px;top:6px;width:38px;height:38px;border:none;border-radius:9px;cursor:pointer;
+  background:var(--dx-ink);color:var(--dx-bg);display:flex;align-items:center;justify-content:center;
+}
+.dx2-send svg{width:20px;height:20px;}
+.dx2-mode-help{text-align:center;font-size:12.5px;color:var(--dx-soft);margin:10px 0 0;}
+.dx2-mode-help b{font-weight:700;color:var(--dx-ink);}
+.dx2-bar.shake{animation:wrongShake .4s ease;}
+
+/* Autocomplete opens upward so the keyboard never hides it */
+.dx2-ac{
+  display:none;position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:30;
+  background:var(--dx-bg);border:2px solid var(--dx-line);border-radius:12px;overflow:auto;max-height:220px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.dx2-ac.open{display:block;}
+.dx2-ac div{padding:11px 14px;font-size:15px;cursor:pointer;border-bottom:1px solid var(--dx-rule);color:var(--dx-ink);}
+.dx2-ac div:last-child{border-bottom:none;}
+.dx2-ac div:hover,.dx2-ac div.active{background:var(--dx-tint);}
+
+.dx2-note{text-align:center;font-size:13px;color:var(--dx-soft);margin-top:8px;min-height:0;}
+.dx2-explain{max-width:620px;margin:14px auto 0;padding:14px 16px;background:var(--dx-tint);border-radius:14px;}
+.dx2-explain-title{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dx-soft);margin:0 0 6px;}
+#guess-explain-text{margin:0;font-size:14px;line-height:1.6;color:var(--dx-ink);}
+#result-area .result-banner{max-width:620px;margin:var(--dx-gap) auto 0;border-radius:16px;}
+.dx2-fine{font-size:11.5px;color:var(--dx-soft);text-align:center;margin:26px 0 0;}
+
+/* Old floating "Explain" button: replaced by the chat icon in the toolbar */
+#case-chat-fab{display:none !important;}
+
+/* Phones: tighter columns */
+@media (max-width:480px){
+  .dx2{--dx-colh:300px;}
+  .dx2-tool{width:40px;height:40px;}
+  .dx2-tool svg{width:24px;height:24px;}
+  .dx2-qbox{padding:2px 10px;border-radius:18px;}
+  .dx2-slot{border-radius:18px;padding:0 11px;}
+  .dx2-slot-name{font-size:13px;}
+  .dx2-q,.dx2-qbox .dx-assessment-a{font-size:12.5px;}
+  .dx2-mode{height:48px;padding:0 13px;font-size:16px;}
+  .dx2-input-wrap input{height:48px;}
+  .dx2-send{top:5px;}
+}
+
+/* ---------- How-to-play popup ---------- */
+.dx2-intro{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,14,20,.45);}
+.dx2-intro[hidden]{display:none;}
+.dx2-intro.show{animation:dxFade .22s ease;}
+.dx2-intro.show .dx2-intro-card{animation:dxPopIn .32s cubic-bezier(.2,.9,.3,1.2);}
+@keyframes dxFade{from{opacity:0}to{opacity:1}}
+@keyframes dxPopIn{from{opacity:0;transform:translateY(14px) scale(.92);}to{opacity:1;transform:none;}}
+.dx2-intro-card{
+  position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 32px);overflow-y:auto;
+  background:#fff;color:#151515;border-radius:24px;padding:24px 20px 20px;box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+:root[data-theme="dark"] .dx2-intro-card{background:#1A1920;color:#F2F0F5;}
+.dx2-intro-x{position:absolute;top:12px;right:12px;width:40px;height:40px;border:none;background:none;font-size:20px;cursor:pointer;color:inherit;border-radius:50%;}
+.dx2-intro-top{text-align:center;margin-bottom:14px;}
+.dx2-intro-top img{display:block;margin:0 auto 8px;width:54px;height:auto;}
+.dx2-intro-top h2{font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:25px;margin:0 0 6px;line-height:1.15;}
+.dx2-intro-top p{margin:0;font-size:14.5px;color:#5A5A5A;line-height:1.5;}
+:root[data-theme="dark"] .dx2-intro-top p{color:#B5B1BD;}
+.dx2-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.dx2-step{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:center;background:#F6F6F4;border-radius:16px;padding:10px;font-size:14px;line-height:1.45;}
+:root[data-theme="dark"] .dx2-step{background:#22212A;}
+.dx2-step-art{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:62px;}
+.dx2-intro.show .dx2-step{animation:dxIn2 .4s ease both;}
+.dx2-intro.show .dx2-step:nth-child(2){animation-delay:.08s;}
+.dx2-intro.show .dx2-step:nth-child(3){animation-delay:.16s;}
+.dx2-intro.show .dx2-step:nth-child(4){animation-delay:.24s;}
+@keyframes dxIn2{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.mini-case{width:104px;background:#fff;border-radius:10px;padding:7px 8px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 0 #ddd;}
+.mini-tag{font:600 8px/1 'Fredoka',sans-serif;letter-spacing:.08em;color:#777;}
+.mini-line{height:6px;border-radius:3px;background:#CFCFCF;}
+.mini-line.short{width:65%;}
+.mini-bar{display:flex;gap:4px;width:110px;}
+.mini-mode{font:700 10px/1 'Outfit',sans-serif;background:#BFDBFE;color:#0F3557;border-radius:6px;padding:6px 6px;}
+.mini-mode.ask{background:#E2D9FA;color:#3D2C7A;}
+.mini-input{flex:1;font:500 10px/1 'Outfit',sans-serif;border:1.5px solid #151515;border-radius:6px;padding:5px 5px;background:#fff;color:#151515;white-space:nowrap;overflow:hidden;}
+.mini-answer{font:500 10px/1.2 'Outfit',sans-serif;background:#fff;border:1.5px solid #999;border-radius:8px;padding:4px 7px;color:#444;}
+.mini-pills{display:flex;gap:3px;}
+.mini-pills span{width:18px;height:14px;border:1.5px solid #555;border-radius:6px;font:700 9px/11px 'Outfit',sans-serif;text-align:center;background:#fff;}
+.mini-pills .bad{background:#FBE4E4;border-color:#C94545;color:#C94545;}
+.mini-pills .good{background:#DDF5E3;border-color:#2E9A57;color:#2E9A57;}
+.mini-bulb{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#E0A100;animation:dxGlow 1.6s ease-in-out infinite;}
+.mini-bulb svg{width:28px;height:28px;}
+.dx2-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin:16px 0 4px;font-size:13px;color:#5A5A5A;}
+:root[data-theme="dark"] .dx2-legend{color:#B5B1BD;}
+.dx2-legend span{display:inline-flex;align-items:center;gap:6px;}
+.dx2-legend svg{width:17px;height:17px;}
+.dx2-intro-go{
+  display:block;width:100%;margin-top:14px;height:52px;border:none;border-radius:14px;cursor:pointer;
+  background:#151515;color:#fff;font:700 17px/1 'Outfit',system-ui,sans-serif;
+}
+:root[data-theme="dark"] .dx2-intro-go{background:#F2F0F5;color:#151515;}
+@media (prefers-reduced-motion: reduce){
+  .dx2 *, .dx2-intro, .dx2-intro *{animation:none !important;}
+  .dx2-bulb.glow{background:rgba(255,200,40,.3);}
+}
+</style>
+
 </head>
 <body>
 <script>
@@ -639,112 +872,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </ul>
 </div>
 
-<main class="wrap case-shell">
+<main class="wrap dx2 no-enter-anim">
 
-  <div class="game-date-block">
-    <span class="game-date-name">Diagnosely</span>
-    <span class="game-date-sep">·</span>
-    <span class="game-date-today" id="game-date-today">Loading…</span>
+  <!-- Title row: Diagnosely + date -->
+  <div class="dx2-title">
+    <h1 class="dx2-name">Diagnosely</h1>
+    <span class="dx2-date" id="game-date-today">Loading…</span>
   </div>
 
-  <div class="game-toolbar">
-    <span class="game-toolbar-label">Diagnosely</span>
-    <div style="flex:1;"></div>
-    <button type="button" class="game-toolbar-icon" id="toolbar-stats-btn" aria-label="Statistics" title="Statistics">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    </button>
-    <button type="button" class="game-toolbar-icon" id="toolbar-hints-btn" aria-label="All disorders" title="All disorders">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg>
-    </button>
-    <button type="button" class="game-toolbar-icon" id="toolbar-questions-btn" aria-label="Question categories" title="Question categories">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2 1.7-2 3.5"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg>
-    </button>
-  </div>
-
-  <div class="start-screen" id="start-screen">
-    <a class="back-home" href="/index.html" style="position:absolute;top:18px;left:20px;margin-bottom:0;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Home
-    </a>
-    <button id="how-to-play-btn" aria-label="How to play" style="position:absolute;top:16px;right:20px;z-index:10;width:38px;height:38px;border-radius:3px;border:1.5px solid var(--rule);background:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
-    </button>
-    <div class="start-screen-inner">
-      <div class="start-logo">
-        <img src="/daily-case-icon.png" alt="Diagnosely" width="56" height="60" style="object-fit:contain;">
-      </div>
-      <h1>Diagnosely</h1>
-      <p>A new patient every day. Read the symptoms and name the diagnosis, 5 tries, then the answer is revealed.</p>
-      <div class="start-actions">
-        <button class="btn ghost" data-signin style="flex:none;padding:13px 22px;">Sign in</button>
-        <button class="btn" id="start-play-btn" style="flex:1;">Play today's case →</button>
-      </div>
-      <div class="start-meta" id="start-meta"></div>
-      <div id="case-num-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:8px;letter-spacing:.03em;"></div>
-      <div id="case-author-line" style="display:none;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.03em;"></div>
-      <div id="streak-label" style="font-family:var(--serif-body),sans-serif;font-size:13px;font-weight:600;color:var(--neuro-blue-deep);margin-top:10px;min-height:22px;"></div>
-      <a href="/archive.html" style="font-family:var(--serif-body),sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:none;margin-top:16px;letter-spacing:.02em;">View case archive →</a>
-      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);opacity:.7;margin-top:22px;line-height:1.6;max-width:320px;">For education only, not medical advice. Explanations may be AI-generated. <a href="/terms.html" style="color:inherit;">Learn more</a></p>
+  <!-- Toolbar: AI chat · disorder list · stats · hint · how to play -->
+  <div class="dx2-toolbar" role="toolbar" aria-label="Game tools">
+    <span class="dx2-case-no" id="case-number"></span>
+    <div class="dx2-tools">
+      <button type="button" class="dx2-tool" id="toolbar-chat-btn" aria-label="Ask the AI tutor" title="AI tutor">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v9.5A2.5 2.5 0 0 1 20 18H10.2L5.6 21.6c-.5.4-1.1 0-1.1-.6V18H4a2.5 2.5 0 0 1-2.5-2.5V6A2.5 2.5 0 0 1 4 3.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M6.5 8h11M6.5 11h11M6.5 14h7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="dx2-tool" id="toolbar-hints-btn" aria-label="List of disorders" title="List of disorders">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="4" cy="6" r="1.7" fill="currentColor"/><circle cx="4" cy="12" r="1.7" fill="currentColor"/><circle cx="4" cy="18" r="1.7" fill="currentColor"/><path d="M8.5 6h13M8.5 12h13M8.5 18h13" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="dx2-tool" id="toolbar-stats-btn" aria-label="Statistics" title="Statistics">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="12" width="5" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="5" width="5" height="17" rx="1" fill="currentColor"/><rect x="16.5" y="9" width="5" height="13" rx="1" fill="currentColor"/></svg>
+      </button>
+      <button type="button" class="dx2-tool dx2-bulb" id="toolbar-bulb-btn" aria-label="Get a hint" title="Get a hint">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8a7.2 7.2 0 0 0-4.3 13c.8.6 1.3 1.5 1.3 2.5v.4h6v-.4c0-1 .5-1.9 1.3-2.5A7.2 7.2 0 0 0 12 1.8z" fill="currentColor"/><rect x="9" y="18.8" width="6" height="1.8" rx=".9" fill="currentColor"/><path d="M10 21.8h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="dx2-badge" id="hint-badge">0</span>
+      </button>
+      <button type="button" class="dx2-tool" id="how-to-play-btn" aria-label="How to play" title="How to play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.6 8.1a4.4 4.4 0 1 1 6.6 3.8c-1.3.8-2.2 1.6-2.2 3.3v.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="12" cy="20.4" r="1.9" fill="currentColor"/></svg>
+      </button>
     </div>
   </div>
 
-  <div id="game-content" style="display:var(--game-content-display,none);">
-    <div id="sheet-warning-banner" style="display:none;font-family:var(--mono);font-size:12px;color:#7A4F00;background:#FFF8E7;border:1px solid #F5D78E;border-radius:3px;padding:10px 14px;margin-bottom:16px;line-height:1.5;"></div>
-    <div class="case-card">
-      <!-- Case number/date shown in the toolbar above; kept here only so existing JS has somewhere to write, never displayed -->
-      <div class="case-meta" style="display:none;">
-        <span id="case-number"></span>
-        <span id="case-date">Loading...</span>
+  <!-- Kept hidden: the old start screen elements the shared code still writes to -->
+  <div class="start-screen" id="start-screen" style="display:none !important;">
+    <button class="btn" id="start-play-btn">Play</button>
+    <div id="start-meta"></div><div id="case-num-line"></div><div id="case-author-line"></div><div id="streak-label"></div>
+  </div>
+  <div style="display:none;"><span id="case-date"></span><ul id="symptom-log"></ul></div>
+
+  <div id="game-content">
+    <div id="sheet-warning-banner" style="display:none;"></div>
+
+    <!-- Patient case: hint 1 always shown, more only from the light bulb -->
+    <section class="dx2-case" aria-live="polite">
+      <div class="dx2-case-head">
+        <span class="dx2-case-tag">Patient</span>
+        <span class="dx2-case-count" id="hint-count"></span>
       </div>
+      <ol class="dx2-case-list" id="case-brief"></ol>
+    </section>
 
-      <div class="case-brief" id="case-brief"></div>
-      <ul class="symptom-log" id="symptom-log" style="display:none;"></ul>
-
-      <!-- Mobile-only: switch which panel is visible -->
-      <div class="dx-mobile-tabs" id="dx-mobile-tabs">
-        <button type="button" class="dx-mobile-tab active" data-panel="diagnosis">Diagnosis</button>
-        <button type="button" class="dx-mobile-tab" data-panel="assessment">Assessment</button>
-      </div>
-
-      <div class="dx-panels">
-        <div class="dx-panel active" id="dx-panel-diagnosis">
-          <p class="dx-panel-title">Diagnosis <span class="attempts-dots" id="attempts-dots"><span></span><span></span><span></span><span></span><span></span></span></p>
-          <div class="dx-guess-log" id="past-guesses"></div>
+    <div class="dx2-cols">
+      <section class="dx2-col">
+        <h2 class="dx2-col-title">Questions <span class="dx2-pill" id="ask-counter-pill-wrap"><span id="ask-counter-pill">0</span></span></h2>
+        <div class="dx2-qbox" id="assessment-log">
+          <p class="dx-assessment-empty dx2-empty"><span>Switch to <b>Ask</b> below to question the patient.</span></p>
         </div>
-        <div class="dx-panel" id="dx-panel-assessment">
-          <p class="dx-panel-title">Assessment <span id="ask-counter-pill-wrap"><span id="ask-counter-pill">0</span> asked</span></p>
-          <div class="dx-assessment-log" id="assessment-log">
-            <p class="dx-assessment-empty">Ask a question below to learn more about the case.</p>
-          </div>
-        </div>
-      </div>
+      </section>
+      <section class="dx2-col">
+        <h2 class="dx2-col-title">Guesses <span class="dx2-pill" id="guesses-left">5 left</span></h2>
+        <div class="dx2-guesses" id="past-guesses"></div>
+      </section>
+    </div>
 
-      <div id="guess-area">
-        <!-- Single shared input: toggle button switches Guess/Ask mode, arrow submits -->
-        <div id="mobile-dx-bar">
-          <button type="button" id="dx-mode-toggle" class="mobile-guess-btn" data-mode="guess">Guess</button>
-          <div class="mobile-dx-input-wrap">
-            <input type="text" id="mobile-dx-input" placeholder="Type your diagnosis…" autocomplete="off">
-            <div class="autocomplete-list" id="mobile-autocomplete-list"></div>
-          </div>
-          <button type="button" id="mobile-submit-btn" class="mobile-ask-btn" aria-label="Submit" title="Submit">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    <div id="guess-area">
+      <div class="dx2-bar" id="dx2-bar" data-mode="guess">
+        <button type="button" id="dx-mode-toggle" class="dx2-mode" data-mode="guess" aria-label="Switch between Guess and Ask">
+          <span class="dx2-mode-label">Guess</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4 3 8l4 4M3 8h13M17 20l4-4-4-4M21 16H8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dx2-input-wrap mobile-dx-input-wrap">
+          <input type="text" id="mobile-dx-input" placeholder="Type your diagnosis…" autocomplete="off" enterkeyhint="send">
+          <button type="button" id="mobile-submit-btn" class="dx2-send" aria-label="Submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-        </div>
-
-        <div class="closest-note" id="closest-note"></div>
-        <div id="guess-explain" style="display:none;margin-top:12px;padding:14px 16px;background:var(--paper-deep);border:1.5px solid var(--rule);border-radius:3px;">
-          <p style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px;">Why that's not it</p>
-          <p id="guess-explain-text" style="margin:0;font-size:13.5px;line-height:1.6;color:var(--ink);">Thinking…</p>
+          <div class="dx2-ac" id="mobile-autocomplete-list"></div>
         </div>
       </div>
-
-      <div id="result-area"></div>
+      <p class="dx2-mode-help" id="dx2-mode-help">Guessing: type a diagnosis. Tap <b>Guess</b> to switch to asking questions.</p>
+      <div class="closest-note dx2-note" id="closest-note"></div>
+      <div id="guess-explain" class="dx2-explain" style="display:none;">
+        <p class="dx2-explain-title">Why that's not it</p>
+        <p id="guess-explain-text">Thinking…</p>
+      </div>
     </div>
 
-    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;text-align:center;">
-      Educational use only, not medical advice.
-    </p>
+    <div id="result-area"></div>
+
+    <p class="dx2-fine">Educational use only, not medical advice.</p>
   </div>
 
   <!-- Toolbar modals -->
@@ -755,6 +970,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </main>
+
+<!-- How to play: visual popup (opens automatically the first time, and from the ? button) -->
+<div class="dx2-intro" id="dx2-intro" role="dialog" aria-modal="true" aria-labelledby="dx2-intro-title" hidden>
+  <div class="dx2-intro-card">
+    <button type="button" class="dx2-intro-x" id="dx2-intro-x" aria-label="Close">✕</button>
+    <div class="dx2-intro-top">
+      <img src="/menu/menu-diagnosely.png" alt="" width="54" height="56">
+      <h2 id="dx2-intro-title">How to play Diagnosely</h2>
+      <p>A new patient walks in every day. Find the diagnosis in 5 guesses.</p>
+    </div>
+    <ol class="dx2-steps">
+      <li class="dx2-step">
+        <div class="dx2-step-art">
+          <div class="mini-case"><span class="mini-tag">Patient</span><span class="mini-line"></span><span class="mini-line short"></span></div>
+        </div>
+        <div><b>1. Read the patient.</b> You start with one clue about the case.</div>
+      </li>
+      <li class="dx2-step">
+        <div class="dx2-step-art">
+          <div class="mini-bar"><span class="mini-mode ask">Ask</span><span class="mini-input">Any fever?</span></div>
+          <div class="mini-answer">Temp 38.4°C</div>
+        </div>
+        <div><b>2. Ask questions.</b> Switch to <b>Ask</b> and question the patient: vitals, exam, labs, history. Asking is free.</div>
+      </li>
+      <li class="dx2-step">
+        <div class="dx2-step-art">
+          <div class="mini-bar"><span class="mini-mode">Guess</span><span class="mini-input">Migraine</span></div>
+          <div class="mini-pills"><span class="bad">✕</span><span class="bad">✕</span><span class="good">✓</span><span></span><span></span></div>
+        </div>
+        <div><b>3. Guess the diagnosis.</b> Switch to <b>Guess</b>. You have 5 tries.</div>
+      </li>
+      <li class="dx2-step">
+        <div class="dx2-step-art"><span class="mini-bulb"><svg viewBox="0 0 24 24"><path d="M12 1.8a7.2 7.2 0 0 0-4.3 13c.8.6 1.3 1.5 1.3 2.5v.4h6v-.4c0-1 .5-1.9 1.3-2.5A7.2 7.2 0 0 0 12 1.8z" fill="currentColor"/><rect x="9" y="18.8" width="6" height="1.8" rx=".9" fill="currentColor"/></svg></span></div>
+        <div><b>4. Stuck? Tap the light bulb</b> for another clue. It glows if you've been stuck for a minute.</div>
+      </li>
+    </ol>
+    <div class="dx2-legend">
+      <span><svg viewBox="0 0 24 24"><path d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v9.5A2.5 2.5 0 0 1 20 18H10.2L5.6 21.6c-.5.4-1.1 0-1.1-.6V18H4a2.5 2.5 0 0 1-2.5-2.5V6A2.5 2.5 0 0 1 4 3.5z" fill="none" stroke="currentColor" stroke-width="2"/></svg>AI tutor</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="4" cy="6" r="1.8" fill="currentColor"/><circle cx="4" cy="12" r="1.8" fill="currentColor"/><circle cx="4" cy="18" r="1.8" fill="currentColor"/><path d="M8.5 6h13M8.5 12h13M8.5 18h13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Disorder list</span>
+      <span><svg viewBox="0 0 24 24"><rect x="2.5" y="12" width="5" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="5" width="5" height="17" rx="1" fill="currentColor"/><rect x="16.5" y="9" width="5" height="13" rx="1" fill="currentColor"/></svg>Your stats</span>
+    </div>
+    <button type="button" class="dx2-intro-go" id="dx2-intro-go">Start playing</button>
+  </div>
+</div>
 
 <button class="chat-fab" id="case-chat-fab" aria-label="Explain this case">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -1099,11 +1358,11 @@ async function loadCase(){
   document.getElementById('case-date').textContent =
     headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}) + (archiveMode ? ' · Archive' : '');
   const gameDateTodayEl = document.getElementById('game-date-today');
-  if(gameDateTodayEl) gameDateTodayEl.textContent = headerDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  if(gameDateTodayEl) gameDateTodayEl.textContent = headerDate.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   const caseNum = playIdx + 1;
   state.caseNum = caseNum;
   const caseNumEl = document.getElementById('case-number');
-  if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum;
+  if(caseNumEl) caseNumEl.textContent = 'Case #' + caseNum + (archiveMode ? ' · Archive' : '');
   let chosen = null;
   try{
     // Load CSV raw, read by column position
@@ -1180,6 +1439,8 @@ async function loadCase(){
 
   if(!chosen || !state.answer){
     document.getElementById('game-content').style.display='block';
+    document.querySelectorAll('.dx2-case, .dx2-cols, #guess-area').forEach(el => el.style.display='none');
+    ['toolbar-bulb-btn','toolbar-chat-btn'].forEach(id => { const b=document.getElementById(id); if(b) b.disabled=true; });
     document.getElementById('start-screen').style.display='none';
     const area = document.getElementById('result-area');
     if(area) area.innerHTML = `
@@ -1223,8 +1484,11 @@ async function loadCase(){
     state.author = saved.author;
     state.attemptsUsed = saved.attemptsUsed;
     state.solved = saved.won;
+    state.guesses = saved.guesses || [];
+    state.hintsUsed = saved.hintsUsed || 0;
     state.shown = state.symptoms.length;
     renderSymptoms();
+    renderPastGuesses();
     document.getElementById('guess-area').style.display = 'none';
     const area = document.getElementById('result-area');
     const banner = document.createElement('div');
@@ -1277,27 +1541,47 @@ function updateStartScreen(){
 }
 
 function renderSymptoms(){
-  const log = document.getElementById('symptom-log');
-  log.innerHTML = '';
-  const total = state.symptoms.length || 5;
-  for(let i=0;i<total;i++){
-    const li = document.createElement('li');
-    if(i < state.shown){
-      li.className = 'revealed';
-      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>${state.symptoms[i]}</span>`;
-    } else {
-      li.className = 'locked';
-      li.innerHTML = `<span class="hint-num">Hint ${i+1}</span><span>Locked, make a guess to reveal this hint</span>`;
+  const list = document.getElementById('case-brief');
+  const total = state.symptoms.length || 0;
+  const shown = Math.min(state.shown || 1, total);
+  const prevCount = list ? list.children.length : 0;
+  if(list){
+    list.innerHTML = '';
+    for(let i=0;i<shown;i++){
+      const li = document.createElement('li');
+      li.innerHTML = (i > 0 ? `<span class="hint-label">Hint ${i}</span>` : '') + escapeHTML(state.symptoms[i]);
+      if(prevCount && i >= prevCount) li.className = 'new';
+      list.appendChild(li);
     }
-    log.appendChild(li);
   }
-  const brief = document.getElementById('case-brief');
-  if(brief){
-    const revealed = state.symptoms.slice(0, state.shown);
-    brief.textContent = revealed.join('. ') + (revealed.length ? '.' : '');
+  const remaining = Math.max(0, total - shown);
+  const finished = state.solved || state.attemptsUsed >= 5 || state.alreadyCompletedToday;
+  const countEl = document.getElementById('hint-count');
+  if(countEl) countEl.textContent = finished ? 'All clues shown' : (total > 1 ? `${shown - 1} of ${total - 1} hints used` : '');
+  const badge = document.getElementById('hint-badge');
+  if(badge){ const n = finished ? 0 : remaining; badge.textContent = n; badge.dataset.n = n; }
+  const bulb = document.getElementById('toolbar-bulb-btn');
+  if(bulb){
+    bulb.disabled = finished || remaining === 0;
+    bulb.title = bulb.disabled ? (finished ? 'Case finished' : 'No more hints') : `Get a hint (${remaining} left)`;
+    if(bulb.disabled) bulb.classList.remove('glow');
   }
-  const dots = document.querySelectorAll('#attempts-dots span');
-  dots.forEach((d,i) => d.classList.toggle('used', i < state.attemptsUsed));
+}
+
+function escapeHTML(str){
+  return String(str == null ? '' : str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Light bulb: the only way to reveal more of the case
+function revealHint(){
+  const total = state.symptoms.length;
+  if(state.solved || state.attemptsUsed >= 5 || state.alreadyCompletedToday) return;
+  if((state.shown || 1) >= total) return;
+  state.shown = (state.shown || 1) + 1;
+  renderSymptoms();
+  saveDailyProgress();
+  const card = document.querySelector('.dx2-case');
+  if(card && card.scrollIntoView) card.scrollIntoView({block:'nearest', behavior:'smooth'});
 }
 
 const ASK_CATEGORIES = {
@@ -1398,8 +1682,9 @@ function renderAssessmentEntry(questionText, answerText, isAI){
   const entry = document.createElement('div');
   entry.className = 'dx-assessment-entry';
   entry.title = questionText;
-  entry.innerHTML = `<span class="dx-assessment-a${isAI ? ' ai-generated' : ''}">${answerText}</span>`;
+  entry.innerHTML = `<span class="dx2-q">${escapeHTML(questionText)}</span><span class="dx-assessment-a${isAI ? ' ai-generated' : ''}">${escapeHTML(answerText)}</span>`;
   log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
 }
 
 function updateAskCounterUI(){
@@ -1440,11 +1725,15 @@ async function submitQuestion(question){
     renderAssessmentEntry(question, 'Thinking…', false);
     const log = document.getElementById('assessment-log');
     const pendingEntry = log.lastElementChild;
+    pendingEntry.querySelector('.dx-assessment-a').classList.add('thinking');
     const answer = await answerFreeTextQuestion(question);
-    pendingEntry.querySelector('.dx-assessment-a').textContent = answer;
-    pendingEntry.querySelector('.dx-assessment-a').classList.add('ai-generated');
+    const aEl = pendingEntry.querySelector('.dx-assessment-a');
+    aEl.textContent = answer;
+    aEl.classList.remove('thinking');
+    aEl.classList.add('ai-generated');
+    log.scrollTop = log.scrollHeight;
   }
-  if(mobileInput){ mobileInput.disabled = false; }
+  if(mobileInput){ mobileInput.disabled = false; mobileInput.focus(); }
   saveDailyProgress();
 }
 
@@ -1520,10 +1809,18 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
   const submitBtn = document.getElementById('mobile-submit-btn');
   if(!input || !modeToggle || !submitBtn) return;
 
+  const bar = document.getElementById('dx2-bar');
+  const help = document.getElementById('dx2-mode-help');
   function setMode(mode){
     modeToggle.dataset.mode = mode;
-    modeToggle.textContent = mode === 'guess' ? 'Guess' : 'Ask';
-    input.placeholder = mode === 'guess' ? 'Type your diagnosis…' : 'Ask a question, e.g. "What medications have you taken?"';
+    if(bar) bar.dataset.mode = mode;
+    const label = modeToggle.querySelector('.dx2-mode-label');
+    if(label) label.textContent = mode === 'guess' ? 'Guess' : 'Ask';
+    input.placeholder = mode === 'guess' ? 'Type your diagnosis…' : 'Ask the patient a question…';
+    input.setAttribute('aria-label', mode === 'guess' ? 'Your diagnosis' : 'Your question');
+    if(help) help.innerHTML = mode === 'guess'
+      ? 'Guessing: type a diagnosis. Tap <b>Guess</b> to switch to asking questions.'
+      : 'Asking: question the patient, e.g. vitals, exam, labs. Tap <b>Ask</b> to switch to guessing.';
     submitBtn.setAttribute('aria-label', mode === 'guess' ? 'Submit diagnosis' : 'Ask question');
     submitBtn.setAttribute('title', mode === 'guess' ? 'Submit diagnosis' : 'Ask question');
   }
@@ -1593,6 +1890,7 @@ function submitGuess(guess){
 
   if(checkAnswer(guess)){
     state.solved = true;
+    state.attemptsUsed++;
     state.guesses.push(guess);
     renderPastGuesses();
     note.textContent = '';
@@ -1609,7 +1907,7 @@ function submitGuess(guess){
     updateAttemptDots();
 
     // Shake the shared input bar
-    const guessRow = document.getElementById('mobile-dx-bar');
+    const guessRow = document.getElementById('dx2-bar');
     if(guessRow){ guessRow.classList.add('shake'); setTimeout(()=>guessRow.classList.remove('shake'),450); }
 
     // Flash the wrong answer prominently
@@ -1623,7 +1921,6 @@ function submitGuess(guess){
     if(state.attemptsUsed >= 5){
       showResult(false);
     } else {
-      state.shown = Math.min(state.shown + 1, state.symptoms.length);
       renderSymptoms();
       saveDailyProgress();
     }
@@ -1720,7 +2017,8 @@ function openAutocomplete(matches){
 if(guessInput){
   guessInput.addEventListener('input', () => {
     const val = guessInput.value.trim().toLowerCase();
-    if(!val){ closeAutocomplete(); return; }
+    const modeBtn = document.getElementById('dx-mode-toggle');
+    if(!val || (modeBtn && modeBtn.dataset.mode !== 'guess')){ closeAutocomplete(); return; }
     const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(val));
     openAutocomplete(matches);
   });
@@ -1771,33 +2069,43 @@ function getDisorderCategory(guess){
     {label:'Sleep disorder', words:['narcolepsy','sleep apnoea','insomnia','rem','parasom']},
     {label:'Genetic / Developmental', words:['tuberous','neurofibromatosis','rett','fragile','tay','gaucher','niemann']},
   ];
+  // Short words (ms, tia, ocd...) must match as whole words, so "essential" doesn't read as "tia"
+  const hit = w => w.length <= 4 ? new RegExp('(^|[^a-z])' + w + '([^a-z]|$)').test(g) : g.includes(w);
   for(const cat of cats){
-    if(cat.words.some(w => g.includes(w))) return cat.label;
+    if(cat.words.some(hit)) return cat.label;
   }
   return 'Neurological condition';
 }
 
 function renderPastGuesses(){
   const wrap = document.getElementById('past-guesses');
+  const prev = wrap.children.length ? wrap.querySelectorAll('.dx2-slot.bad, .dx2-slot.good').length : 99;
   wrap.innerHTML = '';
   const TOTAL_SLOTS = 5;
+  const finished = state.solved || state.attemptsUsed >= 5;
   for(let i = 0; i < TOTAL_SLOTS; i++){
     const slot = document.createElement('div');
     const guess = state.guesses[i];
     if(guess){
       const isWinningSlot = state.solved && i === state.guesses.length - 1;
-      slot.className = 'dx-guess-slot filled' + (isWinningSlot ? ' correct' : '');
-      const cat = getDisorderCategory(guess);
-      slot.innerHTML = `<span class="dx-guess-slot-name">${guess}</span><span class="dx-guess-slot-cat">${isWinningSlot ? 'Correct' : cat}</span>`;
+      slot.className = 'dx2-slot ' + (isWinningSlot ? 'good' : 'bad') + (i >= prev ? ' pop' : '');
+      slot.innerHTML = `<span class="dx2-slot-name">${escapeHTML(guess)}</span><span class="dx2-slot-cat">${isWinningSlot ? 'Correct!' : escapeHTML(getDisorderCategory(guess))}</span>`;
     } else {
-      slot.className = 'dx-guess-slot';
+      slot.className = 'dx2-slot' + (!finished && i === state.guesses.length ? ' next' : '');
+      slot.innerHTML = `<span class="n">${i+1}</span>`;
     }
     wrap.appendChild(slot);
+  }
+  const left = document.getElementById('guesses-left');
+  if(left){
+    const remaining = Math.max(0, 5 - state.attemptsUsed);
+    left.textContent = state.solved ? 'Solved' : (finished ? 'Out of guesses' : `${remaining} left`);
   }
 }
 
 function showResult(won){
   document.getElementById('guess-area').style.display = 'none';
+  const glowBulb = document.getElementById('toolbar-bulb-btn'); if(glowBulb) glowBulb.classList.remove('glow');
   closeAutocomplete();
   const area = document.getElementById('result-area');
   const banner = document.createElement('div');
@@ -1806,6 +2114,7 @@ function showResult(won){
     ? `<h4>Correct, it's ${state.answer}.</h4><p>${state.explanation}</p>`
     : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p>`;
   area.appendChild(banner);
+  state.hintsUsed = Math.max(0, (state.shown || 1) - 1);
   state.shown = state.symptoms.length;
   renderSymptoms();
 
@@ -1832,7 +2141,8 @@ function dailyStorageKey(){
 function saveDailyCompletion(won){
   try{
     localStorage.setItem(dailyStorageKey(), JSON.stringify({
-      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author
+      won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author,
+      guesses: state.guesses, shown: state.shown, hintsUsed: state.hintsUsed || 0
     }));
     localStorage.removeItem(dailyStorageKey() + '_progress');
   }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage", err.message); }
@@ -2065,10 +2375,11 @@ document.getElementById('share-btn').addEventListener('click', async () => {
     : `X/${total}`;
 
   const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
+  const hintLine = '💡 ' + (state.hintsUsed || 0) + ' ' + ((state.hintsUsed||0) === 1 ? 'hint' : 'hints');
 
   const shareText = won
-    ? `Neurole Diagnosely, ${today}\n${tries}\n\n${grid}\n\nI diagnosed it in ${used} ${used===1?'try':'tries'}. Can you beat that?\nneurole.org/diagnosely.html`
-    : `Neurole Diagnosely, ${today}\n${tries}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/diagnosely.html`;
+    ? `Neurole Diagnosely, ${today}\n${tries} · ${hintLine}\n\n${grid}\n\nI diagnosed it in ${used} ${used===1?'try':'tries'}. Can you beat that?\nneurole.org/diagnosely.html`
+    : `Neurole Diagnosely, ${today}\n${tries} · ${hintLine}\n\n${grid}\n\nThis one stumped me. Think you can crack it?\nneurole.org/diagnosely.html`;
 
   const shareBtn = document.getElementById('share-btn');
   try{
@@ -2153,54 +2464,7 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
 });
 </script>
 <!-- Subscribe modal -->
-<!-- How to Play slide-out panel -->
-<div class="htp-backdrop" id="htp-backdrop">
-  <div class="htp-panel" id="htp-panel">
-    <button class="htp-close" id="htp-close" aria-label="Close">✕</button>
-    <div class="htp-brand"><img src="/daily-case-icon.png" alt="" width="24" height="26" style="object-fit:contain;"><span>Diagnosely</span></div>
-    <div class="htp-section">
-      <p class="htp-section-title">How to Play</p>
-      <p class="htp-line">A new patient case appears every morning.</p>
-      <p class="htp-line">Read the symptoms and type your diagnosis.</p>
-      <p class="htp-line">You get five tries, each wrong guess reveals one more symptom to help narrow it down.</p>
-    </div>
-    <div class="htp-section">
-      <p class="htp-section-title">Tips</p>
-      <p class="htp-line">Use the AI tutor after a wrong guess to understand why it wasn't the answer.</p>
-      <p class="htp-line">Come back daily, a new case drops every midnight ET, and streaks track how consistent you are.</p>
-    </div>
-  </div>
-</div>
-<style>
-.htp-backdrop{position:fixed;inset:0;background:rgba(20,18,22,.5);z-index:199;display:none;opacity:0;transition:opacity .3s ease;}
-.htp-backdrop.open{display:block;opacity:1;}
-.htp-panel{
-  position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;
-  background:var(--paper);z-index:200;
-  transform:translateX(24px);opacity:0;pointer-events:none;
-  transition:opacity .32s ease, transform .38s cubic-bezier(.22,.9,.32,1);
-  overflow-y:auto;padding:26px 26px 40px;
-}
-.htp-backdrop.open .htp-panel{transform:translateX(0);opacity:1;pointer-events:auto;}
-.htp-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink-soft);}
-.htp-brand{display:flex;align-items:center;gap:10px;margin:6px 0 26px;}
-.htp-brand span{font-family:var(--serif-body),sans-serif;font-size:20px;font-weight:700;color:var(--ink);}
-.htp-section{margin-bottom:24px;}
-.htp-section-title{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
-.htp-line{font-family:var(--serif-body),sans-serif;font-size:14px;line-height:1.65;color:var(--ink);margin:0 0 8px;}
-@media(prefers-reduced-motion: reduce){.htp-panel{transition:opacity .15s ease !important;transform:none !important;}}
-</style>
-<script>
-(function(){
-  var btn = document.getElementById('how-to-play-btn');
-  var backdrop = document.getElementById('htp-backdrop');
-  var close = document.getElementById('htp-close');
-  if(!btn || !backdrop) return;
-  btn.addEventListener('click', function(){ backdrop.classList.add('open'); });
-  close.addEventListener('click', function(){ backdrop.classList.remove('open'); });
-  backdrop.addEventListener('click', function(e){ if(e.target === backdrop) backdrop.classList.remove('open'); });
-})();
-</script>
+
 
 <div id="reminder-signup-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="sub-card">
@@ -2240,6 +2504,63 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
       else{btn.textContent='Continue';btn.disabled=false;}
     }).catch(function(){btn.textContent='Continue';btn.disabled=false;});
   });
+})();
+</script>
+
+<script>
+/* ---------- New toolbar: AI chat, hint bulb (+ idle glow), how-to-play popup ---------- */
+(function(){
+  const chatBtn = document.getElementById('toolbar-chat-btn');
+  if(chatBtn) chatBtn.addEventListener('click', () => {
+    document.getElementById('case-chat-backdrop').classList.add('open');
+    setTimeout(() => { const i = document.getElementById('case-chat-input'); if(i) i.focus(); }, 50);
+  });
+
+  const bulb = document.getElementById('toolbar-bulb-btn');
+  if(bulb) bulb.addEventListener('click', () => { bulb.classList.remove('glow'); revealHint(); restartIdle(); });
+
+  // Glow the bulb after 60 seconds with no taps or typing
+  const IDLE_MS = 60000;
+  let idleTimer = null;
+  function canGlow(){
+    return bulb && !bulb.disabled && !state.solved && state.attemptsUsed < 5 && !state.alreadyCompletedToday
+      && document.getElementById('dx2-intro').hidden;
+  }
+  function restartIdle(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { if(canGlow()) bulb.classList.add('glow'); }, IDLE_MS);
+  }
+  ['pointerdown','keydown','input'].forEach(ev => document.addEventListener(ev, (e) => {
+    if(bulb && e.target !== bulb && !bulb.contains(e.target)) bulb.classList.remove('glow');
+    restartIdle();
+  }, {passive:true}));
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) restartIdle(); });
+
+  // How to play popup
+  const intro = document.getElementById('dx2-intro');
+  const SEEN_KEY = 'neurole_dx_intro_seen';
+  function openIntro(){
+    intro.hidden = false;
+    intro.classList.remove('show'); void intro.offsetWidth; intro.classList.add('show');
+    clearTimeout(idleTimer);
+    setTimeout(() => document.getElementById('dx2-intro-go').focus(), 50);
+  }
+  function closeIntro(){
+    intro.hidden = true;
+    try{ localStorage.setItem(SEEN_KEY, '1'); }catch(e){}
+    restartIdle();
+    if(!state.solved && state.attemptsUsed < 5){ const i = document.getElementById('mobile-dx-input'); if(i && window.matchMedia('(min-width:700px)').matches) i.focus(); }
+  }
+  document.getElementById('how-to-play-btn').addEventListener('click', openIntro);
+  document.getElementById('dx2-intro-go').addEventListener('click', closeIntro);
+  document.getElementById('dx2-intro-x').addEventListener('click', closeIntro);
+  intro.addEventListener('click', e => { if(e.target === intro) closeIntro(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !intro.hidden) closeIntro(); });
+
+  let seen = false;
+  try{ seen = localStorage.getItem(SEEN_KEY) === '1'; }catch(e){}
+  const finishedToday = (() => { try{ return !!localStorage.getItem(dailyStorageKey()); }catch(e){ return false; } })();
+  if(!seen && !finishedToday) openIntro(); else restartIdle();
 })();
 </script>
 </body>

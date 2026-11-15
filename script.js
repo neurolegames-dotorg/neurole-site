@@ -306,7 +306,7 @@ In exactly 2-3 sentences, briefly explain what "${guess}" actually is (its key f
   return answer || null;
 }
 
-// Explains, for Map the Brain's Region mode, both why the player's chosen
+// Explains, for The Brainer's Region mode, both why the player's chosen
 // region was wrong AND why the correct region is actually correct.
 // generated live since we don't have canned distractor explanations for
 // every possible wrong choice on every question.

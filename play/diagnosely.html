@@ -761,6 +761,113 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 #result-area .result-banner{max-width:620px;margin:var(--dx-gap) auto 0;border-radius:16px;}
 .dx2-fine{font-size:11.5px;color:var(--dx-soft);text-align:center;margin:26px 0 0;}
 
+/* No site top bar on the game screen: the menu button lives in the toolbar */
+body{padding-top:0 !important;}
+.dx2{padding-top:clamp(14px,3vw,30px);}
+.dx2-menu{flex-direction:column;justify-content:center;align-items:center;gap:5px;}
+.dx2-menu span{display:block;width:22px;height:2.6px;border-radius:2px;background:var(--dx-ink);}
+.dx2-toolbar .dx2-menu{margin-left:-8px;}
+.dx2-case-no{color:var(--dx-soft);font-weight:600;letter-spacing:.04em;}
+.dx2-case-no:empty{display:none;}
+.dx2-case-no::before{content:"· ";}
+
+/* Keep the serif title (site-wide heading font rule uses !important) */
+.dx2 .dx2-name,.dx2-intro .dx2-intro-top h2{font-family:'Playfair Display',Georgia,serif !important;font-weight:900 !important;letter-spacing:-.01em !important;}
+.dx2 .dx2-col-title{font-family:'Outfit',system-ui,sans-serif !important;}
+
+/* iPhone: the Guess/Ask button also switches which panel is showing */
+@media (max-width:700px){
+  .dx2-cols{grid-template-columns:1fr;}
+  .dx2[data-mode="guess"] .dx2-col-q{display:none;}
+  .dx2[data-mode="ask"] .dx2-col-g{display:none;}
+  .dx2-col{animation:dxFade .2s ease;}
+  .dx2{--dx-colh:310px;}
+  .dx2-slot{flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;}
+  .dx2-slot-name{font-size:15px;flex:0 1 auto;}
+  .dx2-slot-cat{font-size:12px;}
+  .dx2-q,.dx2-qbox .dx-assessment-a{font-size:14px;}
+  .dx2-qbox{padding:4px 14px;}
+}
+
+/* Computers: use more of the screen width */
+@media (min-width:900px){
+  .dx2{max-width:min(1180px, 92vw);--dx-colh:440px;--dx-gap:28px;}
+  .dx2-name{font-size:60px;}
+  .dx2-date{font-size:34px;}
+  .dx2-tool{width:50px;height:50px;}
+  .dx2-tool svg{width:28px;height:28px;}
+  .dx2-case{padding:18px 22px 14px;}
+  .dx2-case-list li{font-size:18px;}
+  .dx2-col-title{font-size:24px;}
+  .dx2-q,.dx2-qbox .dx-assessment-a{font-size:15px;}
+  .dx2-qbox{padding:6px 18px;}
+  .dx2-slot{padding:0 20px;}
+  .dx2-slot-name{font-size:16px;}
+  .dx2-slot-cat{font-size:13px;}
+  .dx2-bar{max-width:780px;}
+  .dx2-mode{height:56px;font-size:18px;padding:0 20px;}
+  .dx2-input-wrap input{height:56px;font-size:17px;}
+  .dx2-send{top:8px;width:40px;height:40px;}
+  .dx2-explain,#result-area .result-banner{max-width:780px;}
+}
+
+
+/* "Why?" button on wrong guesses */
+.dx2-slot{position:relative;}
+.dx2-slot-text{display:flex;flex-direction:column;min-width:0;flex:1;}
+.dx2-why{
+  flex:0 0 auto;border:none;cursor:pointer;border-radius:999px;padding:6px 11px;
+  font:700 12.5px/1 'Outfit',system-ui,sans-serif;background:#fff;color:var(--dx-bad-line);
+  box-shadow:0 0 0 1.5px var(--dx-bad-line) inset;-webkit-tap-highlight-color:transparent;
+}
+.dx2-why:active{transform:scale(.96);}
+:root[data-theme="dark"] .dx2-why{background:transparent;}
+.dx2-slot.bad{flex-direction:row;align-items:center;gap:10px;}
+
+/* Brain tutor popup */
+.why-pop{position:fixed;inset:0;z-index:10060;display:flex;align-items:flex-end;justify-content:center;padding:12px;background:rgba(15,14,20,.45);}
+.why-pop[hidden]{display:none;}
+.why-pop.show{animation:dxFade .2s ease;}
+.why-pop.show .why-card{animation:dxPopIn .3s cubic-bezier(.2,.9,.3,1.2);}
+@media (min-width:700px){
+  .why-pop{align-items:center;}
+  .why-card{max-width:580px;padding:22px 22px 18px;}
+  .why-brain{width:150px;}
+  .why-title{font-size:18px;}
+  .why-text,.why-msg{font-size:15.5px;}
+}
+.why-card{
+  position:relative;width:100%;max-width:520px;max-height:calc(100dvh - 24px);display:flex;flex-direction:column;
+  background:#fff;color:#151515;border-radius:24px;padding:18px 16px 14px;box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+:root[data-theme="dark"] .why-card{background:#1A1920;color:#F2F0F5;}
+.why-x{position:absolute;top:10px;right:10px;width:40px;height:40px;border:none;background:none;font-size:20px;cursor:pointer;color:inherit;border-radius:50%;z-index:2;}
+.why-head{display:flex;align-items:flex-start;gap:10px;padding-right:30px;}
+.why-brain{width:118px;height:auto;flex:0 0 auto;margin-top:6px;}
+.why-pop.show .why-brain{animation:dxBob 2.4s ease-in-out infinite;}
+@keyframes dxBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.why-bubble{position:relative;flex:1;min-width:0;background:#FFF0F3;border:2px solid #F48BA0;border-radius:18px;padding:12px 14px;}
+.why-bubble::before{content:"";position:absolute;left:-10px;top:26px;border:8px solid transparent;border-right-color:#F48BA0;border-left:0;}
+.why-bubble::after{content:"";position:absolute;left:-6px;top:28px;border:6px solid transparent;border-right-color:#FFF0F3;border-left:0;}
+:root[data-theme="dark"] .why-bubble{background:#3A2129;}
+:root[data-theme="dark"] .why-bubble::after{border-right-color:#3A2129;}
+.why-title{margin:0 0 6px;font:700 16px/1.3 'Outfit',system-ui,sans-serif;}
+.why-text{margin:0;font-size:14.5px;line-height:1.55;}
+.why-text.thinking::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dxDots 1.2s steps(4) infinite;}
+@keyframes dxDots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+.why-log{overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin:12px 0 0;max-height:38vh;}
+.why-log:empty{display:none;}
+.why-msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;}
+.why-msg.me{align-self:flex-end;background:#151515;color:#fff;border-bottom-right-radius:5px;}
+.why-msg.bot{align-self:flex-start;background:#FFF0F3;color:#151515;border:1.5px solid #F48BA0;border-bottom-left-radius:5px;}
+:root[data-theme="dark"] .why-msg.me{background:#F2F0F5;color:#151515;}
+:root[data-theme="dark"] .why-msg.bot{background:#3A2129;color:#F2F0F5;}
+.why-form{display:flex;gap:8px;margin-top:12px;}
+.why-form input{flex:1;min-width:0;height:46px;border:2px solid currentColor;border-radius:12px;padding:0 12px;font-size:16px;background:transparent;color:inherit;outline:none;}
+.why-form button{width:46px;height:46px;border:none;border-radius:12px;background:#F48BA0;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.why-form button svg{width:20px;height:20px;}
+@media (prefers-reduced-motion: reduce){.why-pop *, .why-pop{animation:none !important;}}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -847,15 +954,7 @@ document.documentElement.style.setProperty('--game-content-display','block');
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header class="masthead"><div class="masthead-inner">
-  <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-  <div class="brand"><a href="/index.html"><img src="/neurole-logo-black.png" alt="Neurole logo" style="height:40px;width:auto;display:block;"><span class="brand-wordmark">Neurole</span></a></div>
-  <div style="flex:1;"></div>
-  <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle dark mode">
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
-  </button>
-</div></header>
+
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
@@ -872,7 +971,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </ul>
 </div>
 
-<main class="wrap dx2 no-enter-anim">
+<main class="wrap dx2 no-enter-anim" data-mode="guess">
 
   <!-- Title row: Diagnosely + date -->
   <div class="dx2-title">
@@ -882,7 +981,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Toolbar: AI chat · disorder list · stats · hint · how to play -->
   <div class="dx2-toolbar" role="toolbar" aria-label="Game tools">
-    <span class="dx2-case-no" id="case-number"></span>
+    <button type="button" class="hamburger-btn dx2-tool dx2-menu" aria-label="Menu" title="Menu"><span></span><span></span><span></span></button>
     <div class="dx2-tools">
       <button type="button" class="dx2-tool" id="toolbar-chat-btn" aria-label="Ask the AI tutor" title="AI tutor">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v9.5A2.5 2.5 0 0 1 20 18H10.2L5.6 21.6c-.5.4-1.1 0-1.1-.6V18H4a2.5 2.5 0 0 1-2.5-2.5V6A2.5 2.5 0 0 1 4 3.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M6.5 8h11M6.5 11h11M6.5 14h7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
@@ -916,20 +1015,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Patient case: hint 1 always shown, more only from the light bulb -->
     <section class="dx2-case" aria-live="polite">
       <div class="dx2-case-head">
-        <span class="dx2-case-tag">Patient</span>
+        <span class="dx2-case-tag">Patient <span class="dx2-case-no" id="case-number"></span></span>
         <span class="dx2-case-count" id="hint-count"></span>
       </div>
       <ol class="dx2-case-list" id="case-brief"></ol>
     </section>
 
     <div class="dx2-cols">
-      <section class="dx2-col">
+      <section class="dx2-col dx2-col-q">
         <h2 class="dx2-col-title">Questions <span class="dx2-pill" id="ask-counter-pill-wrap"><span id="ask-counter-pill">0</span></span></h2>
         <div class="dx2-qbox" id="assessment-log">
           <p class="dx-assessment-empty dx2-empty"><span>Switch to <b>Ask</b> below to question the patient.</span></p>
         </div>
       </section>
-      <section class="dx2-col">
+      <section class="dx2-col dx2-col-g">
         <h2 class="dx2-col-title">Guesses <span class="dx2-pill" id="guesses-left">5 left</span></h2>
         <div class="dx2-guesses" id="past-guesses"></div>
       </section>
@@ -951,10 +1050,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <p class="dx2-mode-help" id="dx2-mode-help">Guessing: type a diagnosis. Tap <b>Guess</b> to switch to asking questions.</p>
       <div class="closest-note dx2-note" id="closest-note"></div>
-      <div id="guess-explain" class="dx2-explain" style="display:none;">
-        <p class="dx2-explain-title">Why that's not it</p>
-        <p id="guess-explain-text">Thinking…</p>
-      </div>
     </div>
 
     <div id="result-area"></div>
@@ -971,12 +1066,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </main>
 
+
+<!-- "Why not?" brain tutor popup -->
+<div class="why-pop" id="why-pop" role="dialog" aria-modal="true" aria-labelledby="why-title" hidden>
+  <div class="why-card">
+    <button type="button" class="why-x" id="why-x" aria-label="Close">✕</button>
+    <div class="why-head">
+      <img class="why-brain" src="/menu/brain-tutor.png" alt="" width="140" height="101">
+      <div class="why-bubble">
+        <p class="why-title" id="why-title"></p>
+        <p class="why-text" id="why-text"></p>
+      </div>
+    </div>
+    <div class="why-log" id="why-log"></div>
+    <form class="why-form" id="why-form" autocomplete="off">
+      <input type="text" id="why-input" placeholder="Ask the brain a follow-up…" enterkeyhint="send">
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </form>
+  </div>
+</div>
+
 <!-- How to play: visual popup (opens automatically the first time, and from the ? button) -->
 <div class="dx2-intro" id="dx2-intro" role="dialog" aria-modal="true" aria-labelledby="dx2-intro-title" hidden>
   <div class="dx2-intro-card">
     <button type="button" class="dx2-intro-x" id="dx2-intro-x" aria-label="Close">✕</button>
     <div class="dx2-intro-top">
-      <img src="/menu/menu-diagnosely.png" alt="" width="54" height="56">
+      
       <h2 id="dx2-intro-title">How to play Diagnosely</h2>
       <p>A new patient walks in every day. Find the diagnosis in 5 guesses.</p>
     </div>
@@ -1006,11 +1121,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div><b>4. Stuck? Tap the light bulb</b> for another clue. It glows if you've been stuck for a minute.</div>
       </li>
     </ol>
-    <div class="dx2-legend">
-      <span><svg viewBox="0 0 24 24"><path d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v9.5A2.5 2.5 0 0 1 20 18H10.2L5.6 21.6c-.5.4-1.1 0-1.1-.6V18H4a2.5 2.5 0 0 1-2.5-2.5V6A2.5 2.5 0 0 1 4 3.5z" fill="none" stroke="currentColor" stroke-width="2"/></svg>AI tutor</span>
-      <span><svg viewBox="0 0 24 24"><circle cx="4" cy="6" r="1.8" fill="currentColor"/><circle cx="4" cy="12" r="1.8" fill="currentColor"/><circle cx="4" cy="18" r="1.8" fill="currentColor"/><path d="M8.5 6h13M8.5 12h13M8.5 18h13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Disorder list</span>
-      <span><svg viewBox="0 0 24 24"><rect x="2.5" y="12" width="5" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="5" width="5" height="17" rx="1" fill="currentColor"/><rect x="16.5" y="9" width="5" height="13" rx="1" fill="currentColor"/></svg>Your stats</span>
-    </div>
     <button type="button" class="dx2-intro-go" id="dx2-intro-go">Start playing</button>
   </div>
 </div>
@@ -1197,7 +1307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="/config.js?v=136"></script>
-<script src="/script.js?v=144"></script>
+<script src="/script.js?v=145"></script>
 <script>
 document.getElementById('social-instagram').href = window.NEUROLE_CONFIG.SOCIAL.instagram;
 document.getElementById('social-email').href = window.NEUROLE_CONFIG.SOCIAL.email;
@@ -1485,6 +1595,7 @@ async function loadCase(){
     state.attemptsUsed = saved.attemptsUsed;
     state.solved = saved.won;
     state.guesses = saved.guesses || [];
+    const shellDone = document.querySelector('main.dx2'); if(shellDone) shellDone.dataset.mode = 'done';
     state.hintsUsed = saved.hintsUsed || 0;
     state.shown = state.symptoms.length;
     renderSymptoms();
@@ -1578,6 +1689,7 @@ function revealHint(){
   if(state.solved || state.attemptsUsed >= 5 || state.alreadyCompletedToday) return;
   if((state.shown || 1) >= total) return;
   state.shown = (state.shown || 1) + 1;
+  if(window.NeuroleSound) window.NeuroleSound.hint();
   renderSymptoms();
   saveDailyProgress();
   const card = document.querySelector('.dx2-case');
@@ -1811,9 +1923,11 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
 
   const bar = document.getElementById('dx2-bar');
   const help = document.getElementById('dx2-mode-help');
+  const shell = document.querySelector('main.dx2');
   function setMode(mode){
     modeToggle.dataset.mode = mode;
     if(bar) bar.dataset.mode = mode;
+    if(shell) shell.dataset.mode = mode;
     const label = modeToggle.querySelector('.dx2-mode-label');
     if(label) label.textContent = mode === 'guess' ? 'Guess' : 'Ask';
     input.placeholder = mode === 'guess' ? 'Type your diagnosis…' : 'Ask the patient a question…';
@@ -1835,6 +1949,7 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
   async function submitCurrent(){
     const val = input.value.trim();
     if(!val) return;
+    if(window.NeuroleSound) window.NeuroleSound.submit();
     if(modeToggle.dataset.mode === 'guess'){
       submitGuess(val);
       input.value = '';
@@ -1889,6 +2004,7 @@ function submitGuess(guess){
   const note = document.getElementById('closest-note');
 
   if(checkAnswer(guess)){
+    if(window.NeuroleSound) setTimeout(() => window.NeuroleSound.correct(), 110);
     state.solved = true;
     state.attemptsUsed++;
     state.guesses.push(guess);
@@ -1898,6 +2014,7 @@ function submitGuess(guess){
     if(explBox) explBox.style.display = 'none';
     showResult(true);
   } else {
+    if(window.NeuroleSound) setTimeout(() => window.NeuroleSound.wrong(), 110);
     state.attemptsUsed++;
     state.guesses.push(guess);
     renderPastGuesses();
@@ -1914,9 +2031,8 @@ function submitGuess(guess){
     showWrongFlash(guess);
 
     const closest = findClosestKnownDisorder(guess);
-    note.textContent = closest ? `Read as: "${closest}", not quite right.` : '';
+    note.textContent = (closest && normalize(closest) !== normalize(guess)) ? `Read as: "${closest}", not quite right.` : '';
 
-    showGuessExplanation(guess);
 
     if(state.attemptsUsed >= 5){
       showResult(false);
@@ -2089,7 +2205,8 @@ function renderPastGuesses(){
     if(guess){
       const isWinningSlot = state.solved && i === state.guesses.length - 1;
       slot.className = 'dx2-slot ' + (isWinningSlot ? 'good' : 'bad') + (i >= prev ? ' pop' : '');
-      slot.innerHTML = `<span class="dx2-slot-name">${escapeHTML(guess)}</span><span class="dx2-slot-cat">${isWinningSlot ? 'Correct!' : escapeHTML(getDisorderCategory(guess))}</span>`;
+      slot.innerHTML = `<span class="dx2-slot-text"><span class="dx2-slot-name">${escapeHTML(guess)}</span><span class="dx2-slot-cat">${isWinningSlot ? 'Correct!' : escapeHTML(getDisorderCategory(guess))}</span></span>`
+        + (isWinningSlot ? '' : `<button type="button" class="dx2-why" data-guess="${escapeHTML(guess)}" aria-label="Why isn't it ${escapeHTML(guess)}?">Why?</button>`);
     } else {
       slot.className = 'dx2-slot' + (!finished && i === state.guesses.length ? ' next' : '');
       slot.innerHTML = `<span class="n">${i+1}</span>`;
@@ -2105,6 +2222,7 @@ function renderPastGuesses(){
 
 function showResult(won){
   document.getElementById('guess-area').style.display = 'none';
+  const shellEl = document.querySelector('main.dx2'); if(shellEl) shellEl.dataset.mode = 'done';
   const glowBulb = document.getElementById('toolbar-bulb-btn'); if(glowBulb) glowBulb.classList.remove('glow');
   closeAutocomplete();
   const area = document.getElementById('result-area');
@@ -2561,6 +2679,80 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
   try{ seen = localStorage.getItem(SEEN_KEY) === '1'; }catch(e){}
   const finishedToday = (() => { try{ return !!localStorage.getItem(dailyStorageKey()); }catch(e){ return false; } })();
   if(!seen && !finishedToday) openIntro(); else restartIdle();
+})();
+</script>
+
+<script>
+/* ---------- "Why?" on wrong guesses: brain tutor explains and chats ---------- */
+(function(){
+  const pop = document.getElementById('why-pop');
+  const titleEl = document.getElementById('why-title');
+  const textEl = document.getElementById('why-text');
+  const log = document.getElementById('why-log');
+  const form = document.getElementById('why-form');
+  const input = document.getElementById('why-input');
+  const cache = {};       // guess -> first explanation
+  const threads = {};     // guess -> [{who, text}]
+  let current = null;
+
+  function addMsg(who, text){
+    const d = document.createElement('div');
+    d.className = 'why-msg ' + who;
+    d.textContent = text;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return d;
+  }
+
+  async function open(guess){
+    current = guess;
+    titleEl.textContent = `Why isn't it ${guess}?`;
+    log.innerHTML = '';
+    (threads[guess] || []).forEach(m => addMsg(m.who, m.text));
+    pop.hidden = false;
+    pop.classList.remove('show'); void pop.offsetWidth; pop.classList.add('show');
+    if(cache[guess]){ textEl.classList.remove('thinking'); textEl.textContent = cache[guess]; return; }
+    textEl.textContent = 'Thinking'; textEl.classList.add('thinking');
+    const expl = await explainWrongGuess(guess, state.answer);
+    const text = expl || "I couldn't reach my brain cells just now. Try again in a moment.";
+    if(expl) cache[guess] = text;
+    if(current === guess){ textEl.classList.remove('thinking'); textEl.textContent = text; }
+  }
+  function close(){ pop.hidden = true; current = null; }
+
+  document.getElementById('past-guesses').addEventListener('click', e => {
+    const b = e.target.closest('.dx2-why');
+    if(b) open(b.dataset.guess);
+  });
+  document.getElementById('why-x').addEventListener('click', close);
+  pop.addEventListener('click', e => { if(e.target === pop) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !pop.hidden) close(); });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if(!q || !current) return;
+    const guess = current;
+    input.value = '';
+    threads[guess] = threads[guess] || [];
+    threads[guess].push({who:'me', text:q});
+    addMsg('me', q);
+    const pending = addMsg('bot', 'Thinking…');
+    const finished = state.solved || state.attemptsUsed >= 5;
+    const history = threads[guess].slice(-6).map(m => (m.who === 'me' ? 'Student: ' : 'Tutor: ') + m.text).join('\n');
+    const prompt = `You are Neuro, a friendly cartoon-brain tutor in an educational diagnosis game called Neurole.
+The student guessed "${guess}" for today's case, and that guess was wrong. ${finished ? `The case is over; the correct diagnosis was "${state.answer}", so you may discuss it openly.` : `The correct diagnosis is "${state.answer}". The case is NOT finished: never name, confirm, deny or strongly hint at the correct diagnosis, even if asked directly.`}
+Clues revealed so far: ${state.symptoms.slice(0, state.shown || 1).join(' ')}
+Your first explanation to them was: "${cache[guess] || ''}"
+Conversation so far:
+${history}
+
+Reply to the student's last message in 1-3 short, plain-language sentences. Focus on what ${guess} is and why it doesn't fit this patient.`;
+    const reply = await askNeuroleAIRaw(prompt);
+    const text = reply || "I couldn't reach my brain cells just now. Try again in a moment.";
+    pending.textContent = text;
+    threads[guess].push({who:'bot', text});
+  });
 })();
 </script>
 </body>

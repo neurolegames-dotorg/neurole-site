@@ -59,6 +59,41 @@ async function fetchSheetAsObjects(csvUrl){
 
 // ---------- Sign-in modal (lightweight placeholder) ----------
 
+
+// ---------- Sound effects (made in the browser, no audio files) ----------
+window.NeuroleSound = (function(){
+  let ctx = null;
+  const KEY = 'neurole_sound_off';
+  const isOff = () => { try{ return localStorage.getItem(KEY) === '1'; }catch(e){ return false; } };
+  function ac(){
+    if(!ctx){ const C = window.AudioContext || window.webkitAudioContext; if(!C) return null; ctx = new C(); }
+    if(ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(freq, start, dur, type, vol, slideTo){
+    const c = ac(); if(!c) return;
+    const t = c.currentTime + start;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(freq, t);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol || 0.15, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+  return {
+    isOff,
+    setOff(off){ try{ localStorage.setItem(KEY, off ? '1' : '0'); }catch(e){} },
+    unlock(){ ac(); },
+    submit(){ if(isOff()) return; tone(880, 0, 0.06, 'triangle', 0.12); },
+    wrong(){ if(isOff()) return; tone(220, 0, 0.18, 'square', 0.07, 160); tone(165, 0.16, 0.28, 'square', 0.07, 110); },
+    correct(){ if(isOff()) return; [523.25, 659.25, 783.99, 1046.5].forEach((f,i) => tone(f, i*0.09, 0.32, 'triangle', 0.14)); },
+    hint(){ if(isOff()) return; tone(1046.5, 0, 0.12, 'sine', 0.1); tone(1568, 0.07, 0.18, 'sine', 0.08); }
+  };
+})();
+
 // ---------- Menu (built once here, so every page gets the same menu) ----------
 function buildDesignMenu(){
   const overlay = document.getElementById('mobile-nav-overlay');
@@ -134,6 +169,9 @@ function buildDesignMenu(){
             <div class="mnav-setting"><span id="mnav-dark-label">Dark mode</span>
               <button type="button" class="mnav-switch" role="switch" aria-checked="false" aria-labelledby="mnav-dark-label" data-keep-open></button>
             </div>
+            <div class="mnav-setting"><span id="mnav-sound-label">Sound effects</span>
+              <button type="button" class="mnav-switch mnav-sound-switch" role="switch" aria-checked="true" aria-labelledby="mnav-sound-label" data-keep-open></button>
+            </div>
           </div>
         </li>
         ${hasHowTo ? util('help','Help',{'data-help':true}) : util('help','Help',{href:'/contact.html'})}
@@ -161,7 +199,7 @@ function buildDesignMenu(){
   });
 
   // Dark mode switch
-  const sw = overlay.querySelector('.mnav-switch');
+  const sw = overlay.querySelector('.mnav-switch:not(.mnav-sound-switch)');
   const isDark = () => document.documentElement.dataset.theme === 'dark' ||
     (!document.documentElement.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
   const syncSwitch = () => sw.setAttribute('aria-checked', String(isDark()));
@@ -173,6 +211,17 @@ function buildDesignMenu(){
   });
   document.addEventListener('neurole:themechange', syncSwitch);
   syncSwitch();
+
+  // Sound effects switch
+  const snd = overlay.querySelector('.mnav-sound-switch');
+  const syncSound = () => snd.setAttribute('aria-checked', String(!window.NeuroleSound.isOff()));
+  snd.addEventListener('click', () => {
+    const turnOn = window.NeuroleSound.isOff();
+    window.NeuroleSound.setOff(!turnOn);
+    syncSound();
+    if(turnOn) window.NeuroleSound.submit();
+  });
+  syncSound();
 
   // Help on game pages opens How to Play
   const help = overlay.querySelector('[data-help]');

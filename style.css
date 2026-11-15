@@ -1435,7 +1435,7 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 .mnav-head{
   position:sticky;top:0;z-index:3;
   height:calc(87 * var(--u));
-  padding:0 calc(29 * var(--u)) 0 calc(31 * var(--u));
+  padding:0 calc(28 * var(--u)) 0 calc(31 * var(--u));
   padding-top:env(safe-area-inset-top);
   box-sizing:content-box;
   display:flex;align-items:center;justify-content:space-between;
@@ -1448,7 +1448,7 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 }
 .mobile-nav-overlay.mnav .mobile-nav-close{
   position:static;width:calc(70 * var(--u));height:calc(70 * var(--u));
-  margin-right:calc(-14 * var(--u));
+  margin-left:calc(-15 * var(--u));
   font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
   font-size:calc(42 * var(--u));line-height:1;color:var(--mnav-icon);
   border-radius:50%;
@@ -1459,21 +1459,21 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 /* Grey band: Free / Daily / Neuroscience + mouse on cheese */
 .mnav-band{
   position:relative;
-  height:calc(174 * var(--u));
+  height:calc(248 * var(--u));
   background:var(--mnav-band);
-  padding:calc(28 * var(--u)) 0 0 calc(31 * var(--u));
+  padding:calc(24 * var(--u)) 0 0 calc(10 * var(--u));
   box-sizing:border-box;
 }
 .mnav-band-text{
   font-family:'Chaco','Lilita One',system-ui,sans-serif;
-  font-size:calc(35 * var(--u));line-height:calc(46 * var(--u));
-  color:var(--mnav-text);margin:0;
+  font-size:calc(51 * var(--u));line-height:calc(66.5 * var(--u));
+  color:var(--mnav-text);margin:0;letter-spacing:.01em;
 }
 .mnav-band-text span{display:block;}
 .mnav-mouse{
   position:absolute;
-  left:calc(355 * var(--u));top:calc(13 * var(--u));
-  width:calc(146 * var(--u));height:auto;
+  left:calc(357 * var(--u));top:calc(22 * var(--u));
+  width:calc(199 * var(--u));height:auto;
   background:none;border:none;padding:0;
 }
 .mnav-mouse img{width:100%;height:auto;display:block;transform-origin:50% 90%;}

@@ -110,8 +110,8 @@ function buildDesignMenu(){
   overlay.setAttribute('aria-label', 'Menu');
   overlay.innerHTML = `
     <div class="mnav-head">
-      <p class="mnav-head-title">MENU</p>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">X</button>
+      <p class="mnav-head-title">MENU</p>
     </div>
     <div class="mnav-band">
       <p class="mnav-band-text"><span>Free</span><span>Daily</span><span>Neuroscience</span></p>

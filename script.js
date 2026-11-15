@@ -89,7 +89,7 @@ function buildDesignMenu(){
   ];
 
   const icon = {
-    settings:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M10.3 1.5h3.4l.6 2.9c.7.2 1.3.5 1.9.9l2.6-1.4 2.4 2.4-1.4 2.6c.4.6.7 1.2.9 1.9l2.9.6v3.4l-2.9.6c-.2.7-.5 1.3-.9 1.9l1.4 2.6-2.4 2.4-2.6-1.4c-.6.4-1.2.7-1.9.9l-.6 2.9h-3.4l-.6-2.9c-.7-.2-1.3-.5-1.9-.9l-2.6 1.4-2.4-2.4 1.4-2.6c-.4-.6-.7-1.2-.9-1.9l-2.9-.6v-3.4l2.9-.6c.2-.7.5-1.3.9-1.9L3.4 6.3l2.4-2.4 2.6 1.4c.6-.4 1.2-.7 1.9-.9zM12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6z"/></svg>',
+    settings:'<svg viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="mnav-gear-hole"><rect width="24" height="24" fill="#fff"/><circle cx="12" cy="12" r="3.9" fill="#000"/></mask></defs><g fill="currentColor" mask="url(#mnav-gear-hole)"><circle cx="12" cy="12" r="8.3"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(0 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(45 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(90 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(135 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(180 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(225 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(270 12 12)"/><rect x="9" y="1" width="6" height="5" rx="1.3" transform="rotate(315 12 12)"/></g></svg>',
     help:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" d="M7.6 8.2a4.4 4.4 0 1 1 6.6 3.8c-1.3.8-2.2 1.6-2.2 3.3v.6"/><circle cx="12" cy="20.6" r="2" fill="currentColor"/></svg>',
     support:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21.4C10 20 2 14.7 2 8.6 2 5.5 4.4 3 7.4 3c2 0 3.6 1 4.6 2.6C13 4 14.6 3 16.6 3 19.6 3 22 5.5 22 8.6c0 6.1-8 11.4-10 12.8z"/></svg>',
     login:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 4.6A8.4 8.4 0 1 1 9.6 19.4"/><path d="M1.8 12h11.4"/><path d="M9.8 8.2 13.6 12l-3.8 3.8"/></svg>',
@@ -115,7 +115,7 @@ function buildDesignMenu(){
     </div>
     <div class="mnav-band">
       <p class="mnav-band-text"><span>Free</span><span>Daily</span><span>Neuroscience</span></p>
-      <button type="button" class="mnav-mouse" data-keep-open aria-label="Squeak!"><img src="/menu/menu-mouse.png" alt=""></button>
+      <span class="mnav-mouse" aria-hidden="true"><img src="/menu/menu-mouse.png" alt=""></span>
     </div>
     <ul class="mnav-games">
       ${games.map(g => `<li class="mnav-game mnav-fade"><a href="${g.href}"${isCurrent(g.cur)}>
@@ -142,8 +142,8 @@ function buildDesignMenu(){
         ${util('about','About',{href:'/about.html'})}
         ${util('join','Join',{href:'/volunteer.html'})}
       </ul>
-      <button type="button" class="mnav-buddy mnav-buddy-brain" data-keep-open aria-label="Wave"><img src="/menu/menu-brain-buddy.png" alt=""></button>
-      <button type="button" class="mnav-buddy mnav-buddy-neuron" data-keep-open aria-label="Fire"><img src="/menu/menu-neuron-buddy.png" alt=""></button>
+      <span class="mnav-buddy mnav-buddy-brain" aria-hidden="true"><img src="/menu/menu-brain-buddy.png" alt=""></span>
+      <span class="mnav-buddy mnav-buddy-neuron" aria-hidden="true"><img src="/menu/menu-neuron-buddy.png" alt=""></span>
     </div>
     <p class="mnav-legal mnav-fade"><a href="/privacy.html">Privacy Policy</a><span aria-hidden="true">|</span><a href="/privacy.html#your-choices">Data Consent</a></p>
     <div class="mnav-foot-space"></div>`;
@@ -180,10 +180,6 @@ function buildDesignMenu(){
     setTimeout(() => { const b = document.getElementById('how-to-play-btn'); if(b) b.click(); }, 60);
   });
 
-  // Little bits of fun
-  const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
-  overlay.querySelector('.mnav-mouse').addEventListener('click', e => replay(e.currentTarget, 'squeak'));
-  overlay.querySelectorAll('.mnav-buddy').forEach(b => b.addEventListener('click', () => replay(b, 'hop')));
 }
 
 function setSigninLabel(el, text){

@@ -58,6 +58,139 @@ async function fetchSheetAsObjects(csvUrl){
 }
 
 // ---------- Sign-in modal (lightweight placeholder) ----------
+
+// ---------- Menu (built once here, so every page gets the same menu) ----------
+function buildDesignMenu(){
+  const overlay = document.getElementById('mobile-nav-overlay');
+  if(!overlay || overlay.classList.contains('mnav')) return;
+
+  // Fonts used by the menu design
+  // (self-hosted in /menu so they always load; both are free Google/OFL fonts)
+  if(!document.getElementById('mnav-fonts')){
+    const st = document.createElement('style');
+    st.id = 'mnav-fonts';
+    st.textContent = "@font-face{font-family:'Fredoka';font-weight:600;font-display:swap;src:url('/menu/fredoka-600.woff2') format('woff2');}"
+      + "@font-face{font-family:'Lilita One';font-weight:400;font-display:swap;src:url('/menu/lilita-one.woff2') format('woff2');}";
+    document.head.appendChild(st);
+  }
+
+  const here = location.pathname.replace(/\/+$/, '/').toLowerCase();
+  const isCurrent = list => list.some(p => here.endsWith(p)) ? ' aria-current="page"' : '';
+
+  const games = [
+    { href:'/diagnosely.html', img:'/menu/menu-diagnosely.png', title:'Diagnosely', sub:'Guess the daily case',
+      cur:['/diagnosely.html','/play/diagnosely.html','/diagnosely','/play/diagnosely'] },
+    { href:'/neuroanatomy.html', img:'/menu/menu-brainer.png', title:'The Brainer', sub:'Find the brain region',
+      cur:['/neuroanatomy.html','/neuroanatomy-play.html','/neuroanatomy','/neuroanatomy-play'] },
+    { href:'/synapse.html', img:'/menu/menu-synapse.png', title:'The Synapse', sub:'Connect the neuroscience terms',
+      cur:['/synapse.html','/synapse'] },
+    { href:'/archive.html', img:'/menu/menu-archives.png', title:'Archives', sub:'Play all of the past games',
+      cur:['/archive.html','/archive'] }
+  ];
+
+  const icon = {
+    settings:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M10.3 1.5h3.4l.6 2.9c.7.2 1.3.5 1.9.9l2.6-1.4 2.4 2.4-1.4 2.6c.4.6.7 1.2.9 1.9l2.9.6v3.4l-2.9.6c-.2.7-.5 1.3-.9 1.9l1.4 2.6-2.4 2.4-2.6-1.4c-.6.4-1.2.7-1.9.9l-.6 2.9h-3.4l-.6-2.9c-.7-.2-1.3-.5-1.9-.9l-2.6 1.4-2.4-2.4 1.4-2.6c-.4-.6-.7-1.2-.9-1.9l-2.9-.6v-3.4l2.9-.6c.2-.7.5-1.3.9-1.9L3.4 6.3l2.4-2.4 2.6 1.4c.6-.4 1.2-.7 1.9-.9zM12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6z"/></svg>',
+    help:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" d="M7.6 8.2a4.4 4.4 0 1 1 6.6 3.8c-1.3.8-2.2 1.6-2.2 3.3v.6"/><circle cx="12" cy="20.6" r="2" fill="currentColor"/></svg>',
+    support:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21.4C10 20 2 14.7 2 8.6 2 5.5 4.4 3 7.4 3c2 0 3.6 1 4.6 2.6C13 4 14.6 3 16.6 3 19.6 3 22 5.5 22 8.6c0 6.1-8 11.4-10 12.8z"/></svg>',
+    login:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 4.6A8.4 8.4 0 1 1 9.6 19.4"/><path d="M1.8 12h11.4"/><path d="M9.8 8.2 13.6 12l-3.8 3.8"/></svg>',
+    about:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 11v6.2"/><circle cx="12" cy="7.2" r="1.4" fill="currentColor" stroke="none"/></svg>',
+    join:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.2 13.8a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M13.8 10.2a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>'
+  };
+
+  const hasHowTo = !!document.getElementById('how-to-play-btn');
+  const util = (key, label, attrs) => {
+    const tag = attrs.href ? 'a' : 'button';
+    const extra = Object.entries(attrs).map(([k,v]) => v === true ? k : `${k}="${v}"`).join(' ');
+    return `<li class="mnav-util mnav-fade" data-key="${key}"><${tag} ${tag==='button'?'type="button" ':''}${extra}>
+      <span class="mnav-util-icon">${icon[key]}</span><span class="mnav-util-label" data-signin-label>${label}</span></${tag}></li>`;
+  };
+
+  overlay.classList.add('mnav');
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', 'Menu');
+  overlay.innerHTML = `
+    <div class="mnav-head">
+      <p class="mnav-head-title">MENU</p>
+      <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">X</button>
+    </div>
+    <div class="mnav-band">
+      <p class="mnav-band-text"><span>Free</span><span>Daily</span><span>Neuroscience</span></p>
+      <button type="button" class="mnav-mouse" data-keep-open aria-label="Squeak!"><img src="/menu/menu-mouse.png" alt=""></button>
+    </div>
+    <ul class="mnav-games">
+      ${games.map(g => `<li class="mnav-game mnav-fade"><a href="${g.href}"${isCurrent(g.cur)}>
+        <span class="mnav-game-icon"><img src="${g.img}" alt=""></span>
+        <span class="mnav-game-text"><span class="mnav-game-title">${g.title}</span><span class="mnav-game-sub">${g.sub}</span></span>
+      </a></li>`).join('')}
+    </ul>
+    <hr class="mnav-rule">
+    <div class="mnav-bottom">
+      <ul class="mnav-utils">
+        <li class="mnav-util mnav-fade" data-key="settings">
+          <button type="button" data-keep-open aria-expanded="false" aria-controls="mnav-settings-panel">
+            <span class="mnav-util-icon">${icon.settings}</span><span class="mnav-util-label">Settings</span>
+          </button>
+          <div class="mnav-settings-panel" id="mnav-settings-panel">
+            <div class="mnav-setting"><span id="mnav-dark-label">Dark mode</span>
+              <button type="button" class="mnav-switch" role="switch" aria-checked="false" aria-labelledby="mnav-dark-label" data-keep-open></button>
+            </div>
+          </div>
+        </li>
+        ${hasHowTo ? util('help','Help',{'data-help':true}) : util('help','Help',{href:'/contact.html'})}
+        ${util('support','Support',{href:'/volunteer.html'})}
+        ${util('login', (googleSignInState && googleSignInState.signedIn && googleSignInState.name) ? googleSignInState.name.split(' ')[0] : 'Log in', {'data-signin':true, 'class':'mnav-signin'})}
+        ${util('about','About',{href:'/about.html'})}
+        ${util('join','Join',{href:'/volunteer.html'})}
+      </ul>
+      <button type="button" class="mnav-buddy mnav-buddy-brain" data-keep-open aria-label="Wave"><img src="/menu/menu-brain-buddy.png" alt=""></button>
+      <button type="button" class="mnav-buddy mnav-buddy-neuron" data-keep-open aria-label="Fire"><img src="/menu/menu-neuron-buddy.png" alt=""></button>
+    </div>
+    <p class="mnav-legal mnav-fade"><a href="/privacy.html">Privacy Policy</a><span aria-hidden="true">|</span><a href="/privacy.html#your-choices">Data Consent</a></p>
+    <div class="mnav-foot-space"></div>`;
+
+  // Only the labels inside the menu's Log in row carry data-signin-label
+  overlay.querySelectorAll('.mnav-util:not([data-key="login"]) [data-signin-label]').forEach(el => el.removeAttribute('data-signin-label'));
+
+  // Settings: open/close the panel
+  const setBtn = overlay.querySelector('[data-key="settings"] > button');
+  const panel = overlay.querySelector('#mnav-settings-panel');
+  setBtn.addEventListener('click', () => {
+    const open = setBtn.getAttribute('aria-expanded') !== 'true';
+    setBtn.setAttribute('aria-expanded', String(open));
+    panel.classList.toggle('open', open);
+  });
+
+  // Dark mode switch
+  const sw = overlay.querySelector('.mnav-switch');
+  const isDark = () => document.documentElement.dataset.theme === 'dark' ||
+    (!document.documentElement.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const syncSwitch = () => sw.setAttribute('aria-checked', String(isDark()));
+  sw.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    if(window.neuroleSetTheme) window.neuroleSetTheme(next);
+    else { document.documentElement.dataset.theme = next; try{ localStorage.setItem('neurole_theme', next); }catch(e){} }
+    syncSwitch();
+  });
+  document.addEventListener('neurole:themechange', syncSwitch);
+  syncSwitch();
+
+  // Help on game pages opens How to Play
+  const help = overlay.querySelector('[data-help]');
+  if(help) help.addEventListener('click', () => {
+    setTimeout(() => { const b = document.getElementById('how-to-play-btn'); if(b) b.click(); }, 60);
+  });
+
+  // Little bits of fun
+  const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+  overlay.querySelector('.mnav-mouse').addEventListener('click', e => replay(e.currentTarget, 'squeak'));
+  overlay.querySelectorAll('.mnav-buddy').forEach(b => b.addEventListener('click', () => replay(b, 'hop')));
+}
+
+function setSigninLabel(el, text){
+  const label = el.querySelector('[data-signin-label]');
+  if(label) label.textContent = text; else el.textContent = text;
+}
+
 // ---------- Mobile hamburger nav toggle (phones only) ----------
 function initMobileNav(){
   const btn = document.querySelector('.hamburger-btn');
@@ -83,7 +216,7 @@ function initMobileNav(){
   if(closeBtn) closeBtn.addEventListener('click', closeNav);
   if(backdrop) backdrop.addEventListener('click', closeNav);
   overlay.querySelectorAll('a, button').forEach(el => {
-    if(!el.classList.contains('mobile-nav-close')){
+    if(!el.classList.contains('mobile-nav-close') && !el.hasAttribute('data-keep-open')){
       el.addEventListener('click', closeNav);
     }
   });
@@ -144,7 +277,7 @@ function initSignIn(){
       renderGoogleSignIn('signin-google-container', () => {
         backdrop.classList.remove('open');
         const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
-        triggers.forEach(t => t.textContent = firstName);
+        triggers.forEach(t => setSigninLabel(t, firstName));
       });
     });
   });
@@ -349,7 +482,7 @@ function clearSignInState(){
 function updateSignInTriggers(){
   const firstName = googleSignInState.name ? googleSignInState.name.split(' ')[0] : 'Account';
   document.querySelectorAll('[data-signin]').forEach(t => {
-    t.textContent = googleSignInState.signedIn ? firstName : 'Sign In';
+    setSigninLabel(t, googleSignInState.signedIn ? firstName : (t.classList.contains('mnav-signin') ? 'Log in' : 'Sign In'));
   });
 }
 
@@ -523,6 +656,7 @@ function initScrollHeader(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  buildDesignMenu();
   initSignIn();
   initMobileNav();
   initThemeToggle();
@@ -557,6 +691,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.dispatchEvent(new CustomEvent('neurole:themechange', {detail:{theme}}));
   }
+
+  window.neuroleSetTheme = t => applyTheme(t, true);
 
   function makeThemeButton(){
     const button = document.createElement('button');

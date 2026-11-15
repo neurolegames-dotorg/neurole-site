@@ -1398,3 +1398,232 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 }
 .partner-card-logo img{max-width:100%;max-height:76px;width:auto;height:auto;object-fit:contain;}
 
+
+/* =====================================================================
+   MENU (design: "MENU" sheet). Every size below is in design units:
+   the design is 600 units wide, so calc(N * var(--u)) keeps the exact
+   proportions at any phone width (and caps at a 440px drawer on desktop).
+   ===================================================================== */
+.mobile-nav-overlay.mnav{
+  --u: calc(min(100vw, 440px) / 600);
+  --mnav-bg:#FFFFFF;
+  --mnav-band:#F4F4F4;
+  --mnav-title:#272727;
+  --mnav-text:#545454;
+  --mnav-icon:#000000;
+  --mnav-rule:#B4B4B4;
+  --mnav-hover:#F6F4FB;
+  width:min(100vw, 440px);
+  background:var(--mnav-bg);
+  border-right:none;
+  display:block;
+  overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  transform:none;               /* no slide: the menu just appears */
+  transition:opacity .2s ease;
+}
+.mobile-nav-overlay.mnav.open{transform:none;}
+:root[data-theme="dark"] .mobile-nav-overlay.mnav{
+  --mnav-bg:#17161C; --mnav-band:#222129; --mnav-title:#F1EFF5; --mnav-text:#B9B6C2;
+  --mnav-icon:#F1EFF5; --mnav-rule:#3A3842; --mnav-hover:#24222C;
+  background:var(--mnav-bg) !important;
+}
+
+/* Header: MENU ............ X  (stays put while the list scrolls) */
+.mnav-head{
+  position:sticky;top:0;z-index:3;
+  height:calc(87 * var(--u));
+  padding:0 calc(29 * var(--u)) 0 calc(31 * var(--u));
+  padding-top:env(safe-area-inset-top);
+  box-sizing:content-box;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--mnav-bg);
+}
+.mnav-head-title{
+  font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(42 * var(--u));line-height:1;color:var(--mnav-icon);letter-spacing:.01em;
+  margin:0;
+}
+.mobile-nav-overlay.mnav .mobile-nav-close{
+  position:static;width:calc(70 * var(--u));height:calc(70 * var(--u));
+  margin-right:calc(-14 * var(--u));
+  font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(42 * var(--u));line-height:1;color:var(--mnav-icon);
+  border-radius:50%;
+}
+.mobile-nav-overlay.mnav .mobile-nav-close:hover,
+.mobile-nav-overlay.mnav .mobile-nav-close:active{background:var(--mnav-band);}
+
+/* Grey band: Free / Daily / Neuroscience + mouse on cheese */
+.mnav-band{
+  position:relative;
+  height:calc(174 * var(--u));
+  background:var(--mnav-band);
+  padding:calc(28 * var(--u)) 0 0 calc(31 * var(--u));
+  box-sizing:border-box;
+}
+.mnav-band-text{
+  font-family:'Chaco','Lilita One',system-ui,sans-serif;
+  font-size:calc(35 * var(--u));line-height:calc(46 * var(--u));
+  color:var(--mnav-text);margin:0;
+}
+.mnav-band-text span{display:block;}
+.mnav-mouse{
+  position:absolute;
+  left:calc(355 * var(--u));top:calc(13 * var(--u));
+  width:calc(146 * var(--u));height:auto;
+  background:none;border:none;padding:0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.mnav-mouse img{width:100%;height:auto;display:block;transform-origin:50% 90%;}
+.mnav-mouse.squeak img{animation:mnavSqueak .5s ease;}
+@keyframes mnavSqueak{
+  0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg) scale(1.04)} 60%{transform:rotate(5deg)}
+}
+
+/* Game rows */
+.mnav-games{list-style:none;margin:calc(40 * var(--u)) 0 0;padding:0;}
+.mnav .mnav-game a{
+  display:flex;align-items:center;
+  min-height:calc(105 * var(--u));
+  padding:0 calc(24 * var(--u));
+  text-decoration:none;color:inherit;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s ease;
+}
+.mnav-game-icon{
+  flex:0 0 calc(100 * var(--u));height:calc(96 * var(--u));
+  display:flex;align-items:center;justify-content:center;
+  margin-right:calc(8 * var(--u));
+}
+.mnav-game-icon img{max-width:calc(96 * var(--u));max-height:calc(96 * var(--u));width:auto;height:auto;display:block;transition:transform .2s ease;}
+.mnav-game-text{display:flex;flex-direction:column;min-width:0;}
+.mnav-game-title{
+  font-family:'Lilita One',system-ui,sans-serif;
+  font-size:calc(28 * var(--u));line-height:calc(35 * var(--u));
+  color:var(--mnav-title);letter-spacing:.02em;
+}
+.mnav-game-sub{
+  font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(23 * var(--u));line-height:calc(30 * var(--u));
+  color:var(--mnav-text);letter-spacing:.02em;
+}
+
+/* Divider + utility rows */
+.mnav-rule{
+  height:calc(3 * var(--u));background:var(--mnav-rule);border:none;
+  margin:calc(46 * var(--u)) calc(29 * var(--u)) 0 calc(22 * var(--u));
+}
+.mnav-bottom{
+  position:relative;overflow:hidden;
+  padding:calc(40 * var(--u)) 0 calc(36 * var(--u));
+}
+.mnav-bottom::after{ /* the floor the mascots stand behind */
+  content:"";position:absolute;z-index:2;
+  left:calc(33 * var(--u));right:calc(18 * var(--u));bottom:0;
+  height:calc(3 * var(--u));background:var(--mnav-rule);
+}
+.mnav-utils{list-style:none;margin:0;padding:0;position:relative;z-index:1;}
+.mnav .mnav-util > a,
+.mnav .mnav-util > button{
+  display:flex;align-items:center;width:100%;
+  min-height:calc(87 * var(--u));
+  padding:0 calc(24 * var(--u)) 0 calc(45 * var(--u));
+  background:none;border:none;text-align:left;cursor:pointer;
+  text-decoration:none;color:var(--mnav-text);
+  font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(35 * var(--u));line-height:1.1;letter-spacing:.04em;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s ease;
+}
+.mnav-util-icon{
+  flex:0 0 calc(70 * var(--u));height:calc(70 * var(--u));
+  margin-right:calc(15 * var(--u));
+  display:flex;align-items:center;justify-content:center;color:var(--mnav-icon);
+}
+.mnav-util-icon svg{width:calc(64 * var(--u));height:calc(64 * var(--u));display:block;transition:transform .25s ease;}
+.mnav-util-label{color:var(--mnav-text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* Taps and hovers */
+.mnav-game a:hover,.mnav-game a:active,
+.mnav-util > a:hover,.mnav-util > a:active,
+.mnav-util > button:hover,.mnav-util > button:active{background:var(--mnav-hover);}
+.mnav-game a:active .mnav-game-icon img{transform:scale(.92);}
+.mnav-game a:hover .mnav-game-icon img{transform:rotate(-4deg) scale(1.05);}
+.mnav-util > a:active .mnav-util-icon svg,
+.mnav-util > button:active .mnav-util-icon svg{transform:scale(.9);}
+.mnav-game a[aria-current="page"]{background:var(--mnav-hover);}
+.mnav-game a[aria-current="page"] .mnav-game-title::after{
+  content:"";display:inline-block;vertical-align:middle;
+  width:calc(12 * var(--u));height:calc(12 * var(--u));border-radius:50%;
+  background:#7A5FAF;margin-left:calc(10 * var(--u));
+}
+.mnav-util[data-key="support"] > a:hover .mnav-util-icon svg{transform:scale(1.12);}
+.mnav-util[data-key="settings"] > button[aria-expanded="true"] .mnav-util-icon svg{transform:rotate(90deg);}
+
+/* Settings panel (opens under the Settings row) */
+.mnav-settings-panel{
+  margin:0 calc(29 * var(--u)) calc(10 * var(--u)) calc(130 * var(--u));
+  padding:calc(14 * var(--u)) 0;
+  display:none;
+}
+.mnav-settings-panel.open{display:block;}
+.mnav-setting{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(26 * var(--u));color:var(--mnav-text);
+  padding:calc(10 * var(--u)) 0;
+}
+.mnav-switch{
+  position:relative;flex:0 0 auto;
+  width:calc(84 * var(--u));height:calc(48 * var(--u));
+  border-radius:999px;border:none;padding:0;cursor:pointer;
+  background:#CFCBD8;transition:background .2s ease;
+}
+.mnav-switch::after{
+  content:"";position:absolute;top:calc(5 * var(--u));left:calc(5 * var(--u));
+  width:calc(38 * var(--u));height:calc(38 * var(--u));border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s ease;
+}
+.mnav-switch[aria-checked="true"]{background:#7A5FAF;}
+.mnav-switch[aria-checked="true"]::after{transform:translateX(calc(36 * var(--u)));}
+
+/* Mascots peeking over the floor */
+.mnav-buddy{
+  position:absolute;z-index:1;background:none;border:none;padding:0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.mnav-buddy img{width:100%;height:auto;display:block;transition:transform .3s ease;}
+.mnav-buddy-brain{left:calc(305 * var(--u));width:calc(161.5 * var(--u));bottom:calc(-34 * var(--u));}
+.mnav-buddy-neuron{left:calc(444 * var(--u));width:calc(138 * var(--u));bottom:calc(-57.5 * var(--u));}
+.mnav-buddy-brain img{transform-origin:50% 100%;}
+.mnav-buddy-neuron img{transform-origin:50% 100%;}
+.mnav-buddy.hop img{animation:mnavHop .6s ease;}
+@keyframes mnavHop{0%,100%{transform:translateY(0)} 35%{transform:translateY(-18%)} 60%{transform:translateY(-4%)}}
+
+.mnav-legal{
+  margin:calc(34 * var(--u)) 0 0;text-align:center;
+  font-family:'Fredoka',system-ui,sans-serif;font-weight:600;
+  font-size:calc(20 * var(--u));letter-spacing:.06em;color:#A9A9A9;
+}
+.mnav-legal a{color:#A9A9A9 !important;text-decoration:none;padding:calc(10 * var(--u)) calc(6 * var(--u));}
+.mnav-legal a:hover,.mnav-legal a:active{text-decoration:underline;}
+.mnav-legal span{margin:0 calc(4 * var(--u));}
+:root[data-theme="dark"] .mnav-legal,:root[data-theme="dark"] .mnav-legal a{color:#8C8995 !important;}
+.mnav-foot-space{height:calc(60 * var(--u) + env(safe-area-inset-bottom));}
+
+/* Rows fade in after the menu opens (fade only, no sliding) */
+.mobile-nav-overlay.mnav .mnav-fade{opacity:0;transition:opacity .25s ease;}
+.mobile-nav-overlay.mnav.open .mnav-fade{opacity:1;}
+.mobile-nav-overlay.mnav.open .mnav-fade:nth-child(2){transition-delay:.03s;}
+.mobile-nav-overlay.mnav.open .mnav-fade:nth-child(3){transition-delay:.06s;}
+.mobile-nav-overlay.mnav.open .mnav-fade:nth-child(4){transition-delay:.09s;}
+.mobile-nav-overlay.mnav.open .mnav-fade:nth-child(n+5){transition-delay:.12s;}
+
+@media (prefers-reduced-motion: reduce){
+  .mobile-nav-overlay.mnav *, .mobile-nav-overlay.mnav{animation:none !important;transition:none !important;}
+}
+.mobile-nav-overlay.mnav{visibility:hidden;transition:opacity .2s ease, visibility 0s linear .2s;}
+.mobile-nav-overlay.mnav.open{visibility:visible;transition:opacity .2s ease, visibility 0s;}

@@ -868,6 +868,29 @@ body{padding-top:0 !important;}
 .why-form button svg{width:20px;height:20px;}
 @media (prefers-reduced-motion: reduce){.why-pop *, .why-pop{animation:none !important;}}
 
+
+/* Squarer guess slots */
+.dx2-slot{border-radius:10px !important;}
+.dx2-qbox{border-radius:14px !important;}
+/* Suggestions open below the box, smaller text */
+.dx2-ac{top:calc(100% + 4px) !important;bottom:auto !important;max-height:200px;}
+.dx2-ac div{padding:8px 12px !important;font-size:13.5px !important;}
+/* Ad space above the title (the dashed box only shows while it's empty) */
+.ad-slot-top{min-height:100px;margin:0 0 16px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.ad-slot-top:empty{border:1.5px dashed var(--dx-rule);border-radius:10px;}
+.ad-slot-top:empty::after{content:"Advertisement";font:600 11px/1 'Outfit',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--dx-soft);opacity:.6;}
+@media (min-width:900px){.ad-slot-top{min-height:90px;}}
+
+
+/* Plain input (no glow) and plain suggestion list */
+.dx2-input-wrap input:focus,
+.dx2-bar[data-mode="ask"] .dx2-input-wrap input:focus{box-shadow:none !important;}
+.dx2-ac{border:1px solid #CFCFCF !important;border-radius:4px !important;box-shadow:none !important;top:calc(100% + 2px) !important;}
+.dx2-ac div{padding:7px 10px !important;font-size:13.5px !important;font-weight:400;border-bottom:none !important;}
+.dx2-ac div:hover,.dx2-ac div.active{background:#EFEFEF !important;}
+:root[data-theme="dark"] .dx2-ac{border-color:#4A4752 !important;}
+:root[data-theme="dark"] .dx2-ac div:hover,:root[data-theme="dark"] .dx2-ac div.active{background:#2A2931 !important;}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -973,6 +996,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main class="wrap dx2 no-enter-anim" data-mode="guess">
 
+  <!-- Ad space. Paste your ad code (e.g. a Google AdSense ad unit) inside this div. -->
+  <div class="ad-slot ad-slot-top" aria-label="Advertisement"></div>
+
   <!-- Title row: Diagnosely + date -->
   <div class="dx2-title">
     <h1 class="dx2-name">Diagnosely</h1>
@@ -1015,8 +1041,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Patient case: hint 1 always shown, more only from the light bulb -->
     <section class="dx2-case" aria-live="polite">
       <div class="dx2-case-head">
-        <span class="dx2-case-tag">Patient <span class="dx2-case-no" id="case-number"></span></span>
-        <span class="dx2-case-count" id="hint-count"></span>
+        <span class="dx2-case-tag">Hints</span><span id="case-number" hidden></span>
+        <span class="dx2-case-count" id="hint-count" hidden></span>
       </div>
       <ol class="dx2-case-list" id="case-brief"></ol>
     </section>
@@ -1048,7 +1074,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="dx2-ac" id="mobile-autocomplete-list"></div>
         </div>
       </div>
-      <p class="dx2-mode-help" id="dx2-mode-help">Guessing: type a diagnosis. Tap <b>Guess</b> to switch to asking questions.</p>
       <div class="closest-note dx2-note" id="closest-note"></div>
     </div>
 
@@ -1519,9 +1544,9 @@ async function loadCase(){
           allDisorders.push(name);
         }
       });
-      allDisorders.sort((a,b) => a.localeCompare(b));
-      state.allDisorders = allDisorders;
-    }catch(e){ state.allDisorders = []; }
+      // Every diagnosis in the sheet becomes a guess option, alongside the built-in list
+      mergeDisorderOptions(allDisorders);
+    }catch(e){ state.allDisorders = NEURO_DISORDERS.slice(); }
 
     if(idx >= 0 && idx < allRows.length){
       const row = allRows[idx];
@@ -1881,7 +1906,7 @@ function normalize(s){ return s.trim().toLowerCase().replace(/[^a-z0-9 ]/g,''); 
 
   const hintsBtn = document.getElementById('toolbar-hints-btn');
   if(hintsBtn) hintsBtn.addEventListener('click', () => {
-    const list = state.allDisorders || [];
+    const list = (state.allDisorders && state.allDisorders.length) ? state.allDisorders : NEURO_DISORDERS.slice().sort((a,b)=>a.localeCompare(b));
     const listHtml = list.length
       ? '<div class="disorder-list">' + list.map(d =>
           `<a href="https://www.mayoclinic.org/search/search-results?q=${encodeURIComponent(d)}" target="_blank" rel="noopener" class="disorder-link">${escapeHtml(d)}</a>`
@@ -1984,6 +2009,19 @@ function checkAnswer(guess){
 // If the guess is reasonably close to a DIFFERENT known disorder (not the
 // answer), let the player know what we think they meant, without penalizing
 // the spelling itself.
+// One combined, de-duplicated, A–Z list: built-in disorders + every answer in the sheet.
+// Used for the guess suggestions, typo matching and the disorder-list button.
+function mergeDisorderOptions(sheetNames){
+  const key = n => String(n).toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const byKey = new Map();
+  NEURO_DISORDERS.forEach(n => { const k = key(n); if(k && !byKey.has(k)) byKey.set(k, n); });
+  (sheetNames || []).forEach(n => { const name = String(n).trim(); const k = key(name); if(k && !byKey.has(k)) byKey.set(k, name); });
+  const merged = [...byKey.values()].sort((a,b) => a.localeCompare(b, undefined, {sensitivity:'base'}));
+  NEURO_DISORDERS.length = 0;
+  merged.forEach(n => NEURO_DISORDERS.push(n));
+  state.allDisorders = merged.slice();
+}
+
 function findClosestKnownDisorder(guess){
   const g = normalize(guess);
   if(!g) return null;
@@ -2205,7 +2243,7 @@ function renderPastGuesses(){
     if(guess){
       const isWinningSlot = state.solved && i === state.guesses.length - 1;
       slot.className = 'dx2-slot ' + (isWinningSlot ? 'good' : 'bad') + (i >= prev ? ' pop' : '');
-      slot.innerHTML = `<span class="dx2-slot-text"><span class="dx2-slot-name">${escapeHTML(guess)}</span><span class="dx2-slot-cat">${isWinningSlot ? 'Correct!' : escapeHTML(getDisorderCategory(guess))}</span></span>`
+      slot.innerHTML = `<span class="dx2-slot-text"><span class="dx2-slot-name">${escapeHTML(guess)}</span></span>`
         + (isWinningSlot ? '' : `<button type="button" class="dx2-why" data-guess="${escapeHTML(guess)}" aria-label="Why isn't it ${escapeHTML(guess)}?">Why?</button>`);
     } else {
       slot.className = 'dx2-slot' + (!finished && i === state.guesses.length ? ' next' : '');

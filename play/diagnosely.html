@@ -891,6 +891,13 @@ body{padding-top:0 !important;}
 :root[data-theme="dark"] .dx2-ac{border-color:#4A4752 !important;}
 :root[data-theme="dark"] .dx2-ac div:hover,:root[data-theme="dark"] .dx2-ac div.active{background:#2A2931 !important;}
 
+
+/* Ad unit: needs a block box with real width for AdSense to size it */
+.ad-slot-top{display:block !important;}
+.ad-slot-top .adsbygoogle{width:100%;}
+/* If Google has no ad to show, give the space back */
+.ad-slot-top:has(ins[data-ad-status="unfilled"]){display:none !important;}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -997,7 +1004,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main class="wrap dx2 no-enter-anim" data-mode="guess">
 
   <!-- Ad space. Paste your ad code (e.g. a Google AdSense ad unit) inside this div. -->
-  <div class="ad-slot ad-slot-top" aria-label="Advertisement"></div>
+  <div class="ad-slot ad-slot-top" aria-label="Advertisement">
+    <!-- Dopamine! (AdSense ad unit; the AdSense script itself is loaded in <head>) -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5461574028492984"
+         data-ad-slot="8827345140"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
 
   <!-- Title row: Diagnosely + date -->
   <div class="dx2-title">

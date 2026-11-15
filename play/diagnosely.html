@@ -903,6 +903,15 @@ body{padding-top:0 !important;}
 .dx2-slot.good,.dx2-slot.bad{flex-direction:row !important;align-items:center !important;}
 .dx2-slot-text{justify-content:center;align-self:center;}
 
+
+/* NYT-style dividers: thin, light grey, edge to edge */
+html,body{overflow-x:clip;}
+.dx2-title,.dx2-toolbar{border-bottom:none !important;position:relative;}
+.dx2-title::after,.dx2-toolbar::after{
+  content:"";position:absolute;bottom:0;left:calc(50% - 50vw);width:100vw;height:1px;background:#D3D6DA;
+}
+:root[data-theme="dark"] .dx2-title::after,:root[data-theme="dark"] .dx2-toolbar::after{background:#3A3A3C;}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1510,6 +1519,8 @@ async function loadCase(){
   }catch(e){}
   const playIdx = getPlayIndex();
   const archiveMode = isArchivePlay();
+  state.loadedIdx = playIdx;
+  state.loadedTodayIdx = getDayIndex();
   const headerDate = archiveMode
     ? new Date(dateStrForDayIndex(playIdx) + 'T12:00:00')
     : new Date();
@@ -1632,7 +1643,13 @@ async function loadCase(){
     }
   }
 
-  const saved = getSavedDailyCompletion();
+  let saved = getSavedDailyCompletion();
+  // Ignore a saved result that belongs to a different case (e.g. saved by an old tab)
+  if(saved && saved.answer && state.answer && normalize(saved.answer) !== normalize(state.answer)){
+    console.warn('Neurole: ignoring saved result for a different case:', saved.answer);
+    try{ localStorage.removeItem(dailyStorageKey()); }catch(e){}
+    saved = null;
+  }
   state.alreadyCompletedToday = !!saved;
   if(saved){
     // Already played today on this device, prepare the locked result view,
@@ -2314,7 +2331,10 @@ function showResult(won){
 
 // ---------- One play per device per day ----------
 function dailyStorageKey(){
-  return 'neurole_daily_' + dateStrForDayIndex(getPlayIndex());
+  // Use the day this page was loaded for, so a tab left open past midnight
+  // can't save yesterday's case under today's date.
+  const idx = (typeof state === 'object' && Number.isInteger(state.loadedIdx)) ? state.loadedIdx : getPlayIndex();
+  return 'neurole_daily_' + dateStrForDayIndex(idx);
 }
 
 function saveDailyCompletion(won){
@@ -2812,6 +2832,26 @@ Reply to the student's last message in 1-3 short, plain-language sentences. Focu
     pending.textContent = text;
     threads[guess].push({who:'bot', text});
   });
+})();
+</script>
+
+<script>
+/* ---------- New case at midnight (Eastern) even if the tab stays open ---------- */
+(function(){
+  if(new URLSearchParams(location.search).get('day') !== null) return; // archive games stay put
+  function checkNewDay(){
+    if(Number.isInteger(state.loadedTodayIdx) && getDayIndex() !== state.loadedTodayIdx){
+      try{
+        sessionStorage.removeItem('neurole_csv_cache');
+        sessionStorage.removeItem('neurole_csv_time');
+      }catch(e){}
+      location.reload();
+    }
+  }
+  setInterval(checkNewDay, 30000);
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) checkNewDay(); });
+  window.addEventListener('focus', checkNewDay);
+  window.addEventListener('pageshow', checkNewDay);
 })();
 </script>
 </body>

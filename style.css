@@ -1421,10 +1421,10 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
-  transform:none;               /* no slide: the menu just appears */
-  transition:opacity .2s ease;
+  transform:translateX(-100%);
+  box-shadow:none;
 }
-.mobile-nav-overlay.mnav.open{transform:none;}
+.mobile-nav-overlay.mnav.open{transform:translateX(0);box-shadow:4px 0 14px rgba(0,0,0,.14);}
 :root[data-theme="dark"] .mobile-nav-overlay.mnav{
   --mnav-bg:#17161C; --mnav-band:#222129; --mnav-title:#F1EFF5; --mnav-text:#B9B6C2;
   --mnav-icon:#F1EFF5; --mnav-rule:#3A3842; --mnav-hover:#1E1D25;
@@ -1435,7 +1435,7 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 .mnav-head{
   position:sticky;top:0;z-index:3;
   height:calc(87 * var(--u));
-  padding:0 calc(28 * var(--u)) 0 calc(31 * var(--u));
+  padding:0 calc(29 * var(--u)) 0 calc(31 * var(--u));
   padding-top:env(safe-area-inset-top);
   box-sizing:content-box;
   display:flex;align-items:center;justify-content:space-between;
@@ -1448,7 +1448,7 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 }
 .mobile-nav-overlay.mnav .mobile-nav-close{
   position:static;width:calc(70 * var(--u));height:calc(70 * var(--u));
-  margin-left:calc(-15 * var(--u));
+  margin-right:calc(-14 * var(--u));
   font-family:'Fredoka One','Fredoka',system-ui,sans-serif;font-weight:600;
   font-size:calc(42 * var(--u));line-height:1;color:var(--mnav-icon);
   border-radius:50%;
@@ -1546,11 +1546,6 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 .mnav-util > a:hover,.mnav-util > a:active,
 .mnav-util > button:hover,.mnav-util > button:active{background:var(--mnav-hover);}
 .mnav-game a[aria-current="page"]{background:var(--mnav-hover);}
-.mnav-game a[aria-current="page"] .mnav-game-title::after{
-  content:"";display:inline-block;vertical-align:middle;
-  width:calc(12 * var(--u));height:calc(12 * var(--u));border-radius:50%;
-  background:#7A5FAF;margin-left:calc(10 * var(--u));
-}
 
 /* Settings panel (opens under the Settings row) */
 .mnav-settings-panel{
@@ -1609,5 +1604,13 @@ a.partner-card:hover{border-color:var(--neuro-blue-deep);transform:translateY(-1
 @media (prefers-reduced-motion: reduce){
   .mobile-nav-overlay.mnav *, .mobile-nav-overlay.mnav{animation:none !important;transition:none !important;}
 }
-.mobile-nav-overlay.mnav{visibility:hidden;transition:opacity .2s ease, visibility 0s linear .2s;}
-.mobile-nav-overlay.mnav.open{visibility:visible;transition:opacity .2s ease, visibility 0s;}
+/* Quick slide in from the left; page behind is not dimmed */
+.mobile-nav-overlay.mnav{opacity:1;visibility:hidden;
+  transition:transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s ease, visibility 0s linear .2s;}
+.mobile-nav-overlay.mnav.open{visibility:visible;
+  transition:transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s ease, visibility 0s;}
+.mobile-nav-backdrop,.mobile-nav-backdrop.open{background:transparent !important;}
+:root[data-theme="dark"] .mobile-nav-overlay.mnav.open{box-shadow:4px 0 14px rgba(0,0,0,.5);}
+/* Menu and its click-outside layer sit above game screens */
+.mobile-nav-backdrop{z-index:10000 !important;}
+.mobile-nav-overlay.mnav{z-index:10001 !important;}

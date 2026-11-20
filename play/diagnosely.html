@@ -1011,6 +1011,38 @@ html,body{overflow-x:clip;}
 :root[data-theme="dark"] .dxe-caps,:root[data-theme="dark"] .dxe-sub,:root[data-theme="dark"] .dxe-num,:root[data-theme="dark"] .dxe-dist-row,
 :root[data-theme="dark"] .dxe-more h3,:root[data-theme="dark"] .dxe-outline{color:#D2CFD8;}
 
+
+/* Round 3 tweaks */
+/* finished game: just a rounded "View results" button */
+#result-area .result-banner{background:none !important;border:none !important;padding:0 !important;text-align:center;}
+.dxe-reopen{max-width:320px !important;margin:6px auto 0 !important;border-radius:999px !important;padding:14px !important;font-size:17px !important;}
+/* hide the "Solved" / question-count pills once the case is over */
+.dx2[data-mode="done"] #guesses-left,.dx2[data-mode="done"] #ask-counter-pill-wrap{display:none;}
+/* end screen appears without animation */
+.dxe.show,.dxe.show .dxe-hearts{animation:none !important;}
+.dxe-qbar{transition:none !important;}
+/* longer line under "Play More" */
+.dxe-more h3{margin:0 -20px !important;padding-left:32px !important;}
+/* greyer text */
+.dx2{--dx-ink:#3A3A3A;}
+.dxe,.dxe .dxe-title,.dxe-stats b,.dxe-dx,.dxe-caps,.dxe-sub,.dxe-num,.dxe-dist-row,.dxe-more h3,.dxe-outline{color:#5A5A5A !important;}
+.dxe-stats span,.dxe-label,.dxe-dx small,.dxe-next{color:#7C7C7C !important;}
+.dxe-card{color:#4A4A4A !important;}
+:root[data-theme="dark"] .dxe,:root[data-theme="dark"] .dxe .dxe-title,:root[data-theme="dark"] .dxe-stats b,:root[data-theme="dark"] .dxe-dx,
+:root[data-theme="dark"] .dxe-caps,:root[data-theme="dark"] .dxe-sub,:root[data-theme="dark"] .dxe-num,:root[data-theme="dark"] .dxe-dist-row,
+:root[data-theme="dark"] .dxe-more h3,:root[data-theme="dark"] .dxe-outline{color:#CFCBD6 !important;}
+/* share message sheet */
+.dxe-sheet{max-width:360px;margin:14px auto 0;padding:14px;border:1.5px solid #CFCFCF;border-radius:16px;text-align:left;}
+.dxe-sheet-label{margin:0 0 8px;font:700 13px/1 'Outfit',system-ui,sans-serif;color:#7C7C7C;text-transform:uppercase;letter-spacing:.06em;}
+.dxe-sheet-text{margin:0 0 12px;padding:12px;background:#F2F2F2;border-radius:12px;white-space:pre-wrap;word-break:break-word;font:500 14px/1.5 'Outfit',system-ui,sans-serif;color:#4A4A4A;}
+:root[data-theme="dark"] .dxe-sheet-text{background:#2A2931;color:#E4E1EA;}
+.dxe-sheet-btn{display:block;width:100%;box-sizing:border-box;padding:12px;border-radius:999px;border:2px solid #5A5A5A;background:none;color:#5A5A5A;
+  font:700 16px/1 'Outfit',system-ui,sans-serif;text-align:center;text-decoration:none;cursor:pointer;}
+.dxe-sheet-btn.msg{background:#34C759;border-color:#34C759;color:#fff;margin-bottom:10px;}
+.dxe-sheet-row{display:flex;gap:10px;}
+.dxe-sheet-row .dxe-sheet-btn{flex:1;font-size:15px;}
+
+.dxe a.dxe-sheet-btn.msg,.dxe a.dxe-sheet-btn.msg:visited{color:#fff !important;}
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1272,6 +1304,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <button type="button" class="dxe-share" id="dxe-share">Share Results <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12M10 6l6 6-6 6M20 4v16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <p class="dxe-copied" id="dxe-copied" hidden>Results copied. Paste them anywhere!</p>
+    <div class="dxe-sheet" id="dxe-sheet" hidden>
+      <p class="dxe-sheet-label">Your message</p>
+      <pre class="dxe-sheet-text" id="dxe-sheet-text"></pre>
+      <a class="dxe-sheet-btn msg" id="dxe-sms" href="#">Send in Messages</a>
+      <div class="dxe-sheet-row">
+        <button type="button" class="dxe-sheet-btn" id="dxe-copy">Copy text</button>
+        <button type="button" class="dxe-sheet-btn" id="dxe-more">More options</button>
+      </div>
+    </div>
     <button type="button" class="dxe-outline dxe-view" id="dxe-view">View Results</button>
 
     <p class="dxe-next" id="dxe-next"></p>
@@ -2494,8 +2535,8 @@ function showResult(won){
   const banner = document.createElement('div');
   banner.className = 'result-banner' + (won ? '' : ' fail');
   banner.innerHTML = won
-    ? `<h4>Correct, it's ${state.answer}.</h4><p>${state.explanation}</p><button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">See results</button>`
-    : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p><button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">See results</button>`;
+    ? `<button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">View results</button>`
+    : `<button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">View results</button>`;
   area.appendChild(banner);
   state.hintsUsed = Math.max(0, (state.shown || 1) - 1);
   state.shown = state.symptoms.length;
@@ -2718,14 +2759,19 @@ function buildFullShareText(){
     'neurole.org/diagnosely.html'
   ].join('\n');
 }
-document.getElementById('dxe-share').addEventListener('click', async () => {
+document.getElementById('dxe-share').addEventListener('click', () => {
   const text = buildFullShareText();
-  try{
-    if(navigator.share && /iPhone|iPad|Android/i.test(navigator.userAgent)){
-      await navigator.share({ text });
-      return;
-    }
-  }catch(e){ if(e && e.name === 'AbortError') return; }
+  const sheet = document.getElementById('dxe-sheet');
+  document.getElementById('dxe-sheet-text').textContent = text;
+  // iPhone/iPad use "sms:&body=", others "sms:?body="
+  const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? '&' : '?';
+  document.getElementById('dxe-sms').href = 'sms:' + sep + 'body=' + encodeURIComponent(text);
+  document.getElementById('dxe-more').style.display = navigator.share ? '' : 'none';
+  sheet.hidden = !sheet.hidden;
+  document.getElementById('dxe-copied').hidden = true;
+});
+async function copyShareText(){
+  const text = buildFullShareText();
   try{ await navigator.clipboard.writeText(text); }
   catch(e){
     const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
@@ -2734,6 +2780,10 @@ document.getElementById('dxe-share').addEventListener('click', async () => {
   }
   const c = document.getElementById('dxe-copied'); c.hidden = false;
   setTimeout(() => { c.hidden = true; }, 3000);
+}
+document.getElementById('dxe-copy').addEventListener('click', copyShareText);
+document.getElementById('dxe-more').addEventListener('click', async () => {
+  try{ await navigator.share({ text: buildFullShareText() }); }catch(e){}
 });
 
 document.getElementById('result-tab-btn-dist').addEventListener('click', () => {

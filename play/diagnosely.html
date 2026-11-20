@@ -912,6 +912,88 @@ html,body{overflow-x:clip;}
 }
 :root[data-theme="dark"] .dx2-title::after,:root[data-theme="dark"] .dx2-toolbar::after{background:#3A3A3C;}
 
+
+/* Squarer how-to-play popup */
+.dx2-intro-card{border-radius:10px !important;}
+.dx2-step{border-radius:6px !important;}
+.dx2-intro-go{border-radius:6px !important;}
+.dx2-intro-x{border-radius:6px !important;}
+.mini-case{border-radius:4px !important;}
+.mini-mode,.mini-input,.mini-answer{border-radius:3px !important;}
+.mini-pills span{border-radius:3px !important;}
+
+
+/* ===== End screen ===== */
+.dxe{position:fixed;inset:0;z-index:10070;background:#fff;color:#151515;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.dxe[hidden]{display:none;}
+.dxe.show{animation:dxFade .25s ease;}
+:root[data-theme="dark"] .dxe{background:#17161C;color:#F2F0F5;}
+.dxe-page{max-width:560px;margin:0 auto;padding:20px 20px calc(48px + env(safe-area-inset-bottom));text-align:center;position:relative;}
+.dxe-back{position:sticky;top:0;margin-left:auto;display:flex;align-items:center;gap:8px;border:none;background:inherit;color:#444;
+  font:700 16px/1 'Outfit',system-ui,sans-serif;padding:10px 4px;cursor:pointer;z-index:2;}
+:root[data-theme="dark"] .dxe-back{color:#D5D2DB;}
+.dxe-back svg{width:22px;height:22px;}
+.dxe-hearts{display:block;margin:4px auto 6px;width:120px;height:auto;}
+.dxe.show .dxe-hearts{animation:dxPopIn .45s cubic-bezier(.2,.9,.3,1.3);}
+.dxe-title{font-family:'Crete Round','Playfair Display',Georgia,serif !important;font-weight:700;font-size:clamp(28px,7vw,36px);margin:0 0 14px;color:inherit;letter-spacing:0 !important;}
+.dxe-block{margin:22px 0 0;text-align:left;}
+.dxe-label{font:700 16px/1 'Outfit',system-ui,sans-serif;color:#5A5A5A;margin:0;padding-top:14px;border-top:1px solid #9A9A9A;}
+:root[data-theme="dark"] .dxe-label{color:#B5B1BD;}
+.dxe-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:16px;text-align:center;}
+.dxe-stats b{display:block;font:800 clamp(30px,8vw,38px)/1 'Outfit',system-ui,sans-serif;}
+.dxe-stats span{display:block;margin-top:8px;font-size:15px;color:#555;line-height:1.25;}
+:root[data-theme="dark"] .dxe-stats span{color:#B5B1BD;}
+.dxe-dx{display:flex;align-items:center;gap:14px;margin:26px auto 0;max-width:460px;background:#E7E7E7;border-radius:16px;padding:14px 20px 14px 18px;
+  text-align:left;text-decoration:none;color:#151515;font-size:19px;line-height:1.3;}
+.dxe-dx:hover{background:#DEDEDE;}
+:root[data-theme="dark"] .dxe-dx{background:#2A2931;color:#F2F0F5;}
+.dxe-dx img{width:70px;height:auto;flex:0 0 auto;}
+.dxe-dx u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:700;}
+.dxe-dx small{display:block;margin-top:5px;font-size:12.5px;color:#666;}
+:root[data-theme="dark"] .dxe-dx small{color:#B5B1BD;}
+.dxe-outline{display:block;width:100%;max-width:480px;margin:18px auto 0;box-sizing:border-box;padding:14px;border:2px solid currentColor;border-radius:14px;
+  background:none;color:inherit;font:700 18px/1.1 'Outfit',system-ui,sans-serif;text-align:center;text-decoration:none;cursor:pointer;}
+.dxe-outline:hover{background:rgba(0,0,0,.04);}
+.dxe-caps{font:800 15px/1 'Outfit',system-ui,sans-serif;letter-spacing:.02em;text-transform:uppercase;margin:0 0 10px;}
+.dxe-dist{display:flex;flex-direction:column;gap:6px;}
+.dxe-dist-row{display:flex;align-items:center;gap:8px;font:700 14px/1 'Outfit',system-ui,sans-serif;}
+.dxe-dist-row > span{width:12px;}
+.dxe-dist-bar{min-width:22px;height:24px;background:#787C7E;color:#fff;display:flex;align-items:center;justify-content:flex-end;padding:0 7px;box-sizing:border-box;font-size:13px;}
+.dxe-dist-bar.today{background:#58A55C;}
+.dxe-dist-bar.zero{background:#B5B7B9;}
+.dxe-sub{font:800 18px/1 'Outfit',system-ui,sans-serif;margin:0 0 10px;}
+.dxe-row{display:flex;align-items:center;gap:16px;}
+.dxe-num{font:800 19px/1 'Outfit',system-ui,sans-serif;min-width:40px;}
+.dxe-hints{flex:1;display:flex;height:44px;border:2px solid #F2C200;border-radius:999px;overflow:hidden;background:#FFF2B0;}
+.dxe-hints i{flex:1;border-left:2px solid #F2C200;}
+.dxe-hints i:first-child{border-left:none;}
+.dxe-hints i.on{background:#FDE272;}
+.dxe-qtrack{flex:1;height:52px;border-left:3px solid currentColor;display:flex;align-items:center;}
+.dxe-qbar{height:44px;background:#62B46B;width:0;transition:width .6s ease;}
+.dxe-share{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:360px;margin:34px auto 0;padding:15px;border:none;border-radius:999px;
+  background:#7DCF85;color:#fff;font:800 20px/1 'Outfit',system-ui,sans-serif;cursor:pointer;}
+.dxe-share svg{width:22px;height:22px;}
+.dxe-share:hover{background:#6CC475;}
+.dxe-copied{margin:10px 0 0;font-size:14px;color:#2E9A57;}
+.dxe-view{max-width:360px;border-radius:999px;margin-top:14px;}
+.dxe-next{margin:18px 0 0;font-size:14px;color:#666;}
+.dxe-more{margin-top:44px;text-align:left;}
+.dxe-more h3{font:800 22px/1 'Outfit',system-ui,sans-serif;margin:0;padding:0 0 12px 12px;border-bottom:2px solid #555;}
+.dxe-more-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;}
+.dxe-card{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:22px;text-decoration:none;color:#151515;min-height:84px;box-sizing:border-box;}
+.dxe-card img{width:58px;height:auto;flex:0 0 auto;}
+.dxe-card span{display:flex;flex-direction:column;font-size:13px;line-height:1.3;text-align:center;flex:1;}
+.dxe-card b{font:800 19px/1.1 'Outfit',system-ui,sans-serif;margin-bottom:4px;}
+.dxe-card.blue{background:#69C6FB;}
+.dxe-card.purple{background:#D2BFFA;}
+.dxe-card:hover{filter:brightness(1.04);}
+@media (max-width:480px){
+  .dxe-more-grid{grid-template-columns:1fr;gap:12px;}
+  .dxe-stats span{font-size:13px;}
+  .dxe-dx{font-size:17px;}
+}
+
+.dxe-reopen{max-width:240px;margin:14px 0 0;padding:11px;font-size:16px;border-radius:12px;}
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1123,6 +1205,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </main>
 
+
+
+<!-- ===== End screen (after the case is solved or lost) ===== -->
+<div class="dxe" id="dx-end" role="dialog" aria-modal="true" aria-labelledby="dxe-title" hidden>
+  <div class="dxe-page">
+    <button type="button" class="dxe-back" id="dxe-back">Go back <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+
+    <img class="dxe-hearts" src="/menu/end-hearts.png" alt="" width="156" height="110">
+    <h2 class="dxe-title" id="dxe-title">Chicken Dinner!</h2>
+
+    <section class="dxe-block">
+      <h3 class="dxe-label">Statistics</h3>
+      <div class="dxe-stats">
+        <div><b id="dxe-played">0</b><span>Played</span></div>
+        <div><b id="dxe-winpct">0</b><span>Win %</span></div>
+        <div><b id="dxe-streak">0</b><span>Streak</span></div>
+        <div><b id="dxe-best">0</b><span>Highest Streak</span></div>
+      </div>
+    </section>
+
+    <a class="dxe-dx" id="dxe-dx" href="#" target="_blank" rel="noopener">
+      <img src="/menu/end-burst.png" alt="" width="93" height="92">
+      <span>What is <u id="dxe-dx-name">the diagnosis</u>?<small>Read about it on Mayo Clinic ↗</small></span>
+    </a>
+
+    <a class="dxe-outline" href="/volunteer.html#case">Create your own case</a>
+
+    <section class="dxe-block dxe-dist-wrap">
+      <h3 class="dxe-caps">Guess distribution</h3>
+      <div class="dxe-dist" id="dxe-dist"></div>
+    </section>
+
+    <section class="dxe-block" id="dxe-hints-wrap">
+      <h3 class="dxe-sub">Hints</h3>
+      <div class="dxe-row">
+        <div class="dxe-hints" id="dxe-hints"></div>
+        <b class="dxe-num" id="dxe-hints-num">0/0</b>
+      </div>
+    </section>
+
+    <section class="dxe-block">
+      <h3 class="dxe-sub">Questions</h3>
+      <div class="dxe-row">
+        <div class="dxe-qtrack"><div class="dxe-qbar" id="dxe-qbar"></div></div>
+        <b class="dxe-num" id="dxe-q-num">0</b>
+      </div>
+    </section>
+
+    <button type="button" class="dxe-share" id="dxe-share">Share Results <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12M10 6l6 6-6 6M20 4v16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <p class="dxe-copied" id="dxe-copied" hidden>Results copied. Paste them anywhere!</p>
+    <button type="button" class="dxe-outline dxe-view" id="dxe-view">View Results</button>
+
+    <p class="dxe-next" id="dxe-next"></p>
+
+    <section class="dxe-more">
+      <h3>Play More</h3>
+      <div class="dxe-more-grid">
+        <a class="dxe-card blue" href="/neuroanatomy.html"><img src="/menu/menu-brainer.png" alt=""><span><b>The Brainer</b>Guess the brain region.</span></a>
+        <a class="dxe-card purple" href="/synapse.html"><img src="/menu/menu-synapse.png" alt=""><span><b>The Synapse</b>Connect neuroscience terms.</span></a>
+      </div>
+    </section>
+  </div>
+</div>
 
 <!-- "Why not?" brain tutor popup -->
 <div class="why-pop" id="why-pop" role="dialog" aria-modal="true" aria-labelledby="why-title" hidden>
@@ -1591,6 +1736,8 @@ async function loadCase(){
       state.synonyms    = (row[7]||'').split(/[;,]/).map(s=>s.trim().toLowerCase()).filter(Boolean);
       state.explanation = (row[8]||'').trim();
       state.author      = (row[9]||'').trim();
+      // Optional: column Q = exact Mayo Clinic article link for this diagnosis
+      state.mayoUrl     = /^https?:\/\//.test((row[16]||'').trim()) ? (row[16]||'').trim() : '';
       state.questionAnswers = {
         vitals:   (row[10]||'').trim(),
         exam:     (row[11]||'').trim(),
@@ -1662,6 +1809,7 @@ async function loadCase(){
     state.guesses = saved.guesses || [];
     const shellDone = document.querySelector('main.dx2'); if(shellDone) shellDone.dataset.mode = 'done';
     state.hintsUsed = saved.hintsUsed || 0;
+    questionsAsked = saved.questionsAsked || 0;
     state.shown = state.symptoms.length;
     renderSymptoms();
     renderPastGuesses();
@@ -2082,7 +2230,7 @@ function submitGuess(guess){
   const note = document.getElementById('closest-note');
 
   if(checkAnswer(guess)){
-    if(window.NeuroleSound) setTimeout(() => window.NeuroleSound.correct(), 110);
+    playWinSound();
     state.solved = true;
     state.attemptsUsed++;
     state.guesses.push(guess);
@@ -2307,8 +2455,8 @@ function showResult(won){
   const banner = document.createElement('div');
   banner.className = 'result-banner' + (won ? '' : ' fail');
   banner.innerHTML = won
-    ? `<h4>Correct, it's ${state.answer}.</h4><p>${state.explanation}</p>`
-    : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p>`;
+    ? `<h4>Correct, it's ${state.answer}.</h4><p>${state.explanation}</p><button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">See results</button>`
+    : `<h4>The diagnosis was ${state.answer}.</h4><p>${state.explanation}</p><button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(${won})">See results</button>`;
   area.appendChild(banner);
   state.hintsUsed = Math.max(0, (state.shown || 1) - 1);
   state.shown = state.symptoms.length;
@@ -2341,7 +2489,7 @@ function saveDailyCompletion(won){
   try{
     localStorage.setItem(dailyStorageKey(), JSON.stringify({
       won, attemptsUsed: state.attemptsUsed, answer: state.answer, explanation: state.explanation, author: state.author,
-      guesses: state.guesses, shown: state.shown, hintsUsed: state.hintsUsed || 0
+      guesses: state.guesses, shown: state.shown, hintsUsed: state.hintsUsed || 0, questionsAsked: questionsAsked
     }));
     localStorage.removeItem(dailyStorageKey() + '_progress');
   }catch(err){ console.warn("Neurole: couldn't save daily completion to localStorage", err.message); }
@@ -2422,119 +2570,132 @@ function getStreak(){
   return { count: getDailyStats().currentStreak };
 }
 
-function openResultPopup(won){
-  const headline = document.getElementById('result-headline-text');
-  const stats = document.getElementById('result-stats-text');
-  const grid = document.getElementById('result-grid');
-
-  headline.textContent = won ? 'Diagnosed.' : 'Not this time.';
-  stats.textContent = won
-    ? `${state.answer}, ${state.attemptsUsed} ${state.attemptsUsed===1?'try':'tries'}`
-    : `The diagnosis was: ${state.answer}`;
-
-  const explSection = document.getElementById('result-explanation-section');
-  const explText = document.getElementById('result-explanation-text');
-  const authorLine = document.getElementById('result-author-line');
-  if(explSection && explText){
-    if(state.explanation && state.explanation.trim()){
-      explText.textContent = state.explanation;
-      explSection.style.display = 'block';
-    } else {
-      explSection.style.display = 'none';
-    }
-  }
-  if(authorLine){
-    if(state.author && state.author.trim()){
-      authorLine.textContent = 'By ' + state.author.trim();
-      authorLine.style.display = 'block';
-      if(explSection) explSection.style.display = 'block';
-    } else {
-      authorLine.style.display = 'none';
-    }
-  }
-
-  // Emoji grid
-  const total=5, used=state.attemptsUsed||0;
-  let g='';
-  for(let i=0;i<total;i++){
-    if(i<used-(won?1:0)) g+='🟥';
-    else if(i===used-1&&won) g+='🟩';
-    else g+='⬜';
-  }
-  if(grid){ grid.textContent=g; }
-
-  const dailyStats = getDailyStats();
-  const setStat = (id, val) => {
-    const el = document.querySelector('#'+id+' .rmodal-stat-val');
-    if(el) el.textContent = val;
-  };
-  setStat('stat-played', dailyStats.played);
-  setStat('stat-win', dailyStats.winPct + '%');
-  setStat('stat-streak', dailyStats.currentStreak);
-  setStat('stat-maxstreak', dailyStats.bestStreak);
-
-  // Show personal distribution immediately so the popup never waits on a
-  // network call to appear, global numbers (if configured) swap in once
-  // they arrive, without delaying the popup itself.
-  const labelEl = document.getElementById('result-distribution-label');
-  const distEl = document.getElementById('result-distribution');
-  function renderDistribution(dist, label){
-    if(!distEl) return;
-    if(labelEl) labelEl.textContent = label;
-    const maxCount = Math.max(1, ...dist);
-    distEl.innerHTML = dist.map((count, i) => {
-      const pct = count ? Math.max(10, Math.round((count/maxCount)*100)) : 0;
-      const isThisGame = won && used === i+1;
-      return `
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
-          <span style="width:12px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--rm-soft);">${i+1}</span>
-          <div style="flex:1;background:var(--rm-track);border-radius:4px;overflow:hidden;height:18px;">
-            <div style="width:${pct}%;min-width:${count?'22px':'0'};background:${isThisGame?'#8B2635':'var(--rm-soft)'};height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;box-sizing:border-box;">
-              ${count ? `<span style="font-family:var(--mono);font-size:10.5px;font-weight:700;color:#fff;">${count}</span>` : ''}
-            </div>
-          </div>
-        </div>`;
-    }).join('');
-  }
-  renderDistribution(dailyStats.distribution, 'Guess Distribution, Your History');
-
-  const countdownEl = document.getElementById('next-case-countdown');
-  if(isArchivePlay()){
-    if(countdownEl) countdownEl.innerHTML = '<a href="/archive.html" style="color:var(--rm-soft);text-decoration:underline;">← Back to Archive</a>';
-  } else {
-    startCountdown('next-case-countdown');
-  }
-  document.getElementById('result-modal').classList.add('open');
-  renderGoogleSignIn('result-google-container', () => {
-    document.getElementById('result-google-container').innerHTML =
-      `<p class="rmodal-signed">✓ Signed in, streak saved!</p>`;
-  });
-
-  // Contribute this result and swap in the global distribution once it's
-  // back, fire-and-forget, doesn't block anything above.
-  const dateKey = dateStrForDayIndex(getPlayIndex());
-  submitGlobalDailyResult(dateKey, won ? used : null);
-  fetchGlobalDailyDistribution(dateKey).then(global => {
-    if(!global || !global.total) return;
-    renderDistribution(global.d, `Guess Distribution, All Players (${global.total.toLocaleString()})`);
-    const compareEl = document.getElementById('result-compare-line');
-    const solved = global.d.reduce((a,b) => a+b, 0);
-    if(compareEl){
-      if(won){
-        const worse = global.d.slice(used).reduce((a,b) => a+b, 0) + global.fail;
-        const pct = Math.round((worse / global.total) * 100);
-        compareEl.textContent = `You solved it in ${used} ${used===1?'try':'tries'}, faster than ${pct}% of today's players.`;
-      } else {
-        const pct = Math.round((solved / global.total) * 100);
-        compareEl.textContent = `${pct}% of today's players solved it, you'll get the next one.`;
-      }
-    }
-    const totalEl = document.getElementById('compare-total-players');
-    const winEl = document.getElementById('compare-win-rate');
-    if(totalEl) totalEl.textContent = global.total.toLocaleString();
-    if(winEl) winEl.textContent = Math.round((solved / global.total) * 100) + '%';
-  });
+// Win sound (your level-up clip). Respects the Sound effects switch in Settings.
+const WIN_SOUND = new Audio('/menu/level-up.mp3');
+WIN_SOUND.preload = 'auto';
+function playWinSound(){
+  if(window.NeuroleSound && window.NeuroleSound.isOff()) return;
+  try{
+    WIN_SOUND.currentTime = 0;
+    WIN_SOUND.volume = 0.8;
+    const p = WIN_SOUND.play();
+    if(p && p.catch) p.catch(() => { if(window.NeuroleSound) window.NeuroleSound.correct(); });
+  }catch(e){ if(window.NeuroleSound) window.NeuroleSound.correct(); }
 }
+
+function mayoLinkFor(name){
+  return state.mayoUrl || ('https://www.mayoclinic.org/search/search-results?q=' + encodeURIComponent(name || ''));
+}
+
+let endCountdownStarted = false;
+function openResultPopup(won){
+  const el = id => document.getElementById(id);
+  const stats = getDailyStats();
+  const used = state.attemptsUsed || 0;
+
+  el('dxe-title').textContent = won ? 'Chicken Dinner!' : 'So close!';
+  document.querySelector('.dxe-hearts').style.display = won ? '' : 'none';
+  el('dxe-played').textContent = stats.played;
+  el('dxe-winpct').textContent = stats.winPct;
+  el('dxe-streak').textContent = stats.currentStreak;
+  el('dxe-best').textContent = stats.bestStreak;
+
+  el('dxe-dx-name').textContent = state.answer || 'today\'s diagnosis';
+  el('dxe-dx').href = mayoLinkFor(state.answer);
+
+  // Guess distribution: how many guesses each of your wins took
+  const dist = stats.distribution;
+  const max = Math.max(1, ...dist);
+  el('dxe-dist').innerHTML = dist.map((n, i) => {
+    const today = won && used === i + 1;
+    const pct = n ? Math.max(8, Math.round(n / max * 100)) : 0;
+    return `<div class="dxe-dist-row"><span>${i+1}</span><div class="dxe-dist-bar${today ? ' today' : ''}${n ? '' : ' zero'}" style="width:${n ? pct + '%' : 'auto'}">${n}</div></div>`;
+  }).join('');
+
+  // Hints used in this game
+  const totalHints = Math.max(0, (state.symptoms.length || 1) - 1);
+  const hintsUsed = Math.min(state.hintsUsed || 0, totalHints);
+  el('dxe-hints-wrap').style.display = totalHints ? '' : 'none';
+  el('dxe-hints').innerHTML = Array.from({length: totalHints}, (_, i) => `<i class="${i < hintsUsed ? 'on' : ''}"></i>`).join('');
+  el('dxe-hints-num').textContent = `${hintsUsed}/${totalHints}`;
+
+  // Questions asked in this game (bar fills up to 10)
+  el('dxe-q-num').textContent = questionsAsked;
+  el('dxe-qbar').style.width = '0';
+  requestAnimationFrame(() => { el('dxe-qbar').style.width = Math.min(100, questionsAsked * 10) + '%'; });
+
+  // Next case countdown / back to archive
+  if(isArchivePlay()){
+    el('dxe-next').innerHTML = '<a href="/archive.html">← Back to the archive</a>';
+  } else if(!endCountdownStarted){
+    endCountdownStarted = true;
+    startCountdown('dxe-next');
+  }
+
+  el('dxe-copied').hidden = true;
+  const ov = el('dx-end');
+  ov.hidden = false;
+  ov.scrollTop = 0;
+  ov.classList.remove('show'); void ov.offsetWidth; ov.classList.add('show');
+  document.documentElement.style.overflow = 'hidden';
+
+  // Still count this result toward the all-players numbers
+  try{
+    if(!state._submittedGlobal){
+      state._submittedGlobal = true;
+      submitGlobalDailyResult(dateStrForDayIndex(getPlayIndex()), won ? used : null);
+    }
+  }catch(e){}
+}
+
+function closeEndScreen(){
+  document.getElementById('dx-end').hidden = true;
+  document.documentElement.style.overflow = '';
+}
+document.getElementById('dxe-back').addEventListener('click', closeEndScreen);
+document.getElementById('dxe-view').addEventListener('click', closeEndScreen);
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !document.getElementById('dx-end').hidden) closeEndScreen(); });
+
+function buildFullShareText(){
+  const stats = getDailyStats();
+  const won = state.solved;
+  const used = state.attemptsUsed || 0;
+  let grid = '';
+  for(let i = 0; i < 5; i++){
+    if(i < used - (won ? 1 : 0)) grid += '🟥';
+    else if(i === used - 1 && won) grid += '🟩';
+    else grid += '⬜';
+  }
+  const totalHints = Math.max(0, (state.symptoms.length || 1) - 1);
+  const hintsUsed = Math.min(state.hintsUsed || 0, totalHints);
+  const date = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
+  const dist = stats.distribution.map((n,i) => `${i+1}: ${n}`).join('  ');
+  return [
+    `Neurole Diagnosely, ${date}${isArchivePlay() ? ' (archive)' : ''}`,
+    `${won ? `Solved in ${used}/5` : 'X/5'} ${grid}`,
+    `💡 Hints: ${hintsUsed}/${totalHints}   ❓ Questions: ${questionsAsked}`,
+    `📊 Played ${stats.played} · Win ${stats.winPct}% · Streak ${stats.currentStreak} · Best ${stats.bestStreak}`,
+    `Guesses to win: ${dist}`,
+    'neurole.org/diagnosely.html'
+  ].join('\n');
+}
+document.getElementById('dxe-share').addEventListener('click', async () => {
+  const text = buildFullShareText();
+  try{
+    if(navigator.share && /iPhone|iPad|Android/i.test(navigator.userAgent)){
+      await navigator.share({ text });
+      return;
+    }
+  }catch(e){ if(e && e.name === 'AbortError') return; }
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){
+    const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+    try{ document.execCommand('copy'); }catch(_){}
+    t.remove();
+  }
+  const c = document.getElementById('dxe-copied'); c.hidden = false;
+  setTimeout(() => { c.hidden = true; }, 3000);
+});
 
 document.getElementById('result-tab-btn-dist').addEventListener('click', () => {
   document.getElementById('result-tab-dist').style.display = 'block';

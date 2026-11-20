@@ -49,7 +49,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
 <script src="/theme-init.js?v=125"></script><meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="/style.css?v=184">
+<link rel="stylesheet" href="/style.css?v=185">
 <style>
 
   /* --- Fun game typography & visuals --- */
@@ -994,6 +994,23 @@ html,body{overflow-x:clip;}
 }
 
 .dxe-reopen{max-width:240px;margin:14px 0 0;padding:11px;font-size:16px;border-radius:12px;}
+
+/* End screen: Chunk Five title, softer grey text */
+@font-face{font-family:'Chunk Five';font-display:swap;src:url('/menu/chunkfive.woff2') format('woff2');}
+.dxe .dxe-title{font-family:'Chunk Five','Crete Round',Georgia,serif !important;font-weight:400 !important;color:#4E4E4E;letter-spacing:.01em !important;}
+.dxe{color:#4A4A4A;}
+.dxe-stats b{color:#4A4A4A;}
+.dxe-stats span,.dxe-label{color:#6E6E6E;}
+.dxe-dx{color:#4A4A4A;}
+.dxe-dx small{color:#7A7A7A;}
+.dxe-caps,.dxe-sub,.dxe-num,.dxe-dist-row,.dxe-more h3{color:#4A4A4A;}
+.dxe-outline{color:#4A4A4A;}
+.dxe-next{color:#7A7A7A;}
+.dxe-card{color:#3F3F3F;}
+:root[data-theme="dark"] .dxe,:root[data-theme="dark"] .dxe .dxe-title,:root[data-theme="dark"] .dxe-stats b,:root[data-theme="dark"] .dxe-dx,
+:root[data-theme="dark"] .dxe-caps,:root[data-theme="dark"] .dxe-sub,:root[data-theme="dark"] .dxe-num,:root[data-theme="dark"] .dxe-dist-row,
+:root[data-theme="dark"] .dxe-more h3,:root[data-theme="dark"] .dxe-outline{color:#D2CFD8;}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1748,6 +1765,7 @@ async function loadCase(){
       };
       console.log('Neurole ✓ symptoms:', state.symptoms.length, '| answer:', state.answer);
       if(state.symptoms.length > 0 && state.answer) chosen = true;
+      if(state.answer) mergeDisorderOptions([...(state.allDisorders || []), state.answer]);
     } else {
       console.warn('Neurole: no row for dayIdx', idx, '| rows:', allRows.length);
     }
@@ -2338,10 +2356,32 @@ function closeAutocomplete(){
   activeIndex = -1;
 }
 
+// Best matches first: exact, starts with, a word starts with, then contains.
+// Every typed word must appear (any order), so "disorder panic" still finds "Panic disorder".
+function rankDisorderMatches(val){
+  const clean = t => t.toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const q = clean(val);
+  if(!q) return [];
+  const words = q.split(' ');
+  const scored = [];
+  NEURO_DISORDERS.forEach(name => {
+    const n = clean(name);
+    if(!words.every(w => n.includes(w))) return;
+    let score = 4;
+    if(n === q) score = 0;
+    else if(n.startsWith(q)) score = 1;
+    else if((' ' + n).includes(' ' + words[0])) score = 2;
+    else if(n.includes(q)) score = 3;
+    scored.push([score, name]);
+  });
+  scored.sort((a,b) => a[0] - b[0] || a[1].localeCompare(b[1]));
+  return scored.map(x => x[1]);
+}
+
 function openAutocomplete(matches){
   if(!autoList) return;
   if(!matches.length){ closeAutocomplete(); return; }
-  autoList.innerHTML = matches.slice(0,8).map(name =>
+  autoList.innerHTML = matches.slice(0,40).map(name =>
     `<div role="option">${name}</div>`
   ).join('');
   autoList.classList.add('open');
@@ -2361,8 +2401,7 @@ if(guessInput){
     const val = guessInput.value.trim().toLowerCase();
     const modeBtn = document.getElementById('dx-mode-toggle');
     if(!val || (modeBtn && modeBtn.dataset.mode !== 'guess')){ closeAutocomplete(); return; }
-    const matches = NEURO_DISORDERS.filter(name => name.toLowerCase().includes(val));
-    openAutocomplete(matches);
+    openAutocomplete(rankDisorderMatches(val));
   });
 
   guessInput.addEventListener('keydown', e => {

@@ -896,7 +896,13 @@ body{padding-top:0 !important;}
 .ad-slot-top{display:block !important;}
 .ad-slot-top .adsbygoogle{width:100%;}
 /* If Google has no ad to show, give the space back */
-.ad-slot-top:has(ins[data-ad-status="unfilled"]){display:none !important;}
+/* Keep the ad space even when Google has no ad yet */
+.ad-slot-top{position:relative;}
+.ad-slot-top:has(ins[data-ad-status="unfilled"])::before,
+.ad-slot-top:not(:has(ins[data-ad-status="filled"]))::before{
+  content:"Advertisement";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font:600 11px/1 'Outfit',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--dx-soft);opacity:.45;pointer-events:none;
+}
 
 
 /* Keep guess text vertically centred in every slot */
@@ -1055,6 +1061,7 @@ html,body{overflow-x:clip;}
 .dx2-intro.show{animation:dxSlowFade .7s ease both !important;}
 .dx2-intro.show .dx2-intro-card,.dx2-intro.show .dx2-step{animation:none !important;}
 
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1127,6 +1134,54 @@ html,body{overflow-x:clip;}
   .dx2 *, .dx2-intro, .dx2-intro *{animation:none !important;}
   .dx2-bulb.glow{background:rgba(255,200,40,.3);}
 }
+/* ===== Dark mode: deeper, darker colours ===== */
+:root[data-theme="dark"] .dxe{background:#141318;}
+/* end screen */
+:root[data-theme="dark"] .dxe-hints{background:#3A3216;border-color:#8A6F10;}
+:root[data-theme="dark"] .dxe-hints i{border-left-color:#8A6F10;}
+:root[data-theme="dark"] .dxe-hints i.on{background:#B38F12;}
+:root[data-theme="dark"] .dxe-qbar{background:#2F7A3B;}
+:root[data-theme="dark"] .dxe-dist-bar{background:#4B4E52;color:#E6E4EA;}
+:root[data-theme="dark"] .dxe-dist-bar.zero{background:#34363A;color:#B5B1BD;}
+:root[data-theme="dark"] .dxe-dist-bar.today{background:#2F7A3B;}
+:root[data-theme="dark"] .dxe-share{background:#2F7A3B;color:#EAF7EC;}
+:root[data-theme="dark"] .dxe-share:hover{background:#358A43;}
+:root[data-theme="dark"] .dxe-copied{color:#6FCB86;}
+:root[data-theme="dark"] .dxe-card.blue{background:#1F4E6E;}
+:root[data-theme="dark"] .dxe-card.purple{background:#45386F;}
+:root[data-theme="dark"] .dxe-card,:root[data-theme="dark"] .dxe-card b{color:#EDEBF2 !important;}
+:root[data-theme="dark"] .dxe-dx{background:#24232B;}
+:root[data-theme="dark"] .dxe-more h3{border-bottom-color:#4A4752;}
+:root[data-theme="dark"] .dxe-label{border-top-color:#4A4752;}
+:root[data-theme="dark"] .dxe-hearts,:root[data-theme="dark"] .dxe-dx img{filter:brightness(.85);}
+/* game screen */
+:root[data-theme="dark"] .dx2{--dx-guess:#1B3550;--dx-guess-ink:#CFE3FB;--dx-ask:#2E2550;--dx-ask-ink:#DCD2FF;
+  --dx-bad:#33191C;--dx-bad-line:#B35A5A;--dx-good:#16301F;--dx-good-line:#3E9A5D;--dx-tint:#1F1E25;}
+:root[data-theme="dark"] .dx2-why{color:#E08A8A;box-shadow:0 0 0 1.5px #B35A5A inset;}
+:root[data-theme="dark"] .dx2-badge{background:#B38600;color:#1A1400;}
+:root[data-theme="dark"] .dx2-bulb.glow{color:#D9A100;}
+:root[data-theme="dark"] .dx2-send{background:#CFCBD6;color:#141318;}
+:root[data-theme="dark"] .dx2-ac{background:#1D1C22;}
+/* how-to popup example pictures */
+:root[data-theme="dark"] .dx2-intro-card{background:#18171D;}
+:root[data-theme="dark"] .dx2-step{background:#222128;}
+:root[data-theme="dark"] .mini-case,:root[data-theme="dark"] .mini-input,:root[data-theme="dark"] .mini-answer{background:#2C2B33;color:#DDD9E4;border-color:#5A5763;box-shadow:none;}
+:root[data-theme="dark"] .mini-line{background:#4A4752;}
+:root[data-theme="dark"] .mini-tag{color:#A9A5B3;}
+:root[data-theme="dark"] .mini-mode{background:#1B3550;color:#CFE3FB;}
+:root[data-theme="dark"] .mini-mode.ask{background:#2E2550;color:#DCD2FF;}
+:root[data-theme="dark"] .mini-pills span{background:#2C2B33;border-color:#5A5763;}
+:root[data-theme="dark"] .mini-pills .bad{background:#33191C;border-color:#B35A5A;color:#E08A8A;}
+:root[data-theme="dark"] .mini-pills .good{background:#16301F;border-color:#3E9A5D;color:#6FCB86;}
+:root[data-theme="dark"] .dx2-intro-go{background:#2F2D36;color:#F0EEF4;}
+/* brain tutor popup */
+:root[data-theme="dark"] .why-card{background:#18171D;}
+:root[data-theme="dark"] .why-bubble{background:#2E1C22;border-color:#9C5566;}
+:root[data-theme="dark"] .why-bubble::before{border-right-color:#9C5566;}
+:root[data-theme="dark"] .why-bubble::after{border-right-color:#2E1C22;}
+:root[data-theme="dark"] .why-form button{background:#9C5566;}
+:root[data-theme="dark"] .why-msg.bot{background:#2E1C22;border-color:#9C5566;}
+
 </style>
 
 </head>

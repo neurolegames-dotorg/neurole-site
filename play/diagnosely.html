@@ -1043,6 +1043,18 @@ html,body{overflow-x:clip;}
 .dxe-sheet-row .dxe-sheet-btn{flex:1;font-size:15px;}
 
 .dxe a.dxe-sheet-btn.msg,.dxe a.dxe-sheet-btn.msg:visited{color:#fff !important;}
+
+/* Round 4: thinner end-screen fonts, slow plain fade-ins */
+.dxe-stats b{font-weight:600 !important;}
+.dxe-caps,.dxe-sub,.dxe-num,.dxe-more h3,.dxe-card b{font-weight:600 !important;}
+.dxe-outline,.dxe-share,.dxe-back{font-weight:600 !important;}
+.dxe-dist-row,.dxe-dx u,.dxe-label{font-weight:500 !important;}
+.dxe-stats span,.dxe-dx,.dxe-card span{font-weight:400;}
+@keyframes dxSlowFade{from{opacity:0}to{opacity:1}}
+.dxe.show{animation:dxSlowFade .7s ease both !important;}
+.dx2-intro.show{animation:dxSlowFade .7s ease both !important;}
+.dx2-intro.show .dx2-intro-card,.dx2-intro.show .dx2-step{animation:none !important;}
+
 /* Old floating "Explain" button: replaced by the chat icon in the toolbar */
 #case-chat-fab{display:none !important;}
 
@@ -1302,17 +1314,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <button type="button" class="dxe-share" id="dxe-share">Share Results <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12M10 6l6 6-6 6M20 4v16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="dxe-share" id="dxe-share">Copy Results <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12M10 6l6 6-6 6M20 4v16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <p class="dxe-copied" id="dxe-copied" hidden>Results copied. Paste them anywhere!</p>
-    <div class="dxe-sheet" id="dxe-sheet" hidden>
-      <p class="dxe-sheet-label">Your message</p>
-      <pre class="dxe-sheet-text" id="dxe-sheet-text"></pre>
-      <a class="dxe-sheet-btn msg" id="dxe-sms" href="#">Send in Messages</a>
-      <div class="dxe-sheet-row">
-        <button type="button" class="dxe-sheet-btn" id="dxe-copy">Copy text</button>
-        <button type="button" class="dxe-sheet-btn" id="dxe-more">More options</button>
-      </div>
-    </div>
     <button type="button" class="dxe-outline dxe-view" id="dxe-view">View Results</button>
 
     <p class="dxe-next" id="dxe-next"></p>
@@ -1877,8 +1880,8 @@ async function loadCase(){
     const banner = document.createElement('div');
     banner.className = 'result-banner' + (saved.won ? '' : ' fail');
     banner.innerHTML = saved.won
-      ? `<h4>Correct, it's ${saved.answer}.</h4><p>${saved.explanation}</p>`
-      : `<h4>The diagnosis was ${saved.answer}.</h4><p>${saved.explanation}</p>`;
+      ? `<button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(true)">View results</button>`
+      : `<button type="button" class="dxe-outline dxe-reopen" onclick="openResultPopup(false)">View results</button>`;
     area.appendChild(banner);
     // Coming back to a finished case (back button, reload, revisit) should
     // land straight on the result popup, not just the inline banner.
@@ -2759,17 +2762,7 @@ function buildFullShareText(){
     'neurole.org/diagnosely.html'
   ].join('\n');
 }
-document.getElementById('dxe-share').addEventListener('click', () => {
-  const text = buildFullShareText();
-  const sheet = document.getElementById('dxe-sheet');
-  document.getElementById('dxe-sheet-text').textContent = text;
-  // iPhone/iPad use "sms:&body=", others "sms:?body="
-  const sep = /iPhone|iPad|Macintosh/i.test(navigator.userAgent) ? '&' : '?';
-  document.getElementById('dxe-sms').href = 'sms:' + sep + 'body=' + encodeURIComponent(text);
-  document.getElementById('dxe-more').style.display = navigator.share ? '' : 'none';
-  sheet.hidden = !sheet.hidden;
-  document.getElementById('dxe-copied').hidden = true;
-});
+document.getElementById('dxe-share').addEventListener('click', () => copyShareText());
 async function copyShareText(){
   const text = buildFullShareText();
   try{ await navigator.clipboard.writeText(text); }
@@ -2781,10 +2774,6 @@ async function copyShareText(){
   const c = document.getElementById('dxe-copied'); c.hidden = false;
   setTimeout(() => { c.hidden = true; }, 3000);
 }
-document.getElementById('dxe-copy').addEventListener('click', copyShareText);
-document.getElementById('dxe-more').addEventListener('click', async () => {
-  try{ await navigator.share({ text: buildFullShareText() }); }catch(e){}
-});
 
 document.getElementById('result-tab-btn-dist').addEventListener('click', () => {
   document.getElementById('result-tab-dist').style.display = 'block';
@@ -3006,8 +2995,9 @@ Keep your answer to 2-4 sentences, plain language, encouraging tone.`;
   intro.addEventListener('click', e => { if(e.target === intro) closeIntro(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && !intro.hidden) closeIntro(); });
 
-  // Show the instructions every time the game page loads (including refreshes)
-  openIntro();
+  // Show the instructions on every load (including refreshes), unless today's case is already done
+  const doneToday = (() => { try{ return !!localStorage.getItem(dailyStorageKey()); }catch(e){ return false; } })();
+  if(doneToday) restartIdle(); else openIntro();
 })();
 </script>
 
